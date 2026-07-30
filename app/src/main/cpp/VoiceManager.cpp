@@ -98,13 +98,16 @@ float VoiceManager::nextSample() {
     float mixedSample = 0.0f;
     int activeCount = 0;
 
+    bool updateParams = mParamsChanged.exchange(false);
+
     for (int i = 0; i < MAX_VOICES; ++i) {
         if (mVoices[i].isActive()) {
-            // Update real-time LFO params from manager to active voices
-            mVoices[i].setLfoRate(mLfoRate);
-            mVoices[i].setLfoDepth(mLfoDepth);
-            mVoices[i].setLfoWaveform(mLfoWaveform);
-            mVoices[i].setLfoTarget(mLfoTarget);
+            if (updateParams) {
+                mVoices[i].setLfoRate(mLfoRate);
+                mVoices[i].setLfoDepth(mLfoDepth);
+                mVoices[i].setLfoWaveform(mLfoWaveform);
+                mVoices[i].setLfoTarget(mLfoTarget);
+            }
 
             mixedSample += mVoices[i].nextSample();
             activeCount++;

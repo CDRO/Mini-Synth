@@ -16,10 +16,6 @@ class LfoTest {
         manager.setWaveform(0) // Sine
         manager.noteOn(60, 1.0f)
         
-        // No modulation
-        manager.setLfoDepth(0.0f)
-        val sampleBase = manager.renderSampleForTest()
-        
         // High depth, fast rate tremolo (Volume modulation)
         manager.setLfoTarget(1) // Volume
         manager.setLfoRate(20.0f)

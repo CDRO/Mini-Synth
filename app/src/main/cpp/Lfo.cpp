@@ -18,7 +18,11 @@ void Lfo::setSampleRate(int32_t sampleRate) {
 }
 
 void Lfo::setFrequency(float frequency) {
-    mFrequency = static_cast<double>(frequency);
+    // Clamp 0.1Hz to 20Hz
+    float clamped = frequency;
+    if (clamped < 0.1f) clamped = 0.1f;
+    if (clamped > 20.0f) clamped = 20.0f;
+    mFrequency = static_cast<double>(clamped);
     updatePhaseIncrement();
 }
 
@@ -43,7 +47,7 @@ float Lfo::nextValue() {
             result = (phaseFloat / PI_F) - 1.0f;
             break;
         case Waveform::Triangle:
-            result = 2.0f * std::abs((phaseFloat / PI_F) - 1.0f) - 1.0f;
+            result = 2.0f * fabsf((phaseFloat / PI_F) - 1.0f) - 1.0f;
             break;
     }
 
