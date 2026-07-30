@@ -5,6 +5,7 @@ VoiceManager::VoiceManager() {
 }
 
 void VoiceManager::setSampleRate(int32_t sampleRate) {
+    if (sampleRate <= 0) return;
     mSampleRate = sampleRate;
     for (int i = 0; i < MAX_VOICES; ++i) {
         mVoices[i].setSampleRate(sampleRate);
@@ -31,7 +32,14 @@ void VoiceManager::setPolyphonic(bool isPolyphonic) {
 
 void VoiceManager::noteOn(int midiNote, float velocity) {
     if (mIsPolyphonic) {
-        int index = findFreeVoice();
+        // Check if note is already playing
+        int index = findVoiceByNote(midiNote);
+        if (index != -1) {
+            mVoices[index].trigger(midiNote, velocity);
+            return;
+        }
+
+        index = findFreeVoice();
         if (index != -1) {
             mVoices[index].trigger(midiNote, velocity);
         }

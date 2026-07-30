@@ -14,4 +14,14 @@
 
 ---
 
-## Review Phase 2 (Pending)
+## Review Phase 2
+
+### [Review 3] [Logic] [VoiceManager.cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/VoiceManager.cpp)
+- **Observation**: `noteOn` triggers a new voice even if the MIDI note is already active in another voice.
+- **Expected Change**: Check if `midiNote` is already active; if so, retrigger that voice instead of allocating a new one.
+- **Reason**: Prevents redundant voice usage and phasing issues.
+
+### [Review 4] [Robustness] [VoiceManager.cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/VoiceManager.cpp)
+- **Observation**: `setSampleRate` does not validate input.
+- **Expected Change**: Add an assertion or check that `sampleRate > 0`.
+- **Reason**: Avoid division by zero in `Oscillator::updatePhaseIncrement`.
