@@ -9,4 +9,10 @@ class SynthManager {
 
     external fun startEngine()
     external fun stopEngine()
+
+    external fun noteOn(midiNote: Int, velocity: Float)
+    external fun noteOff(midiNote: Int)
+    external fun setPolyphonic(isPolyphonic: Boolean)
+    external fun setWaveform(waveformIndex: Int)
+    external fun setOctaveShift(shift: Int)
 }
