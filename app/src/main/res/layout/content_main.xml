@@ -44,8 +44,8 @@
                 android:layout_width="48dp"
                 android:layout_height="40dp"
                 android:padding="0dp"
-                android:text="S"
-                android:textSize="10sp" />
+                android:text="SINE"
+                android:textSize="9sp" />
 
             <Button
                 android:id="@+id/btn_wave_square"
@@ -53,8 +53,8 @@
                 android:layout_width="48dp"
                 android:layout_height="40dp"
                 android:padding="0dp"
-                android:text="Q"
-                android:textSize="10sp" />
+                android:text="SQR"
+                android:textSize="9sp" />
 
             <Button
                 android:id="@+id/btn_wave_saw"
@@ -62,8 +62,8 @@
                 android:layout_width="48dp"
                 android:layout_height="40dp"
                 android:padding="0dp"
-                android:text="W"
-                android:textSize="10sp" />
+                android:text="SAW"
+                android:textSize="9sp" />
 
             <Button
                 android:id="@+id/btn_wave_triangle"
@@ -71,8 +71,8 @@
                 android:layout_width="48dp"
                 android:layout_height="40dp"
                 android:padding="0dp"
-                android:text="T"
-                android:textSize="10sp" />
+                android:text="TRI"
+                android:textSize="9sp" />
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -141,10 +141,12 @@
             android:layout_height="match_parent" />
 
         <TextView
+            android:id="@+id/tv_master_vol_val"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="VOL"
-            android:textColor="@color/off_white"
+            android:minWidth="30dp"
+            android:text="80%"
+            android:textColor="@color/dim_grey"
             android:textSize="10sp" />
 
         <SeekBar

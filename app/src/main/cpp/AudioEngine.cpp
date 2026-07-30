@@ -49,6 +49,7 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
 
     float *output = static_cast<float *>(audioData);
     int32_t channelCount = audioStream->getChannelCount();
+    if (channelCount < 1) return oboe::DataCallbackResult::Stop;
 
     for (int i = 0; i < numFrames; ++i) {
         float sample = mVoiceManager.nextSample();

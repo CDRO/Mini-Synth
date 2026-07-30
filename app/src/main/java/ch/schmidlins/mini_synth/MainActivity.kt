@@ -107,6 +107,7 @@ class MainActivity : AppCompatActivity() {
         content.seekMasterVol!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 synthManager.setMasterVolume(progress / 100f)
+                content.tvMasterVolVal!!.text = String.format(Locale.US, "%d%%", progress)
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
@@ -225,6 +226,17 @@ class MainActivity : AppCompatActivity() {
         synthManager.setMasterVolume(content.seekMasterVol!!.progress / 100f)
         synthManager.setPolyphonic(isPoly)
         synthManager.setOctaveShift(octaveShift)
+        
+        // Refresh ADSR
+        synthManager.setAttack((Math.pow(2000.0, content.seekAttack!!.progress / 100.0) / 1000.0).toFloat())
+        synthManager.setDecay((Math.pow(2000.0, content.seekDecay!!.progress / 100.0) / 1000.0).toFloat())
+        synthManager.setSustain(content.seekSustain!!.progress / 100f)
+        synthManager.setRelease((Math.pow(2000.0, content.seekRelease!!.progress / 100.0) / 1000.0).toFloat())
+        
+        // Refresh LFO
+        synthManager.setLfoRate((Math.pow(200.0, content.seekLfoRate!!.progress / 100.0) / 10.0).toFloat())
+        synthManager.setLfoDepth(content.seekLfoDepth!!.progress / 100f)
+
         // Waveform
         val index = when (content.toggleWaveform!!.checkedButtonId) {
             R.id.btn_wave_sine -> 0
