@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.schmidlins.mini_synth.audio.SynthManager
 import ch.schmidlins.mini_synth.databinding.ActivityMainBinding
 import ch.schmidlins.mini_synth.ui.KeyboardPadView
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -88,12 +89,28 @@ class MainActivity : AppCompatActivity() {
     private fun setupAdsr(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         val listener = object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val value = progress / 100f
-                when (seekBar?.id) {
-                    R.id.seek_attack -> synthManager.setAttack(value)
-                    R.id.seek_decay -> synthManager.setDecay(value)
-                    R.id.seek_sustain -> synthManager.setSustain(value)
-                    R.id.seek_release -> synthManager.setRelease(value)
+                // Exponential mapping for time parameters (0.001s to 2.0s)
+                val timeValue = (Math.pow(2000.0, progress / 100.0) / 1000.0).toFloat()
+                val sustainValue = progress / 100f
+                val formattedTime = String.format(Locale.US, "%.3fs", timeValue)
+
+                when (seekBar) {
+                    content.seekAttack -> {
+                        synthManager.setAttack(timeValue)
+                        content.tvAttackVal!!.text = formattedTime
+                    }
+                    content.seekDecay -> {
+                        synthManager.setDecay(timeValue)
+                        content.tvDecayVal!!.text = formattedTime
+                    }
+                    content.seekSustain -> {
+                        synthManager.setSustain(sustainValue)
+                        content.tvSustainVal!!.text = String.format(Locale.US, "%.2f", sustainValue)
+                    }
+                    content.seekRelease -> {
+                        synthManager.setRelease(timeValue)
+                        content.tvReleaseVal!!.text = formattedTime
+                    }
                 }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -105,11 +122,11 @@ class MainActivity : AppCompatActivity() {
         content.seekSustain!!.setOnSeekBarChangeListener(listener)
         content.seekRelease!!.setOnSeekBarChangeListener(listener)
         
-        // Initial values matching XML progress
-        synthManager.setAttack(0.1f)
-        synthManager.setDecay(0.1f)
-        synthManager.setSustain(0.8f)
-        synthManager.setRelease(0.1f)
+        // Initial manual trigger for default text
+        content.seekAttack!!.progress = content.seekAttack!!.progress
+        content.seekDecay!!.progress = content.seekDecay!!.progress
+        content.seekSustain!!.progress = content.seekSustain!!.progress
+        content.seekRelease!!.progress = content.seekRelease!!.progress
     }
 
     private fun updateOctave() {

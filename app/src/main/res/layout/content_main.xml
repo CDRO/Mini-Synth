@@ -27,7 +27,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wave:" />
+            android:text="Wave:"
+            android:textColor="@color/off_white" />
 
         <Spinner
             android:id="@+id/spinner_waveform"
@@ -51,7 +52,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Octave:" />
+            android:text="Octave:"
+            android:textColor="@color/off_white" />
 
         <Button
             android:id="@+id/btn_octave_down"
@@ -64,7 +66,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="8dp"
-            android:text="0" />
+            android:text="0"
+            android:textColor="@color/off_white" />
 
         <Button
             android:id="@+id/btn_octave_up"
@@ -97,6 +100,15 @@
             android:progress="10" />
 
         <TextView
+            android:id="@+id/tv_attack_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="40dp"
+            android:text="0.1"
+            android:textColor="@color/dim_grey"
+            android:textSize="10sp" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="D"
@@ -109,6 +121,15 @@
             android:layout_weight="1"
             android:max="100"
             android:progress="10" />
+
+        <TextView
+            android:id="@+id/tv_decay_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="40dp"
+            android:text="0.1"
+            android:textColor="@color/dim_grey"
+            android:textSize="10sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -125,6 +146,15 @@
             android:progress="80" />
 
         <TextView
+            android:id="@+id/tv_sustain_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="40dp"
+            android:text="0.8"
+            android:textColor="@color/dim_grey"
+            android:textSize="10sp" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="R"
@@ -137,6 +167,15 @@
             android:layout_weight="1"
             android:max="100"
             android:progress="10" />
+
+        <TextView
+            android:id="@+id/tv_release_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="40dp"
+            android:text="0.1"
+            android:textColor="@color/dim_grey"
+            android:textSize="10sp" />
 
     </LinearLayout>
 

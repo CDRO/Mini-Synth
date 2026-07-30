@@ -1,29 +1,52 @@
 #include "Envelope.h"
 #include <algorithm>
 
-Envelope::Envelope() {}
+Envelope::Envelope() {
+    updateAttackRate();
+    updateDecayRate();
+    updateReleaseRate();
+}
 
 void Envelope::setSampleRate(int32_t sampleRate) {
     mSampleRate = sampleRate;
+    updateAttackRate();
+    updateDecayRate();
+    updateReleaseRate();
 }
 
 void Envelope::setAttack(float seconds) {
-    // level increment per sample: 1.0 / (seconds * sampleRate)
-    float samples = std::max(1.0f, seconds * mSampleRate);
-    mAttackRate = 1.0f / samples;
+    mAttackSeconds = seconds;
+    updateAttackRate();
 }
 
 void Envelope::setDecay(float seconds) {
-    float samples = std::max(1.0f, seconds * mSampleRate);
-    mDecayRate = (1.0f - mSustainLevel) / samples;
+    mDecaySeconds = seconds;
+    updateDecayRate();
 }
 
 void Envelope::setSustain(float level) {
     mSustainLevel = level;
+    updateDecayRate();
+    updateReleaseRate();
 }
 
 void Envelope::setRelease(float seconds) {
-    float samples = std::max(1.0f, seconds * mSampleRate);
+    mReleaseSeconds = seconds;
+    updateReleaseRate();
+}
+
+void Envelope::updateAttackRate() {
+    float samples = std::max(1.0f, mAttackSeconds * mSampleRate);
+    mAttackRate = 1.0f / samples;
+}
+
+void Envelope::updateDecayRate() {
+    float samples = std::max(1.0f, mDecaySeconds * mSampleRate);
+    mDecayRate = (1.0f - mSustainLevel) / samples;
+}
+
+void Envelope::updateReleaseRate() {
+    float samples = std::max(1.0f, mReleaseSeconds * mSampleRate);
     mReleaseRate = mSustainLevel / samples;
 }
 

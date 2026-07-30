@@ -12,8 +12,18 @@ public:
     void start();
     void stop();
 
-    void noteOn(int midiNote, float velocity) { mVoiceManager.noteOn(midiNote + (mOctaveShift * 12), velocity); }
-    void noteOff(int midiNote) { mVoiceManager.noteOff(midiNote + (mOctaveShift * 12)); }
+    void noteOn(int midiNote, float velocity) {
+        int shifted = midiNote + (mOctaveShift * 12);
+        if (shifted < 0) shifted = 0;
+        if (shifted > 127) shifted = 127;
+        mVoiceManager.noteOn(shifted, velocity);
+    }
+    void noteOff(int midiNote) {
+        int shifted = midiNote + (mOctaveShift * 12);
+        if (shifted < 0) shifted = 0;
+        if (shifted > 127) shifted = 127;
+        mVoiceManager.noteOff(shifted);
+    }
     void setPolyphonic(bool isPolyphonic) { mVoiceManager.setPolyphonic(isPolyphonic); }
     void setWaveform(Waveform waveform) { mVoiceManager.setWaveform(waveform); }
     void setOctaveShift(int shift) { mOctaveShift = shift; }

@@ -37,7 +37,13 @@ private:
     float mSustainLevel = 0.8f;
     float mReleaseRate = 0.001f;
 
-    void updateRates();
+    float mAttackSeconds = 0.1f;
+    float mDecaySeconds = 0.1f;
+    float mReleaseSeconds = 0.1f;
+
+    void updateAttackRate();
+    void updateDecayRate();
+    void updateReleaseRate();
 };
 
 #endif //MINI_SYNTH_ENVELOPE_H

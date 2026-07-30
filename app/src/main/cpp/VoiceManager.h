@@ -3,6 +3,14 @@
 
 #include "Voice.h"
 #include <vector>
+#include <atomic>
+
+struct AdsrParams {
+    std::atomic<float> attack{0.1f};
+    std::atomic<float> decay{0.1f};
+    std::atomic<float> sustain{0.8f};
+    std::atomic<float> release{0.1f};
+};
 
 class VoiceManager {
 public:
@@ -15,10 +23,10 @@ public:
     void noteOn(int midiNote, float velocity);
     void noteOff(int midiNote);
 
-    void setAttack(float seconds);
-    void setDecay(float seconds);
-    void setSustain(float level);
-    void setRelease(float seconds);
+    void setAttack(float seconds) { mParams.attack = seconds; }
+    void setDecay(float seconds) { mParams.decay = seconds; }
+    void setSustain(float level) { mParams.sustain = level; }
+    void setRelease(float seconds) { mParams.release = seconds; }
 
     float nextSample();
 
@@ -30,10 +38,7 @@ private:
     int32_t mSampleRate = 48000;
     int mLastStealIndex = 0;
 
-    float mAttack = 0.1f;
-    float mDecay = 0.1f;
-    float mSustain = 0.8f;
-    float mRelease = 0.1f;
+    AdsrParams mParams;
 
     int findFreeVoice();
     int findVoiceByNote(int midiNote);
