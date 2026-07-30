@@ -25,8 +25,12 @@ Android Test Results
 - **New Test**: `testMasterVolume` verifies that reducing gain correctly scales the output sample amplitude.
 - **Regression**: Verified that ADSR, LFO, and multi-touch keyboard logic remain functional.
 
-## Engineering Review Summary
-Completed **10 reviews across 5 cycles**, addressing:
-- Buffer safety in multi-channel environments.
-- UI understandability via standard synth abbreviations (SQR, SAW, TRI).
-- Rendering loop performance through block-level atomic loads.
+## Merge Message Review Loop
+
+### Iteration 1 (Draft)
+"Fix silence issue on stereo emulators. Replace waveform spinner with segmented buttons. Add master volume control. All 11 tests pass."
+*Self-Correction*: Lacks technical depth and specific "Why" context.
+
+### Iteration 2 (Refined)
+"Resolve 'Stereo Silence' bug on emulators by implementing multi-channel sample duplication in the C++ engine. Modernize sound selection with a tactile Segmented Button Group (Sine, Square, Saw, Triangle) and add reactive Master Volume control with gain labels. Verified with 11 instrumented tests including new 'testMasterVolume' variance check. Fixes initialization order to ensure persistent parameters across app lifecycle."
+*Decision*: Final version used for PR and Merge. Provides clear causality and technical justification.
