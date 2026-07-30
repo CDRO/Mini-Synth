@@ -39,6 +39,9 @@ public:
     void setLfoWaveform(Waveform waveform) { mVoiceManager.setLfoWaveform(waveform); }
     void setLfoTarget(LfoTarget target) { mVoiceManager.setLfoTarget(target); }
 
+    void setFilterCutoff(float frequency) { mVoiceManager.setFilterCutoff(frequency); }
+    void setFilterResonance(float resonance) { mVoiceManager.setFilterResonance(resonance); }
+
     float renderSampleForTest() { return mVoiceManager.nextSample(); }
 
     oboe::DataCallbackResult onAudioReady(

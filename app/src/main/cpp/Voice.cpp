@@ -1,5 +1,6 @@
 #include "Voice.h"
 #include <cmath>
+#include <algorithm>
 
 static double midiToFreq(int midiNote) {
     return 440.0 * pow(2.0, (midiNote - 69) / 12.0);
@@ -24,26 +25,33 @@ float Voice::nextSample() {
     float lfoVal = mLfo.nextValue();
     float modPitch = 0.0f;
     float modVolume = 1.0f;
+    float modFilter = 0.0f;
 
     switch (mLfoTarget) {
         case LfoTarget::Pitch:
-            // Vibrato: +/- 1 semitone max depth
             modPitch = lfoVal * 1.0f;
             break;
         case LfoTarget::Volume:
-            // Tremolo: Modulate gain
-            modVolume = 1.0f + lfoVal; // lfoVal is [-depth, depth]
+            modVolume = 1.0f + lfoVal;
             break;
         case LfoTarget::Filter:
-            // Placeholder
+            // Modulate cutoff by +/- 5 octaves
+            modFilter = lfoVal * 5.0f;
             break;
     }
 
     if (modPitch != 0.0f) {
-        // frequency * 2^(semitones/12)
         mOscillator.setFrequency(midiToFreq(mNote) * pow(2.0, modPitch / 12.0));
+    } else {
+        mOscillator.setFrequency(midiToFreq(mNote));
+    }
+
+    if (modFilter != 0.0f) {
+        mFilter.setCutoff(mBaseCutoff * powf(2.0f, modFilter));
+    } else {
+        mFilter.setCutoff(mBaseCutoff);
     }
 
     float sample = mOscillator.nextSample() * mVelocity * mEnvelope.nextLevel() * modVolume;
-    return sample;
+    return mFilter.process(sample);
 }

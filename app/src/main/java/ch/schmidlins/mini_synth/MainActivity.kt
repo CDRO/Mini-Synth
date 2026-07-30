@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             synthView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, isMockPlay)
         }
 
-        // Waveform Toggle Group
+        // Main Waveform selector
         content.toggleWaveform!!.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 val index = when (checkedId) {
@@ -115,6 +115,7 @@ class MainActivity : AppCompatActivity() {
 
         setupAdsr(content)
         setupLfo(content)
+        setupFilter(content)
     }
 
     private fun setupAdsr(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -181,9 +182,7 @@ class MainActivity : AppCompatActivity() {
         content.seekLfoRate!!.setOnSeekBarChangeListener(listener)
         content.seekLfoDepth!!.setOnSeekBarChangeListener(listener)
 
-        // LFO Waveform
-        val waveforms = listOf("Sine", "Square", "Saw", "Triangle")
-        val waveAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, waveforms)
+        val waveAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf("Sine", "Square", "Saw", "Triangle"))
         waveAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         content.spinnerLfoWaveform!!.adapter = waveAdapter
         content.spinnerLfoWaveform!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -193,9 +192,7 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // LFO Target
-        val targets = listOf("Pitch", "Volume", "Filter")
-        val targetAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, targets)
+        val targetAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf("Pitch", "Volume", "Filter"))
         targetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         content.spinnerLfoTarget!!.adapter = targetAdapter
         content.spinnerLfoTarget!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -207,6 +204,33 @@ class MainActivity : AppCompatActivity() {
 
         content.seekLfoRate!!.progress = 20
         content.seekLfoDepth!!.progress = 0
+    }
+
+    private fun setupFilter(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        val listener = object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                when (seekBar) {
+                    content.seekFilterCutoff -> {
+                        val frequency = (20.0 * Math.pow(1000.0, progress / 100.0)).toFloat()
+                        synthManager.setFilterCutoff(frequency)
+                        content.tvFilterCutoffVal!!.text = String.format(Locale.US, "%dHz", frequency.toInt())
+                    }
+                    content.seekFilterRes -> {
+                        val resonance = progress / 100f
+                        synthManager.setFilterResonance(resonance)
+                        content.tvFilterResVal!!.text = String.format(Locale.US, "%.2f", resonance)
+                    }
+                }
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        }
+        
+        content.seekFilterCutoff!!.setOnSeekBarChangeListener(listener)
+        content.seekFilterRes!!.setOnSeekBarChangeListener(listener)
+        
+        content.seekFilterCutoff!!.progress = 50
+        content.seekFilterRes!!.progress = 20
     }
 
     private fun updateOctave() {
@@ -221,23 +245,23 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         synthManager.startEngine()
         
-        // Refresh values to engine after start
         val content = binding.appBarMain.contentMain
         synthManager.setMasterVolume(content.seekMasterVol!!.progress / 100f)
         synthManager.setPolyphonic(isPoly)
         synthManager.setOctaveShift(octaveShift)
         
-        // Refresh ADSR
         synthManager.setAttack((Math.pow(2000.0, content.seekAttack!!.progress / 100.0) / 1000.0).toFloat())
         synthManager.setDecay((Math.pow(2000.0, content.seekDecay!!.progress / 100.0) / 1000.0).toFloat())
         synthManager.setSustain(content.seekSustain!!.progress / 100f)
         synthManager.setRelease((Math.pow(2000.0, content.seekRelease!!.progress / 100.0) / 1000.0).toFloat())
         
-        // Refresh LFO
         synthManager.setLfoRate((Math.pow(200.0, content.seekLfoRate!!.progress / 100.0) / 10.0).toFloat())
         synthManager.setLfoDepth(content.seekLfoDepth!!.progress / 100f)
 
-        // Waveform
+        val cutoffFreq = (20.0 * Math.pow(1000.0, content.seekFilterCutoff!!.progress / 100.0)).toFloat()
+        synthManager.setFilterCutoff(cutoffFreq)
+        synthManager.setFilterResonance(content.seekFilterRes!!.progress / 100f)
+
         val index = when (content.toggleWaveform!!.checkedButtonId) {
             R.id.btn_wave_sine -> 0
             R.id.btn_wave_square -> 1
