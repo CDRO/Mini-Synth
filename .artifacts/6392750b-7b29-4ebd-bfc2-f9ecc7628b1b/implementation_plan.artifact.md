@@ -23,6 +23,8 @@ All feature development must follow this strict pipeline:
     - **Quality Gate**: Next feature starts ONLY when all tests pass. If new code breaks existing tests, must fix both before merge.
 4. **Commit**: Meaningful messages. Author: `Gemini <gemini@google.com>`.
 5. **Integration**: Push to GitHub and initiate a Merge Request (Pull Request).
+    - **Tooling**: Use GitHub CLI (`gh`).
+    - **Note**: `gh` is located at `C:\Program Files\GitHub CLI\gh.exe`.
 6. **Review Phase 1**:
     - Create **two self-reviews** on the code.
     - Apply fixes, commit, and push updates.
