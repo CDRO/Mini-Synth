@@ -10,13 +10,15 @@ void Voice::trigger(int note, float velocity) {
     mVelocity = velocity;
     mOscillator.setFrequency(midiToFreq(note));
     mActive = true;
+    mEnvelope.trigger();
 }
 
 void Voice::release() {
     mActive = false;
+    mEnvelope.release();
 }
 
 float Voice::nextSample() {
-    if (!mActive) return 0.0f;
-    return mOscillator.nextSample() * mVelocity;
+    if (!mEnvelope.isActive()) return 0.0f;
+    return mOscillator.nextSample() * mVelocity * mEnvelope.nextLevel();
 }

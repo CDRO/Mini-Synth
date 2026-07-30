@@ -15,6 +15,11 @@ public:
     void noteOn(int midiNote, float velocity);
     void noteOff(int midiNote);
 
+    void setAttack(float seconds);
+    void setDecay(float seconds);
+    void setSustain(float level);
+    void setRelease(float seconds);
+
     float nextSample();
 
 private:
@@ -24,6 +29,11 @@ private:
     Waveform mCurrentWaveform = Waveform::Sine;
     int32_t mSampleRate = 48000;
     int mLastStealIndex = 0;
+
+    float mAttack = 0.1f;
+    float mDecay = 0.1f;
+    float mSustain = 0.8f;
+    float mRelease = 0.1f;
 
     int findFreeVoice();
     int findVoiceByNote(int midiNote);

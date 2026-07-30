@@ -9,6 +9,7 @@ add_library(mini_synth SHARED
         Oscillator.cpp
         Voice.cpp
         VoiceManager.cpp
+        Envelope.cpp
 )
 
 target_link_libraries(mini_synth
