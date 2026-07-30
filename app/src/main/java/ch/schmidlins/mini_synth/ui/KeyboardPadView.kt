@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import ch.schmidlins.mini_synth.R
+import java.util.concurrent.ConcurrentHashMap
 
 class KeyboardPadView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -20,43 +21,27 @@ class KeyboardPadView @JvmOverloads constructor(
     }
 
     enum class Mode { KEYBOARD, PAD_GRID }
-    enum class Backlight { NONE, TOUCH, RECORD, PLAY }
+    enum class Backlight(val bit: Int) { 
+        NONE(0), TOUCH(1), RECORD(2), PLAY(4) 
+    }
 
     private var mode = Mode.KEYBOARD
+    private var baseNote = 60
     var listener: OnNoteEventListener? = null
     
-    // UI state
-    private val activeTouchNotes = mutableSetOf<Int>()
-    private val activeRecordNotes = mutableSetOf<Int>()
-    private val activePlayNotes = mutableSetOf<Int>()
+    // UI state - Thread safe bitmask storage
+    private val noteStates = ConcurrentHashMap<Int, Int>()
     private val pointerToNote = mutableMapOf<Int, Int>()
     
     // Paints
-    private val whiteKeyPaint = Paint().apply { 
-        color = ContextCompat.getColor(context, R.color.surface_bright)
-        style = Paint.Style.FILL 
-    }
-    private val blackKeyPaint = Paint().apply { 
-        color = ContextCompat.getColor(context, R.color.surface_dark)
-        style = Paint.Style.FILL 
-    }
-    private val borderPaint = Paint().apply { 
-        color = ContextCompat.getColor(context, R.color.border_dim)
-        style = Paint.Style.STROKE; strokeWidth = 2f 
-    }
+    private val whiteKeyPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.surface_bright); style = Paint.Style.FILL }
+    private val blackKeyPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.surface_dark); style = Paint.Style.FILL }
+    private val borderPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.border_dim); style = Paint.Style.STROKE; strokeWidth = 2f }
+    private val textPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.off_white); textSize = 24f; textAlign = Paint.Align.CENTER }
     
-    private val backlightTouchPaint = Paint().apply { 
-        color = ContextCompat.getColor(context, R.color.acid_green)
-        style = Paint.Style.FILL; alpha = 128 
-    }
-    private val backlightRecordPaint = Paint().apply { 
-        color = ContextCompat.getColor(context, R.color.vibrant_red)
-        style = Paint.Style.FILL; alpha = 128 
-    }
-    private val backlightPlayPaint = Paint().apply { 
-        color = ContextCompat.getColor(context, R.color.electric_blue)
-        style = Paint.Style.FILL; alpha = 128 
-    }
+    private val backlightTouchPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.acid_green); style = Paint.Style.FILL; alpha = 128 }
+    private val backlightRecordPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.vibrant_red); style = Paint.Style.FILL; alpha = 128 }
+    private val backlightPlayPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.electric_blue); style = Paint.Style.FILL; alpha = 128 }
 
     // Cached Layouts
     private val whiteKeyRects = mutableListOf<RectF>()
@@ -73,28 +58,23 @@ class KeyboardPadView @JvmOverloads constructor(
         val keyWidth = w / 8f
         val keyHeight = h.toFloat()
         
-        // Cache White Keys
         whiteKeyRects.clear()
         for (i in 0 until 8) {
             whiteKeyRects.add(RectF(i * keyWidth, 0f, (i + 1) * keyWidth, keyHeight))
         }
         
-        // Cache Black Keys
         blackKeyRects.clear()
         val blackKeyWidth = keyWidth * 0.6f
         val blackKeyHeight = keyHeight * 0.6f
         for (i in 0 until 7) {
             if (i == 2 || i == 6) continue
-            val midi = 60 + getMidiOffsetForBlackKey(i)
+            val midi = baseNote + getMidiOffsetForBlackKey(i)
             blackKeyRects[midi] = RectF(
-                (i + 1) * keyWidth - blackKeyWidth / 2f,
-                0f,
-                (i + 1) * keyWidth + blackKeyWidth / 2f,
-                blackKeyHeight
+                (i + 1) * keyWidth - blackKeyWidth / 2f, 0f,
+                (i + 1) * keyWidth + blackKeyWidth / 2f, blackKeyHeight
             )
         }
         
-        // Cache Pads
         padRects.clear()
         val padSizeW = w / 4f
         val padSizeH = h / 4f
@@ -115,17 +95,12 @@ class KeyboardPadView @JvmOverloads constructor(
     }
 
     private fun drawKeyboard(canvas: Canvas) {
-        // White keys
         for (i in 0 until 8) {
             val rect = whiteKeyRects[i]
             canvas.drawRect(rect, whiteKeyPaint)
             canvas.drawRect(rect, borderPaint)
-            
-            val midi = 60 + getMidiOffsetForWhiteKey(i)
-            drawBacklight(canvas, rect, midi)
+            drawBacklight(canvas, rect, baseNote + getMidiOffsetForWhiteKey(i))
         }
-        
-        // Black keys
         for ((midi, rect) in blackKeyRects) {
             canvas.drawRect(rect, blackKeyPaint)
             drawBacklight(canvas, rect, midi)
@@ -137,63 +112,51 @@ class KeyboardPadView @JvmOverloads constructor(
             val rect = padRects[i]
             canvas.drawRect(rect, whiteKeyPaint)
             canvas.drawRect(rect, borderPaint)
-            
-            val midi = 60 + i
+            val midi = baseNote + i
             drawBacklight(canvas, rect, midi)
+            canvas.drawText("P$i", rect.centerX(), rect.centerY() + 8f, textPaint)
         }
     }
 
     private fun drawBacklight(canvas: Canvas, rect: RectF, midi: Int) {
+        val state = noteStates[midi] ?: 0
+        if (state == 0) return
+        
         val paint = when {
-            activeTouchNotes.contains(midi) -> backlightTouchPaint
-            activeRecordNotes.contains(midi) -> backlightRecordPaint
-            activePlayNotes.contains(midi) -> backlightPlayPaint
+            (state and Backlight.TOUCH.bit) != 0 -> backlightTouchPaint
+            (state and Backlight.RECORD.bit) != 0 -> backlightRecordPaint
+            (state and Backlight.PLAY.bit) != 0 -> backlightPlayPaint
             else -> null
         }
-        paint?.let { canvas.drawRect(rect, it) }
-    }
-
-    private fun getMidiOffsetForWhiteKey(i: Int): Int {
-        return when (i) {
-            0 -> 0; 1 -> 2; 2 -> 4; 3 -> 5; 4 -> 7; 5 -> 9; 6 -> 11; 7 -> 12; else -> 0
-        }
-    }
-
-    private fun getMidiOffsetForBlackKey(i: Int): Int {
-        return when (i) {
-            0 -> 1; 1 -> 3; 3 -> 6; 4 -> 8; 5 -> 10; else -> 0
+        
+        paint?.let {
+            val inset = 8f
+            val backlightRect = RectF(rect.left + inset, rect.top + inset, rect.right - inset, rect.bottom - inset)
+            canvas.drawRect(backlightRect, it)
         }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val actionIndex = event.actionIndex
-        val pointerId = event.getPointerId(actionIndex)
-        val x = event.getX(actionIndex)
-        val y = event.getY(actionIndex)
+        val pId = event.getPointerId(actionIndex)
         
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
                 performClick()
-                val midi = getMidiAt(x, y)
-                if (midi != -1) {
-                    noteOn(pointerId, midi)
-                }
+                val midi = getMidiAt(event.getX(actionIndex), event.getY(actionIndex))
+                if (midi != -1) noteOn(pId, midi)
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP, MotionEvent.ACTION_CANCEL -> {
-                noteOff(pointerId)
+                noteOff(pId)
             }
             MotionEvent.ACTION_MOVE -> {
-                // Update all pointers
                 for (i in 0 until event.pointerCount) {
-                    val pId = event.getPointerId(i)
-                    val px = event.getX(i)
-                    val py = event.getY(i)
-                    val newMidi = getMidiAt(px, py)
-                    
-                    val currentMidi = pointerToNote[pId]
-                    if (newMidi != currentMidi) {
-                        noteOff(pId)
-                        if (newMidi != -1) noteOn(pId, newMidi)
+                    val pid = event.getPointerId(i)
+                    val newMidi = getMidiAt(event.getX(i), event.getY(i))
+                    val oldMidi = pointerToNote[pid]
+                    if (newMidi != oldMidi) {
+                        noteOff(pid)
+                        if (newMidi != -1) noteOn(pid, newMidi)
                     }
                 }
             }
@@ -203,7 +166,7 @@ class KeyboardPadView @JvmOverloads constructor(
 
     private fun noteOn(pointerId: Int, midi: Int) {
         pointerToNote[pointerId] = midi
-        activeTouchNotes.add(midi)
+        updateNoteState(midi, Backlight.TOUCH.bit, true)
         listener?.onNoteOn(midi, 0.8f)
         invalidate()
     }
@@ -211,42 +174,41 @@ class KeyboardPadView @JvmOverloads constructor(
     private fun noteOff(pointerId: Int) {
         pointerToNote.remove(pointerId)?.let { midi ->
             if (!pointerToNote.values.contains(midi)) {
-                activeTouchNotes.remove(midi)
+                updateNoteState(midi, Backlight.TOUCH.bit, false)
                 listener?.onNoteOff(midi)
             }
         }
         invalidate()
     }
 
-    override fun performClick(): Boolean {
-        return super.performClick()
+    private fun updateNoteState(midi: Int, bit: Int, active: Boolean) {
+        noteStates.compute(midi) { _, current ->
+            val old = current ?: 0
+            if (active) old or bit else old and bit.inv()
+        }
     }
+
+    override fun performClick(): Boolean { return super.performClick() }
 
     private fun getMidiAt(x: Float, y: Float): Int {
         if (mode == Mode.KEYBOARD) {
-            // Check black keys first
-            for ((midi, rect) in blackKeyRects) {
-                if (rect.contains(x, y)) return midi
-            }
-            // Check white keys
-            for (i in 0 until 8) {
-                if (whiteKeyRects[i].contains(x, y)) return 60 + getMidiOffsetForWhiteKey(i)
-            }
+            for ((midi, rect) in blackKeyRects) if (rect.contains(x, y)) return midi
+            for (i in 0 until 8) if (whiteKeyRects[i].contains(x, y)) return baseNote + getMidiOffsetForWhiteKey(i)
         } else {
-            for (i in 0 until 16) {
-                if (padRects[i].contains(x, y)) return 60 + i
-            }
+            for (i in 0 until 16) if (padRects[i].contains(x, y)) return baseNote + i
         }
         return -1
     }
+
+    private fun getMidiOffsetForWhiteKey(i: Int) = when (i) {
+        0 -> 0; 1 -> 2; 2 -> 4; 3 -> 5; 4 -> 7; 5 -> 9; 6 -> 11; 7 -> 12; else -> 0
+    }
+    private fun getMidiOffsetForBlackKey(i: Int) = when (i) {
+        0 -> 1; 1 -> 3; 3 -> 6; 4 -> 8; 5 -> 10; else -> 0
+    }
     
     fun setNoteBacklight(midi: Int, type: Backlight, active: Boolean) {
-        when (type) {
-            Backlight.TOUCH -> if (active) activeTouchNotes.add(midi) else activeTouchNotes.remove(midi)
-            Backlight.RECORD -> if (active) activeRecordNotes.add(midi) else activeRecordNotes.remove(midi)
-            Backlight.PLAY -> if (active) activePlayNotes.add(midi) else activePlayNotes.remove(midi)
-            else -> {}
-        }
+        updateNoteState(midi, type.bit, active)
         postInvalidate()
     }
 }
