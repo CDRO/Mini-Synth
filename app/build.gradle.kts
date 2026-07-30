@@ -8,8 +8,8 @@ android {
 
     defaultConfig {
         applicationId = "ch.schmidlins.mini_synth"
-        minSdk = 36
-        targetSdk = 36
+        minSdk = 28
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 

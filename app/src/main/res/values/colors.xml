@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="charcoal">#121212</color>
+    <color name="matte_grey">#1A1A1A</color>
+    <color name="acid_green">#C0FF00</color>
+    <color name="electric_blue">#00A3FF</color>
+    <color name="vibrant_red">#FF3B30</color>
+    <color name="off_white">#E1E1E1</color>
+    <color name="dim_grey">#8E8E93</color>
+
+    <!-- Generic names for DAW UI reuse -->
+    <color name="surface_bright">#CCCCCC</color>
+    <color name="surface_dark">#0A0A0A</color>
+    <color name="border_dim">#333333</color>
 </resources>

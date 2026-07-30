@@ -3,19 +3,30 @@
 High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Strict adherence to Caveman Rules for technical specs.
 
 ## Core Architectural Requirements
-- **Performance**: C++ (Oboe/AAudio) for sound generation and mixing. Low latency < 10ms.
+
+### Audio & Performance
+- **Performance**: C++ (Oboe/AAudio) for all sound generation and mixing. Low latency target < 10ms.
 - **Threading**: Audio thread real-time priority. **No locks/allocations in callback**.
 - **Polyphony**: 16 simultaneous voices. Additive mixing. Output normalization.
+- **Backends**: Oboe handles fallback between AAudio and OpenSL ES automatically.
+
+### Logic & Features
 - **Configurability**: Toggle between Polyphonic and Monophonic modes.
-- **UI**: Landscape orientation. Single screen.
+- **Oscillators**: Sine, Square, Saw, Triangle support.
 - **Keyboard**: 13-key fixed range (C to C). Support for ±4 octave internal shift.
 - **Sound Board**: Toggleable 4x4 pad grid mode.
-- **Feedback**: Backlit keys/pads. `Yellow` (Touch), `Red` (Record), `Blue` (Playback).
+
+### Design & UX (FL Studio Aesthetic)
+- **Theme**: Dark, high-contrast "Stealth Synth" look.
+- **Orientation**: Locked Landscape. Single screen layout.
+- **Feedback**: Backlit keys/pads.
+    - `Acid Green` (#C0FF00): Touch input.
+    - `Electric Blue` (#00A3FF): Playback state.
+    - `Vibrant Red` (#FF3B30): Recording state.
 
 ## Technical Specifications (Caveman Mode)
 
 ### [Logic] [Oscillator]
-- **Waveforms**: Sine, Square, Saw, Triangle.
 - **Math**:
     - Sine: `sin(phase)`
     - Square: `phase < PI ? 1 : -1`
@@ -24,65 +35,65 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 - **Control**: `trigger(midi, velocity)`, `release(midi)`.
 
 ### [Logic] [Range]
-- **Octave Shift**: Internal logic supports +/- 4 octaves.
 - **Calculation**: `effective_midi = keyboard_midi + (octave_shift * 12)`.
+- **Constraint**: Clamp result to valid MIDI range [0, 127].
 
 ### [Interface] [JNI Bridge]
-- **JNI Methods**: `startAudio()`, `stopAudio()`, `setNote(int midi, float velocity)`, `releaseNote(int midi)`, `setPolyphony(boolean)`, `setOctaveShift(int)`.
+- **Bridge**: Minimal overhead. No heavy objects passed.
+- **Methods**: `startAudio()`, `stopAudio()`, `setNote()`, `releaseNote()`, `setPolyphony()`, `setWaveform()`, `setOctaveShift()`.
 
 ## Development & Review Workflow
-1. **Branching**: New git branch for each step. Only one feature in development at a time.
+1. **Branching**: New git branch per feature. Sequential development only.
 2. **Implementation**: Code and test changes.
 3. **Artifact Maintenance**:
-    - Unique set of artifacts per feature: `[feature_name]_task.artifact.md`, `[feature_name]_review.artifact.md`, `[feature_name]_walkthrough.artifact.md`.
-    - Do not overwrite previous feature artifacts.
+    - Unique artifacts per feature: `[feature_name]_task.artifact.md`, `[feature_name]_review.artifact.md`, `[feature_name]_walkthrough.artifact.md`.
+    - Preserve previous artifacts.
 4. **Automated Testing**:
-    - **Unit Tests**: Mandatory for algorithms, C++ math, and business logic (GTest/JUnit).
-    - **Functional Tests**: Mandatory for UI interactions and integration (Espresso/UI Automator).
-    - **Regressions**: New features must not break existing tests. Fixes required before merge.
-    - **Evidence**: Test success output must be displayed in conversation.
+    - **Unit Tests**: Algorithms, math, and business logic (GTest/JUnit).
+    - **Functional Tests**: UI interaction and integration (Espresso).
+    - **Evidence**: Display test results in conversation.
 5. **Commit**: Meaningful messages. Author: `Gemini <gemini@google.com>`.
-6. **Integration**: Push to GitHub and `gh pr create`.
-    - **GH CLI Path**: `C:\Program Files\GitHub CLI\gh.exe`.
+6. **Integration**: Push and `gh pr create`. (GH CLI: `C:\Program Files\GitHub CLI\gh.exe`).
 7. **Review Rounds (1-5)**:
-    - Create a self-review.
-    - Post as a **separate comment** on the GitHub PR using `gh pr comment`.
-    - Apply fix and commit.
-    - Repeat 5 times.
+    - 5 separate comments on GitHub PR via `gh pr comment`.
+    - Fixes and re-commits between rounds.
 8. **Merge**: Squash and Merge via `gh pr merge`. Author: `Gemini <gemini@google.com>`.
 
 ---
 
-## Current Feature: Comprehensive Testing Catch-up
+## Current Feature: Virtual Device Fix & Dark Theme Implementation
 
-### [Testing] [C++]
-- **Framework**: GTest (or equivalent native test harness).
-- **Oscillator Tests**: Verify Sine, Square, Saw, Triangle values at key phases (0, PI/2, PI, 1.5PI).
-- **Voice Manager Tests**: Verify 16-voice allocation, round-robin stealing, and mono/poly switching logic.
+### [Infrastructure] [Compatibility]
+- **Issue**: `minSdk 36` prevents installation on common virtual devices.
+- **Fix**: Lower `minSdk` to 28 (Android 9.0). Maintain `targetSdk` at latest stable.
 
-### [Testing] [Kotlin]
-- **Framework**: JUnit 4 / Espresso.
-- **SynthManager Tests**: Verify JNI connectivity and parameter passing.
-- **UI Tests**: Verify `KeyboardPadView` mode switching (Keys <-> Pads) and coordinate-to-midi mapping.
+### [UI] [Dark Theme]
+- **Colors**: Implement palette from [design_guide.artifact.md](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/.artifacts/6392750b-7b29-4ebd-bfc2-f9ecc7628b1b/design_guide.artifact.md).
+- **Styles**: Update `themes.xml` for full dark mode.
+- **Custom View**: Update `KeyboardPadView` paints (Key colors, Acid Green touch feedback).
 
 ## Proposed Changes
 
-### [C++ Unit Tests]
-#### [NEW] [OscillatorTests.cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/test/cpp/OscillatorTests.cpp)
-Math verification for all waveforms.
+### [Android Build]
+#### [MODIFY] [build.gradle.kts](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/build.gradle.kts)
+Lower `minSdk` to 28. Set `compileSdk` and `targetSdk` to 35 (latest stable).
 
-#### [NEW] [VoiceManagerTests.cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/test/cpp/VoiceManagerTests.cpp)
-Allocation and mixing logic verification.
+### [Resources]
+#### [MODIFY] [colors.xml](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/res/values/colors.xml)
+Define FL Studio palette.
 
-### [Kotlin Tests]
-#### [NEW] [SynthManagerTest.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/test/java/ch/schmidlins/mini_synth/audio/SynthManagerTest.kt)
-Unit tests for the JNI wrapper.
+#### [MODIFY] [themes.xml](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/res/values/themes.xml)
+Apply Dark theme.
 
-#### [NEW] [KeyboardViewTest.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/androidTest/java/ch/schmidlins/mini_synth/ui/KeyboardViewTest.kt)
-Espresso tests for UI interaction and mode toggling.
+### [UI Code]
+#### [MODIFY] [KeyboardPadView.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/ui/KeyboardPadView.kt)
+Update paints with new HEX codes. Change Touch backlight to Acid Green.
 
 ## Verification Plan
 ### Automated
-- Run `./gradlew test` (Local Unit Tests).
-- Run `./gradlew connectedCheck` (Instrumented Tests).
-- Display all `PASSED` summaries.
+- Instrumented Test: Verify app starts on API 28+ emulator.
+- UI Test: Verify component visibility in dark mode.
+
+### Manual
+- Visual check: Does it look like FL Studio?
+- Multi-touch verification on virtual device.
