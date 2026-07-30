@@ -10,16 +10,24 @@ AudioEngine::~AudioEngine() {
 }
 
 void AudioEngine::start() {
+    if (mStream) return;
+
     oboe::AudioStreamBuilder builder;
-    builder.setFormat(oboe::AudioFormat::Float)
+    oboe::Result result = builder.setFormat(oboe::AudioFormat::Float)
         ->setChannelCount(oboe::ChannelCount::Mono)
         ->setPerformanceMode(oboe::PerformanceMode::LowLatency)
         ->setSharingMode(oboe::SharingMode::Exclusive)
         ->setDataCallback(this)
         ->openStream(mStream);
 
-    if (mStream) {
-        mStream->requestStart();
+    if (result != oboe::Result::OK) {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "Error opening stream: %s", oboe::convertToText(result));
+        return;
+    }
+
+    result = mStream->requestStart();
+    if (result != oboe::Result::OK) {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "Error starting stream: %s", oboe::convertToText(result));
     }
 }
 
