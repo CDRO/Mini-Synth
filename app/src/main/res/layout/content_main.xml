@@ -49,6 +49,24 @@
             android:layout_width="8dp"
             android:layout_height="match_parent" />
 
+        <Button
+            android:id="@+id/btn_mock_rec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="REC"
+            android:textColor="@color/vibrant_red" />
+
+        <Button
+            android:id="@+id/btn_mock_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PLAY"
+            android:textColor="@color/electric_blue" />
+
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="match_parent" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

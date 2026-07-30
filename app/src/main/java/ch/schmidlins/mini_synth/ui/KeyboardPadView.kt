@@ -26,7 +26,9 @@ class KeyboardPadView @JvmOverloads constructor(
     var listener: OnNoteEventListener? = null
     
     // UI state
-    private val activeNotes = mutableMapOf<Int, Backlight>()
+    private val activeTouchNotes = mutableSetOf<Int>()
+    private val activeRecordNotes = mutableSetOf<Int>()
+    private val activePlayNotes = mutableSetOf<Int>()
     private val pointerToNote = mutableMapOf<Int, Int>()
     
     // Paints
@@ -142,15 +144,13 @@ class KeyboardPadView @JvmOverloads constructor(
     }
 
     private fun drawBacklight(canvas: Canvas, rect: RectF, midi: Int) {
-        activeNotes[midi]?.let { type ->
-            val paint = when (type) {
-                Backlight.TOUCH -> backlightTouchPaint
-                Backlight.RECORD -> backlightRecordPaint
-                Backlight.PLAY -> backlightPlayPaint
-                else -> null
-            }
-            paint?.let { canvas.drawRect(rect, it) }
+        val paint = when {
+            activeTouchNotes.contains(midi) -> backlightTouchPaint
+            activeRecordNotes.contains(midi) -> backlightRecordPaint
+            activePlayNotes.contains(midi) -> backlightPlayPaint
+            else -> null
         }
+        paint?.let { canvas.drawRect(rect, it) }
     }
 
     private fun getMidiOffsetForWhiteKey(i: Int): Int {
@@ -203,16 +203,15 @@ class KeyboardPadView @JvmOverloads constructor(
 
     private fun noteOn(pointerId: Int, midi: Int) {
         pointerToNote[pointerId] = midi
-        activeNotes[midi] = Backlight.TOUCH
+        activeTouchNotes.add(midi)
         listener?.onNoteOn(midi, 0.8f)
         invalidate()
     }
 
     private fun noteOff(pointerId: Int) {
         pointerToNote.remove(pointerId)?.let { midi ->
-            // Only release synth note if NO OTHER pointers are on this midi note
             if (!pointerToNote.values.contains(midi)) {
-                activeNotes.remove(midi)
+                activeTouchNotes.remove(midi)
                 listener?.onNoteOff(midi)
             }
         }
@@ -241,11 +240,12 @@ class KeyboardPadView @JvmOverloads constructor(
         return -1
     }
     
-    fun setNoteBacklight(midi: Int, type: Backlight) {
-        if (type == Backlight.NONE) {
-            activeNotes.remove(midi)
-        } else {
-            activeNotes[midi] = type
+    fun setNoteBacklight(midi: Int, type: Backlight, active: Boolean) {
+        when (type) {
+            Backlight.TOUCH -> if (active) activeTouchNotes.add(midi) else activeTouchNotes.remove(midi)
+            Backlight.RECORD -> if (active) activeRecordNotes.add(midi) else activeRecordNotes.remove(midi)
+            Backlight.PLAY -> if (active) activePlayNotes.add(midi) else activePlayNotes.remove(midi)
+            else -> {}
         }
         postInvalidate()
     }
