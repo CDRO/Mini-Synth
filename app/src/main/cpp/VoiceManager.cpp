@@ -41,10 +41,18 @@ void VoiceManager::noteOn(int midiNote, float velocity) {
 
         index = findFreeVoice();
         if (index != -1) {
+            mVoices[index].setAttack(mAttack);
+            mVoices[index].setDecay(mDecay);
+            mVoices[index].setSustain(mSustain);
+            mVoices[index].setRelease(mRelease);
             mVoices[index].trigger(midiNote, velocity);
         }
     } else {
         // Monophonic: always use first voice
+        mVoices[0].setAttack(mAttack);
+        mVoices[0].setDecay(mDecay);
+        mVoices[0].setSustain(mSustain);
+        mVoices[0].setRelease(mRelease);
         mVoices[0].trigger(midiNote, velocity);
     }
 }
@@ -77,6 +85,22 @@ int VoiceManager::findVoiceByNote(int midiNote) {
         if (mVoices[i].isActive() && mVoices[i].getNote() == midiNote) return i;
     }
     return -1;
+}
+
+void VoiceManager::setAttack(float seconds) {
+    mAttack = seconds;
+}
+
+void VoiceManager::setDecay(float seconds) {
+    mDecay = seconds;
+}
+
+void VoiceManager::setSustain(float level) {
+    mSustain = level;
+}
+
+void VoiceManager::setRelease(float seconds) {
+    mRelease = seconds;
 }
 
 float VoiceManager::nextSample() {

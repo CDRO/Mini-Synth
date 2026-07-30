@@ -54,6 +54,30 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setOctaveShift(JNIEnv *env, jo
     if (engine) engine->setOctaveShift(shift);
 }
 
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setAttack(JNIEnv *env, jobject thiz, jfloat seconds) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setAttack(seconds);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setDecay(JNIEnv *env, jobject thiz, jfloat seconds) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setDecay(seconds);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setSustain(JNIEnv *env, jobject thiz, jfloat level) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setSustain(level);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setRelease(JNIEnv *env, jobject thiz, jfloat seconds) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setRelease(seconds);
+}
+
 extern "C" JNIEXPORT jfloat JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_renderSampleForTest(JNIEnv *env, jobject thiz) {
     std::lock_guard<std::mutex> lock(engineMutex);

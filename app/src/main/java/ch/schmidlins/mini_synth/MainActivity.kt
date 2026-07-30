@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import ch.schmidlins.mini_synth.audio.SynthManager
 import ch.schmidlins.mini_synth.databinding.ActivityMainBinding
@@ -79,6 +80,36 @@ class MainActivity : AppCompatActivity() {
             }
         }
         updateOctave() // Initial state
+
+        // ADSR Sliders
+        setupAdsr(content)
+    }
+
+    private fun setupAdsr(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        val listener = object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val value = progress / 100f
+                when (seekBar?.id) {
+                    R.id.seek_attack -> synthManager.setAttack(value)
+                    R.id.seek_decay -> synthManager.setDecay(value)
+                    R.id.seek_sustain -> synthManager.setSustain(value)
+                    R.id.seek_release -> synthManager.setRelease(value)
+                }
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        }
+
+        content.seekAttack!!.setOnSeekBarChangeListener(listener)
+        content.seekDecay!!.setOnSeekBarChangeListener(listener)
+        content.seekSustain!!.setOnSeekBarChangeListener(listener)
+        content.seekRelease!!.setOnSeekBarChangeListener(listener)
+        
+        // Initial values matching XML progress
+        synthManager.setAttack(0.1f)
+        synthManager.setDecay(0.1f)
+        synthManager.setSustain(0.8f)
+        synthManager.setRelease(0.1f)
     }
 
     private fun updateOctave() {
