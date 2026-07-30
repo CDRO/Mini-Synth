@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
     private val synthManager = SynthManager()
     private var isPoly = true
     private var octaveShift = 0
+    private var isMockRec = false
+    private var isMockPlay = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +32,15 @@ class MainActivity : AppCompatActivity() {
         synthView.listener = object : KeyboardPadView.OnNoteEventListener {
             override fun onNoteOn(midi: Int, velocity: Float) {
                 synthManager.noteOn(midi, velocity)
+                if (isMockRec) {
+                    synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, true)
+                }
             }
             override fun onNoteOff(midi: Int) {
                 synthManager.noteOff(midi)
+                if (isMockRec) {
+                    synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, false)
+                }
             }
         }
         
@@ -53,6 +61,18 @@ class MainActivity : AppCompatActivity() {
             isPoly = !isPoly
             synthManager.setPolyphonic(isPoly)
             content.btnPolyToggle!!.text = if (isPoly) "Poly: ON" else "Poly: OFF"
+        }
+
+        // Mock Rec/Play
+        content.btnMockRec!!.setOnClickListener {
+            isMockRec = !isMockRec
+            content.btnMockRec!!.alpha = if (isMockRec) 1.0f else 0.5f
+        }
+        content.btnMockPlay!!.setOnClickListener {
+            isMockPlay = !isMockPlay
+            content.btnMockPlay!!.alpha = if (isMockPlay) 1.0f else 0.5f
+            // Toggle a fixed note for playback mock
+            synthView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, isMockPlay)
         }
 
         // Waveform spinner
