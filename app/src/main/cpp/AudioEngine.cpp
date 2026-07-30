@@ -37,8 +37,6 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
         int32_t numFrames) {
 
     float *output = static_cast<float *>(audioData);
-    for (int i = 0; i < numFrames; ++i) {
-        output[i] = 0.0f; // Silence for now
-    }
+    std::fill(output, output + numFrames, 0.0f);
     return oboe::DataCallbackResult::Continue;
 }
