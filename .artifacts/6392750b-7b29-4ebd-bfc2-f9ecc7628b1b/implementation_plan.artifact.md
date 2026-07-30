@@ -18,10 +18,9 @@ All feature development must follow this strict pipeline:
     - **Constraint**: Only one feature in development at a time.
 2. **Implementation**: Code and test changes.
 3. **Artifact Maintenance**:
-    - **Task Artifact**: Update `task.artifact.md` to track progress within the feature branch.
-    - **Review Artifact**: Create/Update `engineering_review.artifact.md` during review phases.
-    - **Walkthrough Artifact**: Create/Update `walkthrough.artifact.md` before merge.
-    - **VCS**: All artifacts must be committed and pushed as part of the feature branch.
+    - **Separate Documentation**: Create a unique set of artifacts for each feature. Do NOT reuse or overwrite previous feature artifacts.
+    - **Naming Convention**: `[feature_name]_task.artifact.md`, `[feature_name]_review.artifact.md`, `[feature_name]_walkthrough.artifact.md`.
+    - **VCS**: All feature-specific artifacts must be committed and pushed within the feature branch.
 4. **Automated Testing**:
     - **Unit Tests**: Required for algorithms, C++ math, and business logic.
     - **Functional Tests**: Required for UI interactions and integration.
