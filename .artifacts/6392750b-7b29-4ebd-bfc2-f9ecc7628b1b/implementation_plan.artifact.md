@@ -44,7 +44,12 @@ Build low-latency polyphonic/monophonic synthesizer. Use C++ for audio, Kotlin f
 - **Orientation**: Horizontal (Landscape).
 - **View**: Custom Keyboard View (Kotlin).
 - **Keyboard**: Fixed 1-octave range (13 keys: C to C).
-- **Controls**: Mode Toggle (Mono/Poly), Waveform Selector, Octave Shift (+/-), Master Volume.
+- **Sound Board Mode**: Toggle to 4x4 Grid (16 pads). Pads trigger configured notes.
+- **Backlighting**: Visual feedback for keys/pads.
+    - `Yellow`: User touch.
+    - `Red`: Recording active on note.
+    - `Blue`: Playback active on note.
+- **Controls**: Mode Toggle (Mono/Poly), Input Toggle (Keys/Pads), Waveform Selector, Octave Shift (+/-), Master Volume.
 
 ## Proposed Changes
 
@@ -65,12 +70,15 @@ Waveform generation math.
 #### [MODIFY] [build.gradle.kts](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/build.gradle.kts)
 Enable NDK, CMake, and Oboe dependency.
 
-#### [NEW] [CMakeLists.txt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/CMakeLists.txt)
+#### [NEW] [CMakeLists.txt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/cpp/CMakeLists.txt)
 Build script for native code.
 
 ### [UI (Kotlin)]
 #### [NEW] [SynthManager.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/audio/SynthManager.kt)
 Kotlin wrapper for JNI.
+
+#### [NEW] [KeyboardPadView.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/ui/KeyboardPadView.kt)
+Unified view for Keyboard and Sound Board with backlighting logic.
 
 #### [MODIFY] [MainActivity.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/MainActivity.kt)
 Lock orientation to landscape. Connect UI to `SynthManager`.
@@ -83,4 +91,5 @@ Lock orientation to landscape. Connect UI to `SynthManager`.
 ### Manual
 - Latency measurement (audio loopback).
 - Polyphony stress test (16 voices active).
-- Octave shift verification.
+- Toggle check: Keys vs Pads.
+- Backlight verification: Touch vs Playback vs Recording.
