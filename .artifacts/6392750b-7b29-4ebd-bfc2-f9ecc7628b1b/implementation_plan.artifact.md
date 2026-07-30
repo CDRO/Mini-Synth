@@ -1,54 +1,18 @@
-# Mini-Synth Implementation Plan (V2)
+# Mini-Synth Master Implementation Plan
 
-Build low-latency polyphonic/monophonic synthesizer. Use C++ for audio, Kotlin for UI. Apply Caveman Rules to technical specs for maximum clarity.
+High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Strict adherence to Caveman Rules for technical specs.
 
-## User Review Required
-> [!IMPORTANT]
-> **Performance Architecture**:
-> - Audio Engine: **C++ (Oboe)**. AAudio/OpenSL ES wrapper.
-> - Polyphony: C++ Voice Manager. Real-time mixing.
-> - JNI: Minimal overhead bridge.
-
-> [!WARNING]
-> **NDK Setup**: requires CMake and Android NDK installed. Build time increases.
-
-## Development & Review Workflow
-All feature development must follow this strict pipeline:
-1. **Branching**: New git branch for each step (e.g., `feature/oboe-setup`).
-    - **Constraint**: Only one feature in development at a time.
-2. **Implementation**: Code and test changes.
-3. **Artifact Maintenance**:
-    - **Separate Documentation**: Create a unique set of artifacts for each feature. Do NOT reuse or overwrite previous feature artifacts.
-    - **Naming Convention**: `[feature_name]_task.artifact.md`, `[feature_name]_review.artifact.md`, `[feature_name]_walkthrough.artifact.md`.
-    - **VCS**: All feature-specific artifacts must be committed and pushed within the feature branch.
-4. **Automated Testing**:
-    - **Unit Tests**: Required for algorithms, C++ math, and business logic.
-    - **Functional Tests**: Required for UI interactions and integration.
-    - **Quality Gate**: Next feature starts ONLY when all tests pass. If new code breaks existing tests, must fix both before merge.
-4. **Commit**: Meaningful messages. Author: `Gemini <gemini@google.com>`.
-5. **Integration**: Push to GitHub and initiate a Merge Request (Pull Request).
-    - **Tooling**: Use GitHub CLI (`gh`).
-    - **Note**: `gh` is located at `C:\Program Files\GitHub CLI\gh.exe`.
-6. **Review Phase 1**:
-    - Create **two self-reviews** on the code.
-    - Apply fixes, commit, and push updates.
-7. **Review Phase 2**:
-    - Create **two additional self-reviews**.
-    - Apply final changes, commit, and push.
-8. **Merge**: **Squash and Merge** into `main`.
-    - Message: Meaningful summary of changes.
-    - Author: `Gemini <gemini@google.com>`.
+## Core Architectural Requirements
+- **Performance**: C++ (Oboe/AAudio) for sound generation and mixing. Low latency < 10ms.
+- **Threading**: Audio thread real-time priority. **No locks/allocations in callback**.
+- **Polyphony**: 16 simultaneous voices. Additive mixing. Output normalization.
+- **Configurability**: Toggle between Polyphonic and Monophonic modes.
+- **UI**: Landscape orientation. Single screen.
+- **Keyboard**: 13-key fixed range (C to C). Support for ±4 octave internal shift.
+- **Sound Board**: Toggleable 4x4 pad grid mode.
+- **Feedback**: Backlit keys/pads. `Yellow` (Touch), `Red` (Record), `Blue` (Playback).
 
 ## Technical Specifications (Caveman Mode)
-
-### [Core] [AudioEngine]
-- **API**: Oboe (C++).
-- **Latency**: < 10ms target.
-- **SampleRate**: 48kHz (device optimal).
-- **Format**: Float32.
-- **Polyphony**: Configurable `isPolyphonic` flag.
-- **Voices**: `VoiceManager` handles 16 voices.
-- **Mixing**: Additive mixing. Normalize output.
 
 ### [Logic] [Oscillator]
 - **Waveforms**: Sine, Square, Saw, Triangle.
@@ -65,58 +29,60 @@ All feature development must follow this strict pipeline:
 
 ### [Interface] [JNI Bridge]
 - **JNI Methods**: `startAudio()`, `stopAudio()`, `setNote(int midi, float velocity)`, `releaseNote(int midi)`, `setPolyphony(boolean)`, `setOctaveShift(int)`.
-- **Threading**: Audio thread real-time priority. No locks/allocations.
 
-### [UI] [SynthesizerLayout]
-- **Orientation**: Horizontal (Landscape).
-- **View**: Custom Keyboard View (Kotlin).
-- **Keyboard**: Fixed 1-octave range (13 keys: C to C).
-- **Sound Board Mode**: Toggle to 4x4 Grid (16 pads). Pads trigger configured notes.
-- **Backlighting**: Visual feedback for keys/pads.
-    - `Yellow`: User touch.
-    - `Red`: Recording active on note.
-    - `Blue`: Playback active on note.
-- **Controls**: Mode Toggle (Mono/Poly), Input Toggle (Keys/Pads), Waveform Selector, Octave Shift (+/-), Master Volume.
+## Development & Review Workflow
+1. **Branching**: New git branch for each step. Only one feature in development at a time.
+2. **Implementation**: Code and test changes.
+3. **Artifact Maintenance**:
+    - Unique set of artifacts per feature: `[feature_name]_task.artifact.md`, `[feature_name]_review.artifact.md`, `[feature_name]_walkthrough.artifact.md`.
+    - Do not overwrite previous feature artifacts.
+4. **Automated Testing**:
+    - **Unit Tests**: Mandatory for algorithms, C++ math, and business logic (GTest/JUnit).
+    - **Functional Tests**: Mandatory for UI interactions and integration (Espresso/UI Automator).
+    - **Regressions**: New features must not break existing tests. Fixes required before merge.
+    - **Evidence**: Test success output must be displayed in conversation.
+5. **Commit**: Meaningful messages. Author: `Gemini <gemini@google.com>`.
+6. **Integration**: Push to GitHub and `gh pr create`.
+    - **GH CLI Path**: `C:\Program Files\GitHub CLI\gh.exe`.
+7. **Review Rounds (1-5)**:
+    - Create a self-review.
+    - Post as a **separate comment** on the GitHub PR using `gh pr comment`.
+    - Apply fix and commit.
+    - Repeat 5 times.
+8. **Merge**: Squash and Merge via `gh pr merge`. Author: `Gemini <gemini@google.com>`.
+
+---
+
+## Current Feature: Comprehensive Testing Catch-up
+
+### [Testing] [C++]
+- **Framework**: GTest (or equivalent native test harness).
+- **Oscillator Tests**: Verify Sine, Square, Saw, Triangle values at key phases (0, PI/2, PI, 1.5PI).
+- **Voice Manager Tests**: Verify 16-voice allocation, round-robin stealing, and mono/poly switching logic.
+
+### [Testing] [Kotlin]
+- **Framework**: JUnit 4 / Espresso.
+- **SynthManager Tests**: Verify JNI connectivity and parameter passing.
+- **UI Tests**: Verify `KeyboardPadView` mode switching (Keys <-> Pads) and coordinate-to-midi mapping.
 
 ## Proposed Changes
 
-### [Audio Engine (C++)]
-#### [NEW] [native-lib.cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/native-lib.cpp)
-Main JNI entry point.
+### [C++ Unit Tests]
+#### [NEW] [OscillatorTests.cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/test/cpp/OscillatorTests.cpp)
+Math verification for all waveforms.
 
-#### [NEW] [AudioEngine.cpp/h](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/AudioEngine.cpp)
-Oboe stream management.
+#### [NEW] [VoiceManagerTests.cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/test/cpp/VoiceManagerTests.cpp)
+Allocation and mixing logic verification.
 
-#### [NEW] [VoiceManager.cpp/h](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/VoiceManager.cpp)
-16-voice mixing logic. Mono/Poly toggle.
+### [Kotlin Tests]
+#### [NEW] [SynthManagerTest.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/test/java/ch/schmidlins/mini_synth/audio/SynthManagerTest.kt)
+Unit tests for the JNI wrapper.
 
-#### [NEW] [Oscillator.cpp/h](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/Oscillator.cpp)
-Waveform generation math.
-
-### [Android Build]
-#### [MODIFY] [build.gradle.kts](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/build.gradle.kts)
-Enable NDK, CMake, and Oboe dependency.
-
-#### [NEW] [CMakeLists.txt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/CMakeLists.txt)
-Build script for native code.
-
-### [UI (Kotlin)]
-#### [NEW] [SynthManager.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/audio/SynthManager.kt)
-Kotlin wrapper for JNI.
-
-#### [NEW] [KeyboardPadView.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/ui/KeyboardPadView.kt)
-Unified view for Keyboard and Sound Board with backlighting logic.
-
-#### [MODIFY] [MainActivity.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/MainActivity.kt)
-Lock orientation to landscape. Connect UI to `SynthManager`.
+#### [NEW] [KeyboardViewTest.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/androidTest/java/ch/schmidlins/mini_synth/ui/KeyboardViewTest.kt)
+Espresso tests for UI interaction and mode toggling.
 
 ## Verification Plan
 ### Automated
-- C++ Unit Tests (GTest) for oscillator math and mixing.
-- JNI connectivity check.
-
-### Manual
-- Latency measurement (audio loopback).
-- Polyphony stress test (16 voices active).
-- Toggle check: Keys vs Pads.
-- Backlight verification: Touch vs Playback vs Recording.
+- Run `./gradlew test` (Local Unit Tests).
+- Run `./gradlew connectedCheck` (Instrumented Tests).
+- Display all `PASSED` summaries.

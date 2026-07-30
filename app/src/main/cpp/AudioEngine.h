@@ -18,6 +18,8 @@ public:
     void setWaveform(Waveform waveform) { mVoiceManager.setWaveform(waveform); }
     void setOctaveShift(int shift) { mOctaveShift = shift; }
 
+    float renderSampleForTest() { return mVoiceManager.nextSample(); }
+
     oboe::DataCallbackResult onAudioReady(
             oboe::AudioStream *audioStream,
             void *audioData,

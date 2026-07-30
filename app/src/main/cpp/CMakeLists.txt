@@ -15,3 +15,10 @@ target_link_libraries(mini_synth
         oboe::oboe
         log
 )
+
+# Testing
+if (ANDROID_PLATFORM)
+    # No standalone tests on Android usually, they run through JNI
+else()
+    # Host side tests could go here
+endif()

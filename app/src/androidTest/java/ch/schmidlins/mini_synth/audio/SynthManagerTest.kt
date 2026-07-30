@@ -11,13 +11,42 @@ class SynthManagerTest {
     @Test
     fun testEngineLifecycle() {
         val manager = SynthManager()
-        // These should not crash
         manager.startEngine()
-        manager.noteOn(60, 0.8f)
+        manager.stopEngine()
+    }
+
+    @Test
+    fun testOscillatorOutput() {
+        val manager = SynthManager()
+        manager.startEngine()
+        
+        // Sine wave (0)
+        manager.setWaveform(0)
+        manager.noteOn(60, 1.0f)
+        
+        // Initial sample might be 0, but it should change
+        val samples = (0 until 100).map { manager.renderSampleForTest() }
+        assertTrue("Oscillator should produce non-zero samples", samples.any { it != 0.0f })
+        assertTrue("Sine samples should be in [-1, 1]", samples.all { it >= -1.0f && it <= 1.0f })
+        
         manager.noteOff(60)
+        manager.stopEngine()
+    }
+
+    @Test
+    fun testPolyphony() {
+        val manager = SynthManager()
+        manager.startEngine()
         manager.setPolyphonic(true)
-        manager.setWaveform(1)
-        manager.setOctaveShift(1)
+        
+        manager.noteOn(60, 1.0f)
+        val sample1 = manager.renderSampleForTest()
+        
+        manager.noteOn(64, 1.0f)
+        val sample2 = manager.renderSampleForTest()
+        
+        assertNotEquals("Mixing two notes should produce different values than one", sample1, sample2)
+        
         manager.stopEngine()
     }
 }
