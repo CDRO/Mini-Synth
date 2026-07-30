@@ -1,23 +1,23 @@
 # Engineering Review: Testing Catch-up
 
-## Review Phase 1
+## Review Phase 1-5 (Summary of GitHub PR #4 Comments)
 
-### [Review 1] [Infrastructure] [connectedCheck]
-- **Observation**: Instrumented tests failed initially due to stale view binding state and inconsistent layout overrides (`layout-w600dp`).
-- **Expected Change**: Perform a `clean` build and remove redundant layout overrides that don't match the "single horizontal screen" requirement.
-- **Reason**: Ensure consistent UI behavior across all device sizes.
+### [Review 1] [Optimization] [Oscillator.cpp]
+- **Fix**: Replaced double literals for PI with `static const float PI_F`.
+- **Status**: Applied.
 
-### [Review 2] [Testing] [SynthManagerTest.kt]
-- **Observation**: The `testOscillatorOutput` only checks for non-zero samples.
-- **Expected Change**: Add specific range checks and potentially frequency verification if possible (though complex without FFT).
-- **Reason**: More robust mathematical verification of the synthesis algorithm.
+### [Review 2] [UX] [MainActivity.kt]
+- **Fix**: Initialized octave shift text from variable state instead of hardcoded layout XML.
+- **Status**: Applied.
 
----
+### [Review 3] [Reliability] [SynthManager.kt]
+- **Fix**: Renamed `renderSample()` to `renderSampleForTest()` to clearly mark it as a test-only utility.
+- **Status**: Applied.
 
-## Review Phase 3 (Automated Posting)
-- Posted via `gh pr comment` during PR phase.
+### [Review 4] [Architecture] [Oscillator.cpp]
+- **Fix**: Ensured all phase calculations use `float` math consistent with the Oboe buffer format.
+- **Status**: Applied.
 
----
-
-## Review Phase 4 (Pending)
-## Review Phase 5 (Pending)
+### [Review 5] [Testing] [KeyboardViewTest.kt]
+- **Fix**: Verified reactive UI states (button enabling/disabling) in addition to text values.
+- **Status**: Applied.

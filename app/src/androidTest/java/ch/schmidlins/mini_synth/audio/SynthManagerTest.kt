@@ -25,7 +25,7 @@ class SynthManagerTest {
         manager.noteOn(60, 1.0f)
         
         // Initial sample might be 0, but it should change
-        val samples = (0 until 100).map { manager.renderSample() }
+        val samples = (0 until 100).map { manager.renderSampleForTest() }
         assertTrue("Oscillator should produce non-zero samples", samples.any { it != 0.0f })
         assertTrue("Sine samples should be in [-1, 1]", samples.all { it >= -1.0f && it <= 1.0f })
         
@@ -40,10 +40,10 @@ class SynthManagerTest {
         manager.setPolyphonic(true)
         
         manager.noteOn(60, 1.0f)
-        val sample1 = manager.renderSample()
+        val sample1 = manager.renderSampleForTest()
         
         manager.noteOn(64, 1.0f)
-        val sample2 = manager.renderSample()
+        val sample2 = manager.renderSampleForTest()
         
         assertNotEquals("Mixing two notes should produce different values than one", sample1, sample2)
         

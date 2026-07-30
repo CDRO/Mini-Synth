@@ -15,5 +15,5 @@ class SynthManager {
     external fun setPolyphonic(isPolyphonic: Boolean)
     external fun setWaveform(waveformIndex: Int)
     external fun setOctaveShift(shift: Int)
-    external fun renderSample(): Float
+    external fun renderSampleForTest(): Float
 }
