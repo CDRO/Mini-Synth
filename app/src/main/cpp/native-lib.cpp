@@ -53,3 +53,10 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setOctaveShift(JNIEnv *env, jo
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setOctaveShift(shift);
 }
+
+extern "C" JNIEXPORT jfloat JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_renderSample(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) return engine->renderSample();
+    return 0.0f;
+}
