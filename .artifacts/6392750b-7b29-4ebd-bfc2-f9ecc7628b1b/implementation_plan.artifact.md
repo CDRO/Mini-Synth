@@ -54,46 +54,54 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
     - **Evidence**: Display test results in conversation.
 5. **Commit**: Meaningful messages. Author: `Gemini <gemini@google.com>`.
 6. **Integration**: Push and `gh pr create`. (GH CLI: `C:\Program Files\GitHub CLI\gh.exe`).
-7. **Review Rounds (1-5)**:
-    - 5 separate comments on GitHub PR via `gh pr comment`.
-    - Fixes and re-commits between rounds.
+7. **Review Cycles (1-5)**:
+    - Perform a cycle:
+        - Identify **2 self-reviews** on the current state.
+        - Post each as a **separate comment** on the GitHub PR via `gh pr comment`.
+        - Apply fixes and commit changes.
+    - Repeat the cycle **4 more times** (Total 5 cycles, 10 reviews).
 8. **Merge**: Squash and Merge via `gh pr merge`. Author: `Gemini <gemini@google.com>`.
 
 ---
 
-## Current Feature: Virtual Device Fix & Dark Theme Implementation
+## Current Feature: ADSR Envelope & visual sequencers
 
-### [Infrastructure] [Compatibility]
-- **Issue**: `minSdk 36` prevents installation on common virtual devices.
-- **Fix**: Lower `minSdk` to 28 (Android 9.0). Maintain `targetSdk` at latest stable.
+### [Logic] [Envelope]
+- **Type**: ADSR (Attack, Decay, Sustain, Release).
+- **Control**: 4 parameters (0.0 to 1.0).
+- **Math**: Multiplicative gain on voice output.
+- **State**: `Idle`, `Attack`, `Decay`, `Sustain`, `Release`.
+- **Slopes**: Linear ramps.
 
-### [UI] [Dark Theme]
-- **Colors**: Implement palette from [design_guide.artifact.md](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/.artifacts/6392750b-7b29-4ebd-bfc2-f9ecc7628b1b/design_guide.artifact.md).
-- **Styles**: Update `themes.xml` for full dark mode.
-- **Custom View**: Update `KeyboardPadView` paints (Key colors, Acid Green touch feedback).
+### [UI] [ModulationControls]
+- **Controls**: 4 Sliders/Knobs for ADSR.
+- **Theme**: Stealth dark aesthetic.
 
 ## Proposed Changes
 
-### [Android Build]
-#### [MODIFY] [build.gradle.kts](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/build.gradle.kts)
-Lower `minSdk` to 28. Set `compileSdk` and `targetSdk` to 35 (latest stable).
+### [Audio Engine (C++)]
+#### [NEW] [Envelope.h/cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/Envelope.cpp)
+Linear ramp logic for ADSR stages.
 
-### [Resources]
-#### [MODIFY] [colors.xml](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/res/values/colors.xml)
-Define FL Studio palette.
+#### [MODIFY] [Voice.h/cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/Voice.cpp)
+Integrate Envelope into sample generation.
 
-#### [MODIFY] [themes.xml](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/res/values/themes.xml)
-Apply Dark theme.
+#### [MODIFY] [VoiceManager.h/cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/VoiceManager.cpp)
+Expose ADSR parameters.
 
-### [UI Code]
-#### [MODIFY] [KeyboardPadView.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/ui/KeyboardPadView.kt)
-Update paints with new HEX codes. Change Touch backlight to Acid Green.
+### [UI (Kotlin)]
+#### [MODIFY] [content_main.xml](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/res/layout/content_main.xml)
+Add ADSR control group.
+
+#### [MODIFY] [MainActivity.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/MainActivity.kt)
+Bind ADSR UI to native engine.
 
 ## Verification Plan
 ### Automated
-- Instrumented Test: Verify app starts on API 28+ emulator.
-- UI Test: Verify component visibility in dark mode.
+- **Unit Test (C++)**: Verify Envelope stage transitions (Idle -> Attack -> Decay -> Sustain -> Release -> Idle).
+- **Unit Test (Kotlin)**: Verify JNI bridge for ADSR parameters.
+- **Instrumented Test**: Verify slider interaction updates engine parameters.
 
 ### Manual
-- Visual check: Does it look like FL Studio?
-- Multi-touch verification on virtual device.
+- Auditory check: Sustain and Release behavior.
+- UI check: Slider responsiveness.
