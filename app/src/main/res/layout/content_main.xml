@@ -53,6 +53,7 @@
             android:id="@+id/btn_mock_rec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha="0.5"
             android:text="REC"
             android:textColor="@color/vibrant_red" />
 
@@ -60,6 +61,7 @@
             android:id="@+id/btn_mock_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha="0.5"
             android:text="PLAY"
             android:textColor="@color/electric_blue" />
 
@@ -70,7 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Octave:"
+            android:text="Oct:"
             android:textColor="@color/off_white" />
 
         <Button
@@ -197,11 +199,93 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/lfo_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/adsr_bar">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LFO Rate"
+            android:textColor="@color/off_white"
+            android:textSize="12sp" />
+
+        <SeekBar
+            android:id="@+id/seek_lfo_rate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="100"
+            android:progress="20" />
+
+        <TextView
+            android:id="@+id/tv_lfo_rate_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="40dp"
+            android:text="1.0Hz"
+            android:textColor="@color/dim_grey"
+            android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Depth"
+            android:textColor="@color/off_white"
+            android:textSize="12sp" />
+
+        <SeekBar
+            android:id="@+id/seek_lfo_depth"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="100"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/tv_lfo_depth_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="40dp"
+            android:text="0.0"
+            android:textColor="@color/dim_grey"
+            android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wave:"
+            android:textColor="@color/off_white"
+            android:textSize="12sp" />
+
+        <Spinner
+            android:id="@+id/spinner_lfo_waveform"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Target:"
+            android:textColor="@color/off_white"
+            android:textSize="12sp" />
+
+        <Spinner
+            android:id="@+id/spinner_lfo_target"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
     <ch.schmidlins.mini_synth.ui.KeyboardPadView
         android:id="@+id/keyboard_pad_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/adsr_bar" />
+        app:layout_constraintTop_toBottomOf="@id/lfo_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

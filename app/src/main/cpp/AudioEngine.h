@@ -33,6 +33,11 @@ public:
     void setSustain(float level) { mVoiceManager.setSustain(level); }
     void setRelease(float seconds) { mVoiceManager.setRelease(seconds); }
 
+    void setLfoRate(float frequency) { mVoiceManager.setLfoRate(frequency); }
+    void setLfoDepth(float depth) { mVoiceManager.setLfoDepth(depth); }
+    void setLfoWaveform(Waveform waveform) { mVoiceManager.setLfoWaveform(waveform); }
+    void setLfoTarget(LfoTarget target) { mVoiceManager.setLfoTarget(target); }
+
     float renderSampleForTest() { return mVoiceManager.nextSample(); }
 
     oboe::DataCallbackResult onAudioReady(

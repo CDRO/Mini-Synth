@@ -3,6 +3,7 @@
 
 #include "Oscillator.h"
 #include "Envelope.h"
+#include "Lfo.h"
 
 class Voice {
 public:
@@ -11,6 +12,7 @@ public:
     void setSampleRate(int32_t sampleRate) {
         mOscillator.setSampleRate(sampleRate);
         mEnvelope.setSampleRate(sampleRate);
+        mLfo.setSampleRate(sampleRate);
     }
     void setWaveform(Waveform waveform) { mOscillator.setWaveform(waveform); }
 
@@ -25,11 +27,18 @@ public:
     void setSustain(float level) { mEnvelope.setSustain(level); }
     void setRelease(float seconds) { mEnvelope.setRelease(seconds); }
 
+    void setLfoRate(float frequency) { mLfo.setFrequency(frequency); }
+    void setLfoDepth(float depth) { mLfo.setDepth(depth); }
+    void setLfoWaveform(Waveform waveform) { mLfo.setWaveform(waveform); }
+    void setLfoTarget(LfoTarget target) { mLfoTarget = target; }
+
     float nextSample();
 
 private:
     Oscillator mOscillator;
     Envelope mEnvelope;
+    Lfo mLfo;
+    LfoTarget mLfoTarget = LfoTarget::Pitch;
     bool mActive;
     int mNote;
     float mVelocity;

@@ -28,6 +28,11 @@ public:
     void setSustain(float level) { mParams.sustain = level; }
     void setRelease(float seconds) { mParams.release = seconds; }
 
+    void setLfoRate(float frequency) { mLfoRate = frequency; }
+    void setLfoDepth(float depth) { mLfoDepth = depth; }
+    void setLfoWaveform(Waveform waveform) { mLfoWaveform = waveform; }
+    void setLfoTarget(LfoTarget target) { mLfoTarget = target; }
+
     float nextSample();
 
 private:
@@ -39,6 +44,11 @@ private:
     int mLastStealIndex = 0;
 
     AdsrParams mParams;
+
+    std::atomic<float> mLfoRate{1.0f};
+    std::atomic<float> mLfoDepth{0.0f};
+    std::atomic<Waveform> mLfoWaveform{Waveform::Sine};
+    std::atomic<LfoTarget> mLfoTarget{LfoTarget::Pitch};
 
     int findFreeVoice();
     int findVoiceByNote(int midiNote);
