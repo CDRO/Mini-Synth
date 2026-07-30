@@ -24,6 +24,16 @@ class MainActivity : AppCompatActivity() {
         val content = binding.appBarMain.contentMain
         val synthView = content.keyboardPadView!!
         
+        // Listener
+        synthView.listener = object : KeyboardPadView.OnNoteEventListener {
+            override fun onNoteOn(midi: Int, velocity: Float) {
+                synthManager.noteOn(midi, velocity)
+            }
+            override fun onNoteOff(midi: Int) {
+                synthManager.noteOff(midi)
+            }
+        }
+        
         // Mode toggle
         content.btnModeToggle!!.setOnClickListener {
             val nextMode = if (content.btnModeToggle!!.text == "Pads") {
@@ -68,12 +78,16 @@ class MainActivity : AppCompatActivity() {
                 updateOctave()
             }
         }
+        updateOctave() // Initial state
     }
 
     private fun updateOctave() {
         val content = binding.appBarMain.contentMain
         synthManager.setOctaveShift(octaveShift)
         content.tvOctaveValue!!.text = octaveShift.toString()
+        
+        content.btnOctaveDown!!.isEnabled = octaveShift > -4
+        content.btnOctaveUp!!.isEnabled = octaveShift < 4
     }
 
     override fun onStart() {

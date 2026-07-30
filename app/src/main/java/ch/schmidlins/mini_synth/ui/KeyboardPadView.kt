@@ -8,17 +8,21 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import ch.schmidlins.mini_synth.audio.SynthManager
 
 class KeyboardPadView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    interface OnNoteEventListener {
+        fun onNoteOn(midi: Int, velocity: Float)
+        fun onNoteOff(midi: Int)
+    }
+
     enum class Mode { KEYBOARD, PAD_GRID }
     enum class Backlight { NONE, TOUCH, RECORD, PLAY }
 
     private var mode = Mode.KEYBOARD
-    private val synthManager = SynthManager()
+    var listener: OnNoteEventListener? = null
     
     // UI state
     private val activeNotes = mutableMapOf<Int, Backlight>()
@@ -181,7 +185,7 @@ class KeyboardPadView @JvmOverloads constructor(
     private fun noteOn(pointerId: Int, midi: Int) {
         pointerToNote[pointerId] = midi
         activeNotes[midi] = Backlight.TOUCH
-        synthManager.noteOn(midi, 0.8f)
+        listener?.onNoteOn(midi, 0.8f)
         invalidate()
     }
 
@@ -190,7 +194,7 @@ class KeyboardPadView @JvmOverloads constructor(
             // Only release synth note if NO OTHER pointers are on this midi note
             if (!pointerToNote.values.contains(midi)) {
                 activeNotes.remove(midi)
-                synthManager.noteOff(midi)
+                listener?.onNoteOff(midi)
             }
         }
         invalidate()
