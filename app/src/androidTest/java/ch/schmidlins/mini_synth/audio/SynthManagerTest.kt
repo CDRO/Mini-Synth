@@ -49,4 +49,26 @@ class SynthManagerTest {
         
         manager.stopEngine()
     }
+
+    @Test
+    fun testMasterVolume() {
+        val manager = SynthManager()
+        manager.startEngine()
+        manager.setWaveform(0)
+        manager.noteOn(60, 1.0f)
+
+        manager.setMasterVolume(1.0f)
+        val loudSample = (0 until 100).maxOf { Math.abs(manager.renderSampleForTest()) }
+
+        manager.setMasterVolume(0.1f)
+        val quietSample = (0 until 100).maxOf { Math.abs(manager.renderSampleForTest()) }
+
+        assertTrue("Lower master volume should decrease max sample amplitude", quietSample < loudSample)
+
+        manager.setMasterVolume(0.0f)
+        val silentSample = (0 until 100).maxOf { Math.abs(manager.renderSampleForTest()) }
+        assertEquals("Master volume 0 should result in silence", 0.0f, silentSample, 0.001f)
+
+        manager.stopEngine()
+    }
 }

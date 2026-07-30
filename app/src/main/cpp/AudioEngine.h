@@ -32,6 +32,7 @@ public:
     void setDecay(float seconds) { mVoiceManager.setDecay(seconds); }
     void setSustain(float level) { mVoiceManager.setSustain(level); }
     void setRelease(float seconds) { mVoiceManager.setRelease(seconds); }
+    void setMasterVolume(float volume) { mVoiceManager.setMasterVolume(volume); }
 
     void setLfoRate(float frequency) { mVoiceManager.setLfoRate(frequency); }
     void setLfoDepth(float depth) { mVoiceManager.setLfoDepth(depth); }

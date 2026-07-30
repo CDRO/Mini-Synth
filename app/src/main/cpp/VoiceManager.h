@@ -28,6 +28,8 @@ public:
     void setSustain(float level) { mParams.sustain = level; }
     void setRelease(float seconds) { mParams.release = seconds; }
 
+    void setMasterVolume(float volume) { mMasterVolume = volume; }
+
     void setLfoRate(float frequency) { mLfoRate = frequency; mParamsChanged = true; }
     void setLfoDepth(float depth) { mLfoDepth = depth; mParamsChanged = true; }
     void setLfoWaveform(Waveform waveform) { mLfoWaveform = waveform; mParamsChanged = true; }
@@ -44,6 +46,7 @@ private:
     int mLastStealIndex = 0;
 
     AdsrParams mParams;
+    std::atomic<float> mMasterVolume{0.8f};
 
     std::atomic<float> mLfoRate{1.0f};
     std::atomic<float> mLfoDepth{0.0f};

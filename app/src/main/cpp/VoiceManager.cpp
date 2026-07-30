@@ -118,5 +118,5 @@ float VoiceManager::nextSample() {
         mixedSample /= static_cast<float>(activeCount);
     }
 
-    return mixedSample;
+    return mixedSample * mMasterVolume;
 }

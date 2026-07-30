@@ -19,6 +19,7 @@ class SynthManager {
     external fun setDecay(seconds: Float)
     external fun setSustain(level: Float)
     external fun setRelease(seconds: Float)
+    external fun setMasterVolume(volume: Float)
 
     external fun setLfoRate(frequency: Float)
     external fun setLfoDepth(depth: Float)
