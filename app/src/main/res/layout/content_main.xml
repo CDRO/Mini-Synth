@@ -1,28 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_main">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/nav_host_fragment_content_main"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <LinearLayout
+        android:id="@+id/control_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btn_mode_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pads" />
+
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wave:" />
+
+        <Spinner
+            android:id="@+id/spinner_waveform"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/btn_poly_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Poly: ON" />
+
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Octave:" />
+
+        <Button
+            android:id="@+id/btn_octave_down"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/tv_octave_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:text="0" />
+
+        <Button
+            android:id="@+id/btn_octave_up"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:text="+" />
+
+    </LinearLayout>
+
+    <ch.schmidlins.mini_synth.ui.KeyboardPadView
+        android:id="@+id/keyboard_pad_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="@dimen/fragment_horizontal_margin"
-        android:layout_marginRight="@dimen/fragment_horizontal_margin"
-        android:layout_weight="1"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/mobile_navigation" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/control_bar" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav_view"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_gravity="bottom"
-        app:menu="@menu/bottom_navigation" />
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
