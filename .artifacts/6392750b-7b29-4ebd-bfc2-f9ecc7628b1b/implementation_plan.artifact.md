@@ -14,18 +14,24 @@ Build low-latency polyphonic/monophonic synthesizer. Use C++ for audio, Kotlin f
 
 ## Development & Review Workflow
 All feature development must follow this strict pipeline:
-1. **Branching**: Create and checkout a new git branch for each step (e.g., `feature/oboe-setup`).
+1. **Branching**: New git branch for each step (e.g., `feature/oboe-setup`).
+    - **Constraint**: Only one feature in development at a time.
 2. **Implementation**: Code and test changes.
-3. **Commit**: meaningful messages. Author: `Gemini <gemini@google.com>`.
-4. **Integration**: Push to GitHub and initiate a Merge Request (Pull Request).
-5. **Review Phase 1**:
-    - Create **two self-reviews** on the code, identifying specific areas for improvement or potential bugs.
-    - Apply fixes based on these reviews.
-    - Commit and push updates to the MR.
-6. **Review Phase 2**:
-    - Create **two additional self-reviews** on the refined code.
-    - Apply final changes.
-    - Push to the MR for final verification.
+3. **Automated Testing**:
+    - **Unit Tests**: Required for algorithms, C++ math, and business logic.
+    - **Functional Tests**: Required for UI interactions and integration.
+    - **Quality Gate**: Next feature starts ONLY when all tests pass. If new code breaks existing tests, must fix both before merge.
+4. **Commit**: Meaningful messages. Author: `Gemini <gemini@google.com>`.
+5. **Integration**: Push to GitHub and initiate a Merge Request (Pull Request).
+6. **Review Phase 1**:
+    - Create **two self-reviews** on the code.
+    - Apply fixes, commit, and push updates.
+7. **Review Phase 2**:
+    - Create **two additional self-reviews**.
+    - Apply final changes, commit, and push.
+8. **Merge**: **Squash and Merge** into `main`.
+    - Message: Meaningful summary of changes.
+    - Author: `Gemini <gemini@google.com>`.
 
 ## Technical Specifications (Caveman Mode)
 
@@ -85,7 +91,7 @@ Waveform generation math.
 #### [MODIFY] [build.gradle.kts](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/build.gradle.kts)
 Enable NDK, CMake, and Oboe dependency.
 
-#### [NEW] [CMakeLists.txt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/cpp/CMakeLists.txt)
+#### [NEW] [CMakeLists.txt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/CMakeLists.txt)
 Build script for native code.
 
 ### [UI (Kotlin)]
