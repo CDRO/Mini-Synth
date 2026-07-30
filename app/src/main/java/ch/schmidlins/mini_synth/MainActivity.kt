@@ -71,11 +71,10 @@ class MainActivity : AppCompatActivity() {
         content.btnMockPlay!!.setOnClickListener {
             isMockPlay = !isMockPlay
             content.btnMockPlay!!.alpha = if (isMockPlay) 1.0f else 0.5f
-            // Toggle a fixed note for playback mock
             synthView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, isMockPlay)
         }
 
-        // Waveform spinner
+        // Main Waveform spinner
         val waveforms = listOf("Sine", "Square", "Saw", "Triangle")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, waveforms)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -100,16 +99,15 @@ class MainActivity : AppCompatActivity() {
                 updateOctave()
             }
         }
-        updateOctave() // Initial state
+        updateOctave()
 
-        // ADSR Sliders
         setupAdsr(content)
+        setupLfo(content)
     }
 
     private fun setupAdsr(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         val listener = object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                // Exponential mapping for time parameters (0.001s to 2.0s)
                 val timeValue = (Math.pow(2000.0, progress / 100.0) / 1000.0).toFloat()
                 val sustainValue = progress / 100f
                 val formattedTime = String.format(Locale.US, "%.3fs", timeValue)
@@ -142,18 +140,68 @@ class MainActivity : AppCompatActivity() {
         content.seekSustain!!.setOnSeekBarChangeListener(listener)
         content.seekRelease!!.setOnSeekBarChangeListener(listener)
         
-        // Initial manual trigger for default text
         content.seekAttack!!.progress = content.seekAttack!!.progress
         content.seekDecay!!.progress = content.seekDecay!!.progress
         content.seekSustain!!.progress = content.seekSustain!!.progress
         content.seekRelease!!.progress = content.seekRelease!!.progress
     }
 
+    private fun setupLfo(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        val listener = object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                when (seekBar) {
+                    content.seekLfoRate -> {
+                        // 0.1Hz to 20Hz logarithmic
+                        val rate = (Math.pow(200.0, progress / 100.0) / 10.0).toFloat()
+                        synthManager.setLfoRate(rate)
+                        content.tvLfoRateVal!!.text = String.format(Locale.US, "%.1fHz", rate)
+                    }
+                    content.seekLfoDepth -> {
+                        val depth = progress / 100f
+                        synthManager.setLfoDepth(depth)
+                        content.tvLfoDepthVal!!.text = String.format(Locale.US, "%.2f", depth)
+                    }
+                }
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        }
+
+        content.seekLfoRate!!.setOnSeekBarChangeListener(listener)
+        content.seekLfoDepth!!.setOnSeekBarChangeListener(listener)
+
+        // Waveform
+        val waveforms = listOf("Sine", "Square", "Saw", "Triangle")
+        val waveAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, waveforms)
+        waveAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        content.spinnerLfoWaveform!!.adapter = waveAdapter
+        content.spinnerLfoWaveform!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                synthManager.setLfoWaveform(position)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        // Target
+        val targets = listOf("Pitch", "Volume", "Filter")
+        val targetAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, targets)
+        targetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        content.spinnerLfoTarget!!.adapter = targetAdapter
+        content.spinnerLfoTarget!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                synthManager.setLfoTarget(position)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        content.seekLfoRate!!.progress = 20
+        content.seekLfoDepth!!.progress = 0
+    }
+
     private fun updateOctave() {
         val content = binding.appBarMain.contentMain
         synthManager.setOctaveShift(octaveShift)
         content.tvOctaveValue!!.text = octaveShift.toString()
-        
         content.btnOctaveDown!!.isEnabled = octaveShift > -4
         content.btnOctaveUp!!.isEnabled = octaveShift < 4
     }

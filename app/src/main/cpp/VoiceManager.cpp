@@ -42,6 +42,12 @@ void VoiceManager::noteOn(int midiNote, float velocity) {
             mVoices[index].setDecay(mParams.decay);
             mVoices[index].setSustain(mParams.sustain);
             mVoices[index].setRelease(mParams.release);
+
+            mVoices[index].setLfoRate(mLfoRate);
+            mVoices[index].setLfoDepth(mLfoDepth);
+            mVoices[index].setLfoWaveform(mLfoWaveform);
+            mVoices[index].setLfoTarget(mLfoTarget);
+
             mVoices[index].trigger(midiNote, velocity);
         }
     } else {
@@ -49,6 +55,12 @@ void VoiceManager::noteOn(int midiNote, float velocity) {
         mVoices[0].setDecay(mParams.decay);
         mVoices[0].setSustain(mParams.sustain);
         mVoices[0].setRelease(mParams.release);
+
+        mVoices[0].setLfoRate(mLfoRate);
+        mVoices[0].setLfoDepth(mLfoDepth);
+        mVoices[0].setLfoWaveform(mLfoWaveform);
+        mVoices[0].setLfoTarget(mLfoTarget);
+
         mVoices[0].trigger(midiNote, velocity);
     }
 }
@@ -86,8 +98,17 @@ float VoiceManager::nextSample() {
     float mixedSample = 0.0f;
     int activeCount = 0;
 
+    bool updateParams = mParamsChanged.exchange(false);
+
     for (int i = 0; i < MAX_VOICES; ++i) {
         if (mVoices[i].isActive()) {
+            if (updateParams) {
+                mVoices[i].setLfoRate(mLfoRate);
+                mVoices[i].setLfoDepth(mLfoDepth);
+                mVoices[i].setLfoWaveform(mLfoWaveform);
+                mVoices[i].setLfoTarget(mLfoTarget);
+            }
+
             mixedSample += mVoices[i].nextSample();
             activeCount++;
         }

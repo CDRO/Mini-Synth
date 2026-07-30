@@ -54,54 +54,59 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
     - **Evidence**: Display test results in conversation.
 5. **Commit**: Meaningful messages. Author: `Gemini <gemini@google.com>`.
 6. **Integration**: Push and `gh pr create`. (GH CLI: `C:\Program Files\GitHub CLI\gh.exe`).
-7. **Review Cycles (1-5)**:
+    - **PR Description Requirements**:
+        - **Why**: Explain the reason for the change and the problem it solves.
+        - **Tests**: Detail new tests added and the verification logic.
+        - **Value**: Explicitly state the additional value expected from this merge.
+        - **No File List**: Do not list modified files (VCS handles this).
+7. **Merge Message Review Loop**:
+    - Draft the merge message.
+    - Perform at least **2 iterations** of self-review and adaptation on the message.
+    - Ensure each iteration **increases quality and technical value**.
+8. **Code Review Cycles (1-5)**:
     - Perform a cycle:
-        - Identify **2 self-reviews** on the current state.
+        - Identify **2 self-reviews** on the code current state.
         - Post each as a **separate comment** on the GitHub PR via `gh pr comment`.
         - Apply fixes and commit changes.
     - Repeat the cycle **4 more times** (Total 5 cycles, 10 reviews).
-8. **Merge**: Squash and Merge via `gh pr merge`. Author: `Gemini <gemini@google.com>`.
+9. **Merge**: Squash and Merge via `gh pr merge` using the reviewed Merge Message. Author: `Gemini <gemini@google.com>`.
 
 ---
 
-## Current Feature: ADSR Envelope & visual sequencers
+## Next Feature: LFO Modulation (Low-Frequency Oscillator)
 
-### [Logic] [Envelope]
-- **Type**: ADSR (Attack, Decay, Sustain, Release).
-- **Control**: 4 parameters (0.0 to 1.0).
-- **Math**: Multiplicative gain on voice output.
-- **State**: `Idle`, `Attack`, `Decay`, `Sustain`, `Release`.
-- **Slopes**: Linear ramps.
+### [Logic] [LFO]
+- **Type**: Secondary oscillator for modulation.
+- **Waveforms**: Sine, Triangle, Square, Saw.
+- **Frequency**: 0.1Hz to 20Hz.
+- **Targets**: Pitch (Vibrato), Filter Cutoff (Wah), or Volume (Tremolo).
+- **Depth**: 0.0 to 1.0 (Modulation intensity).
 
-### [UI] [ModulationControls]
-- **Controls**: 4 Sliders/Knobs for ADSR.
-- **Theme**: Stealth dark aesthetic.
+### [UI] [LFOControls]
+- **Controls**: Speed and Depth sliders. Target selector.
+- **Visuals**: Pulsing indicator matching LFO rate.
 
 ## Proposed Changes
 
 ### [Audio Engine (C++)]
-#### [NEW] [Envelope.h/cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/Envelope.cpp)
-Linear ramp logic for ADSR stages.
+#### [NEW] [Lfo.h/cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/Lfo.cpp)
+Logic for slow-oscillation modulation.
 
 #### [MODIFY] [Voice.h/cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/Voice.cpp)
-Integrate Envelope into sample generation.
-
-#### [MODIFY] [VoiceManager.h/cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/VoiceManager.cpp)
-Expose ADSR parameters.
+Apply LFO value to target parameters.
 
 ### [UI (Kotlin)]
 #### [MODIFY] [content_main.xml](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/res/layout/content_main.xml)
-Add ADSR control group.
+Add LFO control section.
 
-#### [MODIFY] [MainActivity.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/MainActivity.kt)
-Bind ADSR UI to native engine.
+#### [MODIFY] [MainActivity.kt](file:///C:/Users/schmidlins/mini_synth/MainActivity.kt)
+Bind LFO UI to engine parameters.
 
 ## Verification Plan
 ### Automated
-- **Unit Test (C++)**: Verify Envelope stage transitions (Idle -> Attack -> Decay -> Sustain -> Release -> Idle).
-- **Unit Test (Kotlin)**: Verify JNI bridge for ADSR parameters.
-- **Instrumented Test**: Verify slider interaction updates engine parameters.
+- **Unit Test (C++)**: Verify LFO frequency accuracy and output range.
+- **Unit Test (Kotlin)**: Verify JNI bridge for LFO parameters.
+- **Instrumented Test**: Verify modulation effect on rendered samples.
 
 ### Manual
-- Auditory check: Sustain and Release behavior.
-- UI check: Slider responsiveness.
+- Auditory check: Vibrato and Tremolo effects.

@@ -78,6 +78,30 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setRelease(JNIEnv *env, jobjec
     if (engine) engine->setRelease(seconds);
 }
 
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setLfoRate(JNIEnv *env, jobject thiz, jfloat frequency) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setLfoRate(frequency);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setLfoDepth(JNIEnv *env, jobject thiz, jfloat depth) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setLfoDepth(depth);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setLfoWaveform(JNIEnv *env, jobject thiz, jint waveform_index) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setLfoWaveform(static_cast<Waveform>(waveform_index));
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setLfoTarget(JNIEnv *env, jobject thiz, jint target_index) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setLfoTarget(static_cast<LfoTarget>(target_index));
+}
+
 extern "C" JNIEXPORT jfloat JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_renderSampleForTest(JNIEnv *env, jobject thiz) {
     std::lock_guard<std::mutex> lock(engineMutex);

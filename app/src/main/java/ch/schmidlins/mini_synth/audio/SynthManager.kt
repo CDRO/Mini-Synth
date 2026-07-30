@@ -19,5 +19,11 @@ class SynthManager {
     external fun setDecay(seconds: Float)
     external fun setSustain(level: Float)
     external fun setRelease(seconds: Float)
+
+    external fun setLfoRate(frequency: Float)
+    external fun setLfoDepth(depth: Float)
+    external fun setLfoWaveform(waveformIndex: Int)
+    external fun setLfoTarget(targetIndex: Int)
+
     external fun renderSampleForTest(): Float
 }
