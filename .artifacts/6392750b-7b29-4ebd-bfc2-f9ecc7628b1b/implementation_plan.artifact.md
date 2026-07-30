@@ -12,6 +12,21 @@ Build low-latency polyphonic/monophonic synthesizer. Use C++ for audio, Kotlin f
 > [!WARNING]
 > **NDK Setup**: requires CMake and Android NDK installed. Build time increases.
 
+## Development & Review Workflow
+All feature development must follow this strict pipeline:
+1. **Branching**: Create and checkout a new git branch for each step (e.g., `feature/oboe-setup`).
+2. **Implementation**: Code and test changes.
+3. **Commit**: meaningful messages. Author: `Gemini <gemini@google.com>`.
+4. **Integration**: Push to GitHub and initiate a Merge Request (Pull Request).
+5. **Review Phase 1**:
+    - Create **two self-reviews** on the code, identifying specific areas for improvement or potential bugs.
+    - Apply fixes based on these reviews.
+    - Commit and push updates to the MR.
+6. **Review Phase 2**:
+    - Create **two additional self-reviews** on the refined code.
+    - Apply final changes.
+    - Push to the MR for final verification.
+
 ## Technical Specifications (Caveman Mode)
 
 ### [Core] [AudioEngine]
