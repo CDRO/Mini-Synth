@@ -25,6 +25,8 @@ void AudioEngine::start() {
         return;
     }
 
+    mVoiceManager.setSampleRate(mStream->getSampleRate());
+
     result = mStream->requestStart();
     if (result != oboe::Result::OK) {
         __android_log_print(ANDROID_LOG_ERROR, TAG, "Error starting stream: %s", oboe::convertToText(result));
@@ -45,6 +47,8 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
         int32_t numFrames) {
 
     float *output = static_cast<float *>(audioData);
-    std::fill(output, output + numFrames, 0.0f);
+    for (int i = 0; i < numFrames; ++i) {
+        output[i] = mVoiceManager.nextSample();
+    }
     return oboe::DataCallbackResult::Continue;
 }

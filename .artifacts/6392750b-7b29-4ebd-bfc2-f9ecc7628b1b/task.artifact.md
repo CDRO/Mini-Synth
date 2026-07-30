@@ -1,21 +1,20 @@
-# Task: Oboe Setup and Native Audio Engine Base
+# Task: Voice Manager and Oscillators
 
-Setting up the NDK environment, Oboe library integration, and basic C++ engine skeleton.
+Implementing the core synthesis logic: 16-voice polyphony, mono/poly toggling, and basic waveforms (Sine, Square, Saw, Triangle).
 
 ## Checklist
-- `[x]` **Infrastructure Setup**
-    - `[x]` Create C++ directory structure (`app/src/main/cpp`)
-    - `[x]` Configure `app/build.gradle.kts` for NDK and CMake
-    - `[x]` Add Oboe dependency to `build.gradle.kts`
-    - `[x]` Create `CMakeLists.txt`
-- `[x]` **Native Implementation**
-    - `[x]` Implement `native-lib.cpp` (JNI Bridge)
-    - `[x]` Implement `AudioEngine.cpp/h` (Oboe stream init)
-- `[x]` **Kotlin Integration**
-    - `[x]` Create `SynthManager.kt` wrapper
-- `[/]` **Testing & Validation**
-    - `[ ]` Create JNI connectivity unit test
-    - `[ ]` Verify build success
+- `[/]` **Native Implementation**
+    - `[ ]` Implement `Oscillator.h/cpp` (Waveform math)
+    - `[ ]` Implement `Voice.h/cpp` (Individual voice state)
+    - `[ ]` Implement `VoiceManager.h/cpp` (Voice allocation and mixing)
+- `[ ]` **Audio Engine Integration**
+    - `[ ]` Connect `VoiceManager` to `AudioEngine` callback
+- `[ ]` **JNI & Kotlin Bridge**
+    - `[ ]` Update JNI methods for note triggering and mode toggle
+    - `[ ]` Update `SynthManager.kt`
+- `[ ]` **Testing & Validation**
+    - `[ ]` Unit tests for `Oscillator` math
+    - `[ ]` Unit tests for `VoiceManager` allocation logic
 - `[ ]` **Workflow & Review**
     - `[ ]` Push branch to GitHub
     - `[ ]` Create Pull Request via `gh`
