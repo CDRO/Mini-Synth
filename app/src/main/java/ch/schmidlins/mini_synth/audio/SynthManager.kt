@@ -26,5 +26,8 @@ class SynthManager {
     external fun setLfoWaveform(waveformIndex: Int)
     external fun setLfoTarget(targetIndex: Int)
 
+    external fun setFilterCutoff(frequency: Float)
+    external fun setFilterResonance(resonance: Float)
+
     external fun renderSampleForTest(): Float
 }

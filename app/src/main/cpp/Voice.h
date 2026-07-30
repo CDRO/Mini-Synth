@@ -4,6 +4,7 @@
 #include "Oscillator.h"
 #include "Envelope.h"
 #include "Lfo.h"
+#include "Filter.h"
 
 class Voice {
 public:
@@ -13,6 +14,7 @@ public:
         mOscillator.setSampleRate(sampleRate);
         mEnvelope.setSampleRate(sampleRate);
         mLfo.setSampleRate(sampleRate);
+        mFilter.setSampleRate(sampleRate);
     }
     void setWaveform(Waveform waveform) { mOscillator.setWaveform(waveform); }
 
@@ -32,13 +34,18 @@ public:
     void setLfoWaveform(Waveform waveform) { mLfo.setWaveform(waveform); }
     void setLfoTarget(LfoTarget target) { mLfoTarget = target; }
 
+    void setFilterCutoff(float frequency) { mBaseCutoff = frequency; mFilter.setCutoff(frequency); }
+    void setFilterResonance(float resonance) { mFilter.setResonance(resonance); }
+
     float nextSample();
 
 private:
     Oscillator mOscillator;
     Envelope mEnvelope;
     Lfo mLfo;
+    Filter mFilter;
     LfoTarget mLfoTarget = LfoTarget::Pitch;
+    float mBaseCutoff = 1000.0f;
     bool mActive;
     int mNote;
     float mVelocity;

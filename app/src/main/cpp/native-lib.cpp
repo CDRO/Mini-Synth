@@ -108,6 +108,18 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setLfoTarget(JNIEnv *env, jobj
     if (engine) engine->setLfoTarget(static_cast<LfoTarget>(target_index));
 }
 
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setFilterCutoff(JNIEnv *env, jobject thiz, jfloat frequency) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setFilterCutoff(frequency);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setFilterResonance(JNIEnv *env, jobject thiz, jfloat resonance) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setFilterResonance(resonance);
+}
+
 extern "C" JNIEXPORT jfloat JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_renderSampleForTest(JNIEnv *env, jobject thiz) {
     std::lock_guard<std::mutex> lock(engineMutex);

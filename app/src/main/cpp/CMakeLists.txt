@@ -11,6 +11,7 @@ add_library(mini_synth SHARED
         VoiceManager.cpp
         Envelope.cpp
         Lfo.cpp
+        Filter.cpp
 )
 
 target_link_libraries(mini_synth
