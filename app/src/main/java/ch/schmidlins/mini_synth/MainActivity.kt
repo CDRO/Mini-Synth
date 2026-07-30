@@ -1,87 +1,102 @@
 package ch.schmidlins.mini_synth
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import ch.schmidlins.mini_synth.audio.SynthManager
 import ch.schmidlins.mini_synth.databinding.ActivityMainBinding
+import ch.schmidlins.mini_synth.ui.KeyboardPadView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private val synthManager = SynthManager()
+    private var isPoly = true
+    private var octaveShift = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.appBarMain.fab?.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
-        }
-
-        val navHostFragment =
-            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment?)!!
-        val navController = navHostFragment.navController
-
-        binding.navView?.let {
-            appBarConfiguration = AppBarConfiguration(
-                setOf(
-                    R.id.nav_transform, R.id.nav_reflow, R.id.nav_slideshow, R.id.nav_settings
-                ),
-                binding.drawerLayout
-            )
-            setupActionBarWithNavController(navController, appBarConfiguration)
-            it.setupWithNavController(navController)
-        }
-
-        binding.appBarMain.contentMain.bottomNavView?.let {
-            appBarConfiguration = AppBarConfiguration(
-                setOf(
-                    R.id.nav_transform, R.id.nav_reflow, R.id.nav_slideshow
-                )
-            )
-            setupActionBarWithNavController(navController, appBarConfiguration)
-            it.setupWithNavController(navController)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val result = super.onCreateOptionsMenu(menu)
-        // Using findViewById because NavigationView exists in different layout files
-        // between w600dp and w1240dp
-        val navView: NavigationView? = findViewById(R.id.nav_view)
-        if (navView == null) {
-            // The navigation drawer already has the items including the items in the overflow menu
-            // We only inflate the overflow menu if the navigation drawer isn't visible
-            menuInflater.inflate(R.menu.overflow, menu)
-        }
-        return result
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.nav_settings -> {
-                val navController = findNavController(R.id.nav_host_fragment_content_main)
-                navController.navigate(R.id.nav_settings)
+        val content = binding.appBarMain.contentMain
+        val synthView = content.keyboardPadView!!
+        
+        // Listener
+        synthView.listener = object : KeyboardPadView.OnNoteEventListener {
+            override fun onNoteOn(midi: Int, velocity: Float) {
+                synthManager.noteOn(midi, velocity)
+            }
+            override fun onNoteOff(midi: Int) {
+                synthManager.noteOff(midi)
             }
         }
-        return super.onOptionsItemSelected(item)
+        
+        // Mode toggle
+        content.btnModeToggle!!.setOnClickListener {
+            val nextMode = if (content.btnModeToggle!!.text == "Pads") {
+                content.btnModeToggle!!.text = "Keys"
+                KeyboardPadView.Mode.PAD_GRID
+            } else {
+                content.btnModeToggle!!.text = "Pads"
+                KeyboardPadView.Mode.KEYBOARD
+            }
+            synthView.setMode(nextMode)
+        }
+
+        // Poly toggle
+        content.btnPolyToggle!!.setOnClickListener {
+            isPoly = !isPoly
+            synthManager.setPolyphonic(isPoly)
+            content.btnPolyToggle!!.text = if (isPoly) "Poly: ON" else "Poly: OFF"
+        }
+
+        // Waveform spinner
+        val waveforms = listOf("Sine", "Square", "Saw", "Triangle")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, waveforms)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        content.spinnerWaveform!!.adapter = adapter
+        content.spinnerWaveform!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                synthManager.setWaveform(position)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        // Octave controls
+        content.btnOctaveDown!!.setOnClickListener {
+            if (octaveShift > -4) {
+                octaveShift--
+                updateOctave()
+            }
+        }
+        content.btnOctaveUp!!.setOnClickListener {
+            if (octaveShift < 4) {
+                octaveShift++
+                updateOctave()
+            }
+        }
+        updateOctave() // Initial state
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    private fun updateOctave() {
+        val content = binding.appBarMain.contentMain
+        synthManager.setOctaveShift(octaveShift)
+        content.tvOctaveValue!!.text = octaveShift.toString()
+        
+        content.btnOctaveDown!!.isEnabled = octaveShift > -4
+        content.btnOctaveUp!!.isEnabled = octaveShift < 4
+    }
+
+    override fun onStart() {
+        super.onStart()
+        synthManager.startEngine()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        synthManager.stopEngine()
     }
 }
