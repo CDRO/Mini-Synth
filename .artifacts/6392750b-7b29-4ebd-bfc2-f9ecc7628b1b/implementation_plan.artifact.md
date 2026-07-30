@@ -17,7 +17,12 @@ All feature development must follow this strict pipeline:
 1. **Branching**: New git branch for each step (e.g., `feature/oboe-setup`).
     - **Constraint**: Only one feature in development at a time.
 2. **Implementation**: Code and test changes.
-3. **Automated Testing**:
+3. **Artifact Maintenance**:
+    - **Task Artifact**: Update `task.artifact.md` to track progress within the feature branch.
+    - **Review Artifact**: Create/Update `engineering_review.artifact.md` during review phases.
+    - **Walkthrough Artifact**: Create/Update `walkthrough.artifact.md` before merge.
+    - **VCS**: All artifacts must be committed and pushed as part of the feature branch.
+4. **Automated Testing**:
     - **Unit Tests**: Required for algorithms, C++ math, and business logic.
     - **Functional Tests**: Required for UI interactions and integration.
     - **Quality Gate**: Next feature starts ONLY when all tests pass. If new code breaks existing tests, must fix both before merge.
