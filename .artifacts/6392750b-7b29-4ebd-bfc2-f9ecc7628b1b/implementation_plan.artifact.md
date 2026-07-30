@@ -12,11 +12,6 @@ Build low-latency polyphonic/monophonic synthesizer. Use C++ for audio, Kotlin f
 > [!WARNING]
 > **NDK Setup**: requires CMake and Android NDK installed. Build time increases.
 
-## Open Questions
-- Specific waveforms needed for MVP? (Sine/Square/Saw/Triangle recommended).
-- Preferred number of simultaneous voices for polyphony? (e.g., 8 or 16).
-- Keyboard range: Fixed vs. Scrollable?
-
 ## Technical Specifications (Caveman Mode)
 
 ### [Core] [AudioEngine]
@@ -25,22 +20,31 @@ Build low-latency polyphonic/monophonic synthesizer. Use C++ for audio, Kotlin f
 - **SampleRate**: 48kHz (device optimal).
 - **Format**: Float32.
 - **Polyphony**: Configurable `isPolyphonic` flag.
-- **Voices**: `VoiceManager` class handles oscillator lifecycle.
-- **Mixing**: Additive mixing of active voices. Normalize to avoid clipping.
+- **Voices**: `VoiceManager` handles 16 voices.
+- **Mixing**: Additive mixing. Normalize output.
 
 ### [Logic] [Oscillator]
-- **Source**: C++ implementation.
-- **Math**: Sine (`sin`), Square (`sign`), Saw (`phase`), Triangle (`abs`).
-- **Control**: `setFrequency`, `setVolume`, `triggerNote`, `releaseNote`.
+- **Waveforms**: Sine, Square, Saw, Triangle.
+- **Math**:
+    - Sine: `sin(phase)`
+    - Square: `phase < PI ? 1 : -1`
+    - Saw: `(phase / PI) - 1`
+    - Triangle: `2 * abs((phase / PI) - 1) - 1`
+- **Control**: `trigger(midi, velocity)`, `release(midi)`.
+
+### [Logic] [Range]
+- **Octave Shift**: Internal logic supports +/- 4 octaves.
+- **Calculation**: `effective_midi = keyboard_midi + (octave_shift * 12)`.
 
 ### [Interface] [JNI Bridge]
-- **JNI Methods**: `startAudio()`, `stopAudio()`, `setNote(int midi, float velocity)`, `releaseNote(int midi)`, `setPolyphony(boolean)`.
-- **Threading**: Audio thread must never block. No allocations in callback.
+- **JNI Methods**: `startAudio()`, `stopAudio()`, `setNote(int midi, float velocity)`, `releaseNote(int midi)`, `setPolyphony(boolean)`, `setOctaveShift(int)`.
+- **Threading**: Audio thread real-time priority. No locks/allocations.
 
 ### [UI] [SynthesizerLayout]
 - **Orientation**: Horizontal (Landscape).
 - **View**: Custom Keyboard View (Kotlin).
-- **Controls**: Mode Toggle (Mono/Poly), Waveform Selector, Master Volume.
+- **Keyboard**: Fixed 1-octave range (13 keys: C to C).
+- **Controls**: Mode Toggle (Mono/Poly), Waveform Selector, Octave Shift (+/-), Master Volume.
 
 ## Proposed Changes
 
@@ -52,7 +56,10 @@ Main JNI entry point.
 Oboe stream management.
 
 #### [NEW] [VoiceManager.cpp/h](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/VoiceManager.cpp)
-Poly/Mono logic and mixing.
+16-voice mixing logic. Mono/Poly toggle.
+
+#### [NEW] [Oscillator.cpp/h](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/Oscillator.cpp)
+Waveform generation math.
 
 ### [Android Build]
 #### [MODIFY] [build.gradle.kts](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/build.gradle.kts)
@@ -70,10 +77,10 @@ Lock orientation to landscape. Connect UI to `SynthManager`.
 
 ## Verification Plan
 ### Automated
-- C++ Unit Tests (GTest) for oscillator math.
+- C++ Unit Tests (GTest) for oscillator math and mixing.
 - JNI connectivity check.
 
 ### Manual
 - Latency measurement (audio loopback).
-- Polyphony stress test (play many notes).
-- Mode toggle verification.
+- Polyphony stress test (16 voices active).
+- Octave shift verification.
