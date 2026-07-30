@@ -2,12 +2,13 @@ package ch.schmidlins.mini_synth.ui
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.ContextCompat
+import ch.schmidlins.mini_synth.R
 
 class KeyboardPadView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -29,13 +30,31 @@ class KeyboardPadView @JvmOverloads constructor(
     private val pointerToNote = mutableMapOf<Int, Int>()
     
     // Paints
-    private val whiteKeyPaint = Paint().apply { color = Color.WHITE; style = Paint.Style.FILL }
-    private val blackKeyPaint = Paint().apply { color = Color.BLACK; style = Paint.Style.FILL }
-    private val borderPaint = Paint().apply { color = Color.DKGRAY; style = Paint.Style.STROKE; strokeWidth = 2f }
+    private val whiteKeyPaint = Paint().apply { 
+        color = ContextCompat.getColor(context, R.color.surface_bright)
+        style = Paint.Style.FILL 
+    }
+    private val blackKeyPaint = Paint().apply { 
+        color = ContextCompat.getColor(context, R.color.surface_dark)
+        style = Paint.Style.FILL 
+    }
+    private val borderPaint = Paint().apply { 
+        color = ContextCompat.getColor(context, R.color.border_dim)
+        style = Paint.Style.STROKE; strokeWidth = 2f 
+    }
     
-    private val backlightTouchPaint = Paint().apply { color = Color.YELLOW; style = Paint.Style.FILL; alpha = 128 }
-    private val backlightRecordPaint = Paint().apply { color = Color.RED; style = Paint.Style.FILL; alpha = 128 }
-    private val backlightPlayPaint = Paint().apply { color = Color.BLUE; style = Paint.Style.FILL; alpha = 128 }
+    private val backlightTouchPaint = Paint().apply { 
+        color = ContextCompat.getColor(context, R.color.acid_green)
+        style = Paint.Style.FILL; alpha = 128 
+    }
+    private val backlightRecordPaint = Paint().apply { 
+        color = ContextCompat.getColor(context, R.color.vibrant_red)
+        style = Paint.Style.FILL; alpha = 128 
+    }
+    private val backlightPlayPaint = Paint().apply { 
+        color = ContextCompat.getColor(context, R.color.electric_blue)
+        style = Paint.Style.FILL; alpha = 128 
+    }
 
     // Cached Layouts
     private val whiteKeyRects = mutableListOf<RectF>()
