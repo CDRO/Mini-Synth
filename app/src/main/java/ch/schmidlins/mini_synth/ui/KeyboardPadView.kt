@@ -22,7 +22,7 @@ class KeyboardPadView @JvmOverloads constructor(
 
     enum class Mode { KEYBOARD, PAD_GRID }
     enum class Backlight(val bit: Int) { 
-        NONE(0), TOUCH(1), RECORD(2), PLAY(4) 
+        TOUCH(1), RECORD(2), PLAY(4) 
     }
 
     private var mode = Mode.KEYBOARD
@@ -195,7 +195,10 @@ class KeyboardPadView @JvmOverloads constructor(
             for ((midi, rect) in blackKeyRects) if (rect.contains(x, y)) return midi
             for (i in 0 until 8) if (whiteKeyRects[i].contains(x, y)) return baseNote + getMidiOffsetForWhiteKey(i)
         } else {
-            for (i in 0 until 16) if (padRects[i].contains(x, y)) return baseNote + i
+            // Optimized grid-based lookup for pads
+            val col = (x / (width / 4f)).toInt().coerceIn(0, 3)
+            val row = (y / (height / 4f)).toInt().coerceIn(0, 3)
+            return baseNote + (row * 4 + col)
         }
         return -1
     }

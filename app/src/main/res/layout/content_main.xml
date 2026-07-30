@@ -27,13 +27,54 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wave:"
-            android:textColor="@color/off_white" />
+            android:text="Wav:"
+            android:textColor="@color/off_white"
+            android:textSize="12sp" />
 
-        <Spinner
-            android:id="@+id/spinner_waveform"
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggle_waveform"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:checkedButton="@id/btn_wave_sine"
+            app:singleSelection="true">
+
+            <Button
+                android:id="@+id/btn_wave_sine"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:padding="0dp"
+                android:text="SINE"
+                android:textSize="9sp" />
+
+            <Button
+                android:id="@+id/btn_wave_square"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:padding="0dp"
+                android:text="SQR"
+                android:textSize="9sp" />
+
+            <Button
+                android:id="@+id/btn_wave_saw"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:padding="0dp"
+                android:text="SAW"
+                android:textSize="9sp" />
+
+            <Button
+                android:id="@+id/btn_wave_triangle"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:padding="0dp"
+                android:text="TRI"
+                android:textSize="9sp" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
         <Space
             android:layout_width="8dp"
@@ -94,6 +135,26 @@
             android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:text="+" />
+
+        <Space
+            android:layout_width="16dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tv_master_vol_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="30dp"
+            android:text="80%"
+            android:textColor="@color/dim_grey"
+            android:textSize="10sp" />
+
+        <SeekBar
+            android:id="@+id/seek_master_vol"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="80" />
 
     </LinearLayout>
 

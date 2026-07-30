@@ -48,8 +48,15 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
         int32_t numFrames) {
 
     float *output = static_cast<float *>(audioData);
+    int32_t channelCount = audioStream->getChannelCount();
+    if (channelCount < 1) return oboe::DataCallbackResult::Stop;
+
     for (int i = 0; i < numFrames; ++i) {
-        output[i] = mVoiceManager.nextSample();
+        float sample = mVoiceManager.nextSample();
+        // Duplicate mono sample to all output channels (Stereo mapping fix)
+        for (int channel = 0; channel < channelCount; ++channel) {
+            output[i * channelCount + channel] = sample;
+        }
     }
     return oboe::DataCallbackResult::Continue;
 }

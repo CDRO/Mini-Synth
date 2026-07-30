@@ -99,6 +99,7 @@ float VoiceManager::nextSample() {
     int activeCount = 0;
 
     bool updateParams = mParamsChanged.exchange(false);
+    float currentVol = mMasterVolume.load(std::memory_order_relaxed);
 
     for (int i = 0; i < MAX_VOICES; ++i) {
         if (mVoices[i].isActive()) {
@@ -118,5 +119,5 @@ float VoiceManager::nextSample() {
         mixedSample /= static_cast<float>(activeCount);
     }
 
-    return mixedSample;
+    return mixedSample * currentVol;
 }

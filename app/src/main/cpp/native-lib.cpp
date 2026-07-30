@@ -79,6 +79,12 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setRelease(JNIEnv *env, jobjec
 }
 
 extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setMasterVolume(JNIEnv *env, jobject thiz, jfloat volume) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setMasterVolume(volume);
+}
+
+extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setLfoRate(JNIEnv *env, jobject thiz, jfloat frequency) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setLfoRate(frequency);

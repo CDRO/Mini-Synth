@@ -23,7 +23,7 @@ class ThemeVisibilityTest {
         onView(withId(R.id.control_bar)).check(matches(isDisplayed()))
         onView(withId(R.id.btn_mode_toggle)).check(matches(isDisplayed()))
         onView(withId(R.id.btn_poly_toggle)).check(matches(isDisplayed()))
-        onView(withId(R.id.spinner_waveform)).check(matches(isDisplayed()))
+        onView(withId(R.id.toggle_waveform)).check(matches(isDisplayed()))
         
         // Verify custom view is present and taking up space
         onView(withId(R.id.keyboard_pad_view)).check(matches(isDisplayed()))

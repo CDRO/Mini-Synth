@@ -74,16 +74,18 @@ class MainActivity : AppCompatActivity() {
             synthView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, isMockPlay)
         }
 
-        // Main Waveform spinner
-        val waveforms = listOf("Sine", "Square", "Saw", "Triangle")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, waveforms)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        content.spinnerWaveform!!.adapter = adapter
-        content.spinnerWaveform!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                synthManager.setWaveform(position)
+        // Waveform Toggle Group
+        content.toggleWaveform!!.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                val index = when (checkedId) {
+                    R.id.btn_wave_sine -> 0
+                    R.id.btn_wave_square -> 1
+                    R.id.btn_wave_saw -> 2
+                    R.id.btn_wave_triangle -> 3
+                    else -> 0
+                }
+                synthManager.setWaveform(index)
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
         // Octave controls
@@ -100,6 +102,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
         updateOctave()
+
+        // Master Volume
+        content.seekMasterVol!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                synthManager.setMasterVolume(progress / 100f)
+                content.tvMasterVolVal!!.text = String.format(Locale.US, "%d%%", progress)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
 
         setupAdsr(content)
         setupLfo(content)
@@ -151,7 +163,6 @@ class MainActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 when (seekBar) {
                     content.seekLfoRate -> {
-                        // 0.1Hz to 20Hz logarithmic
                         val rate = (Math.pow(200.0, progress / 100.0) / 10.0).toFloat()
                         synthManager.setLfoRate(rate)
                         content.tvLfoRateVal!!.text = String.format(Locale.US, "%.1fHz", rate)
@@ -170,7 +181,7 @@ class MainActivity : AppCompatActivity() {
         content.seekLfoRate!!.setOnSeekBarChangeListener(listener)
         content.seekLfoDepth!!.setOnSeekBarChangeListener(listener)
 
-        // Waveform
+        // LFO Waveform
         val waveforms = listOf("Sine", "Square", "Saw", "Triangle")
         val waveAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, waveforms)
         waveAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -182,7 +193,7 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // Target
+        // LFO Target
         val targets = listOf("Pitch", "Volume", "Filter")
         val targetAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, targets)
         targetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -209,6 +220,32 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         synthManager.startEngine()
+        
+        // Refresh values to engine after start
+        val content = binding.appBarMain.contentMain
+        synthManager.setMasterVolume(content.seekMasterVol!!.progress / 100f)
+        synthManager.setPolyphonic(isPoly)
+        synthManager.setOctaveShift(octaveShift)
+        
+        // Refresh ADSR
+        synthManager.setAttack((Math.pow(2000.0, content.seekAttack!!.progress / 100.0) / 1000.0).toFloat())
+        synthManager.setDecay((Math.pow(2000.0, content.seekDecay!!.progress / 100.0) / 1000.0).toFloat())
+        synthManager.setSustain(content.seekSustain!!.progress / 100f)
+        synthManager.setRelease((Math.pow(2000.0, content.seekRelease!!.progress / 100.0) / 1000.0).toFloat())
+        
+        // Refresh LFO
+        synthManager.setLfoRate((Math.pow(200.0, content.seekLfoRate!!.progress / 100.0) / 10.0).toFloat())
+        synthManager.setLfoDepth(content.seekLfoDepth!!.progress / 100f)
+
+        // Waveform
+        val index = when (content.toggleWaveform!!.checkedButtonId) {
+            R.id.btn_wave_sine -> 0
+            R.id.btn_wave_square -> 1
+            R.id.btn_wave_saw -> 2
+            R.id.btn_wave_triangle -> 3
+            else -> 0
+        }
+        synthManager.setWaveform(index)
     }
 
     override fun onStop() {

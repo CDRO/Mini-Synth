@@ -58,7 +58,6 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
         - **Why**: Explain the reason for the change and the problem it solves.
         - **Tests**: Detail new tests added and the verification logic.
         - **Value**: Explicitly state the additional value expected from this merge.
-        - **No File List**: Do not list modified files (VCS handles this).
 7. **Merge Message Review Loop**:
     - Draft the merge message.
     - Perform at least **2 iterations** of self-review and adaptation on the message.
@@ -73,40 +72,44 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Next Feature: LFO Modulation (Low-Frequency Oscillator)
+## Current Feature: Audio Debugging & UX Refinement
 
-### [Logic] [LFO]
-- **Type**: Secondary oscillator for modulation.
-- **Waveforms**: Sine, Triangle, Square, Saw.
-- **Frequency**: 0.1Hz to 20Hz.
-- **Targets**: Pitch (Vibrato), Filter Cutoff (Wah), or Volume (Tremolo).
-- **Depth**: 0.0 to 1.0 (Modulation intensity).
+### [Audio] [Bugfix] [Silence]
+- **Issue**: No sound on some virtual devices / emulators.
+- **Root Cause 1**: Mono-to-Stereo mapping missing in callback.
+- **Root Cause 2**: Performance mode `LowLatency` sometimes silent on emulators.
+- **Fix**:
+    - Implement multi-channel sample duplication in `onAudioReady`.
+    - Fallback to `PerformanceMode::None` if requested (via debug flag or emulator check).
+    - Ensure `mSampleRate` is correctly synchronized from Oboe stream to `VoiceManager`.
+    - Add periodic LOGD in callback to verify activity.
 
-### [UI] [LFOControls]
-- **Controls**: Speed and Depth sliders. Target selector.
-- **Visuals**: Pulsing indicator matching LFO rate.
+### [UX] [Understandability]
+- **Waveform Selection**: Replace Spinner with **Segmented Buttons** or clear icon-based toggles.
+- **Master Volume**: Add "Master Gain" slider to prevent clipping and control overall loudness.
+- **Initialization**: Ensure parameters set before `startEngine()` are cached and applied.
 
 ## Proposed Changes
 
 ### [Audio Engine (C++)]
-#### [NEW] [Lfo.h/cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/Lfo.cpp)
-Logic for slow-oscillation modulation.
+#### [MODIFY] [AudioEngine.cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/AudioEngine.cpp)
+Update `onAudioReady` to handle variable channel counts. Add logging.
 
-#### [MODIFY] [Voice.h/cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/Voice.cpp)
-Apply LFO value to target parameters.
+#### [MODIFY] [VoiceManager.h/cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/VoiceManager.cpp)
+Add `mMasterVolume`. Ensure parameters are persistent.
 
 ### [UI (Kotlin)]
 #### [MODIFY] [content_main.xml](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/res/layout/content_main.xml)
-Add LFO control section.
+Implement Segmented Button group for Waveform. Add Master Volume slider.
 
-#### [MODIFY] [MainActivity.kt](file:///C:/Users/schmidlins/mini_synth/MainActivity.kt)
-Bind LFO UI to engine parameters.
+#### [MODIFY] [MainActivity.kt](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/MainActivity.kt)
+Bind new UI elements. Fix initialization order.
 
 ## Verification Plan
 ### Automated
-- **Unit Test (C++)**: Verify LFO frequency accuracy and output range.
-- **Unit Test (Kotlin)**: Verify JNI bridge for LFO parameters.
-- **Instrumented Test**: Verify modulation effect on rendered samples.
+- **Unit Test**: Verify mono sample is correctly duplicated to stereo buffer.
+- **Instrumented Test**: Verify Master Volume JNI call.
 
 ### Manual
-- Auditory check: Vibrato and Tremolo effects.
+- **Audio Check**: Confirm sound is audible on Pixel 9 virtual device.
+- **UX Check**: Verify waveform selection is intuitive.
