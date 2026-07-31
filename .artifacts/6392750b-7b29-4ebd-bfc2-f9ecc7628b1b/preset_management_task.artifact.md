@@ -3,18 +3,18 @@
 Implementing Preset saving/loading using Jetpack DataStore and Kotlinx Serialization.
 
 ## Checklist
-- `[ ]` **Dependency Setup**
-    - `[ ]` Update `libs.versions.toml`
-    - `[ ]` Update `app/build.gradle.kts`
-- `[ ]` **Data Model & Logic**
-    - `[ ]` Create `SynthPreset.kt`
-    - `[ ]` Create `PresetRepository.kt` (DataStore logic)
-- `[ ]` **UI Integration**
-    - `[ ]` Add Save/Load buttons to `content_main.xml`
-    - `[ ]` Implement Save/Load dialogs in `MainActivity.kt`
-    - `[ ]` Bind Preset loading to `SynthManager` and UI sliders
-- `[ ]` **Testing & Validation**
-    - `[ ]` Unit test for JSON serialization
+- `[x]` **Dependency Setup**
+    - `[x]` Update `libs.versions.toml`
+    - `[x]` Update `app/build.gradle.kts`
+- `[x]` **Data Model & Logic**
+    - `[x]` Create `SynthPreset.kt`
+    - `[x]` Create `PresetRepository.kt` (DataStore logic)
+- `[x]` **UI Integration**
+    - `[x]` Add Save/Load buttons to `content_main.xml`
+    - `[x]` Implement Save/Load dialogs in `MainActivity.kt`
+    - `[x]` Bind Preset loading to `SynthManager` and UI sliders
+- `[/]` **Testing & Validation**
+    - `[x]` Unit test for JSON serialization
     - `[ ]` Instrumented test for DataStore persistence
     - `[ ]` **Regression**: Run previous tests (Filter, LFO, ADSR)
 - `[ ]` **Workflow & Review**

@@ -136,9 +136,9 @@ class MainActivity : AppCompatActivity() {
                 .setTitle("Save Preset")
                 .setView(input)
                 .setPositiveButton("Save") { _, _ ->
-                    val name = input.text.toString()
+                    val name = input.text.toString().trim()
                     if (name.isNotEmpty()) {
-                        saveCurrentPreset(name)
+                        checkAndSavePreset(name)
                     }
                 }
                 .setNegativeButton("Cancel", null)
@@ -160,11 +160,43 @@ class MainActivity : AppCompatActivity() {
                         .setItems(names) { _, which ->
                             applyPreset(presets[which])
                         }
+                        .setNeutralButton("Delete") { _, _ ->
+                            showDeleteDialog(presets)
+                        }
                         .setNegativeButton("Cancel", null)
                         .show()
                 }
             }
         }
+    }
+
+    private fun checkAndSavePreset(name: String) {
+        lifecycleScope.launch {
+            val presets = presetRepository.presets.first()
+            if (presets.any { it.name == name }) {
+                AlertDialog.Builder(this@MainActivity)
+                    .setTitle("Overwrite?")
+                    .setMessage("A preset named '$name' already exists. Overwrite it?")
+                    .setPositiveButton("Overwrite") { _, _ -> saveCurrentPreset(name) }
+                    .setNegativeButton("Cancel", null)
+                    .show()
+            } else {
+                saveCurrentPreset(name)
+            }
+        }
+    }
+
+    private fun showDeleteDialog(presets: List<SynthPreset>) {
+        val names = presets.map { it.name }.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle("Delete Preset")
+            .setItems(names) { _, which ->
+                lifecycleScope.launch {
+                    presetRepository.deletePreset(presets[which].name)
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun saveCurrentPreset(name: String) {
@@ -207,23 +239,48 @@ class MainActivity : AppCompatActivity() {
         }
         content.toggleWaveform!!.check(btnId)
         
-        // ADSR
-        content.seekAttack!!.progress = (preset.attack * 100).toInt()
-        content.seekDecay!!.progress = (preset.decay * 100).toInt()
-        content.seekSustain!!.progress = (preset.sustain * 100).toInt()
-        content.seekRelease!!.progress = (preset.release * 100).toInt()
+        // ADSR - Clamping to [0, 100]
+        content.seekAttack!!.progress = (preset.attack.coerceIn(0f, 1f) * 100).toInt()
+        content.seekDecay!!.progress = (preset.decay.coerceIn(0f, 1f) * 100).toInt()
+        content.seekSustain!!.progress = (preset.sustain.coerceIn(0f, 1f) * 100).toInt()
+        content.seekRelease!!.progress = (preset.release.coerceIn(0f, 1f) * 100).toInt()
         
         // LFO
-        content.seekLfoRate!!.progress = (preset.lfoRate * 100).toInt()
-        content.seekLfoDepth!!.progress = (preset.lfoDepth * 100).toInt()
-        content.spinnerLfoWaveform!!.setSelection(preset.lfoWaveformIndex)
-        content.spinnerLfoTarget!!.setSelection(preset.lfoTargetIndex)
+        content.seekLfoRate!!.progress = (preset.lfoRate.coerceIn(0f, 1f) * 100).toInt()
+        content.seekLfoDepth!!.progress = (preset.lfoDepth.coerceIn(0f, 1f) * 100).toInt()
+        content.spinnerLfoWaveform!!.setSelection(preset.lfoWaveformIndex.coerceAtLeast(0))
+        content.spinnerLfoTarget!!.setSelection(preset.lfoTargetIndex.coerceAtLeast(0))
         
         // Filter
-        content.seekFilterCutoff!!.progress = (preset.filterCutoff * 100).toInt()
-        content.seekFilterRes!!.progress = (preset.filterResonance * 100).toInt()
+        content.seekFilterCutoff!!.progress = (preset.filterCutoff.coerceIn(0f, 1f) * 100).toInt()
+        content.seekFilterRes!!.progress = (preset.filterResonance.coerceIn(0f, 1f) * 100).toInt()
         
-        // Engine will be updated via seekbar listeners that are already set up
+        // Manually trigger label updates if setting progress didn't trigger listener (or for safety)
+        updateLabels(content)
+    }
+
+    private fun updateLabels(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        // This helper ensures labels match current SeekBars (DRY principle)
+        val attack = (Math.pow(2000.0, content.seekAttack!!.progress / 100.0) / 1000.0).toFloat()
+        content.tvAttackVal!!.text = String.format(Locale.US, "%.3fs", attack)
+        
+        val decay = (Math.pow(2000.0, content.seekDecay!!.progress / 100.0) / 1000.0).toFloat()
+        content.tvDecayVal!!.text = String.format(Locale.US, "%.3fs", decay)
+        
+        content.tvSustainVal!!.text = String.format(Locale.US, "%.2f", content.seekSustain!!.progress / 100f)
+        
+        val release = (Math.pow(2000.0, content.seekRelease!!.progress / 100.0) / 1000.0).toFloat()
+        content.tvReleaseVal!!.text = String.format(Locale.US, "%.3fs", release)
+        
+        val lfoRate = (Math.pow(200.0, content.seekLfoRate!!.progress / 100.0) / 10.0).toFloat()
+        content.tvLfoRateVal!!.text = String.format(Locale.US, "%.1fHz", lfoRate)
+        
+        content.tvLfoDepthVal!!.text = String.format(Locale.US, "%.2f", content.seekLfoDepth!!.progress / 100f)
+        
+        val cutoff = (20.0 * Math.pow(1000.0, content.seekFilterCutoff!!.progress / 100.0)).toFloat()
+        content.tvFilterCutoffVal!!.text = String.format(Locale.US, "%dHz", cutoff.toInt())
+        
+        content.tvFilterResVal!!.text = String.format(Locale.US, "%.2f", content.seekFilterRes!!.progress / 100f)
     }
 
     private fun setupAdsr(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -369,6 +426,8 @@ class MainActivity : AppCompatActivity() {
         val cutoffFreq = (20.0 * Math.pow(1000.0, content.seekFilterCutoff!!.progress / 100.0)).toFloat()
         synthManager.setFilterCutoff(cutoffFreq)
         synthManager.setFilterResonance(content.seekFilterRes!!.progress / 100f)
+
+        updateLabels(content)
 
         val index = when (content.toggleWaveform!!.checkedButtonId) {
             R.id.btn_wave_sine -> 0
