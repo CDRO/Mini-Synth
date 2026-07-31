@@ -43,6 +43,10 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 - **Methods**: `startAudio()`, `stopAudio()`, `setNote()`, `releaseNote()`, `setPolyphony()`, `setWaveform()`, `setOctaveShift()`.
 
 ## Development & Review Workflow
+
+> [!IMPORTANT]
+> **MANDATORY WORKFLOW**: This section must NEVER be removed. Every feature implementation MUST follow these steps without exception.
+
 1. **Branching**: New git branch per feature. Sequential development only.
 2. **Implementation**: Code and test changes.
 3. **Artifact Maintenance**:
@@ -74,17 +78,13 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 1: Resonant Low-Pass Filter (Next)
+## Milestone 1: Resonant Low-Pass Filter [DONE]
 
 ### [Logic] [Filter]
 - **Type**: 2-pole Resonant Low-Pass Filter.
 - **Cutoff**: 20Hz to 20,000Hz (Exponential mapping).
 - **Resonance**: 0.0 to 1.0 (Q factor).
 - **Implementation**: Per-voice filtering in the audio thread.
-
-### [UI] [FilterControls]
-- **Sliders**: Cutoff Frequency and Resonance.
-- **Labels**: Show Hz and Q values.
 
 ---
 
@@ -97,12 +97,16 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 3: MP3 Export & Recording
+## Milestone 3: Visualization & Recording (NEXT)
 
-### [Logic] [Recording]
-- **Real-time**: Capture audio callback buffers asynchronously.
+### [Logic] [Recording & Viz]
+- **Audio Tap**: Implement a thread-safe capturing mechanism in `AudioEngine`.
+- **Recording**: Real-time PCM capture to a background thread.
 - **Encoding**: Integrate **LAME** (C) for high-quality MP3 encoding via NDK.
-- **Offline**: Non-real-time render from sequence to file.
+- **Visualization**: Expose real-time PCM buffers for UI rendering.
+
+### [UI] [Visualizer]
+- **VisualizerView**: Real-time oscilloscope display above the keyboard.
 
 ---
 

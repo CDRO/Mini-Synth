@@ -126,3 +126,33 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_renderSampleForTest(JNIEnv *en
     if (engine) return engine->renderSampleForTest();
     return 0.0f;
 }
+
+extern "C" JNIEXPORT jint JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_getVisualizerData(JNIEnv *env, jobject thiz, jfloatArray buffer) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (!engine) return 0;
+
+    jsize len = env->GetArrayLength(buffer);
+    float* nativeBuffer = env->GetFloatArrayElements(buffer, nullptr);
+
+    int32_t count = engine->getVisualizerData(nativeBuffer, len);
+
+    env->ReleaseFloatArrayElements(buffer, nativeBuffer, 0);
+    return count;
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_startRecording(JNIEnv *env, jobject thiz, jstring path) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (!engine) return;
+
+    const char* nativePath = env->GetStringUTFChars(path, nullptr);
+    engine->startRecording(std::string(nativePath));
+    env->ReleaseStringUTFChars(path, nativePath);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_stopRecording(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->stopRecording();
+}

@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         val content = binding.appBarMain.contentMain
         val synthView = content.keyboardPadView!!
+        content.visualizerView!!.setSynthManager(synthManager)
         
         // Listener
         synthView.listener = object : KeyboardPadView.OnNoteEventListener {
@@ -76,6 +77,12 @@ class MainActivity : AppCompatActivity() {
         content.btnMockRec!!.setOnClickListener {
             isMockRec = !isMockRec
             content.btnMockRec!!.alpha = if (isMockRec) 1.0f else 0.5f
+            if (isMockRec) {
+                val file = java.io.File(getExternalFilesDir(null), "recording_${System.currentTimeMillis()}.mp3")
+                synthManager.startRecording(file.absolutePath)
+            } else {
+                synthManager.stopRecording()
+            }
         }
         content.btnMockPlay!!.setOnClickListener {
             isMockPlay = !isMockPlay
