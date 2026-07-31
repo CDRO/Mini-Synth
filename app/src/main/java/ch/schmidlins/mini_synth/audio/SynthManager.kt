@@ -32,6 +32,8 @@ class SynthManager {
     external fun getVisualizerData(buffer: FloatArray): Int
     external fun startRecording(path: String)
     external fun stopRecording()
+    external fun setBpm(bpm: Float)
+    external fun setMetronomeEnabled(enabled: Boolean)
 
     external fun renderSampleForTest(): Float
 }

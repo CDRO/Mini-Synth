@@ -420,11 +420,58 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/metronome_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/filter_bar">
+
+        <Button
+            android:id="@+id/btn_metronome_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Metronome: OFF" />
+
+        <Space
+            android:layout_width="16dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BPM:"
+            android:textColor="@color/off_white"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_bpm_down"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/tv_bpm_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:text="120"
+            android:textColor="@color/off_white" />
+
+        <Button
+            android:id="@+id/btn_bpm_up"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:text="+" />
+
+    </LinearLayout>
+
     <ch.schmidlins.mini_synth.ui.VisualizerView
         android:id="@+id/visualizer_view"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        app:layout_constraintTop_toBottomOf="@id/filter_bar" />
+        app:layout_constraintTop_toBottomOf="@id/metronome_bar" />
 
     <ch.schmidlins.mini_synth.ui.KeyboardPadView
         android:id="@+id/keyboard_pad_view"

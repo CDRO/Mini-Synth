@@ -29,6 +29,7 @@ void AudioEngine::start() {
     }
 
     mVoiceManager.setSampleRate(mStream->getSampleRate());
+    updateMetronomeParams();
 
     result = mStream->requestStart();
     if (result != oboe::Result::OK) {
@@ -55,6 +56,10 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
 
     for (int i = 0; i < numFrames; ++i) {
         float sample = mVoiceManager.nextSample();
+
+        if (mMetronomeEnabled) {
+            sample += getMetronomeSample();
+        }
 
         // Tap for visualizer
         mVizQueue.push(sample);
@@ -123,4 +128,36 @@ void AudioEngine::recordingLoop(const std::string& path) {
 
     encoder.flush();
     encoder.close();
+}
+
+void AudioEngine::setBpm(float bpm) {
+    mBpm = bpm;
+    updateMetronomeParams();
+}
+
+void AudioEngine::updateMetronomeParams() {
+    if (mStream) {
+        mSamplesPerBeat = static_cast<int32_t>(mStream->getSampleRate() * 60.0f / mBpm);
+    } else {
+        mSamplesPerBeat = static_cast<int32_t>(48000 * 60.0f / mBpm);
+    }
+}
+
+float AudioEngine::getMetronomeSample() {
+    float sample = 0.0f;
+
+    // Generates a simple tick: a decaying burst of noise or sine
+    if (mSampleCounter < 500) { // 500 samples duration (~10ms)
+        float phase = 2.0f * M_PI * (mBeatCounter == 0 ? 880.0f : 440.0f) * mSampleCounter / (mStream ? mStream->getSampleRate() : 48000);
+        float amplitude = 0.5f * (1.0f - mSampleCounter / 500.0f);
+        sample = sinf(phase) * amplitude;
+    }
+
+    mSampleCounter++;
+    if (mSampleCounter >= mSamplesPerBeat) {
+        mSampleCounter = 0;
+        mBeatCounter = (mBeatCounter + 1) % 4;
+    }
+
+    return sample;
 }

@@ -77,6 +77,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
     - Proceed to the next review cycle only after pushing the fixes.
     - Repeat until **10 total review cycles** are completed.
 9. **Merge**: Squash and Merge via `gh pr merge` using the reviewed Merge Message. Author: `Gemini <gemini@google.com>`.
+10. **Cleanup**: Delete the feature branch locally and remotely immediately after a successful merge.
 
 ---
 
@@ -94,7 +95,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 2: Preset Management
+## Milestone 2: Preset Management [DONE]
 
 ### [Logic] [Presets]
 - **Storage**: Jetpack DataStore with JSON serialization.

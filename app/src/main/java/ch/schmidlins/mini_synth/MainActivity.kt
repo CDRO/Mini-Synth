@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     private var octaveShift = 0
     private var isMockRec = false
     private var isMockPlay = false
+    private var isMetronomeEnabled = false
+    private var bpm = 120f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,6 +136,35 @@ class MainActivity : AppCompatActivity() {
         setupLfo(content)
         setupFilter(content)
         setupPresets(content)
+        setupMetronome(content)
+    }
+
+    private fun setupMetronome(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.btnMetronomeToggle!!.setOnClickListener {
+            isMetronomeEnabled = !isMetronomeEnabled
+            synthManager.setMetronomeEnabled(isMetronomeEnabled)
+            content.btnMetronomeToggle!!.text = if (isMetronomeEnabled) "Metronome: ON" else "Metronome: OFF"
+        }
+
+        content.btnBpmDown!!.setOnClickListener {
+            if (bpm > 40) {
+                bpm -= 5
+                updateBpm()
+            }
+        }
+        content.btnBpmUp!!.setOnClickListener {
+            if (bpm < 240) {
+                bpm += 5
+                updateBpm()
+            }
+        }
+        updateBpm()
+    }
+
+    private fun updateBpm() {
+        val content = binding.appBarMain.contentMain
+        synthManager.setBpm(bpm)
+        content.tvBpmValue!!.text = bpm.toInt().toString()
     }
 
     private fun setupPresets(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -422,6 +453,8 @@ class MainActivity : AppCompatActivity() {
         synthManager.setMasterVolume(content.seekMasterVol!!.progress / 100f)
         synthManager.setPolyphonic(isPoly)
         synthManager.setOctaveShift(octaveShift)
+        synthManager.setBpm(bpm)
+        synthManager.setMetronomeEnabled(isMetronomeEnabled)
         
         synthManager.setAttack((Math.pow(2000.0, content.seekAttack!!.progress / 100.0) / 1000.0).toFloat())
         synthManager.setDecay((Math.pow(2000.0, content.seekDecay!!.progress / 100.0) / 1000.0).toFloat())
