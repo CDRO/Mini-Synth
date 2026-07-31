@@ -16,6 +16,7 @@ oboe = "1.10.0"
 kotlin = "2.0.21"
 datastore = "1.1.1"
 kotlinxSerializationJson = "1.7.3"
+archCore = "2.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,6 +34,7 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 oboe = { group = "com.google.oboe", name = "oboe", version.ref = "oboe" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
