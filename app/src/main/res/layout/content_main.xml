@@ -455,23 +455,39 @@
 
         <Button
             android:id="@+id/btn_bpm_down"
-            android:layout_width="48dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:text="-" />
+            android:text="-5"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/btn_bpm_down_fine"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="-1"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/tv_bpm_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="8dp"
+            android:paddingHorizontal="4dp"
             android:text="120"
             android:textColor="@color/off_white" />
 
         <Button
-            android:id="@+id/btn_bpm_up"
-            android:layout_width="48dp"
+            android:id="@+id/btn_bpm_up_fine"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:text="+" />
+            android:text="+1"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/btn_bpm_up"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="+5"
+            android:textSize="10sp" />
 
     </LinearLayout>
 

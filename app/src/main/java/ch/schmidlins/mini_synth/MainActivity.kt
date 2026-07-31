@@ -157,13 +157,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         content.btnBpmDown!!.setOnClickListener {
-            if (bpm > 40) {
+            if (bpm >= 45) {
                 bpm -= 5
                 updateBpm()
             }
         }
+        content.btnBpmDownFine!!.setOnClickListener {
+            if (bpm >= 41) {
+                bpm -= 1
+                updateBpm()
+            }
+        }
+        content.btnBpmUpFine!!.setOnClickListener {
+            if (bpm <= 239) {
+                bpm += 1
+                updateBpm()
+            }
+        }
         content.btnBpmUp!!.setOnClickListener {
-            if (bpm < 240) {
+            if (bpm <= 235) {
                 bpm += 5
                 updateBpm()
             }
