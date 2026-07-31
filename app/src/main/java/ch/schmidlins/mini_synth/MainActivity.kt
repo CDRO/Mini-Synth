@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import ch.schmidlins.mini_synth.audio.PresetRepository
 import ch.schmidlins.mini_synth.audio.SynthManager
@@ -178,7 +179,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun flashBeat() {
         val indicator = binding.appBarMain.contentMain.beatIndicator!!
-        indicator.setBackgroundColor(0xFFC0FF00.toInt()) // Acid Green
+        indicator.setBackgroundColor(ContextCompat.getColor(this, R.color.acid_green))
         mainHandler.postDelayed({
             indicator.setBackgroundColor(android.graphics.Color.DKGRAY)
         }, 100)
