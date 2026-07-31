@@ -51,6 +51,10 @@ public:
     void startRecording(const std::string& path);
     void stopRecording();
 
+    void setBpm(float bpm);
+    void setMetronomeEnabled(bool enabled);
+    bool isBeatStarted();
+
     oboe::DataCallbackResult onAudioReady(
             oboe::AudioStream *audioStream,
             void *audioData,
@@ -67,7 +71,16 @@ private:
     std::string mRecordPath;
     std::thread mRecordingThread;
 
+    float mBpm = 120.0f;
+    bool mMetronomeEnabled = false;
+    int32_t mSamplesPerBeat = 0;
+    int32_t mSampleCounter = 0;
+    int32_t mBeatCounter = 0;
+    std::atomic<bool> mBeatFlag{false};
+
     void recordingLoop(const std::string& path);
+    void updateMetronomeParams();
+    float getMetronomeSample();
 };
 
 #endif //MINI_SYNTH_AUDIOENGINE_H

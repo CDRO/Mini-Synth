@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import ch.schmidlins.mini_synth.audio.PresetRepository
 import ch.schmidlins.mini_synth.audio.SynthManager
@@ -27,6 +28,17 @@ class MainActivity : AppCompatActivity() {
     private var octaveShift = 0
     private var isMockRec = false
     private var isMockPlay = false
+    private var isMetronomeEnabled = false
+    private var bpm = 120f
+    private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val beatPoller = object : Runnable {
+        override fun run() {
+            if (synthManager.isBeatStarted()) {
+                flashBeat()
+            }
+            mainHandler.postDelayed(this, 16)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,6 +146,55 @@ class MainActivity : AppCompatActivity() {
         setupLfo(content)
         setupFilter(content)
         setupPresets(content)
+        setupMetronome(content)
+    }
+
+    private fun setupMetronome(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.btnMetronomeToggle!!.setOnClickListener {
+            isMetronomeEnabled = !isMetronomeEnabled
+            synthManager.setMetronomeEnabled(isMetronomeEnabled)
+            content.btnMetronomeToggle!!.text = if (isMetronomeEnabled) "Metronome: ON" else "Metronome: OFF"
+        }
+
+        content.btnBpmDown!!.setOnClickListener {
+            if (bpm >= 45) {
+                bpm -= 5
+                updateBpm()
+            }
+        }
+        content.btnBpmDownFine!!.setOnClickListener {
+            if (bpm >= 41) {
+                bpm -= 1
+                updateBpm()
+            }
+        }
+        content.btnBpmUpFine!!.setOnClickListener {
+            if (bpm <= 239) {
+                bpm += 1
+                updateBpm()
+            }
+        }
+        content.btnBpmUp!!.setOnClickListener {
+            if (bpm <= 235) {
+                bpm += 5
+                updateBpm()
+            }
+        }
+        updateBpm()
+    }
+
+    private fun updateBpm() {
+        val content = binding.appBarMain.contentMain
+        synthManager.setBpm(bpm)
+        content.tvBpmValue!!.text = bpm.toInt().toString()
+    }
+
+    private fun flashBeat() {
+        val indicator = binding.appBarMain.contentMain.beatIndicator!!
+        indicator.setBackgroundColor(ContextCompat.getColor(this, R.color.acid_green))
+        mainHandler.postDelayed({
+            indicator.setBackgroundColor(android.graphics.Color.DKGRAY)
+        }, 100)
     }
 
     private fun setupPresets(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -417,11 +478,14 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         synthManager.startEngine()
+        mainHandler.post(beatPoller)
         
         val content = binding.appBarMain.contentMain
         synthManager.setMasterVolume(content.seekMasterVol!!.progress / 100f)
         synthManager.setPolyphonic(isPoly)
         synthManager.setOctaveShift(octaveShift)
+        synthManager.setBpm(bpm)
+        synthManager.setMetronomeEnabled(isMetronomeEnabled)
         
         synthManager.setAttack((Math.pow(2000.0, content.seekAttack!!.progress / 100.0) / 1000.0).toFloat())
         synthManager.setDecay((Math.pow(2000.0, content.seekDecay!!.progress / 100.0) / 1000.0).toFloat())
@@ -449,6 +513,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
+        mainHandler.removeCallbacks(beatPoller)
         synthManager.stopEngine()
     }
 }

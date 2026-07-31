@@ -4,7 +4,9 @@
 
 #define TAG "AudioEngine"
 
-AudioEngine::AudioEngine() {}
+AudioEngine::AudioEngine() {
+    updateMetronomeParams();
+}
 
 AudioEngine::~AudioEngine() {
     stop();
@@ -29,6 +31,8 @@ void AudioEngine::start() {
     }
 
     mVoiceManager.setSampleRate(mStream->getSampleRate());
+    // Ensure metronome is aware of actual sample rate from the stream
+    updateMetronomeParams();
 
     result = mStream->requestStart();
     if (result != oboe::Result::OK) {
@@ -55,6 +59,12 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
 
     for (int i = 0; i < numFrames; ++i) {
         float sample = mVoiceManager.nextSample();
+
+        if (mMetronomeEnabled) {
+            sample += getMetronomeSample();
+        }
+
+        sample = std::max(-1.0f, std::min(sample, 1.0f));
 
         // Tap for visualizer
         mVizQueue.push(sample);
@@ -123,4 +133,49 @@ void AudioEngine::recordingLoop(const std::string& path) {
 
     encoder.flush();
     encoder.close();
+}
+
+void AudioEngine::setBpm(float bpm) {
+    mBpm = std::max(10.0f, std::min(bpm, 600.0f));
+    updateMetronomeParams();
+}
+
+void AudioEngine::setMetronomeEnabled(bool enabled) {
+    if (enabled && !mMetronomeEnabled) {
+        mSampleCounter = 0;
+        mBeatCounter = 0;
+    }
+    mMetronomeEnabled = enabled;
+}
+
+void AudioEngine::updateMetronomeParams() {
+    float sampleRate = mStream ? static_cast<float>(mStream->getSampleRate()) : 48000.0f;
+    mSamplesPerBeat = static_cast<int32_t>(sampleRate * 60.0f / mBpm);
+}
+
+bool AudioEngine::isBeatStarted() {
+    return mBeatFlag.exchange(false);
+}
+
+float AudioEngine::getMetronomeSample() {
+    float sample = 0.0f;
+
+    if (mSampleCounter == 0) {
+        mBeatFlag.store(true);
+    }
+
+    // Generates a simple tick: a decaying burst of noise or sine
+    if (mSampleCounter < 500) { // 500 samples duration (~10ms)
+        float phase = 2.0f * M_PI * (mBeatCounter == 0 ? 880.0f : 440.0f) * mSampleCounter / (mStream ? mStream->getSampleRate() : 48000);
+        float amplitude = 0.5f * (1.0f - mSampleCounter / 500.0f);
+        sample = sinf(phase) * amplitude;
+    }
+
+    mSampleCounter++;
+    if (mSampleCounter >= mSamplesPerBeat) {
+        mSampleCounter = 0;
+        mBeatCounter = (mBeatCounter + 1) % 4;
+    }
+
+    return sample;
 }
