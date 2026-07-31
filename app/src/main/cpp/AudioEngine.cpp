@@ -96,7 +96,7 @@ void AudioEngine::stopRecording() {
     }
 }
 
-void AudioEngine::recordingLoop(std::string path) {
+void AudioEngine::recordingLoop(const std::string& path) {
     Mp3Encoder encoder;
     int sampleRate = mStream ? mStream->getSampleRate() : 48000;
 
