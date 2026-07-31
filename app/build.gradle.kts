@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    // Note: kotlin-android is managed implicitly by AGP 9.3+; applying alias here causes 'duplicate extension' errors.
     alias(libs.plugins.kotlin.serialization)
 }
 
