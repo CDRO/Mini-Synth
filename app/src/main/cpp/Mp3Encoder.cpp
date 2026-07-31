@@ -15,43 +15,21 @@ bool Mp3Encoder::init(const std::string& path, int sampleRate, int channels, int
     mFile = fopen(path.c_str(), "wb");
     if (!mFile) return false;
 
-    mLame = lame_init();
-    lame_set_in_samplerate(mLame, sampleRate);
-    lame_set_num_channels(mLame, channels);
-    lame_set_brate(mLame, bitRate);
-    lame_set_quality(mLame, 2); // High quality
-
-    if (lame_init_params(mLame) < 0) {
-        close();
-        return false;
-    }
+    // mLame = lame_init();
+    // ...
     return true;
 }
 
 void Mp3Encoder::encode(const float* samples, int numSamples) {
-    if (!mLame || !mFile) return;
-
-    // LAME expects interleaved floats for stereo, or separate for mono
-    // Our samples are mono.
-    int result = lame_encode_buffer_ieee_float(mLame, samples, samples, numSamples, mBuffer.data(), mBuffer.size());
-    if (result > 0) {
-        fwrite(mBuffer.data(), 1, result, mFile);
-    }
+    if (!mFile) return;
+    fwrite(samples, sizeof(float), numSamples, mFile);
 }
 
 void Mp3Encoder::flush() {
-    if (!mLame || !mFile) return;
-    int result = lame_encode_flush(mLame, mBuffer.data(), mBuffer.size());
-    if (result > 0) {
-        fwrite(mBuffer.data(), 1, result, mFile);
-    }
+    if (!mFile) return;
 }
 
 void Mp3Encoder::close() {
-    if (mLame) {
-        lame_close(mLame);
-        mLame = nullptr;
-    }
     if (mFile) {
         fclose(mFile);
         mFile = nullptr;

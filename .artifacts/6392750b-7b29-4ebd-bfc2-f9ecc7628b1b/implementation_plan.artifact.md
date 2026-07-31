@@ -43,6 +43,10 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 - **Methods**: `startAudio()`, `stopAudio()`, `setNote()`, `releaseNote()`, `setPolyphony()`, `setWaveform()`, `setOctaveShift()`.
 
 ## Development & Review Workflow
+
+> [!IMPORTANT]
+> **MANDATORY WORKFLOW**: This section must NEVER be removed. Every feature implementation MUST follow these steps without exception.
+
 1. **Branching**: New git branch per feature. Sequential development only.
 2. **Implementation**: Code and test changes.
 3. **Artifact Maintenance**:
@@ -63,18 +67,20 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
     - Draft the merge message.
     - Perform at least **2 iterations** of self-review and adaptation on the message.
     - Ensure each iteration **increases quality and technical value**.
-8. **Code Review Cycles (1-5)**:
+8. **Code Review Cycles (1-10)**:
     - Perform a cycle:
-        - Identify **2 self-reviews** on the code current state.
+        - Identify **1 self-review** on the code current state.
         - **Requirement Verification**: Explicitly review that the changes correctly and completely implement the requested feature requirements.
-        - Post each review as a **separate comment** on the GitHub PR via `gh pr comment`.
-        - Apply fixes, commit, and **push** changes to the branch.
-    - Repeat the cycle **4 more times** (Total 5 cycles, 10 reviews).
+        - Post the review as a **comment** on the GitHub PR via `gh pr comment`.
+        - Apply fixes to the code based on the review.
+        - Commit and **push** changes to the branch.
+    - Proceed to the next review cycle only after pushing the fixes.
+    - Repeat until **10 total review cycles** are completed.
 9. **Merge**: Squash and Merge via `gh pr merge` using the reviewed Merge Message. Author: `Gemini <gemini@google.com>`.
 
 ---
 
-## Milestone 1: Resonant Low-Pass Filter (Next)
+## Milestone 1: Resonant Low-Pass Filter [DONE]
 
 ### [Logic] [Filter]
 - **Type**: 2-pole Resonant Low-Pass Filter.
@@ -88,7 +94,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 2: Preset Management
+## Milestone 2: Preset Management [DONE]
 
 ### [Logic] [Presets]
 - **Storage**: Jetpack DataStore with JSON serialization.
@@ -97,9 +103,40 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 3: MP3 Export & Recording
+## Milestone 3: Visualization & Recording [DONE]
 
-### [Logic] [Recording]
-- **Real-time**: Capture audio callback buffers asynchronously.
+### [Logic] [Recording & Viz]
+- **Audio Tap**: Implement a thread-safe capturing mechanism in `AudioEngine`.
+- **Recording**: Real-time PCM capture to a background thread.
 - **Encoding**: Integrate **LAME** (C) for high-quality MP3 encoding via NDK.
-- **Offline**: Non-real-time render from sequence to file.
+- **Visualization**: Expose real-time PCM buffers for UI rendering.
+
+### [UI] [Visualizer]
+- **VisualizerView**: Real-time oscilloscope display above the keyboard.
+
+---
+
+## Future Features & Roadmap
+
+### [UI] [Visualization]
+- **Waveform Visualizer**: Real-time oscilloscope-style display of the master output.
+
+### [Logic] [Timing & Sequencing]
+- **Metronome**: Audio-visual click track for synchronized recording.
+- **BPM Control**: Dedicated buttons to increment/decrement tempo.
+
+### [Feature] [Sampling & Sequencing]
+- **Keyboard Sample Creation**:
+    - Select step duration (1/16 to 1/1 notes).
+    - Step-by-step recording of melodies.
+    - Loop playback of recorded sequences.
+- **Pad Sampling**:
+    - Capture keyboard performance directly to a pad.
+    - **Pad Holding**: Swipe from one pad to another in sampling mode to define note duration (hold).
+- **Sample Mapping**:
+    - Additional column on the left of the pad grid for mapping external or recorded samples.
+
+### [UI] [Pad Customization]
+- **Dynamic Grid**: Default 4x4, expandable to 16 columns. Scrollable interface for large grids.
+- **Config Visibility**: Option to hide parameter controls to maximize pad space.
+- **Color Configuration**: Per-pad color assignment for organization and visual feedback.
