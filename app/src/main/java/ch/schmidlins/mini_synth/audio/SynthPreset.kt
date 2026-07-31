@@ -1,0 +1,19 @@
+package ch.schmidlins.mini_synth.audio
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class SynthPreset(
+    val name: String,
+    val waveformIndex: Int = 0,
+    val attack: Float = 0.1f,
+    val decay: Float = 0.1f,
+    val sustain: Float = 0.8f,
+    val release: Float = 0.1f,
+    val lfoRate: Float = 1.0f,
+    val lfoDepth: Float = 0.0f,
+    val lfoWaveformIndex: Int = 0,
+    val lfoTargetIndex: Int = 0,
+    val filterCutoff: Float = 1000.0f,
+    val filterResonance: Float = 0.2f
+)

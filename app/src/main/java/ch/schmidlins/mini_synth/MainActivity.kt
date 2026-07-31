@@ -4,17 +4,25 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.SeekBar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import ch.schmidlins.mini_synth.audio.PresetRepository
 import ch.schmidlins.mini_synth.audio.SynthManager
+import ch.schmidlins.mini_synth.audio.SynthPreset
 import ch.schmidlins.mini_synth.databinding.ActivityMainBinding
 import ch.schmidlins.mini_synth.ui.KeyboardPadView
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val synthManager = SynthManager()
+    private lateinit var presetRepository: PresetRepository
     private var isPoly = true
     private var octaveShift = 0
     private var isMockRec = false
@@ -24,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        presetRepository = PresetRepository(this)
 
         val content = binding.appBarMain.contentMain
         val synthView = content.keyboardPadView!!
@@ -116,6 +125,105 @@ class MainActivity : AppCompatActivity() {
         setupAdsr(content)
         setupLfo(content)
         setupFilter(content)
+        setupPresets(content)
+    }
+
+    private fun setupPresets(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.btnSavePreset!!.setOnClickListener {
+            val input = EditText(this)
+            input.hint = "Preset Name"
+            AlertDialog.Builder(this)
+                .setTitle("Save Preset")
+                .setView(input)
+                .setPositiveButton("Save") { _, _ ->
+                    val name = input.text.toString()
+                    if (name.isNotEmpty()) {
+                        saveCurrentPreset(name)
+                    }
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
+
+        content.btnLoadPreset!!.setOnClickListener {
+            lifecycleScope.launch {
+                val presets = presetRepository.presets.first()
+                if (presets.isEmpty()) {
+                    AlertDialog.Builder(this@MainActivity)
+                        .setMessage("No presets saved yet.")
+                        .setPositiveButton("OK", null)
+                        .show()
+                } else {
+                    val names = presets.map { it.name }.toTypedArray()
+                    AlertDialog.Builder(this@MainActivity)
+                        .setTitle("Load Preset")
+                        .setItems(names) { _, which ->
+                            applyPreset(presets[which])
+                        }
+                        .setNegativeButton("Cancel", null)
+                        .show()
+                }
+            }
+        }
+    }
+
+    private fun saveCurrentPreset(name: String) {
+        val content = binding.appBarMain.contentMain
+        val preset = SynthPreset(
+            name = name,
+            waveformIndex = when (content.toggleWaveform!!.checkedButtonId) {
+                R.id.btn_wave_sine -> 0
+                R.id.btn_wave_square -> 1
+                R.id.btn_wave_saw -> 2
+                R.id.btn_wave_triangle -> 3
+                else -> 0
+            },
+            attack = content.seekAttack!!.progress / 100f,
+            decay = content.seekDecay!!.progress / 100f,
+            sustain = content.seekSustain!!.progress / 100f,
+            release = content.seekRelease!!.progress / 100f,
+            lfoRate = content.seekLfoRate!!.progress / 100f,
+            lfoDepth = content.seekLfoDepth!!.progress / 100f,
+            lfoWaveformIndex = content.spinnerLfoWaveform!!.selectedItemPosition,
+            lfoTargetIndex = content.spinnerLfoTarget!!.selectedItemPosition,
+            filterCutoff = content.seekFilterCutoff!!.progress / 100f,
+            filterResonance = content.seekFilterRes!!.progress / 100f
+        )
+        lifecycleScope.launch {
+            presetRepository.savePreset(preset)
+        }
+    }
+
+    private fun applyPreset(preset: SynthPreset) {
+        val content = binding.appBarMain.contentMain
+        
+        // Waveform
+        val btnId = when (preset.waveformIndex) {
+            0 -> R.id.btn_wave_sine
+            1 -> R.id.btn_wave_square
+            2 -> R.id.btn_wave_saw
+            3 -> R.id.btn_wave_triangle
+            else -> R.id.btn_wave_sine
+        }
+        content.toggleWaveform!!.check(btnId)
+        
+        // ADSR
+        content.seekAttack!!.progress = (preset.attack * 100).toInt()
+        content.seekDecay!!.progress = (preset.decay * 100).toInt()
+        content.seekSustain!!.progress = (preset.sustain * 100).toInt()
+        content.seekRelease!!.progress = (preset.release * 100).toInt()
+        
+        // LFO
+        content.seekLfoRate!!.progress = (preset.lfoRate * 100).toInt()
+        content.seekLfoDepth!!.progress = (preset.lfoDepth * 100).toInt()
+        content.spinnerLfoWaveform!!.setSelection(preset.lfoWaveformIndex)
+        content.spinnerLfoTarget!!.setSelection(preset.lfoTargetIndex)
+        
+        // Filter
+        content.seekFilterCutoff!!.progress = (preset.filterCutoff * 100).toInt()
+        content.seekFilterRes!!.progress = (preset.filterResonance * 100).toInt()
+        
+        // Engine will be updated via seekbar listeners that are already set up
     }
 
     private fun setupAdsr(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
