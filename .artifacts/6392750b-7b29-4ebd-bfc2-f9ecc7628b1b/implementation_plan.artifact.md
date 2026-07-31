@@ -88,7 +88,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 2: Preset Management
+## Milestone 2: Preset Management [DONE]
 
 ### [Logic] [Presets]
 - **Storage**: Jetpack DataStore with JSON serialization.
@@ -103,3 +103,30 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 - **Real-time**: Capture audio callback buffers asynchronously.
 - **Encoding**: Integrate **LAME** (C) for high-quality MP3 encoding via NDK.
 - **Offline**: Non-real-time render from sequence to file.
+
+---
+
+## Future Features & Roadmap
+
+### [UI] [Visualization]
+- **Waveform Visualizer**: Real-time oscilloscope-style display of the master output.
+
+### [Logic] [Timing & Sequencing]
+- **Metronome**: Audio-visual click track for synchronized recording.
+- **BPM Control**: Dedicated buttons to increment/decrement tempo.
+
+### [Feature] [Sampling & Sequencing]
+- **Keyboard Sample Creation**:
+    - Select step duration (1/16 to 1/1 notes).
+    - Step-by-step recording of melodies.
+    - Loop playback of recorded sequences.
+- **Pad Sampling**:
+    - Capture keyboard performance directly to a pad.
+    - **Pad Holding**: Swipe from one pad to another in sampling mode to define note duration (hold).
+- **Sample Mapping**:
+    - Additional column on the left of the pad grid for mapping external or recorded samples.
+
+### [UI] [Pad Customization]
+- **Dynamic Grid**: Default 4x4, expandable to 16 columns. Scrollable interface for large grids.
+- **Config Visibility**: Option to hide parameter controls to maximize pad space.
+- **Color Configuration**: Per-pad color assignment for organization and visual feedback.

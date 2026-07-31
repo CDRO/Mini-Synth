@@ -4,17 +4,25 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.SeekBar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import ch.schmidlins.mini_synth.audio.PresetRepository
 import ch.schmidlins.mini_synth.audio.SynthManager
+import ch.schmidlins.mini_synth.audio.SynthPreset
 import ch.schmidlins.mini_synth.databinding.ActivityMainBinding
 import ch.schmidlins.mini_synth.ui.KeyboardPadView
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val synthManager = SynthManager()
+    private lateinit var presetRepository: PresetRepository
     private var isPoly = true
     private var octaveShift = 0
     private var isMockRec = false
@@ -24,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        presetRepository = PresetRepository(this)
 
         val content = binding.appBarMain.contentMain
         val synthView = content.keyboardPadView!!
@@ -116,6 +125,162 @@ class MainActivity : AppCompatActivity() {
         setupAdsr(content)
         setupLfo(content)
         setupFilter(content)
+        setupPresets(content)
+    }
+
+    private fun setupPresets(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.btnSavePreset!!.setOnClickListener {
+            val input = EditText(this)
+            input.hint = "Preset Name"
+            AlertDialog.Builder(this)
+                .setTitle("Save Preset")
+                .setView(input)
+                .setPositiveButton("Save") { _, _ ->
+                    val name = input.text.toString().trim()
+                    if (name.isNotEmpty()) {
+                        checkAndSavePreset(name)
+                    }
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
+
+        content.btnLoadPreset!!.setOnClickListener {
+            lifecycleScope.launch {
+                val presets = presetRepository.presets.first()
+                if (presets.isEmpty()) {
+                    AlertDialog.Builder(this@MainActivity)
+                        .setMessage("No presets saved yet.")
+                        .setPositiveButton("OK", null)
+                        .show()
+                } else {
+                    val names = presets.map { it.name }.toTypedArray()
+                    AlertDialog.Builder(this@MainActivity)
+                        .setTitle("Load Preset")
+                        .setItems(names) { _, which ->
+                            applyPreset(presets[which])
+                        }
+                        .setNeutralButton("Delete") { _, _ ->
+                            showDeleteDialog(presets)
+                        }
+                        .setNegativeButton("Cancel", null)
+                        .show()
+                }
+            }
+        }
+    }
+
+    private fun checkAndSavePreset(name: String) {
+        lifecycleScope.launch {
+            val presets = presetRepository.presets.first()
+            if (presets.any { it.name == name }) {
+                AlertDialog.Builder(this@MainActivity)
+                    .setTitle("Overwrite?")
+                    .setMessage("A preset named '$name' already exists. Overwrite it?")
+                    .setPositiveButton("Overwrite") { _, _ -> saveCurrentPreset(name) }
+                    .setNegativeButton("Cancel", null)
+                    .show()
+            } else {
+                saveCurrentPreset(name)
+            }
+        }
+    }
+
+    private fun showDeleteDialog(presets: List<SynthPreset>) {
+        val names = presets.map { it.name }.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle("Delete Preset")
+            .setItems(names) { _, which ->
+                lifecycleScope.launch {
+                    presetRepository.deletePreset(presets[which].name)
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun saveCurrentPreset(name: String) {
+        val content = binding.appBarMain.contentMain
+        val preset = SynthPreset(
+            name = name,
+            waveformIndex = when (content.toggleWaveform!!.checkedButtonId) {
+                R.id.btn_wave_sine -> 0
+                R.id.btn_wave_square -> 1
+                R.id.btn_wave_saw -> 2
+                R.id.btn_wave_triangle -> 3
+                else -> 0
+            },
+            attack = content.seekAttack!!.progress / 100f,
+            decay = content.seekDecay!!.progress / 100f,
+            sustain = content.seekSustain!!.progress / 100f,
+            release = content.seekRelease!!.progress / 100f,
+            lfoRate = content.seekLfoRate!!.progress / 100f,
+            lfoDepth = content.seekLfoDepth!!.progress / 100f,
+            lfoWaveformIndex = content.spinnerLfoWaveform!!.selectedItemPosition,
+            lfoTargetIndex = content.spinnerLfoTarget!!.selectedItemPosition,
+            filterCutoff = content.seekFilterCutoff!!.progress / 100f,
+            filterResonance = content.seekFilterRes!!.progress / 100f
+        )
+        lifecycleScope.launch {
+            presetRepository.savePreset(preset)
+        }
+    }
+
+    private fun applyPreset(preset: SynthPreset) {
+        val content = binding.appBarMain.contentMain
+        
+        // Waveform
+        val btnId = when (preset.waveformIndex) {
+            0 -> R.id.btn_wave_sine
+            1 -> R.id.btn_wave_square
+            2 -> R.id.btn_wave_saw
+            3 -> R.id.btn_wave_triangle
+            else -> R.id.btn_wave_sine
+        }
+        content.toggleWaveform!!.check(btnId)
+        
+        // ADSR - Clamping to [0, 100]
+        content.seekAttack!!.progress = (preset.attack.coerceIn(0f, 1f) * 100).toInt()
+        content.seekDecay!!.progress = (preset.decay.coerceIn(0f, 1f) * 100).toInt()
+        content.seekSustain!!.progress = (preset.sustain.coerceIn(0f, 1f) * 100).toInt()
+        content.seekRelease!!.progress = (preset.release.coerceIn(0f, 1f) * 100).toInt()
+        
+        // LFO
+        content.seekLfoRate!!.progress = (preset.lfoRate.coerceIn(0f, 1f) * 100).toInt()
+        content.seekLfoDepth!!.progress = (preset.lfoDepth.coerceIn(0f, 1f) * 100).toInt()
+        content.spinnerLfoWaveform!!.setSelection(preset.lfoWaveformIndex.coerceAtLeast(0))
+        content.spinnerLfoTarget!!.setSelection(preset.lfoTargetIndex.coerceAtLeast(0))
+        
+        // Filter
+        content.seekFilterCutoff!!.progress = (preset.filterCutoff.coerceIn(0f, 1f) * 100).toInt()
+        content.seekFilterRes!!.progress = (preset.filterResonance.coerceIn(0f, 1f) * 100).toInt()
+        
+        // Manually trigger label updates if setting progress didn't trigger listener (or for safety)
+        updateLabels(content)
+    }
+
+    private fun updateLabels(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        // This helper ensures labels match current SeekBars (DRY principle)
+        val attack = (Math.pow(2000.0, content.seekAttack!!.progress / 100.0) / 1000.0).toFloat()
+        content.tvAttackVal!!.text = String.format(Locale.US, "%.3fs", attack)
+        
+        val decay = (Math.pow(2000.0, content.seekDecay!!.progress / 100.0) / 1000.0).toFloat()
+        content.tvDecayVal!!.text = String.format(Locale.US, "%.3fs", decay)
+        
+        content.tvSustainVal!!.text = String.format(Locale.US, "%.2f", content.seekSustain!!.progress / 100f)
+        
+        val release = (Math.pow(2000.0, content.seekRelease!!.progress / 100.0) / 1000.0).toFloat()
+        content.tvReleaseVal!!.text = String.format(Locale.US, "%.3fs", release)
+        
+        val lfoRate = (Math.pow(200.0, content.seekLfoRate!!.progress / 100.0) / 10.0).toFloat()
+        content.tvLfoRateVal!!.text = String.format(Locale.US, "%.1fHz", lfoRate)
+        
+        content.tvLfoDepthVal!!.text = String.format(Locale.US, "%.2f", content.seekLfoDepth!!.progress / 100f)
+        
+        val cutoff = (20.0 * Math.pow(1000.0, content.seekFilterCutoff!!.progress / 100.0)).toFloat()
+        content.tvFilterCutoffVal!!.text = String.format(Locale.US, "%dHz", cutoff.toInt())
+        
+        content.tvFilterResVal!!.text = String.format(Locale.US, "%.2f", content.seekFilterRes!!.progress / 100f)
     }
 
     private fun setupAdsr(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -261,6 +426,8 @@ class MainActivity : AppCompatActivity() {
         val cutoffFreq = (20.0 * Math.pow(1000.0, content.seekFilterCutoff!!.progress / 100.0)).toFloat()
         synthManager.setFilterCutoff(cutoffFreq)
         synthManager.setFilterResonance(content.seekFilterRes!!.progress / 100f)
+
+        updateLabels(content)
 
         val index = when (content.toggleWaveform!!.checkedButtonId) {
             R.id.btn_wave_sine -> 0
