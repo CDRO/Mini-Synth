@@ -1,7 +1,7 @@
 #include "Mp3Encoder.h"
 #include <android/log.h>
 
-#define TAG "Mp3Encoder"
+#define TAG "SynthEngine_Mp3Encoder"
 
 Mp3Encoder::Mp3Encoder() {
     mBuffer.resize(8192);
