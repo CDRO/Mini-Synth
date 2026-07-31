@@ -82,10 +82,10 @@ int32_t AudioEngine::getVisualizerData(float* buffer, int32_t size) {
 
 void AudioEngine::startRecording(const std::string& path) {
     if (mIsRecording) return;
-    mRecordPath = path;
     mIsRecording = true;
     mRecordQueue.clear();
-    mRecordingThread = std::thread(&AudioEngine::recordingLoop, this);
+    // Copy path into the loop thread to avoid race conditions
+    mRecordingThread = std::thread(&AudioEngine::recordingLoop, this, path);
 }
 
 void AudioEngine::stopRecording() {
@@ -96,12 +96,12 @@ void AudioEngine::stopRecording() {
     }
 }
 
-void AudioEngine::recordingLoop() {
+void AudioEngine::recordingLoop(std::string path) {
     Mp3Encoder encoder;
     int sampleRate = mStream ? mStream->getSampleRate() : 48000;
 
-    if (!encoder.init(mRecordPath, sampleRate, 1, 128)) {
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "Failed to initialize MP3 encoder");
+    if (!encoder.init(path, sampleRate, 1, 128)) {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "Failed to initialize MP3 encoder for path: %s", path.c_str());
         mIsRecording = false;
         return;
     }

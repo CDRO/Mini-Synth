@@ -62,12 +62,12 @@ private:
     int mOctaveShift = 0;
 
     LockFreeQueue<float> mVizQueue{4096};
-    LockFreeQueue<float> mRecordQueue{65536};
+    LockFreeQueue<float> mRecordQueue{262144}; // Increased to 256k for better safety margin
     std::atomic<bool> mIsRecording{false};
     std::string mRecordPath;
     std::thread mRecordingThread;
 
-    void recordingLoop();
+    void recordingLoop(std::string path);
 };
 
 #endif //MINI_SYNTH_AUDIOENGINE_H

@@ -8,11 +8,14 @@ template <typename T>
 class LockFreeQueue {
 public:
     explicit LockFreeQueue(size_t capacity)
-        : mCapacity(capacity), mBuffer(capacity), mHead(0), mTail(0) {}
+        : mCapacity(capacity), mBuffer(capacity), mHead(0), mTail(0) {
+        // Ensure capacity is a power of two for bitwise wrap
+        mMask = capacity - 1;
+    }
 
     bool push(const T& item) {
         size_t head = mHead.load(std::memory_order_relaxed);
-        size_t nextHead = (head + 1) % mCapacity;
+        size_t nextHead = (head + 1) & mMask;
         if (nextHead == mTail.load(std::memory_order_acquire)) {
             return false; // Full
         }
@@ -27,7 +30,7 @@ public:
             return false; // Empty
         }
         item = mBuffer[tail];
-        mTail.store((tail + 1) % mCapacity, std::memory_order_release);
+        mTail.store((tail + 1) & mMask, std::memory_order_release);
         return true;
     }
 
@@ -45,6 +48,7 @@ public:
 
 private:
     size_t mCapacity;
+    size_t mMask;
     std::vector<T> mBuffer;
     std::atomic<size_t> mHead;
     std::atomic<size_t> mTail;

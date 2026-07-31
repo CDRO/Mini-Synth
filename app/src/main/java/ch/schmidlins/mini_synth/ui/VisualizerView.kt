@@ -6,6 +6,8 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat
+import ch.schmidlins.mini_synth.R
 import ch.schmidlins.mini_synth.audio.SynthManager
 
 class VisualizerView @JvmOverloads constructor(
@@ -13,7 +15,7 @@ class VisualizerView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private val paint = Paint().apply {
-        color = 0xFFC0FF00.toInt() // Acid Green
+        color = ContextCompat.getColor(context, R.color.acid_green)
         strokeWidth = 4f
         style = Paint.Style.STROKE
         isAntiAlias = true
@@ -34,9 +36,11 @@ class VisualizerView @JvmOverloads constructor(
         val manager = synthManager ?: return
         val count = manager.getVisualizerData(buffer)
         
-        // Simple visualization: copy available data, or clear if none
         if (count > 0) {
-            System.arraycopy(buffer, 0, drawBuffer, 0, count.coerceAtMost(drawBuffer.size))
+            // Shift existing data to the left and append new data
+            // This creates a scrolling effect or just refreshes if count is large
+            System.arraycopy(drawBuffer, count, drawBuffer, 0, drawBuffer.size - count)
+            System.arraycopy(buffer, 0, drawBuffer, drawBuffer.size - count, count)
         }
 
         path.reset()
@@ -46,13 +50,15 @@ class VisualizerView @JvmOverloads constructor(
         path.moveTo(0f, centerY)
         for (i in drawBuffer.indices) {
             val x = i * stepX
-            val y = centerY - (drawBuffer[i] * centerY * 0.8f)
+            // Clamp and scale: normalize to roughly +/- 0.5 then scale to 80% view height
+            val sample = drawBuffer[i].coerceIn(-1f, 1f)
+            val y = centerY - (sample * centerY * 0.8f)
             path.lineTo(x, y)
         }
 
         canvas.drawPath(path, paint)
         
-        // Lowpass the visualizer a bit to avoid jitter, or just request next frame
-        invalidate()
+        // Throttled invalidate to ~60fps
+        postInvalidateDelayed(16)
     }
 }
