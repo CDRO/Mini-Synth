@@ -3,6 +3,9 @@
 
 #include <oboe/Oboe.h>
 #include "VoiceManager.h"
+#include "LockFreeQueue.h"
+#include <thread>
+#include <atomic>
 
 class AudioEngine : public oboe::AudioStreamDataCallback {
 public:
@@ -44,6 +47,10 @@ public:
 
     float renderSampleForTest() { return mVoiceManager.nextSample(); }
 
+    int32_t getVisualizerData(float* buffer, int32_t size);
+    void startRecording(const std::string& path);
+    void stopRecording();
+
     oboe::DataCallbackResult onAudioReady(
             oboe::AudioStream *audioStream,
             void *audioData,
@@ -53,6 +60,14 @@ private:
     std::shared_ptr<oboe::AudioStream> mStream;
     VoiceManager mVoiceManager;
     int mOctaveShift = 0;
+
+    LockFreeQueue<float> mVizQueue{4096};
+    LockFreeQueue<float> mRecordQueue{262144}; // Increased to 256k for better safety margin
+    std::atomic<bool> mIsRecording{false};
+    std::string mRecordPath;
+    std::thread mRecordingThread;
+
+    void recordingLoop(std::string path);
 };
 
 #endif //MINI_SYNTH_AUDIOENGINE_H

@@ -29,5 +29,9 @@ class SynthManager {
     external fun setFilterCutoff(frequency: Float)
     external fun setFilterResonance(resonance: Float)
 
+    external fun getVisualizerData(buffer: FloatArray): Int
+    external fun startRecording(path: String)
+    external fun stopRecording()
+
     external fun renderSampleForTest(): Float
 }
