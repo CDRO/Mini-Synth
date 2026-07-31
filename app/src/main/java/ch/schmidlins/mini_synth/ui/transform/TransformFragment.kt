@@ -89,9 +89,11 @@ class TransformFragment : Fragment() {
 
         override fun onBindViewHolder(holder: TransformViewHolder, position: Int) {
             holder.textView.text = getItem(position)
-            holder.imageView.setImageDrawable(
-                ResourcesCompat.getDrawable(holder.imageView.resources, drawables[position], null)
-            )
+            if (position < drawables.size) {
+                holder.imageView.setImageDrawable(
+                    ResourcesCompat.getDrawable(holder.imageView.resources, drawables[position], null)
+                )
+            }
         }
     }
 

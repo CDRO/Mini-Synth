@@ -95,6 +95,7 @@ class KeyboardPadView @JvmOverloads constructor(
     }
 
     private fun drawKeyboard(canvas: Canvas) {
+        if (whiteKeyRects.isEmpty()) return
         for (i in 0 until 8) {
             val rect = whiteKeyRects[i]
             canvas.drawRect(rect, whiteKeyPaint)
@@ -108,6 +109,7 @@ class KeyboardPadView @JvmOverloads constructor(
     }
 
     private fun drawPadGrid(canvas: Canvas) {
+        if (padRects.isEmpty()) return
         for (i in 0 until 16) {
             val rect = padRects[i]
             canvas.drawRect(rect, whiteKeyPaint)
@@ -192,9 +194,11 @@ class KeyboardPadView @JvmOverloads constructor(
 
     private fun getMidiAt(x: Float, y: Float): Int {
         if (mode == Mode.KEYBOARD) {
+            if (blackKeyRects.isEmpty() || whiteKeyRects.isEmpty()) return -1
             for ((midi, rect) in blackKeyRects) if (rect.contains(x, y)) return midi
             for (i in 0 until 8) if (whiteKeyRects[i].contains(x, y)) return baseNote + getMidiOffsetForWhiteKey(i)
         } else {
+            if (padRects.isEmpty()) return -1
             // Optimized grid-based lookup for pads
             val col = (x / (width / 4f)).toInt().coerceIn(0, 3)
             val row = (y / (height / 4f)).toInt().coerceIn(0, 3)

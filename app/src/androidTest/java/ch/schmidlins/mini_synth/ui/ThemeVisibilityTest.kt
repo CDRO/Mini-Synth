@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.action.ViewActions.scrollTo
 import ch.schmidlins.mini_synth.MainActivity
 import ch.schmidlins.mini_synth.R
 import org.junit.Rule
@@ -23,12 +24,12 @@ class ThemeVisibilityTest {
         onView(withId(R.id.control_bar)).check(matches(isDisplayed()))
         onView(withId(R.id.btn_mode_toggle)).check(matches(isDisplayed()))
         onView(withId(R.id.btn_poly_toggle)).check(matches(isDisplayed()))
-        onView(withId(R.id.toggle_waveform)).check(matches(isDisplayed()))
+        
+        // For elements in ScrollView, perform scrollTo() before checking isDisplayed()
+        onView(withId(R.id.toggle_waveform)).perform(scrollTo()).check(matches(isDisplayed()))
         
         // Verify custom view is present and taking up space
+        // keyboard_pad_view is outside ScrollView, so no scrollTo needed
         onView(withId(R.id.keyboard_pad_view)).check(matches(isDisplayed()))
-        
-        // Check text color of labels to ensure they are visible on dark background (Off-white)
-        // Note: Espresso doesn't have a built-in hasTextColor(ColorInt) but we can check if it's visible.
     }
 }

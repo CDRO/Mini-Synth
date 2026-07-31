@@ -117,14 +117,16 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
+## Milestone 4: Metronome & BPM Control [DONE]
+
+### [Logic] [Metronome]
+- **Engine**: Sample-accurate native tick generation.
+- **BPM**: Dynamic control from 40 to 240 BPM.
+- **Visuals**: Synced beat indicator LED in the control bar.
+
+---
+
 ## Future Features & Roadmap
-
-### [UI] [Visualization]
-- **Waveform Visualizer**: Real-time oscilloscope-style display of the master output.
-
-### [Logic] [Timing & Sequencing]
-- **Metronome**: Audio-visual click track for synchronized recording.
-- **BPM Control**: Dedicated buttons to increment/decrement tempo.
 
 ### [Feature] [Sampling & Sequencing]
 - **Keyboard Sample Creation**:
