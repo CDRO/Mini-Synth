@@ -4,7 +4,9 @@
 
 #define TAG "AudioEngine"
 
-AudioEngine::AudioEngine() {}
+AudioEngine::AudioEngine() {
+    updateMetronomeParams();
+}
 
 AudioEngine::~AudioEngine() {
     stop();
