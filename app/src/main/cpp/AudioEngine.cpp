@@ -31,6 +31,7 @@ void AudioEngine::start() {
     }
 
     mVoiceManager.setSampleRate(mStream->getSampleRate());
+    // Ensure metronome is aware of actual sample rate from the stream
     updateMetronomeParams();
 
     result = mStream->requestStart();
