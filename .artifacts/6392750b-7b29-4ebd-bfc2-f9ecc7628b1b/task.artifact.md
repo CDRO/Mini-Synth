@@ -18,6 +18,6 @@ Implementing the core synthesis logic: 16-voice polyphony, mono/poly toggling, a
 - `[x]` **Workflow & Review**
     - `[x]` Push branch to GitHub
     - `[x]` Create Pull Request via `gh`
-    - `[x]` Review Phase 1 (2 reviews + fixes)
-    - `[x]` Review Phase 2 (2 reviews + fixes)
+    - `[x]` Sequential Review Cycles (1-10)
+    - `[x]` Merge Message Review Loop (2 iterations)
     - `[x]` Squash and Merge to `main`
