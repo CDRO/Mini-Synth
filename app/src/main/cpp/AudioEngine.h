@@ -52,7 +52,7 @@ public:
     void stopRecording();
 
     void setBpm(float bpm);
-    void setMetronomeEnabled(bool enabled) { mMetronomeEnabled = enabled; }
+    void setMetronomeEnabled(bool enabled);
 
     oboe::DataCallbackResult onAudioReady(
             oboe::AudioStream *audioStream,

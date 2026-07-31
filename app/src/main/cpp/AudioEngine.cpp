@@ -139,6 +139,14 @@ void AudioEngine::setBpm(float bpm) {
     updateMetronomeParams();
 }
 
+void AudioEngine::setMetronomeEnabled(bool enabled) {
+    if (enabled && !mMetronomeEnabled) {
+        mSampleCounter = 0;
+        mBeatCounter = 0;
+    }
+    mMetronomeEnabled = enabled;
+}
+
 void AudioEngine::updateMetronomeParams() {
     if (mStream) {
         mSamplesPerBeat = static_cast<int32_t>(mStream->getSampleRate() * 60.0f / mBpm);
