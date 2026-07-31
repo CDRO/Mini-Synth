@@ -43,10 +43,6 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 - **Methods**: `startAudio()`, `stopAudio()`, `setNote()`, `releaseNote()`, `setPolyphony()`, `setWaveform()`, `setOctaveShift()`.
 
 ## Development & Review Workflow
-
-> [!IMPORTANT]
-> **MANDATORY WORKFLOW**: This section must NEVER be removed. Every feature implementation MUST follow these steps without exception.
-
 1. **Branching**: New git branch per feature. Sequential development only.
 2. **Implementation**: Code and test changes.
 3. **Artifact Maintenance**:
@@ -78,7 +74,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 1: Resonant Low-Pass Filter [DONE]
+## Milestone 1: Resonant Low-Pass Filter (Next)
 
 ### [Logic] [Filter]
 - **Type**: 2-pole Resonant Low-Pass Filter.
@@ -86,9 +82,13 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 - **Resonance**: 0.0 to 1.0 (Q factor).
 - **Implementation**: Per-voice filtering in the audio thread.
 
+### [UI] [FilterControls]
+- **Sliders**: Cutoff Frequency and Resonance.
+- **Labels**: Show Hz and Q values.
+
 ---
 
-## Milestone 2: Preset Management [DONE]
+## Milestone 2: Preset Management
 
 ### [Logic] [Presets]
 - **Storage**: Jetpack DataStore with JSON serialization.
@@ -97,40 +97,9 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 3: Visualization & Recording (NEXT)
+## Milestone 3: MP3 Export & Recording
 
-### [Logic] [Recording & Viz]
-- **Audio Tap**: Implement a thread-safe capturing mechanism in `AudioEngine`.
-- **Recording**: Real-time PCM capture to a background thread.
+### [Logic] [Recording]
+- **Real-time**: Capture audio callback buffers asynchronously.
 - **Encoding**: Integrate **LAME** (C) for high-quality MP3 encoding via NDK.
-- **Visualization**: Expose real-time PCM buffers for UI rendering.
-
-### [UI] [Visualizer]
-- **VisualizerView**: Real-time oscilloscope display above the keyboard.
-
----
-
-## Future Features & Roadmap
-
-### [UI] [Visualization]
-- **Waveform Visualizer**: Real-time oscilloscope-style display of the master output.
-
-### [Logic] [Timing & Sequencing]
-- **Metronome**: Audio-visual click track for synchronized recording.
-- **BPM Control**: Dedicated buttons to increment/decrement tempo.
-
-### [Feature] [Sampling & Sequencing]
-- **Keyboard Sample Creation**:
-    - Select step duration (1/16 to 1/1 notes).
-    - Step-by-step recording of melodies.
-    - Loop playback of recorded sequences.
-- **Pad Sampling**:
-    - Capture keyboard performance directly to a pad.
-    - **Pad Holding**: Swipe from one pad to another in sampling mode to define note duration (hold).
-- **Sample Mapping**:
-    - Additional column on the left of the pad grid for mapping external or recorded samples.
-
-### [UI] [Pad Customization]
-- **Dynamic Grid**: Default 4x4, expandable to 16 columns. Scrollable interface for large grids.
-- **Config Visibility**: Option to hide parameter controls to maximize pad space.
-- **Color Configuration**: Per-pad color assignment for organization and visual feedback.
+- **Offline**: Non-real-time render from sequence to file.
