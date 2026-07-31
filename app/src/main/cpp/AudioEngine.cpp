@@ -133,7 +133,7 @@ void AudioEngine::recordingLoop(const std::string& path) {
 }
 
 void AudioEngine::setBpm(float bpm) {
-    mBpm = bpm;
+    mBpm = std::max(10.0f, std::min(bpm, 600.0f));
     updateMetronomeParams();
 }
 
