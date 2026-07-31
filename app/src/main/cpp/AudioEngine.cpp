@@ -63,6 +63,8 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
             sample += getMetronomeSample();
         }
 
+        sample = std::max(-1.0f, std::min(sample, 1.0f));
+
         // Tap for visualizer
         mVizQueue.push(sample);
 
