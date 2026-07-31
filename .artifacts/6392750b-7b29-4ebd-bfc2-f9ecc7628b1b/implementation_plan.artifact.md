@@ -94,7 +94,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 2: Preset Management [DONE]
+## Milestone 2: Preset Management
 
 ### [Logic] [Presets]
 - **Storage**: Jetpack DataStore with JSON serialization.
