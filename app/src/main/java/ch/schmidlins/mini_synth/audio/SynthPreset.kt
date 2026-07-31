@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SynthPreset(
     val name: String,
+    val version: Int = 1,
     val waveformIndex: Int = 0,
     val attack: Float = 0.1f,
     val decay: Float = 0.1f,

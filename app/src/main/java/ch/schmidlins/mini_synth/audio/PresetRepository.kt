@@ -11,11 +11,13 @@ import kotlinx.serialization.json.Json
 
 private val Context.dataStore by preferencesDataStore(name = "presets_store")
 
-class PresetRepository(private val context: Context) {
-    private val PRESETS_KEY = stringPreferencesKey("presets_json")
+object StorageConstants {
+    val PRESETS_KEY = stringPreferencesKey("presets_json")
+}
 
+class PresetRepository(private val context: Context) {
     val presets: Flow<List<SynthPreset>> = context.dataStore.data.map { preferences ->
-        val json = preferences[PRESETS_KEY] ?: "[]"
+        val json = preferences[StorageConstants.PRESETS_KEY] ?: "[]"
         try {
             Json.decodeFromString<List<SynthPreset>>(json)
         } catch (e: Exception) {
@@ -25,14 +27,13 @@ class PresetRepository(private val context: Context) {
 
     suspend fun savePreset(preset: SynthPreset) {
         context.dataStore.edit { preferences ->
-            val currentJson = preferences[PRESETS_KEY] ?: "[]"
+            val currentJson = preferences[StorageConstants.PRESETS_KEY] ?: "[]"
             val currentList = try {
                 Json.decodeFromString<List<SynthPreset>>(currentJson).toMutableList()
             } catch (e: Exception) {
                 mutableListOf()
             }
             
-            // Overwrite if same name, otherwise add
             val existingIndex = currentList.indexOfFirst { it.name == preset.name }
             if (existingIndex != -1) {
                 currentList[existingIndex] = preset
@@ -40,13 +41,13 @@ class PresetRepository(private val context: Context) {
                 currentList.add(preset)
             }
             
-            preferences[PRESETS_KEY] = Json.encodeToString(currentList)
+            preferences[StorageConstants.PRESETS_KEY] = Json.encodeToString(currentList)
         }
     }
 
     suspend fun deletePreset(name: String) {
         context.dataStore.edit { preferences ->
-            val currentJson = preferences[PRESETS_KEY] ?: "[]"
+            val currentJson = preferences[StorageConstants.PRESETS_KEY] ?: "[]"
             val currentList = try {
                 Json.decodeFromString<List<SynthPreset>>(currentJson).toMutableList()
             } catch (e: Exception) {
@@ -54,7 +55,7 @@ class PresetRepository(private val context: Context) {
             }
             
             currentList.removeAll { it.name == name }
-            preferences[PRESETS_KEY] = Json.encodeToString(currentList)
+            preferences[StorageConstants.PRESETS_KEY] = Json.encodeToString(currentList)
         }
     }
 }

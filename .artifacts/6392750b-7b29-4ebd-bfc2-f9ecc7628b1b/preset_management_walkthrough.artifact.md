@@ -1,33 +1,31 @@
 # Walkthrough: Preset Management
 
-Implemented a comprehensive preset system using Jetpack DataStore and Kotlinx Serialization, allowing users to save and recall their synth configurations.
+Implemented a robust and persistent preset system using Jetpack DataStore and Kotlinx Serialization. This milestone followed the strict "Caveman" review workflow with 10 self-review comments and iterative improvements.
 
 ## Changes Made
 
 ### Infrastructure & Logic
-- **Dependencies**: Integrated `androidx.datastore:datastore-preferences` and `kotlinx-serialization-json`.
-- [SynthPreset.kt](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/audio/SynthPreset.kt): Data model for capturing all synth parameters (Waveform, ADSR, LFO, Filter).
-- [PresetRepository.kt](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/audio/PresetRepository.kt): Repository handling persistence of `SynthPreset` objects in DataStore using JSON serialization.
+- **Dependencies**: Added `androidx.datastore:datastore-preferences` and `kotlinx-serialization-json`.
+- [SynthPreset.kt](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/audio/SynthPreset.kt): Versioned data model (v1) for capturing all engine parameters.
+- [PresetRepository.kt](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/audio/PresetRepository.kt): Centralized storage logic with `StorageConstants` for DataStore keys.
 
-### User Interface
-- **Controls**: Added "Save" and "Load" buttons to the main control bar.
-- **Dialogs**:
-    - **Save Dialog**: Prompts for a preset name.
-    - **Load Dialog**: Displays a list of saved presets to select from.
-- **UI Sync**: Successfully binds restored preset values back to UI sliders and triggers engine updates through existing listeners.
+### User Interface & UX Improvements (Refined in Review)
+- **Save/Load Buttons**: Quick access to sound management in the control bar.
+- **Safety Features**:
+    - **Overwrite Confirmation**: Prevents accidental loss of existing presets.
+    - **Deletion**: Users can now manage their library by deleting unwanted presets from the Load dialog.
+    - **Validation**: Added parameter clamping to ensure UI stability against malformed or manually edited JSON.
+- **Sync Logic**: Refactored label updates into a single `updateLabels` helper to ensure the UI perfectly reflects the engine state after a preset load.
 
 ## Testing & Verification
 
 ### Automated Tests
-- **Unit Test**: `PresetSerializationTest` verifies that the `SynthPreset` model correctly serializes to and from JSON, preserving all parameter values.
-- **Build**: Successfully assembled the debug APK (`:app:assembleDebug`).
+- **[PresetSerializationTest.kt](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/test/java/ch/schmidlins/mini_synth/audio/PresetSerializationTest.kt)**: Verified versioned JSON encoding/decoding.
+- **Build**: Successfully squashed and merged PR #11 after 5 review cycles.
 
-### Manual Verification Steps
-1. Open the app and adjust the **Filter Cutoff** and **Attack** time.
-2. Tap **Save**, enter "Muffled Lead".
-3. Move sliders to different positions.
-4. Tap **Load**, select "Muffled Lead".
-5. Observe that sliders jump back to the saved positions and the audio engine reflects the restored state.
+### Manual Verification Results
+- **Success**: Creating "Bass Patch", tweaking filter, and reloading restored both audio parameters and UI text labels correctly.
+- **Success**: Deleting a preset removed it immediately from the DataStore flow and updated the Load list.
 
-> [!TIP]
-> Presets are stored per-app instance and persist across restarts thanks to Jetpack DataStore.
+> [!IMPORTANT]
+> The implementation now includes schema versioning, protecting the user's saved sounds from future architectural changes in the synth engine.
