@@ -148,11 +148,8 @@ void AudioEngine::setMetronomeEnabled(bool enabled) {
 }
 
 void AudioEngine::updateMetronomeParams() {
-    if (mStream) {
-        mSamplesPerBeat = static_cast<int32_t>(mStream->getSampleRate() * 60.0f / mBpm);
-    } else {
-        mSamplesPerBeat = static_cast<int32_t>(48000 * 60.0f / mBpm);
-    }
+    float sampleRate = mStream ? static_cast<float>(mStream->getSampleRate()) : 48000.0f;
+    mSamplesPerBeat = static_cast<int32_t>(sampleRate * 60.0f / mBpm);
 }
 
 float AudioEngine::getMetronomeSample() {

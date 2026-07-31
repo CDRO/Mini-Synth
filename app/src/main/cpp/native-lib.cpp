@@ -166,5 +166,5 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setBpm(JNIEnv *env, jobject th
 extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setMetronomeEnabled(JNIEnv *env, jobject thiz, jboolean enabled) {
     std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) engine->setMetronomeEnabled(enabled);
+    if (engine) engine->setMetronomeEnabled(enabled == JNI_TRUE);
 }
