@@ -7,13 +7,14 @@
 #include <thread>
 #include <atomic>
 
-class AudioEngine : public oboe::AudioStreamDataCallback {
+class AudioEngine : public oboe::AudioStreamDataCallback, public oboe::AudioStreamErrorCallback {
 public:
     AudioEngine();
     ~AudioEngine();
 
     void start();
     void stop();
+    bool isRunning() { return mStream != nullptr; }
 
     void noteOn(int midiNote, float velocity) {
         int shifted = midiNote + (mOctaveShift * 12);
@@ -45,7 +46,7 @@ public:
     void setFilterCutoff(float frequency) { mVoiceManager.setFilterCutoff(frequency); }
     void setFilterResonance(float resonance) { mVoiceManager.setFilterResonance(resonance); }
 
-    float renderSampleForTest() { return mVoiceManager.nextSample(); }
+    float renderSampleForTest();
 
     int32_t getVisualizerData(float* buffer, int32_t size);
     void startRecording(const std::string& path);
@@ -59,6 +60,8 @@ public:
             oboe::AudioStream *audioStream,
             void *audioData,
             int32_t numFrames) override;
+
+    void onErrorAfterClose(oboe::AudioStream *oboeStream, oboe::Result error) override;
 
 private:
     std::shared_ptr<oboe::AudioStream> mStream;

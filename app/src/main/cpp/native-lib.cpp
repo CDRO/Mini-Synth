@@ -24,6 +24,13 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_stopEngine(JNIEnv *env, jobjec
     }
 }
 
+extern "C" JNIEXPORT jboolean JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_isEngineRunning(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) return engine->isRunning() ? JNI_TRUE : JNI_FALSE;
+    return JNI_FALSE;
+}
+
 extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_noteOn(JNIEnv *env, jobject thiz, jint midi_note, jfloat velocity) {
     std::lock_guard<std::mutex> lock(engineMutex);

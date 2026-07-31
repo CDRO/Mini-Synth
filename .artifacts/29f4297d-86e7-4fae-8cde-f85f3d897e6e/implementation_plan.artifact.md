@@ -1,37 +1,48 @@
-# Implementation Plan - Fix IndexOutOfBoundsException and Stabilize Tests
+# Implementation Plan - Audio Stability & Stress Testing
 
-The application is crashing with a `java.lang.IndexOutOfBoundsException` in `KeyboardPadView` when drawing or handling touches before the view is fully laid out. This plan fixes these issues and establishes a robust testing workflow.
+This plan addresses the reported audio crashes during high BPM metronome usage and the "no sound" issue after playing multiple notes.
 
 ## User Review Required
 
 > [!IMPORTANT]
-> I will be modifying `KeyboardPadView.kt` and `TransformFragment.kt` to add defensive checks against `IndexOutOfBoundsException`. I will also add new tests to prevent regressions.
+> - I will change the audio mixing logic from a "mean" (averaging) to a "sum" approach. This prevents the volume from dropping significantly as more notes are played.
+> - I will implement Oboe's `onErrorAfterClose` callback to automatically restart the audio engine if the stream is disconnected by the system (e.g., due to underruns at high BPM).
+> - I will add a safety threshold to the envelope deactivation to ensure voices reach the `Idle` state reliably, preventing voice leakage and silent "active" voices.
 
 ## Proposed Changes
 
-### UI Components
+### Audio Engine (C++)
 
-#### [MODIFY] [KeyboardPadView.kt](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/ui/KeyboardPadView.kt)
-- Add empty checks for `whiteKeyRects` and `padRects` in `drawKeyboard`, `drawPadGrid`, and `getMidiAt`.
-- This ensures that if `onDraw` is called before `onSizeChanged` has populated these lists, the app won't crash.
+#### [MODIFY] [AudioEngine.h](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/main/cpp/AudioEngine.h)
+- Inherit from `oboe::AudioStreamErrorCallback`.
+- Declare `onErrorAfterClose(oboe::AudioStream *oboeStream, oboe::Result error)` to restart the engine.
 
-#### [MODIFY] [TransformFragment.kt](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/ui/transform/TransformFragment.kt)
-- Add a safety check in `onBindViewHolder` for the `drawables` list access.
+#### [MODIFY] [AudioEngine.cpp](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/main/cpp/AudioEngine.cpp)
+- Update `start()` to set the error callback.
+- Implement `onErrorAfterClose()` to log the error and call `start()`.
+- Update `onAudioReady()` to include the metronome in the final mix more safely.
 
-### Testing & Workflow
+#### [MODIFY] [VoiceManager.cpp](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/main/cpp/VoiceManager.cpp)
+- Remove the division by `activeCount` in `nextSample()`.
+- Instead, sum the active voices and apply the master volume. This preserves consistent per-note loudness.
 
-#### [NEW] [KeyboardLifecycleTest.kt](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/androidTest/java/ch/schmidlins/mini_synth/ui/KeyboardLifecycleTest.kt)
-- Add a test that verifies `KeyboardPadView` can handle `onDraw` and `onTouchEvent` safely even if not yet laid out.
+#### [MODIFY] [Envelope.cpp](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/main/cpp/Envelope.cpp)
+- Add a small epsilon check in `nextLevel()` Release phase: if `mCurrentLevel < 0.0001f`, force state to `Idle`.
 
-#### [NEW] [DEVELOPMENT_WORKFLOW.artifact.md](file:///C:/Users/tizia/Projekte/Mini-Synth/.artifacts/29f4297d-86e7-4fae-8cde-f85f3d897e6e/DEVELOPMENT_WORKFLOW.artifact.md)
-- A guide for developers on the testing and PR process.
+### Testing
+
+#### [MODIFY] [SoundOutputTest.kt](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/androidTest/java/ch/schmidlins/mini_synth/audio/SoundOutputTest.kt)
+- Add `testMetronomeStress()`: Sets BPM to 240, starts metronome, waits, and verifies engine is still running and producing data.
+- Add `testPolyphonyStress()`: Triggers 32 notes rapidly and verifies that sound is still produced and the engine hasn't crashed.
 
 ## Verification Plan
 
 ### Automated Tests
-- Run all unit tests: `:app:testDebugUnitTest`
-- Run all Android tests: `:app:connectedDebugAndroidTest`
-- Expected: All tests (existing and new) should pass.
+- Run all instrumentation tests: `./gradlew :app:connectedDebugAndroidTest`.
+- Pay close attention to the new stress tests.
 
 ### Manual Verification
-- Deploy the app to the emulator and interact with all screens immediately after launch.
+- Deploy to emulator.
+- Set metronome to 240 BPM and let it run for 10+ seconds.
+- Play many notes on the keyboard simultaneously.
+- Verify volume remains consistent and no "silence crash" occurs.

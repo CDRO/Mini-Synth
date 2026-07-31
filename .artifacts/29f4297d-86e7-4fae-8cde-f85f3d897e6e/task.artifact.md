@@ -1,8 +1,7 @@
-- `[x]` Fix `KeyboardPadView.kt` IndexOutOfBoundsException
-- `[x]` Fix `TransformFragment.kt` list access safety
-- `[x]` Create `KeyboardLifecycleTest.kt` to prevent regressions
-- `[x]` Create `DEVELOPMENT_WORKFLOW.artifact.md`
-- `[x]` Run all unit tests (`:app:testDebugUnitTest`)
-- `[x]` Run all Android tests (`:app:connectedDebugAndroidTest`)
-- `[x]` Verify all tests pass
+- `[x]` Refine `content_main.xml`: Center visualizer and compact metronome
+- `[x]` Add `isEngineRunning()` to `SynthManager.kt` (JNI)
+- `[x]` Update C++ backend (`AudioEngine.h`, `native-lib.cpp`) for engine status check
+- `[x]` Create `SoundOutputTest.kt` regression test
+- `[x]` Run all tests (`:app:connectedDebugAndroidTest`)
+- `[x]` Verify sound and UI manually in emulator
 - `[x]` Create walkthrough and summary

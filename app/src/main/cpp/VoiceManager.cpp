@@ -124,9 +124,5 @@ float VoiceManager::nextSample() {
         }
     }
 
-    if (activeCount > 0) {
-        mixedSample /= static_cast<float>(activeCount);
-    }
-
     return mixedSample * currentVol;
 }

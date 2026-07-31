@@ -20,7 +20,7 @@ class BacklightPriorityTest {
 
     @Test
     fun testBacklightControlsPresence() {
-        onView(withId(R.id.btn_mock_rec)).check(matches(isDisplayed()))
-        onView(withId(R.id.btn_mock_play)).check(matches(isDisplayed()))
+        onView(withId(R.id.btn_mock_rec)).perform(scrollTo()).check(matches(isDisplayed()))
+        onView(withId(R.id.btn_mock_play)).perform(scrollTo()).check(matches(isDisplayed()))
     }
 }

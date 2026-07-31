@@ -23,6 +23,7 @@ void AudioEngine::start() {
         ->setPerformanceMode(oboe::PerformanceMode::LowLatency)
         ->setSharingMode(oboe::SharingMode::Exclusive)
         ->setDataCallback(this)
+        ->setErrorCallback(this)
         ->openStream(mStream);
 
     if (result != oboe::Result::OK) {
@@ -146,6 +147,19 @@ void AudioEngine::setMetronomeEnabled(bool enabled) {
         mBeatCounter = 0;
     }
     mMetronomeEnabled = enabled;
+}
+
+void AudioEngine::onErrorAfterClose(oboe::AudioStream *oboeStream, oboe::Result error) {
+    __android_log_print(ANDROID_LOG_INFO, TAG, "Restarting audio engine after error: %s", oboe::convertToText(error));
+    start();
+}
+
+float AudioEngine::renderSampleForTest() {
+    float sample = mVoiceManager.nextSample();
+    if (mMetronomeEnabled) {
+        sample += getMetronomeSample();
+    }
+    return sample;
 }
 
 void AudioEngine::updateMetronomeParams() {

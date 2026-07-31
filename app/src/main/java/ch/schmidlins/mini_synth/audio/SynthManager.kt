@@ -9,6 +9,7 @@ class SynthManager {
 
     external fun startEngine()
     external fun stopEngine()
+    external fun isEngineRunning(): Boolean
 
     external fun noteOn(midiNote: Int, velocity: Float)
     external fun noteOff(midiNote: Int)

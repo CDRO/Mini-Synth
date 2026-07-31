@@ -20,9 +20,12 @@ class ThemeVisibilityTest {
 
     @Test
     fun testUIVisibility() {
-        // Verify control bar and elements
-        onView(withId(R.id.control_bar)).check(matches(isDisplayed()))
-        onView(withId(R.id.btn_mode_toggle)).check(matches(isDisplayed()))
+        // Verify top header elements (non-scrolling)
+        onView(withId(R.id.visualizer_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.metronome_container)).check(matches(isDisplayed()))
+
+        // Verify control bar and elements (inside ScrollView)
+        onView(withId(R.id.btn_mode_toggle)).perform(scrollTo()).check(matches(isDisplayed()))
         onView(withId(R.id.btn_poly_toggle)).check(matches(isDisplayed()))
         
         // For elements in ScrollView, perform scrollTo() before checking isDisplayed()

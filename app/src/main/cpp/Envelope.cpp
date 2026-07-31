@@ -85,7 +85,7 @@ float Envelope::nextLevel() {
             break;
         case State::Release:
             mCurrentLevel -= mReleaseRate;
-            if (mCurrentLevel <= 0.0f) {
+            if (mCurrentLevel <= 0.0001f) {
                 mCurrentLevel = 0.0f;
                 mState = State::Idle;
             }
