@@ -45,9 +45,9 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 ## Development & Review Workflow
 
 > [!IMPORTANT]
-> **MANDATORY WORKFLOW**: This section must NEVER be removed. Every feature implementation MUST follow these steps without exception.
+> **MANDATORY WORKFLOW**: This section must NEVER be removed. Every feature implementation AND bugfix MUST follow these steps without exception.
 
-1. **Branching**: New git branch per feature. Sequential development only.
+1. **Branching**: New git branch per feature or bugfix (`feature/*` or `fix/*`). Sequential development only.
 2. **Implementation**: Code and test changes.
 3. **Artifact Maintenance**:
     - Unique artifacts per feature: `[feature_name]_task.artifact.md`, `[feature_name]_review.artifact.md`, `[feature_name]_walkthrough.artifact.md`.
