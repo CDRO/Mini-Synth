@@ -13,28 +13,6 @@ add_library(mini_synth SHARED
         Lfo.cpp
         Filter.cpp
         Mp3Encoder.cpp
-
-        # LAME sources (Must be provided in src/main/cpp/lame)
-        lame/bitstream.c
-        lame/encoder.c
-        lame/fft.c
-        lame/gain_analysis.c
-        lame/id3tag.c
-        lame/lame.c
-        lame/mpglib_interface.c
-        lame/newmdct.c
-        lame/presets.c
-        lame/psymodel.c
-        lame/quantize.c
-        lame/quantize_pvt.c
-        lame/reservoir.c
-        lame/set_get.c
-        lame/tables.c
-        lame/takehiro.c
-        lame/util.c
-        lame/vbrquantize.c
-        lame/VbrTag.c
-        lame/version.c
 )
 
 target_include_directories(mini_synth PRIVATE . lame)

@@ -67,7 +67,7 @@ private:
     std::string mRecordPath;
     std::thread mRecordingThread;
 
-    void recordingLoop(std::string path);
+    void recordingLoop(const std::string& path);
 };
 
 #endif //MINI_SYNTH_AUDIOENGINE_H

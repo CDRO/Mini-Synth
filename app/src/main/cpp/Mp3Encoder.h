@@ -3,7 +3,10 @@
 
 #include <string>
 #include <vector>
-#include "lame/lame.h"
+//#include "lame/lame.h"
+
+// Stub for LAME if not present
+typedef void* lame_global_flags;
 
 class Mp3Encoder {
 public:

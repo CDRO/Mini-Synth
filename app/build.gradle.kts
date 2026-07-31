@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
+    // Note: kotlin-android is managed implicitly by AGP 9.3+; applying alias here causes 'duplicate extension' errors.
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
