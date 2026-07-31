@@ -168,3 +168,10 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setMetronomeEnabled(JNIEnv *en
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setMetronomeEnabled(enabled == JNI_TRUE);
 }
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_isBeatStarted(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) return engine->isBeatStarted();
+    return JNI_FALSE;
+}

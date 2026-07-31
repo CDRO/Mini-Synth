@@ -434,6 +434,14 @@
             android:layout_height="wrap_content"
             android:text="Metronome: OFF" />
 
+        <View
+            android:id="@+id/beat_indicator"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:background="@android:color/darker_gray" />
+
         <Space
             android:layout_width="16dp"
             android:layout_height="match_parent" />

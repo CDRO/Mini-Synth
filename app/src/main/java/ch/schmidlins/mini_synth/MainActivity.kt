@@ -29,6 +29,15 @@ class MainActivity : AppCompatActivity() {
     private var isMockPlay = false
     private var isMetronomeEnabled = false
     private var bpm = 120f
+    private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val beatPoller = object : Runnable {
+        override fun run() {
+            if (synthManager.isBeatStarted()) {
+                flashBeat()
+            }
+            mainHandler.postDelayed(this, 16)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -165,6 +174,14 @@ class MainActivity : AppCompatActivity() {
         val content = binding.appBarMain.contentMain
         synthManager.setBpm(bpm)
         content.tvBpmValue!!.text = bpm.toInt().toString()
+    }
+
+    private fun flashBeat() {
+        val indicator = binding.appBarMain.contentMain.beatIndicator!!
+        indicator.setBackgroundColor(0xFFC0FF00.toInt()) // Acid Green
+        mainHandler.postDelayed({
+            indicator.setBackgroundColor(android.graphics.Color.DKGRAY)
+        }, 100)
     }
 
     private fun setupPresets(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -448,6 +465,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         synthManager.startEngine()
+        mainHandler.post(beatPoller)
         
         val content = binding.appBarMain.contentMain
         synthManager.setMasterVolume(content.seekMasterVol!!.progress / 100f)
@@ -482,6 +500,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
+        mainHandler.removeCallbacks(beatPoller)
         synthManager.stopEngine()
     }
 }

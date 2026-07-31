@@ -152,8 +152,16 @@ void AudioEngine::updateMetronomeParams() {
     mSamplesPerBeat = static_cast<int32_t>(sampleRate * 60.0f / mBpm);
 }
 
+bool AudioEngine::isBeatStarted() {
+    return mBeatFlag.exchange(false);
+}
+
 float AudioEngine::getMetronomeSample() {
     float sample = 0.0f;
+
+    if (mSampleCounter == 0) {
+        mBeatFlag.store(true);
+    }
 
     // Generates a simple tick: a decaying burst of noise or sine
     if (mSampleCounter < 500) { // 500 samples duration (~10ms)
