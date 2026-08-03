@@ -98,6 +98,11 @@ class MainActivity : AppCompatActivity() {
                     synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, false)
                 }
             }
+            override fun onGridTouchStart(midi: Int) {}
+            override fun onGridTouchEnd() {}
+            override fun onPadLongPress(padIndex: Int) {
+                showPadColorPicker(padIndex)
+            }
         }
         
         // Mode toggle
@@ -184,6 +189,46 @@ class MainActivity : AppCompatActivity() {
         setupPresets(content)
         setupMetronome(content)
         setupSequencer(content)
+        setupPadCustomization(content)
+    }
+
+    private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        val synthView = content.keyboardPadView!!
+        
+        content.btnColsDown!!.setOnClickListener {
+            if (synthView.gridColumns > 1) {
+                synthView.setGridDimensions(synthView.gridColumns - 1, synthView.gridRows)
+                content.tvColsValue!!.text = synthView.gridColumns.toString()
+            }
+        }
+        
+        content.btnColsUp!!.setOnClickListener {
+            if (synthView.gridColumns < 16) {
+                synthView.setGridDimensions(synthView.gridColumns + 1, synthView.gridRows)
+                content.tvColsValue!!.text = synthView.gridColumns.toString()
+            }
+        }
+    }
+
+    private fun showPadColorPicker(padIndex: Int) {
+        val colors = arrayOf("Acid Green", "Electric Blue", "Vibrant Red", "Off-White", "Dim Grey")
+        val colorValues = intArrayOf(
+            ContextCompat.getColor(this, R.color.acid_green),
+            ContextCompat.getColor(this, R.color.electric_blue),
+            ContextCompat.getColor(this, R.color.vibrant_red),
+            ContextCompat.getColor(this, R.color.off_white),
+            ContextCompat.getColor(this, R.color.dim_grey)
+        )
+        
+        AlertDialog.Builder(this)
+            .setTitle("Pick Color for Pad $padIndex")
+            .setItems(colors) { _, which ->
+                binding.appBarMain.contentMain.keyboardPadView!!.setPadColor(padIndex, colorValues[which])
+            }
+            .setNeutralButton("Clear") { _, _ ->
+                binding.appBarMain.contentMain.keyboardPadView!!.setPadColor(padIndex, ContextCompat.getColor(this, R.color.surface_bright))
+            }
+            .show()
     }
 
     private fun setupSequencer(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
