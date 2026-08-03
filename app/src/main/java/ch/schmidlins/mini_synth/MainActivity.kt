@@ -107,7 +107,9 @@ class MainActivity : AppCompatActivity() {
             override fun onGridTouchStart(midi: Int) {}
             override fun onGridTouchEnd() {}
             override fun onPadLongPress(padIndex: Int) {
-                showPadColorPicker(padIndex)
+                if (mappingSampleId == null) {
+                    showPadColorPicker(padIndex)
+                }
             }
         }
         
