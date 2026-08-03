@@ -1,5 +1,6 @@
 #include "AudioEngine.h"
 #include <android/log.h>
+#include <fstream>
 #include "Mp3Encoder.h"
 
 #define TAG "AudioEngine"
@@ -79,6 +80,31 @@ void AudioEngine::loadFactorySample(int padIndex, int sampleId) {
         float phase = 2.0f * PI_F * freq * static_cast<float>(i) / static_cast<float>(mStream->getSampleRate());
         float decay = 1.0f - (static_cast<float>(i) / static_cast<float>(numSamples));
         mPadBuffers[padIndex].push_back(sinf(phase) * decay * 0.8f);
+    }
+}
+
+void AudioEngine::savePadSample(int padIndex, const char* path) {
+    if (padIndex < 0 || padIndex >= MAX_PADS) return;
+    std::ofstream file(path, std::ios::binary);
+    if (file.is_open()) {
+        size_t size = mPadBuffers[padIndex].size();
+        file.write(reinterpret_cast<const char*>(&size), sizeof(size));
+        file.write(reinterpret_cast<const char*>(mPadBuffers[padIndex].data()), size * sizeof(float));
+        file.close();
+    }
+}
+
+void AudioEngine::loadPadSample(int padIndex, const char* path) {
+    if (padIndex < 0 || padIndex >= MAX_PADS) return;
+    std::ifstream file(path, std::ios::binary);
+    if (file.is_open()) {
+        size_t size;
+        file.read(reinterpret_cast<char*>(&size), sizeof(size));
+        if (size > 0 && size < (48000 * 60)) { // Limit to 60s max for sanity
+            mPadBuffers[padIndex].resize(size);
+            file.read(reinterpret_cast<char*>(mPadBuffers[padIndex].data()), size * sizeof(float));
+        }
+        file.close();
     }
 }
 

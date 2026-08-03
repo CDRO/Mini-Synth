@@ -30,13 +30,14 @@ Merging context from initial feature implementation (`6392750b`) and stability r
 ### [DONE] Milestone 8: Pad Sampling & Playback
 ### [DONE] Milestone 9: Swipe-to-Hold Pad Recording
 ### [DONE] Milestone 10: Dynamic Pad Customization
+### [DONE] Milestone 11: Sample Mapping & Workspace Layout
 
-### [NEXT] Milestone 11: Sample Mapping & Workspace Layout
-- **Objective**: Add a sound browser sidebar and workspace visibility toggles.
+### [NEXT] Milestone 12: Sample Persistence
+- **Objective**: Persist recorded and mapped samples to disk.
 - **Key Features**:
-    - "Sample Browser" column on the left for external sound loading.
-    - "Zen Mode" toggle to hide parameters and focus on pads/sequencer.
-    - Drag-and-drop simulation (click-to-map) from browser to pads.
+    - Binary serialization of pad PCM buffers.
+    - Automatic reloading of samples on app startup.
+    - Integration with Preset system to store sample paths.
 
 ## Quality Assurance Status
 - **Unit Tests**: 5 passed (Oscillators, Envelopes, ViewModel logic).

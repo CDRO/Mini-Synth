@@ -77,6 +77,22 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_loadFactorySample(JNIEnv *env,
 }
 
 extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_savePadSample(JNIEnv *env, jobject thiz, jint pad_index, jstring path) {
+    const char *nativePath = env->GetStringUTFChars(path, nullptr);
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->savePadSample(pad_index, nativePath);
+    env->ReleaseStringUTFChars(path, nativePath);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_loadPadSample(JNIEnv *env, jobject thiz, jint pad_index, jstring path) {
+    const char *nativePath = env->GetStringUTFChars(path, nullptr);
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->loadPadSample(pad_index, nativePath);
+    env->ReleaseStringUTFChars(path, nativePath);
+}
+
+extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setPolyphonic(JNIEnv *env, jobject thiz, jboolean is_polyphonic) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setPolyphonic(is_polyphonic);
