@@ -5,3 +5,6 @@
 - `[x]` Run all tests (`:app:connectedDebugAndroidTest`)
 - `[x]` Verify sound and UI manually in emulator
 - `[x]` Create walkthrough and summary
+- `[x]` Optimize Metronome math (float precision)
+- `[x]` Implement robust auto-restart logic (retries and cool-down)
+- `[x]` Verify with automated stress tests

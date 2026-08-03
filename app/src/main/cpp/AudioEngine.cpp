@@ -150,8 +150,21 @@ void AudioEngine::setMetronomeEnabled(bool enabled) {
 }
 
 void AudioEngine::onErrorAfterClose(oboe::AudioStream *oboeStream, oboe::Result error) {
-    __android_log_print(ANDROID_LOG_INFO, TAG, "Restarting audio engine after error: %s", oboe::convertToText(error));
-    start();
+    auto now = std::chrono::steady_clock::now();
+    if (now - mLastRestartTime < MIN_RESTART_INTERVAL) {
+        mRestartRetryCount++;
+    } else {
+        mRestartRetryCount = 0;
+    }
+    mLastRestartTime = now;
+
+    if (mRestartRetryCount < MAX_RESTART_RETRIES) {
+        __android_log_print(ANDROID_LOG_INFO, TAG, "Restarting audio engine after error: %s (Retry %d)",
+                           oboe::convertToText(error), mRestartRetryCount + 1);
+        start();
+    } else {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "Audio engine restart limit reached. Engine stopped.");
+    }
 }
 
 float AudioEngine::renderSampleForTest() {
@@ -178,10 +191,12 @@ float AudioEngine::getMetronomeSample() {
         mBeatFlag.store(true);
     }
 
-    // Generates a simple tick: a decaying burst of noise or sine
+    // Generates a simple tick: a decaying burst of sine
     if (mSampleCounter < 500) { // 500 samples duration (~10ms)
-        float phase = 2.0f * M_PI * (mBeatCounter == 0 ? 880.0f : 440.0f) * mSampleCounter / (mStream ? mStream->getSampleRate() : 48000);
-        float amplitude = 0.5f * (1.0f - mSampleCounter / 500.0f);
+        float freq = (mBeatCounter == 0 ? 880.0f : 440.0f);
+        float sampleRate = (mStream ? static_cast<float>(mStream->getSampleRate()) : 48000.0f);
+        float phase = 2.0f * PI_F * freq * static_cast<float>(mSampleCounter) / sampleRate;
+        float amplitude = 0.5f * (1.0f - static_cast<float>(mSampleCounter) / 500.0f);
         sample = sinf(phase) * amplitude;
     }
 

@@ -6,6 +6,7 @@
 #include "LockFreeQueue.h"
 #include <thread>
 #include <atomic>
+#include <chrono>
 
 class AudioEngine : public oboe::AudioStreamDataCallback, public oboe::AudioStreamErrorCallback {
 public:
@@ -64,6 +65,10 @@ public:
     void onErrorAfterClose(oboe::AudioStream *oboeStream, oboe::Result error) override;
 
 private:
+    static constexpr float PI_F = 3.1415926535f;
+    static constexpr int MAX_RESTART_RETRIES = 5;
+    static constexpr auto MIN_RESTART_INTERVAL = std::chrono::seconds(2);
+
     std::shared_ptr<oboe::AudioStream> mStream;
     VoiceManager mVoiceManager;
     int mOctaveShift = 0;
@@ -80,6 +85,9 @@ private:
     int32_t mSampleCounter = 0;
     int32_t mBeatCounter = 0;
     std::atomic<bool> mBeatFlag{false};
+
+    int mRestartRetryCount = 0;
+    std::chrono::steady_clock::time_point mLastRestartTime;
 
     void recordingLoop(const std::string& path);
     void updateMetronomeParams();
