@@ -240,7 +240,7 @@ class MainActivity : AppCompatActivity() {
                 binding.appBarMain.contentMain.keyboardPadView!!.setPadColor(padIndex, colorValues[which])
             }
             .setNeutralButton("Clear") { _, _ ->
-                binding.appBarMain.contentMain.keyboardPadView!!.setPadColor(padIndex, ContextCompat.getColor(this, R.color.surface_bright))
+                binding.appBarMain.contentMain.keyboardPadView!!.setPadColor(padIndex, null)
             }
             .show()
     }

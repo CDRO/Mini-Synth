@@ -252,8 +252,12 @@ class KeyboardPadView @JvmOverloads constructor(
         postInvalidate()
     }
 
-    fun setPadColor(padIndex: Int, color: Int) {
-        padColors[padIndex] = color
+    fun setPadColor(padIndex: Int, color: Int?) {
+        if (color == null) {
+            padColors.remove(padIndex)
+        } else {
+            padColors[padIndex] = color
+        }
         invalidate()
     }
 
