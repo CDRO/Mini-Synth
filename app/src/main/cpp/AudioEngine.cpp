@@ -73,9 +73,10 @@ void AudioEngine::loadFactorySample(int padIndex, int sampleId) {
     // Simulate loading a factory sample by generating a 0.2s burst
     float freq = (sampleId == 0) ? 60.0f : 440.0f; // Kick vs Snare simulation
     int numSamples = static_cast<int>(mStream->getSampleRate() * 0.2f);
+    mPadBuffers[padIndex].reserve(numSamples);
     for (int i = 0; i < numSamples; ++i) {
-        float phase = 2.0f * PI_F * freq * static_cast<float>(i) / mStream->getSampleRate();
-        float decay = 1.0f - (static_cast<float>(i) / numSamples);
+        float phase = 2.0f * PI_F * freq * static_cast<float>(i) / static_cast<float>(mStream->getSampleRate());
+        float decay = 1.0f - (static_cast<float>(i) / static_cast<float>(numSamples));
         mPadBuffers[padIndex].push_back(sinf(phase) * decay * 0.8f);
     }
 }
