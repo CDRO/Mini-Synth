@@ -163,12 +163,11 @@
                 android:textStyle="bold"
                 android:textSize="10sp" />
 
-            <ListView
-                android:id="@+id/sample_list_view"
+            <LinearLayout
+                android:id="@+id/sample_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@color/border_dim"
-                android:dividerHeight="1dp" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
         </LinearLayout>
 
         <ScrollView

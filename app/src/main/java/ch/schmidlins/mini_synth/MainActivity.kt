@@ -213,10 +213,20 @@ class MainActivity : AppCompatActivity() {
 
         // Factory Samples for Browser
         val samples = arrayOf("Kick 808", "Snare 909", "Hat Closed", "Hat Open", "Clap", "Rim")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, samples)
-        content.sampleListView.adapter = adapter
-        content.sampleListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            mappingSampleId = position
+        for (i in samples.indices) {
+            val tv = android.widget.TextView(this).apply {
+                text = samples[i]
+                setPadding(16, 16, 16, 16)
+                setTextColor(ContextCompat.getColor(this@MainActivity, R.color.off_white))
+                textSize = 10f
+                setOnClickListener {
+                    mappingSampleId = i
+                    // Visual feedback
+                    setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.acid_green))
+                    postDelayed({ setBackgroundColor(android.graphics.Color.TRANSPARENT) }, 200)
+                }
+            }
+            content.sampleContainer.addView(tv)
         }
     }
 
