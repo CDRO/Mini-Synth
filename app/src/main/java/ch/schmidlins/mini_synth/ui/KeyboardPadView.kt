@@ -39,7 +39,7 @@ class KeyboardPadView @JvmOverloads constructor(
     private val pointerToNote = mutableMapOf<Int, Int>()
     private val padColors = ConcurrentHashMap<Int, Int>() // padIndex -> color
     private val handler = android.os.Handler(android.os.Looper.getMainLooper())
-    private var longPressRunnable: Runnable? = null
+    private val longPressRunnables = mutableMapOf<Int, Runnable>() // pointerId -> Runnable
     
     // Paints
     private val whiteKeyPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.surface_bright); style = Paint.Style.FILL }
@@ -165,13 +165,14 @@ class KeyboardPadView @JvmOverloads constructor(
                     noteOn(pId, midi)
                     if (mode == Mode.PAD_GRID) {
                         val padIndex = midi - baseNote
-                        longPressRunnable = Runnable { listener?.onPadLongPress(padIndex) }
-                        handler.postDelayed(longPressRunnable!!, 500)
+                        val runnable = Runnable { listener?.onPadLongPress(padIndex) }
+                        longPressRunnables[pId] = runnable
+                        handler.postDelayed(runnable, 500)
                     }
                 }
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP, MotionEvent.ACTION_CANCEL -> {
-                longPressRunnable?.let { handler.removeCallbacks(it) }
+                longPressRunnables.remove(pId)?.let { handler.removeCallbacks(it) }
                 noteOff(pId)
             }
             MotionEvent.ACTION_MOVE -> {
@@ -180,7 +181,7 @@ class KeyboardPadView @JvmOverloads constructor(
                     val newMidi = getMidiAt(event.getX(i), event.getY(i))
                     val oldMidi = pointerToNote[pid]
                     if (newMidi != oldMidi) {
-                        longPressRunnable?.let { handler.removeCallbacks(it) }
+                        longPressRunnables.remove(pid)?.let { handler.removeCallbacks(it) }
                         noteOff(pid)
                         if (newMidi != -1) noteOn(pid, newMidi)
                     }
