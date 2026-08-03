@@ -201,23 +201,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupWorkspaceRefinement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
-        content.toggleZenMode!!.setOnCheckedChangeListener { _, isChecked ->
+        content.toggleZenMode.setOnCheckedChangeListener { _, isChecked ->
             isZenMode = isChecked
-            content.parameterContainer!!.visibility = if (isZenMode) View.GONE else View.VISIBLE
+            content.parameterContainer.visibility = if (isZenMode) View.GONE else View.VISIBLE
         }
 
-        content.toggleBrowser!!.setOnCheckedChangeListener { _, isChecked ->
-            content.sidebarBrowser!!.visibility = if (isChecked) View.VISIBLE else View.GONE
+        content.toggleBrowser.setOnCheckedChangeListener { _, isChecked ->
+            content.sidebarBrowser.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
 
         // Factory Samples for Browser
         val samples = arrayOf("Kick 808", "Snare 909", "Hat Closed", "Hat Open", "Clap", "Rim")
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, samples)
-        content.sampleListView!!.adapter = adapter
-        content.sampleListView!!.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+        content.sampleListView.adapter = adapter
+        content.sampleListView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             mappingSampleId = position
-            // Visual feedback: briefly highlight the list item or change browser color?
-            // For now, we'll just track the state.
         }
     }
 
