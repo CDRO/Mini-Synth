@@ -69,8 +69,7 @@ class MainActivity : AppCompatActivity() {
                     if (mappingSampleId != null) {
                         synthManager.loadFactorySample(midi - 60, mappingSampleId!!)
                         mappingSampleId = null
-                        // Optional: Clear browser selection or toggle it off? 
-                        // Let's just finish the map.
+                        content.sidebarBrowser.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.surface_dark))
                     } else if (isPadSamplingMode) {
                         synthManager.startPadSampling(midi - 60) // midi is baseNote + padIndex
                         synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, true)
@@ -221,7 +220,8 @@ class MainActivity : AppCompatActivity() {
                 textSize = 10f
                 setOnClickListener {
                     mappingSampleId = i
-                    // Visual feedback
+                    content.sidebarBrowser.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.border_dim))
+                    // Visual feedback on item
                     setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.acid_green))
                     postDelayed({ setBackgroundColor(android.graphics.Color.TRANSPARENT) }, 200)
                 }
