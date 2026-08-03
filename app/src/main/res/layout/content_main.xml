@@ -757,6 +757,41 @@
                         android:layout_height="36dp"
                         android:text="+"
                         android:textColor="@color/acid_green" />
+
+                    <Space
+                        android:layout_width="16dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rows: "
+                        android:textColor="@color/off_white"
+                        android:textSize="10sp" />
+
+                    <Button
+                        android:id="@+id/btn_rows_down"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="40dp"
+                        android:layout_height="36dp"
+                        android:text="-"
+                        android:textColor="@color/acid_green" />
+
+                    <TextView
+                        android:id="@+id/tv_rows_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="8dp"
+                        android:text="4"
+                        android:textColor="@color/off_white" />
+
+                    <Button
+                        android:id="@+id/btn_rows_up"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="40dp"
+                        android:layout_height="36dp"
+                        android:text="+"
+                        android:textColor="@color/acid_green" />
                 </LinearLayout>
 
             </LinearLayout>

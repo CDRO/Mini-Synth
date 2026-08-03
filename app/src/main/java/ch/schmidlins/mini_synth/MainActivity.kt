@@ -208,6 +208,20 @@ class MainActivity : AppCompatActivity() {
                 content.tvColsValue!!.text = synthView.gridColumns.toString()
             }
         }
+
+        content.btnRowsDown!!.setOnClickListener {
+            if (synthView.gridRows > 1) {
+                synthView.setGridDimensions(synthView.gridColumns, synthView.gridRows - 1)
+                content.tvRowsValue!!.text = synthView.gridRows.toString()
+            }
+        }
+
+        content.btnRowsUp!!.setOnClickListener {
+            if (synthView.gridRows < 16) {
+                synthView.setGridDimensions(synthView.gridColumns, synthView.gridRows + 1)
+                content.tvRowsValue!!.text = synthView.gridRows.toString()
+            }
+        }
     }
 
     private fun showPadColorPicker(padIndex: Int) {
