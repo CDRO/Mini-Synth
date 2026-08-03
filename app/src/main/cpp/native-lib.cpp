@@ -211,10 +211,26 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_isSequencerNoteActive(JNIEnv *
     return JNI_FALSE;
 }
 
+extern "C" JNIEXPORT jboolean JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_isSequencerStepActive(JNIEnv *env, jobject thiz, jint step) {
+    if (step < 0 || step >= 16) return JNI_FALSE;
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) return engine->isSequencerStepActive(step) ? JNI_TRUE : JNI_FALSE;
+    return JNI_FALSE;
+}
+
 extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_clearSequencer(JNIEnv *env, jobject thiz) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->clearSequencer();
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_recordSequencerNote(JNIEnv *env, jobject thiz, jint note) {
+    if (note < 0 || note >= 128) return 0;
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) return engine->recordSequencerNote(note);
+    return 0;
 }
 
 extern "C" JNIEXPORT void JNICALL

@@ -16,10 +16,12 @@ public:
 
     void setNote(int step, int note, bool active);
     bool getNote(int step, int note) const;
+    bool isStepActive(int step) const { return (step >= 0 && step < NUM_STEPS) ? mGrid[step].any() : false; }
     void clear();
 
     void setStepDuration(float division); // e.g., 0.25 for 1/16th notes if beat is 1/4
     void setVelocity(float velocity) { mVelocity.store(velocity); }
+    int recordNote(int note);
     void process(int32_t numFrames, int32_t samplesPerBeat, VoiceManager& voiceManager);
 
     int getCurrentStep() const { return mCurrentStep.load(); }
@@ -32,7 +34,7 @@ public:
 private:
     std::bitset<NUM_NOTES> mGrid[NUM_STEPS];
     std::atomic<int> mCurrentStep{0};
-    int32_t mSamplesProcessed = 0;
+    std::atomic<int32_t> mSamplesProcessed{0};
     std::atomic<float> mStepDivision{0.25f}; // Default to 1/16th notes (4 steps per beat)
     std::atomic<bool> mIsPlaying{false};
     std::atomic<float> mVelocity{0.8f};

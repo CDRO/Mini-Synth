@@ -25,13 +25,14 @@ Merging context from initial feature implementation (`6392750b`) and stability r
 ### [DONE] Milestone 3: LFO & Parameter Modulation
 ### [DONE] Milestone 4: Visualization & MP3 Recording
 ### [DONE] Milestone 5: Metronome & BPM Control
+### [DONE] Milestone 6: Visual MIDI Sequencer
 
-### [NEXT] Milestone 6: Visual MIDI Sequencer
-- **Objective**: Step-by-step and real-time melody recording with loop playback.
+### [NEXT] Milestone 7: Keyboard Step-Recording
+- **Objective**: Capture keyboard performance into the sequencer step-by-step.
 - **Key Features**:
-    - Select step duration (1/16 to 1/1).
-    - Sync playback with the existing Metronome beat.
-    - Blue backlight feedback during playback.
+    - Recording Mode toggle.
+    - Automatic step advance on key press.
+    - Integration with existing `MidiSequencer` grid.
 
 ## Quality Assurance Status
 - **Unit Tests**: 5 passed (Oscillators, Envelopes, ViewModel logic).

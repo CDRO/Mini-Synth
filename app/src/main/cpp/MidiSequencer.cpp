@@ -30,38 +30,56 @@ void MidiSequencer::setStepDuration(float division) {
     mStepDivision.store(division);
 }
 
+int MidiSequencer::recordNote(int note) {
+    if (note < 0 || note >= NUM_NOTES) return mCurrentStep.load();
+    int step = mCurrentStep.load();
+    mGrid[step].reset(); // Clear existing notes at this step
+    mGrid[step].set(note, true);
+
+    int nextStep = step;
+    if (!mIsPlaying.load()) {
+        nextStep = (step + 1) % NUM_STEPS;
+        mCurrentStep.store(nextStep);
+    }
+    return nextStep;
+}
+
 void MidiSequencer::stop(VoiceManager& voiceManager) {
     releaseStep(mCurrentStep, voiceManager);
     reset();
 }
 
 void MidiSequencer::reset() {
-    mSamplesProcessed = 0;
+    mSamplesProcessed.store(0);
     mCurrentStep.store(0);
 }
 
 void MidiSequencer::process(int32_t numFrames, int32_t samplesPerBeat, VoiceManager& voiceManager) {
     if (!mIsPlaying.load()) return;
 
-    int32_t stepDurationSamples = static_cast<int32_t>(static_cast<float>(samplesPerBeat) * mStepDivision.load());
+    float currentDivision = mStepDivision.load();
+    int32_t stepDurationSamples = static_cast<int32_t>(static_cast<float>(samplesPerBeat) * currentDivision);
     int32_t gateSamples = static_cast<int32_t>(static_cast<float>(stepDurationSamples) * 0.9f); // 90% Gate
 
+    int32_t samplesCounter = mSamplesProcessed.load();
+
     for (int i = 0; i < numFrames; ++i) {
-        if (mSamplesProcessed == 0) {
+        if (samplesCounter == 0) {
             triggerStep(mCurrentStep, voiceManager);
         }
 
-        mSamplesProcessed++;
+        samplesCounter++;
 
-        if (mSamplesProcessed == gateSamples) {
+        if (samplesCounter == gateSamples) {
             releaseStep(mCurrentStep, voiceManager);
         }
 
-        if (mSamplesProcessed >= stepDurationSamples) {
-            mSamplesProcessed = 0;
+        if (samplesCounter >= stepDurationSamples) {
+            samplesCounter = 0;
             mCurrentStep = (mCurrentStep + 1) % NUM_STEPS;
         }
     }
+    mSamplesProcessed.store(samplesCounter);
 }
 
 void MidiSequencer::triggerStep(int step, VoiceManager& voiceManager) {

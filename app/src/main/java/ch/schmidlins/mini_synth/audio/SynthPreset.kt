@@ -16,5 +16,6 @@ data class SynthPreset(
     val lfoWaveformIndex: Int = 0,
     val lfoTargetIndex: Int = 0,
     val filterCutoff: Float = 1000.0f,
-    val filterResonance: Float = 0.2f
+    val filterResonance: Float = 0.2f,
+    val sequencerStepDivision: Float = 0.25f
 )

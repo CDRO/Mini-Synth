@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private var isMockRec = false
     private var isMockPlay = false
     private var isMetronomeEnabled = false
+    private var isSequencerRecordMode = false
     private var bpm = 120f
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private val beatPoller = object : Runnable {
@@ -60,7 +61,14 @@ class MainActivity : AppCompatActivity() {
         // Listener
         synthView.listener = object : KeyboardPadView.OnNoteEventListener {
             override fun onNoteOn(midi: Int, velocity: Float) {
+                if (isSequencerRecordMode) {
+                    val nextStep = synthManager.recordSequencerNote(midi)
+                    updateSequencerToggles(content)
+                    // Immediate feedback for recording (optional: highlight nextStep)
+                }
+                
                 synthManager.noteOn(midi, velocity)
+                
                 if (isMockRec) {
                     synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, true)
                 }
@@ -164,6 +172,10 @@ class MainActivity : AppCompatActivity() {
             content.btnSequencerPlay!!.text = if (playing) "STOP" else "PLAY"
         }
 
+        content.toggleSequencerRec!!.setOnCheckedChangeListener { _, isChecked ->
+            isSequencerRecordMode = isChecked
+        }
+
         content.btnSequencerClear!!.setOnClickListener {
             synthManager.clearSequencer()
             // Reset UI toggles
@@ -220,7 +232,9 @@ class MainActivity : AppCompatActivity() {
         // Clear last
         if (last != -1 && last < stepButtonIds.size) {
             content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[last])?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
-            synthView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
+            for (note in 60..72) {
+                synthView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, false)
+            }
         }
         
         // Set current
@@ -228,8 +242,18 @@ class MainActivity : AppCompatActivity() {
             content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[current])?.setBackgroundColor(ContextCompat.getColor(this, R.color.acid_green))
         }
         
-        if (synthManager.isSequencerNoteActive(current, 60)) {
-            synthView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true)
+        for (note in 60..72) {
+            if (synthManager.isSequencerNoteActive(current, note)) {
+                synthView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, true)
+            }
+        }
+    }
+
+    private fun updateSequencerToggles(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        for (i in 0 until 16) {
+            val id = stepButtonIds[i]
+            val toggle = content.root.findViewById<android.widget.ToggleButton>(id)
+            toggle?.isChecked = synthManager.isSequencerStepActive(i)
         }
     }
 
@@ -237,7 +261,9 @@ class MainActivity : AppCompatActivity() {
         for (id in stepButtonIds) {
             content.root.findViewById<android.widget.ToggleButton>(id)?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
         }
-        content.keyboardPadView!!.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
+        for (note in 60..72) {
+            content.keyboardPadView!!.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, false)
+        }
     }
 
     private fun setupMetronome(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -379,7 +405,15 @@ class MainActivity : AppCompatActivity() {
             lfoWaveformIndex = content.spinnerLfoWaveform!!.selectedItemPosition,
             lfoTargetIndex = content.spinnerLfoTarget!!.selectedItemPosition,
             filterCutoff = content.seekFilterCutoff!!.progress / 100f,
-            filterResonance = content.seekFilterRes!!.progress / 100f
+            filterResonance = content.seekFilterRes!!.progress / 100f,
+            sequencerStepDivision = when (content.spinnerStepDuration!!.selectedItemPosition) {
+                0 -> 0.25f
+                1 -> 0.5f
+                2 -> 1.0f
+                3 -> 2.0f
+                4 -> 4.0f
+                else -> 0.25f
+            }
         )
         lifecycleScope.launch {
             presetRepository.savePreset(preset)
@@ -414,6 +448,16 @@ class MainActivity : AppCompatActivity() {
         // Filter
         content.seekFilterCutoff!!.progress = (preset.filterCutoff.coerceIn(0f, 1f) * 100).toInt()
         content.seekFilterRes!!.progress = (preset.filterResonance.coerceIn(0f, 1f) * 100).toInt()
+        
+        val divIndex = when (preset.sequencerStepDivision) {
+            0.25f -> 0
+            0.5f -> 1
+            1.0f -> 2
+            2.0f -> 3
+            4.0f -> 4
+            else -> 0
+        }
+        content.spinnerStepDuration!!.setSelection(divIndex)
         
         // Manually trigger label updates if setting progress didn't trigger listener (or for safety)
         updateLabels(content)
