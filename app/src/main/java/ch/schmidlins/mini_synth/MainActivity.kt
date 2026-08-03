@@ -113,14 +113,15 @@ class MainActivity : AppCompatActivity() {
         }
         
         // Mode toggle
-        content.btnModeToggle!!.setOnClickListener {
-            val nextMode = if (content.btnModeToggle!!.text == "Pads") {
-                content.btnModeToggle!!.text = "Keys"
+        content.btnModeToggle.setOnClickListener {
+            val nextMode = if (content.btnModeToggle.text == "Pads") {
+                content.btnModeToggle.text = "Keys"
                 isPadMode = true
                 KeyboardPadView.Mode.PAD_GRID
             } else {
-                content.btnModeToggle!!.text = "Pads"
+                content.btnModeToggle.text = "Pads"
                 isPadMode = false
+                mappingSampleId = null // Clear mapping state when exiting pads mode
                 KeyboardPadView.Mode.KEYBOARD
             }
             synthView.setMode(nextMode)
