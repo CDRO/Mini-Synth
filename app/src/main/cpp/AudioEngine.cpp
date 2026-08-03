@@ -87,9 +87,9 @@ void AudioEngine::savePadSample(int padIndex, const char* path) {
     if (padIndex < 0 || padIndex >= MAX_PADS) return;
     std::ofstream file(path, std::ios::binary);
     if (file.is_open()) {
-        size_t size = mPadBuffers[padIndex].size();
+        uint64_t size = static_cast<uint64_t>(mPadBuffers[padIndex].size());
         file.write(reinterpret_cast<const char*>(&size), sizeof(size));
-        file.write(reinterpret_cast<const char*>(mPadBuffers[padIndex].data()), size * sizeof(float));
+        file.write(reinterpret_cast<const char*>(mPadBuffers[padIndex].data()), static_cast<std::streamsize>(size * sizeof(float)));
         file.close();
     }
 }
@@ -98,11 +98,11 @@ void AudioEngine::loadPadSample(int padIndex, const char* path) {
     if (padIndex < 0 || padIndex >= MAX_PADS) return;
     std::ifstream file(path, std::ios::binary);
     if (file.is_open()) {
-        size_t size;
+        uint64_t size;
         file.read(reinterpret_cast<char*>(&size), sizeof(size));
         if (size > 0 && size < (48000 * 60)) { // Limit to 60s max for sanity
-            mPadBuffers[padIndex].resize(size);
-            file.read(reinterpret_cast<char*>(mPadBuffers[padIndex].data()), size * sizeof(float));
+            mPadBuffers[padIndex].resize(static_cast<size_t>(size));
+            file.read(reinterpret_cast<char*>(mPadBuffers[padIndex].data()), static_cast<std::streamsize>(size * sizeof(float)));
         }
         file.close();
     }
