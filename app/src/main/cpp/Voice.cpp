@@ -6,21 +6,35 @@ static double midiToFreq(int midiNote) {
     return 440.0 * pow(2.0, (midiNote - 69) / 12.0);
 }
 
-void Voice::trigger(int note, float velocity) {
+void Voice::trigger(int note, float velocity, const std::vector<float>* sampleBuffer) {
     mNote = note;
     mVelocity = velocity;
-    mOscillator.setFrequency(midiToFreq(note));
+    if (sampleBuffer) {
+        mIsSampleMode = true;
+        mSamplePlayer.trigger(*sampleBuffer);
+    } else {
+        mIsSampleMode = false;
+        mOscillator.setFrequency(midiToFreq(note));
+        mEnvelope.trigger();
+    }
     mActive = true;
-    mEnvelope.trigger();
 }
 
 void Voice::release() {
     mActive = false;
-    mEnvelope.release();
+    if (mIsSampleMode) {
+        mSamplePlayer.stop();
+    } else {
+        mEnvelope.release();
+    }
 }
 
 float Voice::nextSample() {
-    if (!mEnvelope.isActive()) return 0.0f;
+    if (!isActive()) return 0.0f;
+
+    if (mIsSampleMode) {
+        return mSamplePlayer.nextSample() * mVelocity;
+    }
 
     float lfoVal = mLfo.nextValue();
     float modPitch = 0.0f;

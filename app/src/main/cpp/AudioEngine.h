@@ -30,6 +30,10 @@ public:
         if (shifted > 127) shifted = 127;
         mVoiceManager.noteOff(shifted);
     }
+
+    void padNoteOn(int padIndex, float velocity);
+    void padNoteOff(int padIndex);
+
     void setPolyphonic(bool isPolyphonic) { mVoiceManager.setPolyphonic(isPolyphonic); }
     void setWaveform(Waveform waveform) { mVoiceManager.setWaveform(waveform); }
     void setOctaveShift(int shift) { mOctaveShift = shift; }
@@ -58,6 +62,11 @@ public:
     void setMetronomeEnabled(bool enabled);
     bool isBeatStarted();
 
+    // Pad Sampling
+    void startPadSampling(int padIndex);
+    void stopPadSampling();
+    bool isPadSampling() const { return mSamplingPadIndex != -1; }
+
     // Sequencer
     void setSequencerPlaying(bool playing) { mMidiSequencer.setPlaying(playing, mVoiceManager); }
     bool isSequencerPlaying() const { return mMidiSequencer.isPlaying(); }
@@ -85,6 +94,10 @@ private:
     VoiceManager mVoiceManager;
     MidiSequencer mMidiSequencer;
     int mOctaveShift = 0;
+
+    std::vector<float> mPadBuffers[16];
+    int mSamplingPadIndex = -1;
+    SamplePlayer mSampleRecorder;
 
     LockFreeQueue<float> mVizQueue{4096};
     LockFreeQueue<float> mRecordQueue{262144}; // Increased to 256k for better safety margin

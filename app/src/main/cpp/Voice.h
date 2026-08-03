@@ -2,13 +2,14 @@
 #define MINI_SYNTH_VOICE_H
 
 #include "Oscillator.h"
+#include "SamplePlayer.h"
 #include "Envelope.h"
 #include "Lfo.h"
 #include "Filter.h"
 
 class Voice {
 public:
-    Voice() : mActive(false), mNote(0) {}
+    Voice() : mActive(false), mNote(0), mIsSampleMode(false) {}
 
     void setSampleRate(int32_t sampleRate) {
         mOscillator.setSampleRate(sampleRate);
@@ -18,10 +19,13 @@ public:
     }
     void setWaveform(Waveform waveform) { mOscillator.setWaveform(waveform); }
 
-    void trigger(int note, float velocity);
+    void trigger(int note, float velocity, const std::vector<float>* sampleBuffer = nullptr);
     void release();
 
-    bool isActive() const { return mEnvelope.isActive(); }
+    void setSampleMode(bool enabled) { mIsSampleMode = enabled; }
+    SamplePlayer& getSamplePlayer() { return mSamplePlayer; }
+
+    bool isActive() const { return mEnvelope.isActive() || mSamplePlayer.isActive(); }
     int getNote() const { return mNote; }
 
     void setAttack(float seconds) { mEnvelope.setAttack(seconds); }
@@ -41,12 +45,14 @@ public:
 
 private:
     Oscillator mOscillator;
+    SamplePlayer mSamplePlayer;
     Envelope mEnvelope;
     Lfo mLfo;
     Filter mFilter;
     LfoTarget mLfoTarget = LfoTarget::Pitch;
     float mBaseCutoff = 1000.0f;
     bool mActive;
+    bool mIsSampleMode;
     int mNote;
     float mVelocity;
 };

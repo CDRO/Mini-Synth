@@ -28,11 +28,11 @@ void VoiceManager::setPolyphonic(bool isPolyphonic) {
     }
 }
 
-void VoiceManager::noteOn(int midiNote, float velocity) {
+void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer) {
     if (mIsPolyphonic) {
         int index = findVoiceByNote(midiNote);
         if (index != -1) {
-            mVoices[index].trigger(midiNote, velocity);
+            mVoices[index].trigger(midiNote, velocity, sampleBuffer);
             return;
         }
 
@@ -51,7 +51,7 @@ void VoiceManager::noteOn(int midiNote, float velocity) {
             mVoices[index].setFilterCutoff(mFilterCutoff);
             mVoices[index].setFilterResonance(mFilterResonance);
 
-            mVoices[index].trigger(midiNote, velocity);
+            mVoices[index].trigger(midiNote, velocity, sampleBuffer);
         }
     } else {
         mVoices[0].setAttack(mParams.attack);
@@ -67,7 +67,7 @@ void VoiceManager::noteOn(int midiNote, float velocity) {
         mVoices[0].setFilterCutoff(mFilterCutoff);
         mVoices[0].setFilterResonance(mFilterResonance);
 
-        mVoices[0].trigger(midiNote, velocity);
+        mVoices[0].trigger(midiNote, velocity, sampleBuffer);
     }
 }
 
@@ -122,6 +122,10 @@ float VoiceManager::nextSample() {
             mixedSample += mVoices[i].nextSample();
             activeCount++;
         }
+    }
+
+    if (activeCount > 0) {
+        mixedSample *= 0.5f; // Headroom for polyphony
     }
 
     return mixedSample * currentVol;

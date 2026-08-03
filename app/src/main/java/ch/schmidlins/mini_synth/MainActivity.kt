@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     private var isMockPlay = false
     private var isMetronomeEnabled = false
     private var isSequencerRecordMode = false
+    private var isPadSamplingMode = false
+    private var isPadMode = false
     private var bpm = 120f
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private val beatPoller = object : Runnable {
@@ -61,20 +63,37 @@ class MainActivity : AppCompatActivity() {
         // Listener
         synthView.listener = object : KeyboardPadView.OnNoteEventListener {
             override fun onNoteOn(midi: Int, velocity: Float) {
-                if (isSequencerRecordMode) {
-                    val nextStep = synthManager.recordSequencerNote(midi)
-                    updateSequencerToggles(content)
-                    // Immediate feedback for recording (optional: highlight nextStep)
+                if (isPadMode) {
+                    if (isPadSamplingMode) {
+                        synthManager.startPadSampling(midi - 60) // midi is baseNote + padIndex
+                        synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, true)
+                    } else {
+                        synthManager.padNoteOn(midi - 60, velocity)
+                    }
+                } else {
+                    if (isSequencerRecordMode) {
+                        synthManager.recordSequencerNote(midi)
+                        updateSequencerToggles(content)
+                    }
+                    synthManager.noteOn(midi, velocity)
                 }
-                
-                synthManager.noteOn(midi, velocity)
                 
                 if (isMockRec) {
                     synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, true)
                 }
             }
             override fun onNoteOff(midi: Int) {
-                synthManager.noteOff(midi)
+                if (isPadMode) {
+                    if (isPadSamplingMode) {
+                        synthManager.stopPadSampling()
+                        synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, false)
+                    } else {
+                        synthManager.padNoteOff(midi - 60)
+                    }
+                } else {
+                    synthManager.noteOff(midi)
+                }
+                
                 if (isMockRec) {
                     synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, false)
                 }
@@ -85,9 +104,11 @@ class MainActivity : AppCompatActivity() {
         content.btnModeToggle!!.setOnClickListener {
             val nextMode = if (content.btnModeToggle!!.text == "Pads") {
                 content.btnModeToggle!!.text = "Keys"
+                isPadMode = true
                 KeyboardPadView.Mode.PAD_GRID
             } else {
                 content.btnModeToggle!!.text = "Pads"
+                isPadMode = false
                 KeyboardPadView.Mode.KEYBOARD
             }
             synthView.setMode(nextMode)
@@ -174,6 +195,10 @@ class MainActivity : AppCompatActivity() {
 
         content.toggleSequencerRec!!.setOnCheckedChangeListener { _, isChecked ->
             isSequencerRecordMode = isChecked
+        }
+
+        content.togglePadSampling!!.setOnCheckedChangeListener { _, isChecked ->
+            isPadSamplingMode = isChecked
         }
 
         content.btnSequencerClear!!.setOnClickListener {

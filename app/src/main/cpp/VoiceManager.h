@@ -20,7 +20,7 @@ public:
     void setWaveform(Waveform waveform);
     void setPolyphonic(bool isPolyphonic);
 
-    void noteOn(int midiNote, float velocity);
+    void noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer = nullptr);
     void noteOff(int midiNote);
 
     void setAttack(float seconds) { mParams.attack = seconds; }

@@ -14,6 +14,7 @@ add_library(mini_synth SHARED
         Filter.cpp
         Mp3Encoder.cpp
         MidiSequencer.cpp
+        SamplePlayer.cpp
 )
 
 target_include_directories(mini_synth PRIVATE . lame)

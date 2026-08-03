@@ -13,6 +13,12 @@ class SynthManager {
 
     external fun noteOn(midiNote: Int, velocity: Float)
     external fun noteOff(midiNote: Int)
+    
+    external fun padNoteOn(padIndex: Int, velocity: Float)
+    external fun padNoteOff(padIndex: Int)
+    external fun startPadSampling(padIndex: Int)
+    external fun stopPadSampling()
+
     external fun setPolyphonic(isPolyphonic: Boolean)
     external fun setWaveform(waveformIndex: Int)
     external fun setOctaveShift(shift: Int)

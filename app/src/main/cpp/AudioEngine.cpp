@@ -6,6 +6,9 @@
 
 AudioEngine::AudioEngine() {
     updateMetronomeParams();
+    for (auto & mPadBuffer : mPadBuffers) {
+        mPadBuffer.reserve(48000 * 5); // 5 seconds pre-allocated
+    }
 }
 
 AudioEngine::~AudioEngine() {
@@ -49,6 +52,38 @@ void AudioEngine::stop() {
     }
 }
 
+void AudioEngine::startPadSampling(int padIndex) {
+    stopPadSampling();
+    if (padIndex >= 0 && padIndex < 16) {
+        mSamplingPadIndex = padIndex;
+        mPadBuffers[padIndex].resize(48000 * 5); // 5 seconds pre-allocated
+        mSampleRecorder.startRecording(mPadBuffers[padIndex]);
+    }
+}
+
+void AudioEngine::stopPadSampling() {
+    mSamplingPadIndex = -1;
+    mSampleRecorder.stopRecording();
+}
+
+void AudioEngine::padNoteOn(int padIndex, float velocity) {
+    if (padIndex < 0 || padIndex >= 16 || padIndex == mSamplingPadIndex) return;
+
+    if (mPadBuffers[padIndex].empty()) {
+        // Fallback to standard synth note for this pad if no sample recorded
+        // Map pads to some default notes if empty? No, better to just be silent or use specific mapping.
+        // For now, let's just trigger a note based on pad index.
+        mVoiceManager.noteOn(60 + padIndex, velocity);
+    } else {
+        mVoiceManager.noteOn(60 + padIndex, velocity, &mPadBuffers[padIndex]);
+    }
+}
+
+void AudioEngine::padNoteOff(int padIndex) {
+    if (padIndex < 0 || padIndex >= 16) return;
+    mVoiceManager.noteOff(60 + padIndex);
+}
+
 oboe::DataCallbackResult AudioEngine::onAudioReady(
         oboe::AudioStream *audioStream,
         void *audioData,
@@ -62,6 +97,10 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
 
     for (int i = 0; i < numFrames; ++i) {
         float sample = mVoiceManager.nextSample();
+
+        if (mSamplingPadIndex != -1) {
+            mSampleRecorder.recordSample(sample);
+        }
 
         if (mMetronomeEnabled) {
             sample += getMetronomeSample();

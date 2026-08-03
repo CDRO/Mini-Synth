@@ -26,13 +26,14 @@ Merging context from initial feature implementation (`6392750b`) and stability r
 ### [DONE] Milestone 4: Visualization & MP3 Recording
 ### [DONE] Milestone 5: Metronome & BPM Control
 ### [DONE] Milestone 6: Visual MIDI Sequencer
+### [DONE] Milestone 7: Keyboard Step-Recording
 
-### [NEXT] Milestone 7: Keyboard Step-Recording
-- **Objective**: Capture keyboard performance into the sequencer step-by-step.
+### [NEXT] Milestone 8: Pad Sampling & Playback
+- **Objective**: Capture sound performance to a specific pad for one-shot or looped playback.
 - **Key Features**:
-    - Recording Mode toggle.
-    - Automatic step advance on key press.
-    - Integration with existing `MidiSequencer` grid.
+    - "Sample to Pad" mode.
+    - Native PCM buffer management per pad.
+    - Pad-specific playback triggering.
 
 ## Quality Assurance Status
 - **Unit Tests**: 5 passed (Oscillators, Envelopes, ViewModel logic).

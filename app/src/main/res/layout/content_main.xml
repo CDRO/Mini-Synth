@@ -640,6 +640,20 @@
                         android:text="CLR"
                         android:textColor="@color/vibrant_red"
                         android:textSize="10sp" />
+
+                    <Space
+                        android:layout_width="8dp"
+                        android:layout_height="match_parent" />
+
+                    <ToggleButton
+                        android:id="@+id/toggle_pad_sampling"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:textOff="SAMPLING OFF"
+                        android:textOn="SAMPLING ON"
+                        android:textColor="@color/acid_green"
+                        android:textSize="10sp" />
                 </LinearLayout>
 
                 <LinearLayout
