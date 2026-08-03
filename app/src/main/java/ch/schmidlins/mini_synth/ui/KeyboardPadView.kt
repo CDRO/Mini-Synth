@@ -50,6 +50,7 @@ class KeyboardPadView @JvmOverloads constructor(
     private val backlightTouchPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.acid_green); style = Paint.Style.FILL; alpha = 128 }
     private val backlightRecordPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.vibrant_red); style = Paint.Style.FILL; alpha = 128 }
     private val backlightPlayPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.electric_blue); style = Paint.Style.FILL; alpha = 128 }
+    private val customPadPaint = Paint().apply { style = Paint.Style.FILL }
 
     // Cached Layouts
     private val whiteKeyRects = mutableListOf<RectF>()
@@ -123,8 +124,8 @@ class KeyboardPadView @JvmOverloads constructor(
             val rect = padRects[i]
             val customColor = padColors[i]
             if (customColor != null) {
-                val p = Paint().apply { color = customColor; style = Paint.Style.FILL }
-                canvas.drawRect(rect, p)
+                customPadPaint.color = customColor
+                canvas.drawRect(rect, customPadPaint)
             } else {
                 canvas.drawRect(rect, whiteKeyPaint)
             }
