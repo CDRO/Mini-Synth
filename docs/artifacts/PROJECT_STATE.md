@@ -29,13 +29,14 @@ Merging context from initial feature implementation (`6392750b`) and stability r
 ### [DONE] Milestone 7: Keyboard Step-Recording
 ### [DONE] Milestone 8: Pad Sampling & Playback
 ### [DONE] Milestone 9: Swipe-to-Hold Pad Recording
+### [DONE] Milestone 10: Dynamic Pad Customization
 
-### [NEXT] Milestone 10: Dynamic Pad Customization
-- **Objective**: Expand the 4x4 grid and allow per-pad color and sound mapping.
+### [NEXT] Milestone 11: Sample Mapping & Workspace Layout
+- **Objective**: Add a sound browser sidebar and workspace visibility toggles.
 - **Key Features**:
-    - Expandable grid up to 16 columns.
-    - Sound Mapping module.
-    - Configurable per-pad backlight colors.
+    - "Sample Browser" column on the left for external sound loading.
+    - "Zen Mode" toggle to hide parameters and focus on pads/sequencer.
+    - Drag-and-drop simulation (click-to-map) from browser to pads.
 
 ## Quality Assurance Status
 - **Unit Tests**: 5 passed (Oscillators, Envelopes, ViewModel logic).

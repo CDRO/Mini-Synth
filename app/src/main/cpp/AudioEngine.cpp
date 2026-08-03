@@ -66,6 +66,22 @@ void AudioEngine::stopPadSampling() {
     mSampleRecorder.stopRecording();
 }
 
+void AudioEngine::loadFactorySample(int padIndex, int sampleId) {
+    if (padIndex < 0 || padIndex >= MAX_PADS) return;
+    if (!mStream || mStream->getSampleRate() <= 0) return;
+
+    mPadBuffers[padIndex].clear();
+    // Simulate loading a factory sample by generating a 0.2s burst
+    float freq = (sampleId == 0) ? 60.0f : 440.0f; // Kick vs Snare simulation
+    int numSamples = static_cast<int>(mStream->getSampleRate() * 0.2f);
+    mPadBuffers[padIndex].reserve(numSamples);
+    for (int i = 0; i < numSamples; ++i) {
+        float phase = 2.0f * PI_F * freq * static_cast<float>(i) / static_cast<float>(mStream->getSampleRate());
+        float decay = 1.0f - (static_cast<float>(i) / static_cast<float>(numSamples));
+        mPadBuffers[padIndex].push_back(sinf(phase) * decay * 0.8f);
+    }
+}
+
 void AudioEngine::padNoteOn(int padIndex, float velocity) {
     if (padIndex < 0 || padIndex >= MAX_PADS || padIndex == mSamplingPadIndex) return;
 

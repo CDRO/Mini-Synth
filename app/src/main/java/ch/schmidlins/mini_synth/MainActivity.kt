@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
     private var isSequencerRecordMode = false
     private var isPadSamplingMode = false
     private var isPadMode = false
+    private var isZenMode = false
+    private var mappingSampleId: Int? = null // if not null, we are in mapping mode
     private var bpm = 120f
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private val beatPoller = object : Runnable {
@@ -64,7 +66,11 @@ class MainActivity : AppCompatActivity() {
         synthView.listener = object : KeyboardPadView.OnNoteEventListener {
             override fun onNoteOn(midi: Int, velocity: Float) {
                 if (isPadMode) {
-                    if (isPadSamplingMode) {
+                    if (mappingSampleId != null) {
+                        synthManager.loadFactorySample(midi - 60, mappingSampleId!!)
+                        mappingSampleId = null
+                        content.sidebarBrowser.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.surface_dark))
+                    } else if (isPadSamplingMode) {
                         synthManager.startPadSampling(midi - 60) // midi is baseNote + padIndex
                         synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, true)
                     } else {
@@ -101,19 +107,22 @@ class MainActivity : AppCompatActivity() {
             override fun onGridTouchStart(midi: Int) {}
             override fun onGridTouchEnd() {}
             override fun onPadLongPress(padIndex: Int) {
-                showPadColorPicker(padIndex)
+                if (mappingSampleId == null) {
+                    showPadColorPicker(padIndex)
+                }
             }
         }
         
         // Mode toggle
-        content.btnModeToggle!!.setOnClickListener {
-            val nextMode = if (content.btnModeToggle!!.text == "Pads") {
-                content.btnModeToggle!!.text = "Keys"
+        content.btnModeToggle.setOnClickListener {
+            val nextMode = if (content.btnModeToggle.text == "Pads") {
+                content.btnModeToggle.text = "Keys"
                 isPadMode = true
                 KeyboardPadView.Mode.PAD_GRID
             } else {
-                content.btnModeToggle!!.text = "Pads"
+                content.btnModeToggle.text = "Pads"
                 isPadMode = false
+                mappingSampleId = null // Clear mapping state when exiting pads mode
                 KeyboardPadView.Mode.KEYBOARD
             }
             synthView.setMode(nextMode)
@@ -190,6 +199,37 @@ class MainActivity : AppCompatActivity() {
         setupMetronome(content)
         setupSequencer(content)
         setupPadCustomization(content)
+        setupWorkspaceRefinement(content)
+    }
+
+    private fun setupWorkspaceRefinement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.toggleZenMode.setOnCheckedChangeListener { _, isChecked ->
+            isZenMode = isChecked
+            content.parameterContainer.visibility = if (isZenMode) View.GONE else View.VISIBLE
+        }
+
+        content.toggleBrowser.setOnCheckedChangeListener { _, isChecked ->
+            content.sidebarBrowser.visibility = if (isChecked) View.VISIBLE else View.GONE
+        }
+
+        // Factory Samples for Browser
+        val samples = arrayOf("Kick 808", "Snare 909", "Hat Closed", "Hat Open", "Clap", "Rim")
+        for (i in samples.indices) {
+            val tv = android.widget.TextView(this).apply {
+                text = samples[i]
+                setPadding(16, 16, 16, 16)
+                setTextColor(ContextCompat.getColor(this@MainActivity, R.color.off_white))
+                textSize = 10f
+                setOnClickListener {
+                    mappingSampleId = i
+                    content.sidebarBrowser.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.border_dim))
+                    // Visual feedback on item
+                    setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.acid_green))
+                    postDelayed({ setBackgroundColor(android.graphics.Color.TRANSPARENT) }, 200)
+                }
+            }
+            content.sampleContainer.addView(tv)
+        }
     }
 
     private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {

@@ -66,6 +66,7 @@ public:
     void startPadSampling(int padIndex);
     void stopPadSampling();
     bool isPadSampling() const { return mSamplingPadIndex != -1; }
+    void loadFactorySample(int padIndex, int sampleId);
 
     // Sequencer
     void setSequencerPlaying(bool playing) { mMidiSequencer.setPlaying(playing, mVoiceManager); }

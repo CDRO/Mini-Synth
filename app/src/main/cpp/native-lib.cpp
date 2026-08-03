@@ -71,6 +71,12 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_stopPadSampling(JNIEnv *env, j
 }
 
 extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_loadFactorySample(JNIEnv *env, jobject thiz, jint pad_index, jint sample_id) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->loadFactorySample(pad_index, sample_id);
+}
+
+extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setPolyphonic(JNIEnv *env, jobject thiz, jboolean is_polyphonic) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setPolyphonic(is_polyphonic);

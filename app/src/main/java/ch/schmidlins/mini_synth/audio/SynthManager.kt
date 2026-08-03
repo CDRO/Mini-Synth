@@ -18,6 +18,7 @@ class SynthManager {
     external fun padNoteOff(padIndex: Int)
     external fun startPadSampling(padIndex: Int)
     external fun stopPadSampling()
+    external fun loadFactorySample(padIndex: Int, sampleId: Int)
 
     external fun setPolyphonic(isPolyphonic: Boolean)
     external fun setWaveform(waveformIndex: Int)
