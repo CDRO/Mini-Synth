@@ -182,3 +182,50 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_isBeatStarted(JNIEnv *env, job
     if (engine) return engine->isBeatStarted();
     return JNI_FALSE;
 }
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setSequencerPlaying(JNIEnv *env, jobject thiz, jboolean playing) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setSequencerPlaying(playing == JNI_TRUE);
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_isSequencerPlaying(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) return engine->isSequencerPlaying() ? JNI_TRUE : JNI_FALSE;
+    return JNI_FALSE;
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setSequencerNote(JNIEnv *env, jobject thiz, jint step, jint note, jboolean active) {
+    if (step < 0 || step >= 16 || note < 0 || note >= 128) return;
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setSequencerNote(step, note, active == JNI_TRUE);
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_isSequencerNoteActive(JNIEnv *env, jobject thiz, jint step, jint note) {
+    if (step < 0 || step >= 16 || note < 0 || note >= 128) return JNI_FALSE;
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) return engine->isSequencerNoteActive(step, note) ? JNI_TRUE : JNI_FALSE;
+    return JNI_FALSE;
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_clearSequencer(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->clearSequencer();
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setSequencerStepDuration(JNIEnv *env, jobject thiz, jfloat division) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setSequencerStepDuration(division);
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_getSequencerCurrentStep(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) return engine->getSequencerCurrentStep();
+    return 0;
+}

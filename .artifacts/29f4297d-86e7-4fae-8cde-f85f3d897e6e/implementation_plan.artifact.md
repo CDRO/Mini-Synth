@@ -1,32 +1,37 @@
-# Implementation Plan - Audio Optimization and Stability Refinement
+# Implementation Plan - Workflow & Feature Migration Cleanup
 
-This plan addresses the optimization and stability refinements identified in the engineering review for the `fix/audio-and-ui-stability` cycle.
+This plan ensures that the mandatory development workflow and all future roadmap features from the original master plan are fully integrated into the new permanent knowledge base.
 
 ## User Review Required
 
-> [!NOTE]
-> I will be creating a new branch `fix/audio-and-ui-usability` as requested to house these refinements.
+> [!IMPORTANT]
+> - I will overwrite `docs/artifacts/MASTER_PLAN.md` with the actual technical specifications and architectural requirements from the original implementation plan.
+> - I will update `docs/artifacts/guides/DEVELOPMENT_WORKFLOW.md` to include the strict 10-cycle review loop and merge message review process.
+> - This ensures that no technical "Caveman" rules or future features (Sequencer, Pad Customization) are lost during the migration.
 
 ## Proposed Changes
 
-### Audio Engine (C++)
+### Knowledge Base Updates
 
-#### [MODIFY] [AudioEngine.h](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/main/cpp/AudioEngine.h)
-- Add a constant `MAX_RESTART_RETRIES`.
-- Add `mRestartRetryCount` (int) and `mLastRestartTime` (chrono time_point) to track engine restarts.
-- Define a `PI_F` constant.
+#### [MODIFY] [MASTER_PLAN.md](file:///C:/Users/tizia/Projekte/Mini-Synth/docs/artifacts/MASTER_PLAN.md)
+- Replace migration-specific content with the **actual technical source of truth**:
+    - Core Architectural Requirements (Audio, Performance, Threading).
+    - Technical Specifications (Oscillator Math, MIDI Range, JNI Bridge).
+    - Future Features & Roadmap (Sampling, Sequencing, Pad Customization).
 
-#### [MODIFY] [AudioEngine.cpp](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/main/cpp/AudioEngine.cpp)
-- **Optimization**: Update `getMetronomeSample()` and `updateMetronomeParams()` to use `PI_F` and ensure all math is done using `float` literals.
-- **Stability**: Update `onErrorAfterClose()` to implement a "cool-down" period and a retry limit. If the engine crashes too many times in a short interval, it will stop attempting to restart to avoid infinite loops.
+#### [MODIFY] [DEVELOPMENT_WORKFLOW.md](file:///C:/Users/tizia/Projekte/Mini-Synth/docs/artifacts/guides/DEVELOPMENT_WORKFLOW.md)
+- Integrate the **Mandatory Workflow** steps:
+    - Step-by-step implementation process.
+    - PR Description requirements (Why, Tests, Value).
+    - **Merge Message Review Loop** (2 iterations).
+    - **10-Cycle Code Review Loop** (Requirement verification, comments, and fixes).
+
+### Milestone Preservation
+- Verify that `docs/artifacts/milestones/` contains all implemented features.
+- Ensure the "Visual Sequencer" task (Milestone 6) is correctly listed in `PROJECT_STATE.md` and has its own task artifact ready.
 
 ## Verification Plan
 
-### Automated Tests
-- Run existing stress tests: `./gradlew :app:connectedDebugAndroidTest`.
-- These tests already exercise high BPM and polyphony, which will trigger the optimized math paths.
-
 ### Manual Verification
-- Deploy to emulator.
-- Verify sound output remains consistent.
-- (Destructive test): Simulate a stream error to verify the restart logic with cool-down.
+- Cross-reference the new `MASTER_PLAN.md` with the original `.artifacts/6392750b.../implementation_plan.artifact.md` to ensure zero data loss.
+- Verify that the workflow guide correctly reflects the strict review process required by the project.

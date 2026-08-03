@@ -58,6 +58,8 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
     int32_t channelCount = audioStream->getChannelCount();
     if (channelCount < 1) return oboe::DataCallbackResult::Stop;
 
+    mMidiSequencer.process(numFrames, mSamplesPerBeat, mVoiceManager);
+
     for (int i = 0; i < numFrames; ++i) {
         float sample = mVoiceManager.nextSample();
 

@@ -3,6 +3,7 @@
 
 #include <oboe/Oboe.h>
 #include "VoiceManager.h"
+#include "MidiSequencer.h"
 #include "LockFreeQueue.h"
 #include <thread>
 #include <atomic>
@@ -57,6 +58,15 @@ public:
     void setMetronomeEnabled(bool enabled);
     bool isBeatStarted();
 
+    // Sequencer
+    void setSequencerPlaying(bool playing) { mMidiSequencer.setPlaying(playing, mVoiceManager); }
+    bool isSequencerPlaying() const { return mMidiSequencer.isPlaying(); }
+    void setSequencerNote(int step, int note, bool active) { mMidiSequencer.setNote(step, note, active); }
+    bool isSequencerNoteActive(int step, int note) const { return mMidiSequencer.getNote(step, note); }
+    void clearSequencer() { mMidiSequencer.clear(); }
+    void setSequencerStepDuration(float division) { mMidiSequencer.setStepDuration(division); }
+    int getSequencerCurrentStep() const { return mMidiSequencer.getCurrentStep(); }
+
     oboe::DataCallbackResult onAudioReady(
             oboe::AudioStream *audioStream,
             void *audioData,
@@ -71,6 +81,7 @@ private:
 
     std::shared_ptr<oboe::AudioStream> mStream;
     VoiceManager mVoiceManager;
+    MidiSequencer mMidiSequencer;
     int mOctaveShift = 0;
 
     LockFreeQueue<float> mVizQueue{4096};

@@ -1,41 +1,108 @@
-# Implementation Plan - Project Knowledge Base Setup & Migration
+# Mini-Synth Master Implementation Plan
 
-This plan establishes a permanent, version-controlled knowledge base in `docs/artifacts` to ensure continuity across different AI conversation sessions and development environments.
+High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Strict adherence to Caveman Rules for technical specs.
 
-## User Review Required
+## Core Architectural Requirements
 
-> [!IMPORTANT]
-> - All documentation currently stored in hidden `.artifacts/` folders will be migrated to a visible, structured `docs/artifacts/` directory.
-> - I will establish a **Primary Entry Point** (`docs/artifacts/PROJECT_STATE.md`) that should be the first file I read in any new session.
-> - This migration makes the project state a first-class citizen of the repository, enabling any contributor (human or AI) to quickly understand the architecture, roadmap, and quality status.
+### Audio & Performance
+- **Performance**: C++ (Oboe/AAudio) for all sound generation and mixing. Low latency target < 10ms.
+- **Threading**: Audio thread real-time priority. **No locks/allocations in callback**.
+- **Polyphony**: 16 simultaneous voices. Additive mixing. Output normalization.
+- **Backends**: Oboe handles fallback between AAudio and OpenSL ES automatically.
 
-## Proposed Changes
+### Logic & Features
+- **Configurability**: Toggle between Polyphonic and Monophonic modes.
+- **Oscillators**: Sine, Square, Saw, Triangle support.
+- **Keyboard**: 13-key fixed range (C to C). Support for ±4 octave internal shift.
+- **Sound Board**: Toggleable 4x4 pad grid mode.
 
-### 1. Directory Structure Setup
-- Create the following hierarchy in the project root:
-    - `docs/artifacts/`
-        - `guides/` (Design, Workflow, Engineering Standards)
-        - `milestones/` (Task lists and walkthroughs for each feature)
-        - `history/` (Legacy plans and reviews)
+### Design & UX (FL Studio Aesthetic)
+- **Theme**: Dark, high-contrast "Stealth Synth" look.
+- **Orientation**: Locked Landscape. Single screen layout.
+- **Feedback**: Backlit keys/pads.
+    - `Acid Green` (#C0FF00): Touch input.
+    - `Electric Blue` (#00A3FF): Playback state.
+    - `Vibrant Red` (#FF3B30): Recording state.
 
-### 2. Migration Mapping
-- **Guides**:
-    - `design_guide.artifact.md` -> `docs/artifacts/guides/DESIGN_GUIDE.md`
-    - `DEVELOPMENT_WORKFLOW.artifact.md` -> `docs/artifacts/guides/DEVELOPMENT_WORKFLOW.md`
-    - `engineering_review.artifact.md` -> `docs/artifacts/guides/ENGINEERING_STANDARDS.md`
-- **Core Status**:
-    - `CONSOLIDATED_PROJECT_STATUS.artifact.md` -> `docs/artifacts/PROJECT_STATE.md`
-    - `implementation_plan.artifact.md` (Master) -> `docs/artifacts/MASTER_PLAN.md`
-- **Milestones**:
-    - Each feature set (LFO, ADSR, Metronome, etc.) will have its `task` and `walkthrough` files moved to `docs/artifacts/milestones/[id]_[name]/`.
+## Technical Specifications (Caveman Mode)
 
-### 3. Future Continuity Instruction
-- I will add a `README.md` to `docs/artifacts/` with a explicit instruction:
-    > "To pick up work on this project, the AI should start by reading `docs/artifacts/PROJECT_STATE.md` and `docs/artifacts/MASTER_PLAN.md` to synchronize its context with the current development state."
+### [Logic] [Oscillator]
+- **Math**:
+    - Sine: `sin(phase)`
+    - Square: `phase < PI ? 1 : -1`
+    - Saw: `(phase / PI) - 1`
+    - Triangle: `2 * abs((phase / PI) - 1) - 1`
+- **Control**: `trigger(midi, velocity)`, `release(midi)`.
 
-## Verification Plan
+### [Logic] [Range]
+- **Calculation**: `effective_midi = keyboard_midi + (octave_shift * 12)`.
+- **Constraint**: Clamp result to valid MIDI range [0, 127].
 
-### Manual Verification
-- Confirm that all 40+ files from the UUID folders are correctly moved and renamed.
-- Verify that no information is lost during the reorganization.
-- Ensure the new structure is intuitive and easy to navigate.
+### [Interface] [JNI Bridge]
+- **Bridge**: Minimal overhead. No heavy objects passed.
+- **Methods**: `startAudio()`, `stopAudio()`, `setNote()`, `releaseNote()`, `setPolyphony()`, `setWaveform()`, `setOctaveShift()`.
+
+---
+
+## Milestone 1: Resonant Low-Pass Filter [DONE]
+
+### [Logic] [Filter]
+- **Type**: 2-pole Resonant Low-Pass Filter.
+- **Cutoff**: 20Hz to 20,000Hz (Exponential mapping).
+- **Resonance**: 0.0 to 1.0 (Q factor).
+- **Implementation**: Per-voice filtering in the audio thread.
+
+### [UI] [FilterControls]
+- **Sliders**: Cutoff Frequency and Resonance.
+- **Labels**: Show Hz and Q values.
+
+---
+
+## Milestone 2: Preset Management [DONE]
+
+### [Logic] [Presets]
+- **Storage**: Jetpack DataStore with JSON serialization.
+- **Save**: Capture all current engine parameters (Osc, ADSR, LFO, LPF) and write to `presets.json`.
+- **Load**: Read JSON and batch-apply parameters to JNI engine.
+
+---
+
+## Milestone 3: Visualization & Recording [DONE]
+
+### [Logic] [Recording & Viz]
+- **Audio Tap**: Implement a thread-safe capturing mechanism in `AudioEngine`.
+- **Recording**: Real-time PCM capture to a background thread.
+- **Encoding**: Integrate **LAME** (C) for high-quality MP3 encoding via NDK.
+- **Visualization**: Expose real-time PCM buffers for UI rendering.
+
+### [UI] [Visualizer]
+- **VisualizerView**: Real-time oscilloscope display above the keyboard.
+
+---
+
+## Milestone 4: Metronome & BPM Control [DONE]
+
+### [Logic] [Metronome]
+- **Engine**: Sample-accurate native tick generation.
+- **BPM**: Dynamic control from 40 to 240 BPM.
+- **Visuals**: Synced beat indicator LED in the control bar.
+
+---
+
+## Future Features & Roadmap
+
+### [Feature] [Sampling & Sequencing]
+- **Keyboard Sample Creation**:
+    - Select step duration (1/16 to 1/1 notes).
+    - Step-by-step recording of melodies.
+    - Loop playback of recorded sequences.
+- **Pad Sampling**:
+    - Capture keyboard performance directly to a pad.
+    - **Pad Holding**: Swipe from one pad to another in sampling mode to define note duration (hold).
+- **Sample Mapping**:
+    - Additional column on the left of the pad grid for mapping external or recorded samples.
+
+### [UI] [Pad Customization]
+- **Dynamic Grid**: Default 4x4, expandable to 16 columns. Scrollable interface for large grids.
+- **Config Visibility**: Option to hide parameter controls to maximize pad space.
+- **Color Configuration**: Per-pad color assignment for organization and visual feedback.

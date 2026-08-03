@@ -39,6 +39,13 @@ class MainActivity : AppCompatActivity() {
             mainHandler.postDelayed(this, 16)
         }
     }
+    private var sequencerPoller: Runnable? = null
+    private val stepButtonIds = listOf(
+        R.id.step_0, R.id.step_1, R.id.step_2, R.id.step_3,
+        R.id.step_4, R.id.step_5, R.id.step_6, R.id.step_7,
+        R.id.step_8, R.id.step_9, R.id.step_10, R.id.step_11,
+        R.id.step_12, R.id.step_13, R.id.step_14, R.id.step_15
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,6 +154,90 @@ class MainActivity : AppCompatActivity() {
         setupFilter(content)
         setupPresets(content)
         setupMetronome(content)
+        setupSequencer(content)
+    }
+
+    private fun setupSequencer(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.btnSequencerPlay!!.setOnClickListener {
+            val playing = !synthManager.isSequencerPlaying()
+            synthManager.setSequencerPlaying(playing)
+            content.btnSequencerPlay!!.text = if (playing) "STOP" else "PLAY"
+        }
+
+        content.btnSequencerClear!!.setOnClickListener {
+            synthManager.clearSequencer()
+            // Reset UI toggles
+            for (id in stepButtonIds) {
+                content.root.findViewById<android.widget.ToggleButton>(id)?.isChecked = false
+            }
+        }
+
+        val durations = arrayOf("1/16", "1/8", "1/4", "1/2", "1/1")
+        val divisions = floatArrayOf(0.25f, 0.5f, 1.0f, 2.0f, 4.0f)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, durations)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        content.spinnerStepDuration!!.adapter = adapter
+        content.spinnerStepDuration!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                synthManager.setSequencerStepDuration(divisions[position])
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        // Bind 16 steps
+        stepButtonIds.forEachIndexed { i, id ->
+            val toggle = content.root.findViewById<android.widget.ToggleButton>(id)
+            toggle?.setOnCheckedChangeListener { _, isChecked ->
+                // For this milestone, we'll just toggle note 60 (Middle C) on the selected step
+                synthManager.setSequencerNote(i, 60, isChecked)
+            }
+        }
+
+        // Start polling for sequencer state
+        sequencerPoller = object : Runnable {
+            private var lastStep = -1
+            override fun run() {
+                if (synthManager.isSequencerPlaying()) {
+                    val currentStep = synthManager.getSequencerCurrentStep()
+                    if (currentStep != lastStep) {
+                        updateSequencerUI(content, currentStep, lastStep)
+                        lastStep = currentStep
+                    }
+                } else if (lastStep != -1) {
+                    clearSequencerVisuals(content)
+                    lastStep = -1
+                }
+                mainHandler.postDelayed(this, 16)
+            }
+        }
+        mainHandler.post(sequencerPoller!!)
+    }
+
+    private fun updateSequencerUI(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding, current: Int, last: Int) {
+        // Highlight current step LED and keyboard backlight
+        val synthView = content.keyboardPadView!!
+        
+        // Clear last
+        if (last != -1 && last < stepButtonIds.size) {
+            content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[last])?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+            synthView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
+        }
+        
+        // Set current
+        if (current < stepButtonIds.size) {
+            content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[current])?.setBackgroundColor(ContextCompat.getColor(this, R.color.acid_green))
+        }
+        
+        if (synthManager.isSequencerNoteActive(current, 60)) {
+            synthView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true)
+        }
+    }
+
+    private fun clearSequencerVisuals(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        for (id in stepButtonIds) {
+            content.root.findViewById<android.widget.ToggleButton>(id)?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+        }
+        content.keyboardPadView!!.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
     }
 
     private fun setupMetronome(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -514,6 +605,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         mainHandler.removeCallbacks(beatPoller)
+        sequencerPoller?.let { mainHandler.removeCallbacks(it) }
         synthManager.stopEngine()
     }
 }
