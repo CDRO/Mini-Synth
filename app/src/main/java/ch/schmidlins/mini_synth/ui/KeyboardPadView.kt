@@ -64,14 +64,20 @@ class KeyboardPadView @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
+        calculateLayouts(w, h)
+    }
+
+    private fun calculateLayouts(w: Int, h: Int) {
+        if (w <= 0 || h <= 0) return
+
         val keyWidth = w / 8f
         val keyHeight = h.toFloat()
-        
+
         whiteKeyRects.clear()
         for (i in 0 until 8) {
             whiteKeyRects.add(RectF(i * keyWidth, 0f, (i + 1) * keyWidth, keyHeight))
         }
-        
+
         blackKeyRects.clear()
         val blackKeyWidth = keyWidth * 0.6f
         val blackKeyHeight = keyHeight * 0.6f
@@ -83,7 +89,7 @@ class KeyboardPadView @JvmOverloads constructor(
                 (i + 1) * keyWidth + blackKeyWidth / 2f, blackKeyHeight
             )
         }
-        
+
         padRects.clear()
         val padSizeW = w / gridColumns.toFloat()
         val padSizeH = h / gridRows.toFloat()
@@ -264,7 +270,7 @@ class KeyboardPadView @JvmOverloads constructor(
     fun setGridDimensions(cols: Int, rows: Int) {
         gridColumns = cols
         gridRows = rows
-        // Trigger a layout re-calc
-        requestLayout()
+        calculateLayouts(width, height)
+        invalidate()
     }
 }
