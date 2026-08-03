@@ -68,6 +68,7 @@ void AudioEngine::stopPadSampling() {
 
 void AudioEngine::loadFactorySample(int padIndex, int sampleId) {
     if (padIndex < 0 || padIndex >= MAX_PADS) return;
+    if (!mStream) return;
 
     mPadBuffers[padIndex].clear();
     // Simulate loading a factory sample by generating a 0.2s burst
