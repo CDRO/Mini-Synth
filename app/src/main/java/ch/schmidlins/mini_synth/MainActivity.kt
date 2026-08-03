@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
     private var isSequencerRecordMode = false
     private var isPadSamplingMode = false
     private var isPadMode = false
+    private var isZenMode = false
+    private var mappingSampleId: Int? = null // if not null, we are in mapping mode
     private var bpm = 120f
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private val beatPoller = object : Runnable {
@@ -64,7 +66,12 @@ class MainActivity : AppCompatActivity() {
         synthView.listener = object : KeyboardPadView.OnNoteEventListener {
             override fun onNoteOn(midi: Int, velocity: Float) {
                 if (isPadMode) {
-                    if (isPadSamplingMode) {
+                    if (mappingSampleId != null) {
+                        synthManager.loadFactorySample(midi - 60, mappingSampleId!!)
+                        mappingSampleId = null
+                        // Optional: Clear browser selection or toggle it off? 
+                        // Let's just finish the map.
+                    } else if (isPadSamplingMode) {
                         synthManager.startPadSampling(midi - 60) // midi is baseNote + padIndex
                         synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, true)
                     } else {
@@ -190,6 +197,28 @@ class MainActivity : AppCompatActivity() {
         setupMetronome(content)
         setupSequencer(content)
         setupPadCustomization(content)
+        setupWorkspaceRefinement(content)
+    }
+
+    private fun setupWorkspaceRefinement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.toggleZenMode!!.setOnCheckedChangeListener { _, isChecked ->
+            isZenMode = isChecked
+            content.parameterContainer!!.visibility = if (isZenMode) View.GONE else View.VISIBLE
+        }
+
+        content.toggleBrowser!!.setOnCheckedChangeListener { _, isChecked ->
+            content.sidebarBrowser!!.visibility = if (isChecked) View.VISIBLE else View.GONE
+        }
+
+        // Factory Samples for Browser
+        val samples = arrayOf("Kick 808", "Snare 909", "Hat Closed", "Hat Open", "Clap", "Rim")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, samples)
+        content.sampleListView!!.adapter = adapter
+        content.sampleListView!!.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            mappingSampleId = position
+            // Visual feedback: briefly highlight the list item or change browser color?
+            // For now, we'll just track the state.
+        }
     }
 
     private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {

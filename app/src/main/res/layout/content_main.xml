@@ -137,480 +137,114 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/workspace_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/keyboard_pad_view"
         app:layout_constraintTop_toBottomOf="@id/top_header">
 
+        <!-- Sidebar Browser (Milestone 11) -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:id="@+id/sidebar_browser"
+            android:layout_width="140dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:background="@color/surface_dark"
+            android:visibility="gone">
 
-            <LinearLayout
-                android:id="@+id/control_bar"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
+                android:text="SAMPLES"
+                android:textColor="@color/acid_green"
+                android:textStyle="bold"
+                android:textSize="10sp" />
 
-                <Button
-                    android:id="@+id/btn_mode_toggle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pads" />
-
-                <Space
-                    android:layout_width="8dp"
-                    android:layout_height="match_parent" />
-
-                <Button
-                    android:id="@+id/btn_poly_toggle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Poly: ON" />
-
-                <Space
-                    android:layout_width="8dp"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Oct:"
-                    android:textColor="@color/off_white" />
-
-                <Button
-                    android:id="@+id/btn_octave_down"
-                    android:layout_width="48dp"
-                    android:layout_height="wrap_content"
-                    android:text="-" />
-
-                <TextView
-                    android:id="@+id/tv_octave_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="8dp"
-                    android:text="0"
-                    android:textColor="@color/off_white" />
-
-                <Button
-                    android:id="@+id/btn_octave_up"
-                    android:layout_width="48dp"
-                    android:layout_height="wrap_content"
-                    android:text="+" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/preset_bar"
+            <ListView
+                android:id="@+id/sample_list_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
+                android:layout_height="match_parent"
+                android:divider="@color/border_dim"
+                android:dividerHeight="1dp" />
+        </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_save_preset"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Save" />
-
-                <Space
-                    android:layout_width="8dp"
-                    android:layout_height="match_parent" />
-
-                <Button
-                    android:id="@+id/btn_load_preset"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Load" />
-
-                <Space
-                    android:layout_width="8dp"
-                    android:layout_height="match_parent" />
-
-                <Button
-                    android:id="@+id/btn_mock_rec"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.5"
-                    android:text="REC"
-                    android:textColor="@color/vibrant_red" />
-
-                <Button
-                    android:id="@+id/btn_mock_play"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.5"
-                    android:text="PLAY"
-                    android:textColor="@color/electric_blue" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/waveform_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Wav:"
-                    android:textColor="@color/off_white"
-                    android:textSize="12sp" />
-
-                <com.google.android.material.button.MaterialButtonToggleGroup
-                    android:id="@+id/toggle_waveform"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    app:checkedButton="@id/btn_wave_sine"
-                    app:singleSelection="true">
-
-                    <Button
-                        android:id="@+id/btn_wave_sine"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="48dp"
-                        android:layout_height="40dp"
-                        android:padding="0dp"
-                        android:text="SINE"
-                        android:textSize="9sp" />
-
-                    <Button
-                        android:id="@+id/btn_wave_square"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="48dp"
-                        android:layout_height="40dp"
-                        android:padding="0dp"
-                        android:text="SQR"
-                        android:textSize="9sp" />
-
-                    <Button
-                        android:id="@+id/btn_wave_saw"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="48dp"
-                        android:layout_height="40dp"
-                        android:padding="0dp"
-                        android:text="SAW"
-                        android:textSize="9sp" />
-
-                    <Button
-                        android:id="@+id/btn_wave_triangle"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="48dp"
-                        android:layout_height="40dp"
-                        android:padding="0dp"
-                        android:text="TRI"
-                        android:textSize="9sp" />
-
-                </com.google.android.material.button.MaterialButtonToggleGroup>
-
-                <Space
-                    android:layout_width="16dp"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:id="@+id/tv_master_vol_val"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="30dp"
-                    android:text="80%"
-                    android:textColor="@color/dim_grey"
-                    android:textSize="10sp" />
-
-                <SeekBar
-                    android:id="@+id/seek_master_vol"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:max="100"
-                    android:progress="80" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/adsr_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="A"
-                    android:textColor="@color/off_white" />
-
-                <SeekBar
-                    android:id="@+id/seek_attack"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:max="100"
-                    android:progress="10" />
-
-                <TextView
-                    android:id="@+id/tv_attack_val"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="40dp"
-                    android:text="0.1"
-                    android:textColor="@color/dim_grey"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="D"
-                    android:textColor="@color/off_white" />
-
-                <SeekBar
-                    android:id="@+id/seek_decay"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:max="100"
-                    android:progress="10" />
-
-                <TextView
-                    android:id="@+id/tv_decay_val"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="40dp"
-                    android:text="0.1"
-                    android:textColor="@color/dim_grey"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="S"
-                    android:textColor="@color/off_white" />
-
-                <SeekBar
-                    android:id="@+id/seek_sustain"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:max="100"
-                    android:progress="80" />
-
-                <TextView
-                    android:id="@+id/tv_sustain_val"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="40dp"
-                    android:text="0.8"
-                    android:textColor="@color/dim_grey"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="R"
-                    android:textColor="@color/off_white" />
-
-                <SeekBar
-                    android:id="@+id/seek_release"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:max="100"
-                    android:progress="10" />
-
-                <TextView
-                    android:id="@+id/tv_release_val"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="40dp"
-                    android:text="0.1"
-                    android:textColor="@color/dim_grey"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/lfo_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="LFO Rate"
-                    android:textColor="@color/off_white"
-                    android:textSize="12sp" />
-
-                <SeekBar
-                    android:id="@+id/seek_lfo_rate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:max="100"
-                    android:progress="20" />
-
-                <TextView
-                    android:id="@+id/tv_lfo_rate_val"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="40dp"
-                    android:text="1.0Hz"
-                    android:textColor="@color/dim_grey"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Depth"
-                    android:textColor="@color/off_white"
-                    android:textSize="12sp" />
-
-                <SeekBar
-                    android:id="@+id/seek_lfo_depth"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:max="100"
-                    android:progress="0" />
-
-                <TextView
-                    android:id="@+id/tv_lfo_depth_val"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="40dp"
-                    android:text="0.0"
-                    android:textColor="@color/dim_grey"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="LFO Wave:"
-                    android:textColor="@color/off_white"
-                    android:textSize="12sp" />
-
-                <Spinner
-                    android:id="@+id/spinner_lfo_waveform"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <Space
-                    android:layout_width="16dp"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Target:"
-                    android:textColor="@color/off_white"
-                    android:textSize="12sp" />
-
-                <Spinner
-                    android:id="@+id/spinner_lfo_target"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/filter_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cutoff"
-                    android:textColor="@color/off_white"
-                    android:textSize="12sp" />
-
-                <SeekBar
-                    android:id="@+id/seek_filter_cutoff"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:max="100"
-                    android:progress="50" />
-
-                <TextView
-                    android:id="@+id/tv_filter_cutoff_val"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="60dp"
-                    android:text="1000Hz"
-                    android:textColor="@color/dim_grey"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Res"
-                    android:textColor="@color/off_white"
-                    android:textSize="12sp" />
-
-                <SeekBar
-                    android:id="@+id/seek_filter_res"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:max="100"
-                    android:progress="20" />
-
-                <TextView
-                    android:id="@+id/tv_filter_res_val"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="40dp"
-                    android:text="0.20"
-                    android:textColor="@color/dim_grey"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
-
-            <!-- Sequencer Section -->
-            <LinearLayout
-                android:id="@+id/sequencer_section"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/matte_grey">
+                android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/control_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="SEQUENCER"
-                        android:textColor="@color/acid_green"
-                        android:textStyle="bold"
-                        android:textSize="12sp" />
+                    android:padding="8dp">
 
                     <Button
-                        android:id="@+id/btn_sequencer_play"
+                        android:id="@+id/btn_mode_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pads" />
+
+                    <Space
+                        android:layout_width="8dp"
+                        android:layout_height="match_parent" />
+
+                    <Button
+                        android:id="@+id/btn_poly_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Poly: ON" />
+
+                    <Space
+                        android:layout_width="8dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Oct:"
+                        android:textColor="@color/off_white" />
+
+                    <Button
+                        android:id="@+id/btn_octave_down"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:text="-" />
+
+                    <TextView
+                        android:id="@+id/tv_octave_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="8dp"
+                        android:text="0"
+                        android:textColor="@color/off_white" />
+
+                    <Button
+                        android:id="@+id/btn_octave_up"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:text="+" />
+
+                    <Space
+                        android:layout_width="16dp"
+                        android:layout_height="match_parent" />
+
+                    <ToggleButton
+                        android:id="@+id/toggle_zen_mode"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
-                        android:text="PLAY"
+                        android:textOff="ZEN OFF"
+                        android:textOn="ZEN ON"
                         android:textColor="@color/electric_blue"
                         android:textSize="10sp" />
 
@@ -619,71 +253,505 @@
                         android:layout_height="match_parent" />
 
                     <ToggleButton
-                        android:id="@+id/toggle_sequencer_rec"
+                        android:id="@+id/toggle_browser"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
-                        android:textOff="REC OFF"
-                        android:textOn="REC ON"
-                        android:textColor="@color/vibrant_red"
+                        android:textOff="BRW OFF"
+                        android:textOn="BRW ON"
+                        android:textColor="@color/electric_blue"
                         android:textSize="10sp" />
 
-                    <Space
-                        android:layout_width="8dp"
-                        android:layout_height="match_parent" />
-
-                    <Button
-                        android:id="@+id/btn_sequencer_clear"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="36dp"
-                        android:text="CLR"
-                        android:textColor="@color/vibrant_red"
-                        android:textSize="10sp" />
-
-                    <Space
-                        android:layout_width="8dp"
-                        android:layout_height="match_parent" />
-
-                    <ToggleButton
-                        android:id="@+id/toggle_pad_sampling"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="36dp"
-                        android:textOff="SAMPLING OFF"
-                        android:textOn="SAMPLING ON"
-                        android:textColor="@color/acid_green"
-                        android:textSize="10sp" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/parameter_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="4dp">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/preset_bar"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Step Size: "
-                        android:textColor="@color/off_white"
-                        android:textSize="10sp" />
+                        android:orientation="horizontal"
+                        android:padding="8dp">
 
-                    <Spinner
-                        android:id="@+id/spinner_step_duration"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        <Button
+                            android:id="@+id/btn_save_preset"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Save" />
+
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
+                        <Button
+                            android:id="@+id/btn_load_preset"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Load" />
+
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
+                        <Button
+                            android:id="@+id/btn_mock_rec"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.5"
+                            android:text="REC"
+                            android:textColor="@color/vibrant_red" />
+
+                        <Button
+                            android:id="@+id/btn_mock_play"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.5"
+                            android:text="PLAY"
+                            android:textColor="@color/electric_blue" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/waveform_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Wav:"
+                            android:textColor="@color/off_white"
+                            android:textSize="12sp" />
+
+                        <com.google.android.material.button.MaterialButtonToggleGroup
+                            android:id="@+id/toggle_waveform"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            app:checkedButton="@id/btn_wave_sine"
+                            app:singleSelection="true">
+
+                            <Button
+                                android:id="@+id/btn_wave_sine"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="48dp"
+                                android:layout_height="40dp"
+                                android:padding="0dp"
+                                android:text="SINE"
+                                android:textSize="9sp" />
+
+                            <Button
+                                android:id="@+id/btn_wave_square"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="48dp"
+                                android:layout_height="40dp"
+                                android:padding="0dp"
+                                android:text="SQR"
+                                android:textSize="9sp" />
+
+                            <Button
+                                android:id="@+id/btn_wave_saw"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="48dp"
+                                android:layout_height="40dp"
+                                android:padding="0dp"
+                                android:text="SAW"
+                                android:textSize="9sp" />
+
+                            <Button
+                                android:id="@+id/btn_wave_triangle"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="48dp"
+                                android:layout_height="40dp"
+                                android:padding="0dp"
+                                android:text="TRI"
+                                android:textSize="9sp" />
+
+                        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                        <Space
+                            android:layout_width="16dp"
+                            android:layout_height="match_parent" />
+
+                        <TextView
+                            android:id="@+id/tv_master_vol_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="30dp"
+                            android:text="80%"
+                            android:textColor="@color/dim_grey"
+                            android:textSize="10sp" />
+
+                        <SeekBar
+                            android:id="@+id/seek_master_vol"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:max="100"
+                            android:progress="80" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/adsr_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="A"
+                            android:textColor="@color/off_white" />
+
+                        <SeekBar
+                            android:id="@+id/seek_attack"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="10" />
+
+                        <TextView
+                            android:id="@+id/tv_attack_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="40dp"
+                            android:text="0.1"
+                            android:textColor="@color/dim_grey"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="D"
+                            android:textColor="@color/off_white" />
+
+                        <SeekBar
+                            android:id="@+id/seek_decay"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="10" />
+
+                        <TextView
+                            android:id="@+id/tv_decay_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="40dp"
+                            android:text="0.1"
+                            android:textColor="@color/dim_grey"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="S"
+                            android:textColor="@color/off_white" />
+
+                        <SeekBar
+                            android:id="@+id/seek_sustain"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="80" />
+
+                        <TextView
+                            android:id="@+id/tv_sustain_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="40dp"
+                            android:text="0.8"
+                            android:textColor="@color/dim_grey"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="R"
+                            android:textColor="@color/off_white" />
+
+                        <SeekBar
+                            android:id="@+id/seek_release"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="10" />
+
+                        <TextView
+                            android:id="@+id/tv_release_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="40dp"
+                            android:text="0.1"
+                            android:textColor="@color/dim_grey"
+                            android:textSize="10sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lfo_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="LFO Rate"
+                            android:textColor="@color/off_white"
+                            android:textSize="12sp" />
+
+                        <SeekBar
+                            android:id="@+id/seek_lfo_rate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="20" />
+
+                        <TextView
+                            android:id="@+id/tv_lfo_rate_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="40dp"
+                            android:text="1.0Hz"
+                            android:textColor="@color/dim_grey"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Depth"
+                            android:textColor="@color/off_white"
+                            android:textSize="12sp" />
+
+                        <SeekBar
+                            android:id="@+id/seek_lfo_depth"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="0" />
+
+                        <TextView
+                            android:id="@+id/tv_lfo_depth_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="40dp"
+                            android:text="0.0"
+                            android:textColor="@color/dim_grey"
+                            android:textSize="10sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="LFO Wave:"
+                            android:textColor="@color/off_white"
+                            android:textSize="12sp" />
+
+                        <Spinner
+                            android:id="@+id/spinner_lfo_waveform"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <Space
+                            android:layout_width="16dp"
+                            android:layout_height="match_parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Target:"
+                            android:textColor="@color/off_white"
+                            android:textSize="12sp" />
+
+                        <Spinner
+                            android:id="@+id/spinner_lfo_target"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/filter_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cutoff"
+                            android:textColor="@color/off_white"
+                            android:textSize="12sp" />
+
+                        <SeekBar
+                            android:id="@+id/seek_filter_cutoff"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="50" />
+
+                        <TextView
+                            android:id="@+id/tv_filter_cutoff_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="60dp"
+                            android:text="1000Hz"
+                            android:textColor="@color/dim_grey"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Res"
+                            android:textColor="@color/off_white"
+                            android:textSize="12sp" />
+
+                        <SeekBar
+                            android:id="@+id/seek_filter_res"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="20" />
+
+                        <TextView
+                            android:id="@+id/tv_filter_res_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="40dp"
+                            android:text="0.20"
+                            android:textColor="@color/dim_grey"
+                            android:textSize="10sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
 
-                <GridLayout
-                    android:id="@+id/sequencer_step_grid"
+                <!-- Sequencer Section -->
+                <LinearLayout
+                    android:id="@+id/sequencer_section"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
                     android:layout_marginTop="8dp"
-                    android:columnCount="8"
-                    android:rowCount="2">
+                    android:background="@color/matte_grey">
 
-                    <ToggleButton android:id="@+id/step_0" style="@style/Widget.AppCompat.Button.Small" android:layout_width="40dp" android:layout_height="40dp" android:textOff="0" android:textOn="0" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="SEQUENCER"
+                            android:textColor="@color/acid_green"
+                            android:textStyle="bold"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_sequencer_play"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="PLAY"
+                            android:textColor="@color/electric_blue"
+                            android:textSize="10sp" />
+
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
+                        <ToggleButton
+                            android:id="@+id/toggle_sequencer_rec"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:textOff="REC OFF"
+                            android:textOn="REC ON"
+                            android:textColor="@color/vibrant_red"
+                            android:textSize="10sp" />
+
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
+                        <Button
+                            android:id="@+id/btn_sequencer_clear"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="CLR"
+                            android:textColor="@color/vibrant_red"
+                            android:textSize="10sp" />
+
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
+                        <ToggleButton
+                            android:id="@+id/toggle_pad_sampling"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:textOff="SAMPLING OFF"
+                            android:textOn="SAMPLING ON"
+                            android:textColor="@color/acid_green"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Step Size: "
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <Spinner
+                            android:id="@+id/spinner_step_duration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <GridLayout
+                        android:id="@+id/sequencer_step_grid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:columnCount="8"
+                        android:rowCount="2">
+
+                        <ToggleButton android:id="@+id/step_0" style="@style/Widget.AppCompat.Button.Small" android:layout_width="40dp" android:layout_height="40dp" android:textOff="0" android:textOn="0" />
                         <ToggleButton android:id="@+id/step_1" style="@style/Widget.AppCompat.Button.Small" android:layout_width="40dp" android:layout_height="40dp" android:textOff="1" android:textOn="1" />
                         <ToggleButton android:id="@+id/step_2" style="@style/Widget.AppCompat.Button.Small" android:layout_width="40dp" android:layout_height="40dp" android:textOff="2" android:textOn="2" />
                         <ToggleButton android:id="@+id/step_3" style="@style/Widget.AppCompat.Button.Small" android:layout_width="40dp" android:layout_height="40dp" android:textOff="3" android:textOn="3" />
@@ -701,103 +769,104 @@
                         <ToggleButton android:id="@+id/step_15" style="@style/Widget.AppCompat.Button.Small" android:layout_width="40dp" android:layout_height="40dp" android:textOff="15" android:textOn="15" />
                     </GridLayout>
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <!-- Pad Customization Section -->
-            <LinearLayout
-                android:id="@+id/pad_customization_section"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/matte_grey">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="PAD CUSTOMIZATION"
-                    android:textColor="@color/acid_green"
-                    android:textStyle="bold"
-                    android:textSize="12sp" />
-
+                <!-- Pad Customization Section -->
                 <LinearLayout
+                    android:id="@+id/pad_customization_section"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="4dp">
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/matte_grey">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Cols: "
-                        android:textColor="@color/off_white"
-                        android:textSize="10sp" />
+                        android:text="PAD CUSTOMIZATION"
+                        android:textColor="@color/acid_green"
+                        android:textStyle="bold"
+                        android:textSize="12sp" />
 
-                    <Button
-                        android:id="@+id/btn_cols_down"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="40dp"
-                        android:layout_height="36dp"
-                        android:text="-"
-                        android:textColor="@color/acid_green" />
-
-                    <TextView
-                        android:id="@+id/tv_cols_value"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingHorizontal="8dp"
-                        android:text="4"
-                        android:textColor="@color/off_white" />
+                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp">
 
-                    <Button
-                        android:id="@+id/btn_cols_up"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="40dp"
-                        android:layout_height="36dp"
-                        android:text="+"
-                        android:textColor="@color/acid_green" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cols: "
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
 
-                    <Space
-                        android:layout_width="16dp"
-                        android:layout_height="match_parent" />
+                        <Button
+                            android:id="@+id/btn_cols_down"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
+                            android:text="-"
+                            android:textColor="@color/acid_green" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Rows: "
-                        android:textColor="@color/off_white"
-                        android:textSize="10sp" />
+                        <TextView
+                            android:id="@+id/tv_cols_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="8dp"
+                            android:text="4"
+                            android:textColor="@color/off_white" />
 
-                    <Button
-                        android:id="@+id/btn_rows_down"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="40dp"
-                        android:layout_height="36dp"
-                        android:text="-"
-                        android:textColor="@color/acid_green" />
+                        <Button
+                            android:id="@+id/btn_cols_up"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
+                            android:text="+"
+                            android:textColor="@color/acid_green" />
 
-                    <TextView
-                        android:id="@+id/tv_rows_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="8dp"
-                        android:text="4"
-                        android:textColor="@color/off_white" />
+                        <Space
+                            android:layout_width="16dp"
+                            android:layout_height="match_parent" />
 
-                    <Button
-                        android:id="@+id/btn_rows_up"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="40dp"
-                        android:layout_height="36dp"
-                        android:text="+"
-                        android:textColor="@color/acid_green" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rows: "
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/btn_rows_down"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
+                            android:text="-"
+                            android:textColor="@color/acid_green" />
+
+                        <TextView
+                            android:id="@+id/tv_rows_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="8dp"
+                            android:text="4"
+                            android:textColor="@color/off_white" />
+
+                        <Button
+                            android:id="@+id/btn_rows_up"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
+                            android:text="+"
+                            android:textColor="@color/acid_green" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+    </LinearLayout>
 
     <ch.schmidlins.mini_synth.ui.KeyboardPadView
         android:id="@+id/keyboard_pad_view"
