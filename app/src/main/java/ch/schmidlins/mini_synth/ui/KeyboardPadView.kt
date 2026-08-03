@@ -51,6 +51,7 @@ class KeyboardPadView @JvmOverloads constructor(
     private val backlightRecordPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.vibrant_red); style = Paint.Style.FILL; alpha = 128 }
     private val backlightPlayPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.electric_blue); style = Paint.Style.FILL; alpha = 128 }
     private val customPadPaint = Paint().apply { style = Paint.Style.FILL }
+    private val textFontMetrics = textPaint.fontMetrics
 
     // Cached Layouts
     private val whiteKeyRects = mutableListOf<RectF>()
@@ -138,7 +139,8 @@ class KeyboardPadView @JvmOverloads constructor(
             canvas.drawRect(rect, borderPaint)
             val midi = baseNote + i
             drawBacklight(canvas, rect, midi)
-            canvas.drawText("P$i", rect.centerX(), rect.centerY() + 8f, textPaint)
+            val textY = rect.centerY() - (textFontMetrics.ascent + textFontMetrics.descent) / 2f
+            canvas.drawText("P$i", rect.centerX(), textY, textPaint)
         }
     }
 
