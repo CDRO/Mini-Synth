@@ -54,7 +54,7 @@ void AudioEngine::stop() {
 
 void AudioEngine::startPadSampling(int padIndex) {
     stopPadSampling();
-    if (padIndex >= 0 && padIndex < 16) {
+    if (padIndex >= 0 && padIndex < MAX_PADS) {
         mSamplingPadIndex = padIndex;
         mPadBuffers[padIndex].resize(48000 * 5); // 5 seconds pre-allocated
         mSampleRecorder.startRecording(mPadBuffers[padIndex]);
@@ -67,7 +67,7 @@ void AudioEngine::stopPadSampling() {
 }
 
 void AudioEngine::padNoteOn(int padIndex, float velocity) {
-    if (padIndex < 0 || padIndex >= 16 || padIndex == mSamplingPadIndex) return;
+    if (padIndex < 0 || padIndex >= MAX_PADS || padIndex == mSamplingPadIndex) return;
 
     if (mPadBuffers[padIndex].empty()) {
         // Fallback to standard synth note for this pad if no sample recorded
