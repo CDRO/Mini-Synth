@@ -28,13 +28,14 @@ Merging context from initial feature implementation (`6392750b`) and stability r
 ### [DONE] Milestone 6: Visual MIDI Sequencer
 ### [DONE] Milestone 7: Keyboard Step-Recording
 ### [DONE] Milestone 8: Pad Sampling & Playback
+### [DONE] Milestone 9: Swipe-to-Hold Pad Recording
 
-### [NEXT] Milestone 9: Swipe-to-Hold Pad Recording
-- **Objective**: Use swipe gestures on the pad grid during sampling to define note durations.
+### [NEXT] Milestone 10: Dynamic Pad Customization
+- **Objective**: Expand the 4x4 grid and allow per-pad color and sound mapping.
 - **Key Features**:
-    - Detect swipe-from-pad to adjacent pads.
-    - Dynamic buffer allocation for varying "held" durations.
-    - Improved touch resolution in `KeyboardPadView`.
+    - Expandable grid up to 16 columns.
+    - Sound Mapping module.
+    - Configurable per-pad backlight colors.
 
 ## Quality Assurance Status
 - **Unit Tests**: 5 passed (Oscillators, Envelopes, ViewModel logic).

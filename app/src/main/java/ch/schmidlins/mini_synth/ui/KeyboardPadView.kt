@@ -20,6 +20,7 @@ class KeyboardPadView @JvmOverloads constructor(
         fun onNoteOff(midi: Int)
         fun onGridTouchStart(midi: Int)
         fun onGridTouchEnd()
+        fun onPadLongPress(padIndex: Int)
     }
 
     enum class Mode { KEYBOARD, PAD_GRID }
@@ -29,11 +30,16 @@ class KeyboardPadView @JvmOverloads constructor(
 
     private var mode = Mode.KEYBOARD
     private var baseNote = 60
+    var gridColumns = 4
+    var gridRows = 4
     var listener: OnNoteEventListener? = null
     
     // UI state - Thread safe bitmask storage
     private val noteStates = ConcurrentHashMap<Int, Int>()
     private val pointerToNote = mutableMapOf<Int, Int>()
+    private val padColors = ConcurrentHashMap<Int, Int>() // padIndex -> color
+    private val handler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val longPressRunnables = mutableMapOf<Int, Runnable>() // pointerId -> Runnable
     
     // Paints
     private val whiteKeyPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.surface_bright); style = Paint.Style.FILL }
@@ -44,6 +50,8 @@ class KeyboardPadView @JvmOverloads constructor(
     private val backlightTouchPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.acid_green); style = Paint.Style.FILL; alpha = 128 }
     private val backlightRecordPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.vibrant_red); style = Paint.Style.FILL; alpha = 128 }
     private val backlightPlayPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.electric_blue); style = Paint.Style.FILL; alpha = 128 }
+    private val customPadPaint = Paint().apply { style = Paint.Style.FILL }
+    private val textFontMetrics = textPaint.fontMetrics
 
     // Cached Layouts
     private val whiteKeyRects = mutableListOf<RectF>()
@@ -57,14 +65,20 @@ class KeyboardPadView @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
+        calculateLayouts(w, h)
+    }
+
+    private fun calculateLayouts(w: Int, h: Int) {
+        if (w <= 0 || h <= 0) return
+
         val keyWidth = w / 8f
         val keyHeight = h.toFloat()
-        
+
         whiteKeyRects.clear()
         for (i in 0 until 8) {
             whiteKeyRects.add(RectF(i * keyWidth, 0f, (i + 1) * keyWidth, keyHeight))
         }
-        
+
         blackKeyRects.clear()
         val blackKeyWidth = keyWidth * 0.6f
         val blackKeyHeight = keyHeight * 0.6f
@@ -76,12 +90,12 @@ class KeyboardPadView @JvmOverloads constructor(
                 (i + 1) * keyWidth + blackKeyWidth / 2f, blackKeyHeight
             )
         }
-        
+
         padRects.clear()
-        val padSizeW = w / 4f
-        val padSizeH = h / 4f
-        for (row in 0 until 4) {
-            for (col in 0 until 4) {
+        val padSizeW = w / gridColumns.toFloat()
+        val padSizeH = h / gridRows.toFloat()
+        for (row in 0 until gridRows) {
+            for (col in 0 until gridColumns) {
                 padRects.add(RectF(col * padSizeW, row * padSizeH, (col + 1) * padSizeW, (row + 1) * padSizeH))
             }
         }
@@ -112,13 +126,21 @@ class KeyboardPadView @JvmOverloads constructor(
 
     private fun drawPadGrid(canvas: Canvas) {
         if (padRects.isEmpty()) return
-        for (i in 0 until 16) {
+        val totalPads = gridColumns * gridRows
+        for (i in 0 until totalPads) {
             val rect = padRects[i]
-            canvas.drawRect(rect, whiteKeyPaint)
+            val customColor = padColors[i]
+            if (customColor != null) {
+                customPadPaint.color = customColor
+                canvas.drawRect(rect, customPadPaint)
+            } else {
+                canvas.drawRect(rect, whiteKeyPaint)
+            }
             canvas.drawRect(rect, borderPaint)
             val midi = baseNote + i
             drawBacklight(canvas, rect, midi)
-            canvas.drawText("P$i", rect.centerX(), rect.centerY() + 8f, textPaint)
+            val textY = rect.centerY() - (textFontMetrics.ascent + textFontMetrics.descent) / 2f
+            canvas.drawText("P$i", rect.centerX(), textY, textPaint)
         }
     }
 
@@ -148,9 +170,18 @@ class KeyboardPadView @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
                 performClick()
                 val midi = getMidiAt(event.getX(actionIndex), event.getY(actionIndex))
-                if (midi != -1) noteOn(pId, midi)
+                if (midi != -1) {
+                    noteOn(pId, midi)
+                    if (mode == Mode.PAD_GRID) {
+                        val padIndex = midi - baseNote
+                        val runnable = Runnable { listener?.onPadLongPress(padIndex) }
+                        longPressRunnables[pId] = runnable
+                        handler.postDelayed(runnable, 500)
+                    }
+                }
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP, MotionEvent.ACTION_CANCEL -> {
+                longPressRunnables.remove(pId)?.let { handler.removeCallbacks(it) }
                 noteOff(pId)
             }
             MotionEvent.ACTION_MOVE -> {
@@ -159,6 +190,7 @@ class KeyboardPadView @JvmOverloads constructor(
                     val newMidi = getMidiAt(event.getX(i), event.getY(i))
                     val oldMidi = pointerToNote[pid]
                     if (newMidi != oldMidi) {
+                        longPressRunnables.remove(pid)?.let { handler.removeCallbacks(it) }
                         noteOff(pid)
                         if (newMidi != -1) noteOn(pid, newMidi)
                     }
@@ -209,9 +241,9 @@ class KeyboardPadView @JvmOverloads constructor(
         } else {
             if (padRects.isEmpty()) return -1
             // Optimized grid-based lookup for pads
-            val col = (x / (width / 4f)).toInt().coerceIn(0, 3)
-            val row = (y / (height / 4f)).toInt().coerceIn(0, 3)
-            return baseNote + (row * 4 + col)
+            val col = (x / (width / gridColumns.toFloat())).toInt().coerceIn(0, gridColumns - 1)
+            val row = (y / (height / gridRows.toFloat())).toInt().coerceIn(0, gridRows - 1)
+            return baseNote + (row * gridColumns + col)
         }
         return -1
     }
@@ -226,5 +258,21 @@ class KeyboardPadView @JvmOverloads constructor(
     fun setNoteBacklight(midi: Int, type: Backlight, active: Boolean) {
         updateNoteState(midi, type.bit, active)
         postInvalidate()
+    }
+
+    fun setPadColor(padIndex: Int, color: Int?) {
+        if (color == null) {
+            padColors.remove(padIndex)
+        } else {
+            padColors[padIndex] = color
+        }
+        invalidate()
+    }
+
+    fun setGridDimensions(cols: Int, rows: Int) {
+        gridColumns = cols
+        gridRows = rows
+        calculateLayouts(width, height)
+        invalidate()
     }
 }

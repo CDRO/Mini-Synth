@@ -45,21 +45,21 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_noteOff(JNIEnv *env, jobject t
 
 extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_padNoteOn(JNIEnv *env, jobject thiz, jint pad_index, jfloat velocity) {
-    if (pad_index < 0 || pad_index >= 16) return;
+    if (pad_index < 0 || pad_index >= 256) return;
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->padNoteOn(pad_index, velocity);
 }
 
 extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_padNoteOff(JNIEnv *env, jobject thiz, jint pad_index) {
-    if (pad_index < 0 || pad_index >= 16) return;
+    if (pad_index < 0 || pad_index >= 256) return;
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->padNoteOff(pad_index);
 }
 
 extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_startPadSampling(JNIEnv *env, jobject thiz, jint pad_index) {
-    if (pad_index < 0 || pad_index >= 16) return;
+    if (pad_index < 0 || pad_index >= 256) return;
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->startPadSampling(pad_index);
 }

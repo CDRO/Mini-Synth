@@ -95,7 +95,8 @@ private:
     MidiSequencer mMidiSequencer;
     int mOctaveShift = 0;
 
-    std::vector<float> mPadBuffers[16];
+    static const int MAX_PADS = 256;
+    std::vector<float> mPadBuffers[MAX_PADS];
     int mSamplingPadIndex = -1;
     SamplePlayer mSampleRecorder;
 

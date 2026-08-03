@@ -703,6 +703,99 @@
 
             </LinearLayout>
 
+            <!-- Pad Customization Section -->
+            <LinearLayout
+                android:id="@+id/pad_customization_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/matte_grey">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="PAD CUSTOMIZATION"
+                    android:textColor="@color/acid_green"
+                    android:textStyle="bold"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cols: "
+                        android:textColor="@color/off_white"
+                        android:textSize="10sp" />
+
+                    <Button
+                        android:id="@+id/btn_cols_down"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="40dp"
+                        android:layout_height="36dp"
+                        android:text="-"
+                        android:textColor="@color/acid_green" />
+
+                    <TextView
+                        android:id="@+id/tv_cols_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="8dp"
+                        android:text="4"
+                        android:textColor="@color/off_white" />
+
+                    <Button
+                        android:id="@+id/btn_cols_up"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="40dp"
+                        android:layout_height="36dp"
+                        android:text="+"
+                        android:textColor="@color/acid_green" />
+
+                    <Space
+                        android:layout_width="16dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rows: "
+                        android:textColor="@color/off_white"
+                        android:textSize="10sp" />
+
+                    <Button
+                        android:id="@+id/btn_rows_down"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="40dp"
+                        android:layout_height="36dp"
+                        android:text="-"
+                        android:textColor="@color/acid_green" />
+
+                    <TextView
+                        android:id="@+id/tv_rows_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="8dp"
+                        android:text="4"
+                        android:textColor="@color/off_white" />
+
+                    <Button
+                        android:id="@+id/btn_rows_up"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="40dp"
+                        android:layout_height="36dp"
+                        android:text="+"
+                        android:textColor="@color/acid_green" />
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
