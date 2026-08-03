@@ -18,6 +18,8 @@ class KeyboardPadView @JvmOverloads constructor(
     interface OnNoteEventListener {
         fun onNoteOn(midi: Int, velocity: Float)
         fun onNoteOff(midi: Int)
+        fun onGridTouchStart(midi: Int)
+        fun onGridTouchEnd()
     }
 
     enum class Mode { KEYBOARD, PAD_GRID }
@@ -167,9 +169,13 @@ class KeyboardPadView @JvmOverloads constructor(
     }
 
     private fun noteOn(pointerId: Int, midi: Int) {
+        val isFirstTouch = pointerToNote.isEmpty()
         pointerToNote[pointerId] = midi
         updateNoteState(midi, Backlight.TOUCH.bit, true)
         listener?.onNoteOn(midi, 0.8f)
+        if (isFirstTouch && mode == Mode.PAD_GRID) {
+            listener?.onGridTouchStart(midi)
+        }
         invalidate()
     }
 
@@ -179,6 +185,9 @@ class KeyboardPadView @JvmOverloads constructor(
                 updateNoteState(midi, Backlight.TOUCH.bit, false)
                 listener?.onNoteOff(midi)
             }
+        }
+        if (pointerToNote.isEmpty() && mode == Mode.PAD_GRID) {
+            listener?.onGridTouchEnd()
         }
         invalidate()
     }

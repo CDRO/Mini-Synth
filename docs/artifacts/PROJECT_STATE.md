@@ -27,13 +27,14 @@ Merging context from initial feature implementation (`6392750b`) and stability r
 ### [DONE] Milestone 5: Metronome & BPM Control
 ### [DONE] Milestone 6: Visual MIDI Sequencer
 ### [DONE] Milestone 7: Keyboard Step-Recording
+### [DONE] Milestone 8: Pad Sampling & Playback
 
-### [NEXT] Milestone 8: Pad Sampling & Playback
-- **Objective**: Capture sound performance to a specific pad for one-shot or looped playback.
+### [NEXT] Milestone 9: Swipe-to-Hold Pad Recording
+- **Objective**: Use swipe gestures on the pad grid during sampling to define note durations.
 - **Key Features**:
-    - "Sample to Pad" mode.
-    - Native PCM buffer management per pad.
-    - Pad-specific playback triggering.
+    - Detect swipe-from-pad to adjacent pads.
+    - Dynamic buffer allocation for varying "held" durations.
+    - Improved touch resolution in `KeyboardPadView`.
 
 ## Quality Assurance Status
 - **Unit Tests**: 5 passed (Oscillators, Envelopes, ViewModel logic).
