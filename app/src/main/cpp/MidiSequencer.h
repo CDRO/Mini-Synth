@@ -16,6 +16,7 @@ public:
 
     void setNote(int step, int note, bool active);
     bool getNote(int step, int note) const;
+    void getActiveNotes(int step, std::vector<int>& outNotes) const;
     bool isStepActive(int step) const { return (step >= 0 && step < NUM_STEPS) ? mGrid[step].any() : false; }
     void clear();
 

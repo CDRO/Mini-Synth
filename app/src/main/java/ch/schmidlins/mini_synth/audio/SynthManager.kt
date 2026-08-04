@@ -52,6 +52,7 @@ class SynthManager {
     external fun isSequencerPlaying(): Boolean
     external fun setSequencerNote(step: Int, note: Int, active: Boolean)
     external fun isSequencerNoteActive(step: Int, note: Int): Boolean
+    external fun getSequencerActiveNotes(step: Int): IntArray?
     external fun isSequencerStepActive(step: Int): Boolean
     external fun recordSequencerNote(note: Int): Int
     external fun clearSequencer()

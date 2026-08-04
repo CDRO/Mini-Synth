@@ -577,7 +577,12 @@ class MainActivity : AppCompatActivity() {
             content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[last])?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
             for (note in 60..72) synthView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, false)
         }
-        if (current < stepButtonIds.size) content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[current])?.setBackgroundColor(ContextCompat.getColor(this, R.color.acid_green))
+        if (current < stepButtonIds.size) {
+            val toggle = content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[current])
+            val activeNotes = synthManager.getSequencerActiveNotes(current)
+            val isMulti = (activeNotes?.size ?: 0) > 1
+            toggle?.setBackgroundColor(ContextCompat.getColor(this, if (isMulti) R.color.electric_blue else R.color.acid_green))
+        }
         for (note in 60..72) if (synthManager.isSequencerNoteActive(current, note)) synthView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, true)
     }
 
@@ -585,7 +590,13 @@ class MainActivity : AppCompatActivity() {
         for (i in 0 until 16) {
             val id = stepButtonIds[i]
             val toggle = content.root.findViewById<android.widget.ToggleButton>(id)
-            toggle?.isChecked = synthManager.isSequencerStepActive(i)
+            val activeNotes = synthManager.getSequencerActiveNotes(i)
+            toggle?.isChecked = activeNotes != null && activeNotes.isNotEmpty()
+            if (activeNotes != null && activeNotes.size > 1) {
+                toggle?.setBackgroundColor(ContextCompat.getColor(this, R.color.electric_blue))
+            } else {
+                toggle?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+            }
         }
     }
 
@@ -741,12 +752,7 @@ class MainActivity : AppCompatActivity() {
     private fun saveCurrentPattern(name: String) {
         val grid = mutableListOf<List<Int>>()
         for (step in 0 until 16) {
-            val notes = mutableListOf<Int>()
-            for (note in 0 until 128) {
-                if (synthManager.isSequencerNoteActive(step, note)) {
-                    notes.add(note)
-                }
-            }
+            val notes = synthManager.getSequencerActiveNotes(step)?.toList() ?: emptyList()
             grid.add(notes)
         }
         val division = when (binding.appBarMain.contentMain.spinnerStepDuration!!.selectedItemPosition) {
