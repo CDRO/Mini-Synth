@@ -707,7 +707,7 @@
                             style="?attr/materialButtonOutlinedStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="36dp"
-                            android:text="SV"
+                            android:text="SAVE"
                             android:textColor="@color/off_white"
                             android:textSize="10sp" />
 
@@ -716,7 +716,7 @@
                             style="?attr/materialButtonOutlinedStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="36dp"
-                            android:text="LD"
+                            android:text="LOAD"
                             android:textColor="@color/off_white"
                             android:textSize="10sp" />
 

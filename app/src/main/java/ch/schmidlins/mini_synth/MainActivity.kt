@@ -505,18 +505,21 @@ class MainActivity : AppCompatActivity() {
             val file = java.io.File(dir, "pattern_export_${System.currentTimeMillis()}.wav")
             
             lifecycleScope.launch {
+                if (isFinishing || isDestroyed) return@launch
                 val progress = AlertDialog.Builder(this@MainActivity)
                     .setMessage("Exporting...")
                     .setCancelable(false)
                     .show()
                 
-                // Rendering on background thread to avoid ANR
-                kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
-                    synthManager.renderPatternToFile(file.absolutePath)
+                try {
+                    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                        synthManager.renderPatternToFile(file.absolutePath)
+                    }
+                } finally {
+                    if (!isFinishing && !isDestroyed) progress.dismiss()
                 }
                 
-                progress.dismiss()
-                shareFile(file)
+                if (!isFinishing && !isDestroyed) shareFile(file)
             }
         }
         val durations = arrayOf("1/16", "1/8", "1/4", "1/2", "1/1")
@@ -743,10 +746,21 @@ class MainActivity : AppCompatActivity() {
                     val names = patterns.map { it.name }.toTypedArray()
                     AlertDialog.Builder(this@MainActivity).setTitle("Load Pattern").setItems(names) { _, which ->
                         applyPattern(patterns[which])
-                    }.show()
+                    }
+                    .setNeutralButton("Delete") { _, _ ->
+                        showDeletePatternDialog(patterns)
+                    }
+                    .show()
                 }
             }
         }
+    }
+
+    private fun showDeletePatternDialog(patterns: List<SynthPattern>) {
+        val names = patterns.map { it.name }.toTypedArray()
+        AlertDialog.Builder(this).setTitle("Delete Pattern").setItems(names) { _, which ->
+            lifecycleScope.launch { patternRepository.deletePattern(patterns[which].name) }
+        }.setNegativeButton("Cancel", null).show()
     }
 
     private fun saveCurrentPattern(name: String) {
