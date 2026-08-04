@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private var isKeyboardHidden = false
     private var isHelpMode = false
     private var isDemoPlaying = false
+    private var demoJob: kotlinx.coroutines.Job? = null
     private var mappingSampleId: Int? = null // if not null, we are in mapping mode
     private val padSamplePaths = mutableMapOf<Int, String>()
     
@@ -268,6 +269,8 @@ class MainActivity : AppCompatActivity() {
         val set = ConstraintSet()
         set.clone(root)
 
+        content.keyboardPadView.isEnabled = !isHelpMode // Fixes #37
+
         // Keyboard Visibility
         if (isKeyboardHidden || isHelpMode) {
             content.keyboardPadView.visibility = View.GONE
@@ -333,6 +336,7 @@ class MainActivity : AppCompatActivity() {
         content.btnDemoMode.setOnClickListener {
             if (isDemoPlaying) {
                 isDemoPlaying = false
+                demoJob?.cancel()
                 content.btnDemoMode.text = "DEMO"
             } else {
                 isDemoPlaying = true
@@ -382,7 +386,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playDemoSong() {
-        lifecycleScope.launch {
+        demoJob?.cancel()
+        demoJob = lifecycleScope.launch {
             val notes = listOf(60, 63, 67, 72, 67, 63)
             synthManager.setWaveform(2) // Saw
             synthManager.setAttack(0.05f)
@@ -397,7 +402,6 @@ class MainActivity : AppCompatActivity() {
                 delay(100)
                 i++
                 if (i == notes.size) {
-                    // Change something
                     synthManager.setFilterCutoff(if (i % 12 == 0) 2000f else 500f)
                 }
             }
