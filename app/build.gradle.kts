@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    // Note: kotlin-android is managed implicitly by AGP 9.3+; applying alias here causes 'duplicate extension' errors.
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -42,6 +41,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
     buildFeatures {
         viewBinding = true
         prefab = true
@@ -61,8 +65,15 @@ dependencies {
     implementation(libs.oboe)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.kotlinx.serialization.json)
+    
     testImplementation(libs.junit)
     testImplementation(libs.androidx.arch.core.testing)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.test.rules)
+    testImplementation(libs.androidx.junit)
+    testImplementation(libs.androidx.espresso.core)
+    
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
 }

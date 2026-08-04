@@ -1,23 +1,20 @@
-# Task: Testing Catch-up
+# Task: Testing Catch-up (Milestones 13 & 14)
 
-Retroactively implementing comprehensive unit and functional tests for all features implemented so far (Audio Engine, Voice Manager, Oscillators, UI Keyboard/Pads).
+Automated verification for layout squashing, workspace transitions, and pattern export.
 
 ## Checklist
-- `[/]` **C++ Logic Testing**
-    - `[ ]` Setup native testing harness (Unit tests for `Oscillator` and `VoiceManager`)
-    - `[ ]` Implement `OscillatorTests` (Math verification)
-    - `[ ]` Implement `VoiceManagerTests` (Allocation/Stealing logic)
-- `[ ]` **Kotlin & JNI Testing**
-    - `[ ]` Implement `SynthManagerTest` (JNI wrapper verification)
-- `[ ]` **UI & Functional Testing**
-    - `[ ]` Implement `KeyboardViewTest` (Espresso: Mode switching, Coordinate mapping)
+- `[/]` **UI & Layout Verification (Espresso)**
+    - `[ ]` `LayoutRatioTest.kt`: Verify 20% header / 30% keyboard height ratios.
+    - `[ ]` `WorkspaceRefinementTest.kt`: Verify visibility logic (Zen Mode, Pad Mode, Fullscreen, Help Mode).
+- `[ ]` **Logic & Export Verification (JUnit / JNI)**
+    - `[ ]` `ExportConsistencyTest.kt`: Verify WAV file generation and RIFF headers.
+    - `[ ]` `PatternPersistenceTest.kt`: Verify PatternRepository serialization/deserialization.
 - `[ ]` **Workflow & Review**
-    - `[ ]` Push branch to GitHub
-    - `[ ]` Create Pull Request via `gh`
-    - `[ ]` Review Phase 1-5 (5 reviews + fixes, separate comments)
+    - `[ ]` Push branch `feature/testing-catchup`
+    - `[ ]` Create PR closing #58
+    - `[ ]` 10 Review Issues created and closed via commit fixes
     - `[ ]` Create `testing_catchup_walkthrough.artifact.md`
-    - `[ ]` Squash and Merge to `main`
+    - `[ ]` Squash and Merge
 
 ## Evidence of Success
-- `[ ]` `./gradlew test` Output
-- `[ ]` `./gradlew connectedCheck` Output
+- `[ ]` `./gradlew connectedCheck` Output (All new tests green)

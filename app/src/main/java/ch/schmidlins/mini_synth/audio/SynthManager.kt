@@ -3,7 +3,11 @@ package ch.schmidlins.mini_synth.audio
 class SynthManager {
     companion object {
         init {
-            System.loadLibrary("mini_synth")
+            try {
+                System.loadLibrary("mini_synth")
+            } catch (e: UnsatisfiedLinkError) {
+                // Ignore in unit tests
+            }
         }
     }
 

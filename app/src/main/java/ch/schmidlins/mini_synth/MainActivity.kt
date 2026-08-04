@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
     private var isHelpMode = false
     private var isDemoPlaying = false
     private var demoJob: kotlinx.coroutines.Job? = null
+    var isPollingEnabled = true // Exposed for tests
     private var mappingSampleId: Int? = null // if not null, we are in mapping mode
     private val padSamplePaths = mutableMapOf<Int, String>()
     
@@ -60,7 +61,9 @@ class MainActivity : AppCompatActivity() {
             if (synthManager.isBeatStarted()) {
                 flashBeat()
             }
-            mainHandler.postDelayed(this, 16)
+            if (isPollingEnabled) {
+                mainHandler.postDelayed(this, 16)
+            }
         }
     }
     private var sequencerPoller: Runnable? = null
@@ -144,19 +147,17 @@ class MainActivity : AppCompatActivity() {
                 showHelp("Switch between a 13-key keyboard and a grid of customizable pads.")
                 return@setOnClickListener
             }
-            val nextMode = if (content.btnModeToggle.text == "Pads") {
-                content.btnModeToggle.text = "Keys"
-                isPadMode = true
-                KeyboardPadView.Mode.PAD_GRID
-            } else {
+            if (isPadMode) {
                 content.btnModeToggle.text = "Pads"
                 isPadMode = false
-                isFullscreenPads = false // Fixes #36
+                isFullscreenPads = false
                 content.togglePadsFullscreen.isChecked = false
-                mappingSampleId = null // Clear mapping state when exiting pads mode
-                KeyboardPadView.Mode.KEYBOARD
+                mappingSampleId = null
+            } else {
+                content.btnModeToggle.text = "Keys"
+                isPadMode = true
             }
-            synthView.setMode(nextMode)
+            synthView.setMode(if (isPadMode) KeyboardPadView.Mode.PAD_GRID else KeyboardPadView.Mode.KEYBOARD)
             updateWorkspaceVisibility(content)
         }
 
@@ -272,36 +273,46 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateWorkspaceVisibility(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         val root = content.root as androidx.constraintlayout.widget.ConstraintLayout
-        TransitionManager.beginDelayedTransition(root) // Fixes #43
+        if (isPollingEnabled) {
+            TransitionManager.beginDelayedTransition(root)
+        }
         val set = ConstraintSet()
         set.clone(root)
 
-        content.keyboardPadView.isEnabled = !isHelpMode // Fixes #37
+        content.keyboardPadView.isEnabled = !isHelpMode
 
-        // Keyboard Visibility
+        val keyboardId = content.keyboardPadView.id
+        val toggleKbId = content.toggleKeyboard.id
+        val headerId = content.topHeader.id
+        val workspaceId = content.workspaceLayout.id
+        val fullToggleId = content.togglePadsFullscreen.id
+
+        // Direct children visibility via ConstraintSet
         if (isKeyboardHidden || isHelpMode) {
-            content.keyboardPadView.visibility = View.GONE
-            set.clear(content.toggleKeyboard.id, ConstraintSet.BOTTOM)
-            set.connect(content.toggleKeyboard.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+            set.setVisibility(keyboardId, View.GONE)
+            set.clear(toggleKbId, ConstraintSet.BOTTOM)
+            set.connect(toggleKbId, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
         } else {
-            content.keyboardPadView.visibility = View.VISIBLE
-            set.clear(content.toggleKeyboard.id, ConstraintSet.BOTTOM)
-            set.connect(content.toggleKeyboard.id, ConstraintSet.BOTTOM, content.keyboardPadView.id, ConstraintSet.TOP)
+            set.setVisibility(keyboardId, View.VISIBLE)
+            set.clear(toggleKbId, ConstraintSet.BOTTOM)
+            set.connect(toggleKbId, ConstraintSet.BOTTOM, keyboardId, ConstraintSet.TOP)
         }
 
         if (isPadMode) {
-            content.togglePadsFullscreen.visibility = View.VISIBLE
+            set.setVisibility(fullToggleId, View.VISIBLE)
             
             if (isFullscreenPads) {
-                content.topHeader.visibility = View.GONE
-                content.workspaceLayout.visibility = View.GONE
-                set.connect(content.keyboardPadView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-                set.constrainPercentHeight(content.keyboardPadView.id, 1.0f)
-                content.toggleKeyboard.visibility = View.GONE
+                set.setVisibility(headerId, View.GONE)
+                set.setVisibility(workspaceId, View.GONE)
+                set.connect(keyboardId, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                set.constrainPercentHeight(keyboardId, 1.0f)
+                set.setVisibility(toggleKbId, View.GONE)
             } else {
-                content.toggleKeyboard.visibility = View.VISIBLE
-                content.topHeader.visibility = View.VISIBLE
-                content.workspaceLayout.visibility = View.VISIBLE
+                set.setVisibility(toggleKbId, View.VISIBLE)
+                set.setVisibility(headerId, View.VISIBLE)
+                set.setVisibility(workspaceId, View.VISIBLE)
+                
+                // Nested views managed directly
                 content.parameterContainer.visibility = View.GONE
                 content.sequencerSection.visibility = View.GONE
                 content.padCustomizationSection.visibility = View.GONE
@@ -310,14 +321,17 @@ class MainActivity : AppCompatActivity() {
                 content.btnOctaveUp.visibility = View.GONE
                 content.tvOctaveValue.visibility = View.GONE
                 content.toggleZenMode.visibility = View.GONE
-                set.connect(content.keyboardPadView.id, ConstraintSet.TOP, content.workspaceLayout.id, ConstraintSet.BOTTOM)
-                if (!isKeyboardHidden) set.constrainPercentHeight(content.keyboardPadView.id, 0.3f)
+                
+                set.connect(keyboardId, ConstraintSet.TOP, workspaceId, ConstraintSet.BOTTOM)
+                if (!isKeyboardHidden) set.constrainPercentHeight(keyboardId, 0.3f)
             }
         } else {
-            content.toggleKeyboard.visibility = if (isHelpMode) View.GONE else View.VISIBLE
-            content.togglePadsFullscreen.visibility = View.GONE
-            content.topHeader.visibility = View.VISIBLE
-            content.workspaceLayout.visibility = View.VISIBLE
+            set.setVisibility(toggleKbId, if (isHelpMode) View.GONE else View.VISIBLE)
+            set.setVisibility(fullToggleId, View.GONE)
+            set.setVisibility(headerId, View.VISIBLE)
+            set.setVisibility(workspaceId, View.VISIBLE)
+            
+            // Nested views managed directly
             content.parameterContainer.visibility = if (isZenMode) View.GONE else View.VISIBLE
             content.sequencerSection.visibility = View.VISIBLE
             content.padCustomizationSection.visibility = View.VISIBLE
@@ -326,8 +340,9 @@ class MainActivity : AppCompatActivity() {
             content.btnOctaveUp.visibility = View.VISIBLE
             content.tvOctaveValue.visibility = View.VISIBLE
             content.toggleZenMode.visibility = View.VISIBLE
-            set.connect(content.keyboardPadView.id, ConstraintSet.TOP, content.workspaceLayout.id, ConstraintSet.BOTTOM)
-            if (!isKeyboardHidden) set.constrainPercentHeight(content.keyboardPadView.id, 0.3f)
+            
+            set.connect(keyboardId, ConstraintSet.TOP, workspaceId, ConstraintSet.BOTTOM)
+            if (!isKeyboardHidden) set.constrainPercentHeight(keyboardId, 0.3f)
         }
         set.applyTo(root)
     }
@@ -554,7 +569,9 @@ class MainActivity : AppCompatActivity() {
                     clearSequencerVisuals(content)
                     lastStep = -1
                 }
-                mainHandler.postDelayed(this, 16)
+                if (isPollingEnabled) {
+                    mainHandler.postDelayed(this, 16)
+                }
             }
         }
         mainHandler.post(sequencerPoller!!)
