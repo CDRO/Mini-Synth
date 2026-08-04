@@ -54,6 +54,7 @@ class KeyboardPadView @JvmOverloads constructor(
     private val backlightPlayPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.electric_blue); style = Paint.Style.FILL; alpha = 128 }
     private val backlightHoldPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.acid_green); style = Paint.Style.STROKE; strokeWidth = 8f; alpha = 200 }
     private val customPadPaint = Paint().apply { style = Paint.Style.FILL }
+    private val holdTextPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.acid_green); textSize = 32f; textAlign = Paint.Align.RIGHT; typeface = android.graphics.Typeface.DEFAULT_BOLD }
     private val textFontMetrics = textPaint.fontMetrics
 
     // Cached Layouts
@@ -173,6 +174,8 @@ class KeyboardPadView @JvmOverloads constructor(
         
         if (isHeld) {
             canvas.drawRect(backlightRect, backlightHoldPaint)
+            // Draw 'H' in the bottom right of the key
+            canvas.drawText("H", rect.right - 12f, rect.bottom - 12f, holdTextPaint)
         }
     }
 

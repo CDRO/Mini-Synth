@@ -1,6 +1,7 @@
 package ch.schmidlins.mini_synth
 
 import android.os.Bundle
+import android.transition.TransitionManager
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -266,6 +267,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateWorkspaceVisibility(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         val root = content.root as androidx.constraintlayout.widget.ConstraintLayout
+        TransitionManager.beginDelayedTransition(root) // Fixes #43
         val set = ConstraintSet()
         set.clone(root)
 
