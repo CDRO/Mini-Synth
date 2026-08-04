@@ -19,6 +19,7 @@ void AudioEngine::start() {
     if (mStream) return;
 
     oboe::AudioStreamBuilder builder;
+    // Note: Oboe handles fallback from AAudio to OpenSL ES automatically for API < 26.
     oboe::Result result = builder.setFormat(oboe::AudioFormat::Float)
         ->setChannelCount(oboe::ChannelCount::Mono)
         ->setPerformanceMode(oboe::PerformanceMode::LowLatency)
@@ -53,7 +54,8 @@ void AudioEngine::startPadSampling(int padIndex) {
     stopPadSampling();
     if (padIndex >= 0 && padIndex < MAX_PADS) {
         mSamplingPadIndex = padIndex;
-        mPadBuffers[padIndex].resize(48000 * 5);
+        mPadBuffers[padIndex].clear();
+        mPadBuffers[padIndex].resize(48000 * 5); // 5s limit
         mSampleRecorder.startRecording(mPadBuffers[padIndex]);
     }
 }
@@ -82,6 +84,13 @@ bool AudioEngine::isPadAvailable(int padIndex) {
     return (padIndex >= 0 && padIndex < MAX_PADS && mSamplingPadIndex != padIndex);
 }
 
+/**
+ * BINARY SERIALIZATION FORMAT:
+ * [4 bytes] Magic: 'SNTH'
+ * [4 bytes] Version: uint32 (Current: 1)
+ * [8 bytes] Size: uint64 (Number of float samples)
+ * [N bytes] Data: float[] (Raw PCM data)
+ */
 void AudioEngine::savePadSample(int padIndex, const char* path) {
     if (!isPadAvailable(padIndex)) return;
 
@@ -153,7 +162,12 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
         float sample = mVoiceManager.nextSample();
 
         if (mSamplingPadIndex != -1) {
-            mSampleRecorder.recordSample(sample);
+            // Sampling timeout/limit check (5s)
+            if (mPadBuffers[mSamplingPadIndex].size() < (48000 * 5)) {
+                mSampleRecorder.recordSample(sample);
+            } else {
+                stopPadSampling();
+            }
         }
 
         if (mMetronomeEnabled) {
