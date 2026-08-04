@@ -813,6 +813,7 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         mainHandler.removeCallbacks(beatPoller)
         sequencerPoller?.let { mainHandler.removeCallbacks(it) }
+        binding.appBarMain.contentMain.keyboardPadView!!.clearHeldNotes() // Fixes #40
         synthManager.stopEngine()
     }
 }

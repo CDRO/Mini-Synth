@@ -321,4 +321,13 @@ class KeyboardPadView @JvmOverloads constructor(
         calculateLayouts(width, height)
         invalidate()
     }
+
+    fun clearHeldNotes() {
+        heldMidiNotes.forEach { midi ->
+            listener?.onNoteOff(midi)
+        }
+        heldMidiNotes.clear()
+        noteStates.clear()
+        invalidate()
+    }
 }
