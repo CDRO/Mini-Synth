@@ -502,7 +502,7 @@ class MainActivity : AppCompatActivity() {
             if (isHelpMode) { showHelp("Export the current pattern to a high-quality file and share it."); return@setOnClickListener }
             
             val dir = getExternalFilesDir(null) ?: filesDir
-            val file = java.io.File(dir, "pattern_export_${System.currentTimeMillis()}.mp3")
+            val file = java.io.File(dir, "pattern_export_${System.currentTimeMillis()}.wav")
             
             lifecycleScope.launch {
                 val progress = AlertDialog.Builder(this@MainActivity)
@@ -561,7 +561,7 @@ class MainActivity : AppCompatActivity() {
         try {
             val uri = androidx.core.content.FileProvider.getUriForFile(this, "${applicationContext.packageName}.fileprovider", file)
             val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
-                type = "audio/mpeg"
+                type = "audio/wav"
                 putExtra(android.content.Intent.EXTRA_STREAM, uri)
                 addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
