@@ -37,11 +37,11 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
     - **Issue Content**: The issue body MUST contain the full technical checklist.
 3. **Implementation**: Code and test changes.
 4. **Artifact Maintenance**:
-    - Unique artifacts per feature: `[feature_name]_task.artifact.md`, `[feature_name]_review.artifact.md`, `[feature_name]_walkthrough.artifact.md`.
-    - Preserve previous artifacts.
-5. **Automated Testing**: Unit (GTest/JUnit) and Functional (Espresso) required. Display success output.
+    - Unique artifacts per feature.
+5. **Automated Testing**:
+    - **Fast Path**: Local JVM Unit tests + Robolectric for UI + GTest for C++.
+    - **Hardware Path**: Instrumented tests for JNI/Audio.
 6. **Integration**: Push and `gh pr create`.
-    - **PR Description**: Include `Closes #enhancement_issue_id`.
 7. **Merge Message Review Loop**: Draft and iterate twice.
 8. **Code Review Cycles (5 Cycles)**:
     - Perform a cycle:
@@ -60,20 +60,23 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 - **Milestone 13**: Layout Squashing, Workspace Refinement, Help Mode, Demo Mode [DONE].
 - **Milestone 14**: Advanced Pattern Export and Management [DONE].
 - **Milestone 15**: Test Performance & Stability [DONE].
+- **Milestone 16**: Keyboard Interaction Refinement (Gestures) [DONE].
 
 ---
 
 ## Roadmap
 
-### Milestone 16: Keyboard Interaction Refinement (Gestures) [NEXT]
-- **Objective**: Implement vertical and horizontal touch gestures for real-time expressive control.
-- **UX [Horizontal]**: Slide left/right on keys for **Pitch Bend**.
-    - Range: +/- 2 semitones.
-- **UX [Vertical Mod]**: Map vertical position (if not holding) to **Mod Wheel** (e.g., LFO depth or Filter Cutoff).
-- **Engine**:
-    - Implement thread-safe parameter interpolation in C++ to prevent "stepping" sounds during rapid slides.
-    - Add `setPitchBend` and `setModulation` to JNI bridge.
+### Milestone 17: Native Unit Testing (GoogleTest) [NEXT]
+- **Objective**: Establish a pure C++ testing framework for fast, host-side verification of audio algorithms.
+- **Framework**: Integrate **GoogleTest (GTest)** into `CMakeLists.txt`.
+- **Infrastructure**: Configure `FetchContent` or local download for GTest.
+- **Test Suites**:
+    - `OscillatorTest.cpp`: Verify mathematical correctness of all waveforms.
+    - `FilterTest.cpp`: Stress test SVF stability at extreme resonance.
+    - `EnvelopeTest.cpp`: Verify state machine transitions and timing accuracy.
+    - `LfoTest.cpp`: Verify modulation output range.
 
-### Milestone 17: Project & Set Management
+### Milestone 18: Project & Set Management
 - **Logic**: Full state capture of all 256 pads, patterns, and synth parameters.
 - **UI**: Project Browser for managing large sets of sounds.
+- **Format**: Hierarchical Project Files (.synthproj) bundling binary samples and JSON state.
