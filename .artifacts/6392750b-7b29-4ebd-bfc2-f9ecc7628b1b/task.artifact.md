@@ -1,23 +1,27 @@
-# Task: Voice Manager and Oscillators
+# Master Task Checklist
 
-Implementing the core synthesis logic: 16-voice polyphony, mono/poly toggling, and basic waveforms (Sine, Square, Saw, Triangle).
+Tracking implementation status for the Mini-Synth project milestones.
 
-## Checklist
-- `[x]` **Native Implementation**
-    - `[x]` Implement `Oscillator.h/cpp` (Waveform math)
-    - `[x]` Implement `Voice.h/cpp` (Individual voice state)
-    - `[x]` Implement `VoiceManager.h/cpp` (Voice allocation and mixing)
-- `[x]` **Audio Engine Integration**
-    - `[x]` Connect `VoiceManager` to `AudioEngine` callback
+## Current Milestone: Milestone 12 — Sample Persistence [DONE]
+
+- `[x]` **Infrastructure Setup**
+    - `[x]` Binary write logic in `AudioEngine.cpp`
+    - `[x]` Binary read logic in `AudioEngine.cpp`
+    - `[x]` Versioned header implementation
+- `[x]` **Engine Refinement**
+    - `[x]` Lazy buffer allocation
+    - `[x]` Sampling timeout (5s)
+    - `[x]` Error handling for corrupt files
 - `[x]` **JNI & Kotlin Bridge**
-    - `[x]` Update JNI methods for note triggering and mode toggle
+    - `[x]` Expose `savePadSample` and `loadPadSample`
     - `[x]` Update `SynthManager.kt`
-- `[x]` **Testing & Validation**
-    - `[x]` Unit tests for `Oscillator` math
-    - `[x]` Unit tests for `VoiceManager` allocation logic
-- `[x]` **Workflow & Review**
-    - `[x]` Push branch to GitHub
-    - `[x]` Create Pull Request via `gh`
-    - `[x]` Sequential Review Cycles (1-10)
-    - `[x]` Merge Message Review Loop (2 iterations)
+- `[x]` **UI & Logic**
+    - `[x]` Automatic save after recording
+    - `[x]` Startup sample loader in `MainActivity`
+- `[x]` **Verification**
+    - `[x]` Persistence unit tests
+    - `[x]` Instrumented data integrity tests
+- `[x]` **Workflow Compliance**
+    - `[x]` 10 Review Issues created and addressed
+    - `[x]` Merge Message Loop completed
     - `[x]` Squash and Merge to `main`

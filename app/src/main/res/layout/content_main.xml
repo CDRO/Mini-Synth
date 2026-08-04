@@ -8,8 +8,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_header"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="0dp"
         android:background="@color/surface_dark"
+        app:layout_constraintHeight_percent="0.2"
         app:layout_constraintTop_toTopOf="parent">
 
         <!-- Visualizer Centered 50% -->
@@ -128,12 +129,41 @@
 
         </LinearLayout>
 
-        <!-- Left 25% for symmetry/future features -->
-        <View
+        <!-- Left 25% for Support/Demo -->
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/visualizer_view" />
+            app:layout_constraintEnd_toStartOf="@id/visualizer_view">
+
+            <Button
+                android:id="@+id/btn_help_mode"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="0dp"
+                android:text="?"
+                android:textColor="@color/acid_green"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btn_demo_mode"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="DEMO"
+                android:textColor="@color/electric_blue"
+                android:textSize="10sp" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -870,7 +900,35 @@
     <ch.schmidlins.mini_synth.ui.KeyboardPadView
         android:id="@+id/keyboard_pad_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.3"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/toggle_keyboard"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="4dp"
+        android:textOff="▼"
+        android:textOn="▲"
+        android:textColor="@color/acid_green"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/keyboard_pad_view"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/toggle_pads_fullscreen"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_margin="8dp"
+        android:textOff="PLAY MODE: OFF"
+        android:textOn="PLAY MODE: ON"
+        android:textColor="@color/acid_green"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

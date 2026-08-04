@@ -37,7 +37,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 2. **Feature Initialization**:
     - Create a **GitHub Milestone** for the feature.
     - Create a **GitHub Issue** with label `enhancement`, linked to the milestone.
-    - **Issue Content**: The issue body must contain the full technical checklist (copy from internal task artifact).
+    - **Issue Content**: The issue body MUST contain the full technical checklist (copy from internal task artifact).
 3. **Implementation**: Code and test changes.
 4. **Artifact Maintenance**:
     - Unique artifacts per feature: `[feature_name]_task.artifact.md`, `[feature_name]_review.artifact.md`, `[feature_name]_walkthrough.artifact.md`.
@@ -45,19 +45,22 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 5. **Automated Testing**: Unit (GTest/JUnit) and Functional (Espresso) required. Display success output.
 6. **Integration**: Push and `gh pr create`.
     - **PR Description**:
+        - Explain **Why** (problem/motivation).
+        - Detail **Tests** (how it was verified).
+        - State **Value** (what it adds to the app).
         - Include `Closes #enhancement_issue_id`.
-        - Explain **Why** (problem), **Tests** (verification), and **Value** (addition).
-7. **Merge Message Review Loop**: Draft and iterate twice for quality before merge.
+7. **Merge Message Review Loop**:
+    - Draft the merge message.
+    - Perform at least **2 iterations** of self-review.
+    - Ensure each iteration increases technical value and quality.
 8. **Code Review Cycles (5 Cycles)**:
     - Perform a cycle:
         - Identify **2 self-reviews** on the current state.
-        - **Verification**: Ensure the change implements the requested requirements.
+        - **Requirement Verification**: Confirm implementation matches requested specs.
         - Create **2 GitHub Issues** with label `review`, linked to the milestone.
-        - Apply fixes and commit changes.
-        - **Commit Message**: Must include `Fixes #review_issue_id`.
-        - **Push** to the branch.
+        - Apply fixes, commit with `Fixes #review_issue_id`, and **push**.
     - Repeat until **10 total review issues** are resolved.
-9. **Merge**: Squash and Merge via `gh pr merge`.
+9. **Merge**: Squash and Merge via `gh pr merge` using the reviewed Merge Message.
 10. **Cleanup**: Delete branch and close milestone.
 
 ---
