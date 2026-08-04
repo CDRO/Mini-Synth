@@ -358,6 +358,7 @@ class MainActivity : AppCompatActivity() {
 
         content.togglePadsFullscreen.setOnCheckedChangeListener { _, isChecked ->
             isFullscreenPads = isChecked
+            content.keyboardPadView.clearHeldNotes() // Fixes #41
             updateWorkspaceVisibility(content)
         }
 
@@ -388,11 +389,16 @@ class MainActivity : AppCompatActivity() {
     private fun playDemoSong() {
         demoJob?.cancel()
         demoJob = lifecycleScope.launch {
-            val notes = listOf(60, 63, 67, 72, 67, 63)
+            // Reset for demo - Fixes #42
             synthManager.setWaveform(2) // Saw
-            synthManager.setAttack(0.05f)
-            synthManager.setRelease(0.5f)
+            synthManager.setAttack(0.01f)
+            synthManager.setDecay(0.1f)
+            synthManager.setSustain(0.7f)
+            synthManager.setRelease(0.3f)
+            synthManager.setFilterCutoff(2000f)
+            synthManager.setFilterResonance(0.2f)
             
+            val notes = listOf(60, 63, 67, 72, 67, 63)
             var i = 0
             while (isDemoPlaying) {
                 val note = notes[i % notes.size]
