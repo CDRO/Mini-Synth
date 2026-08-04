@@ -11,7 +11,9 @@
         android:layout_height="0dp"
         android:background="@color/surface_dark"
         app:layout_constraintHeight_percent="0.2"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <!-- Visualizer Centered 50% -->
         <ch.schmidlins.mini_synth.ui.VisualizerView
@@ -937,7 +939,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.3"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ToggleButton
         android:id="@+id/toggle_keyboard"

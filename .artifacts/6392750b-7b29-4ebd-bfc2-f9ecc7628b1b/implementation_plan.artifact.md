@@ -20,15 +20,6 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
     - Control/Workspace: Remaining 50%.
     - Input (Keyboard/Pads): Max 30% height.
 
-## Technical Specifications (Caveman Mode)
-
-### [Logic] [Oscillator]
-- **Waveforms**: Sine, Square, Saw, Triangle.
-- **Math**: Sine: `sin(phase)`, Square: `phase < PI ? 1 : -1`, Saw: `(phase / PI) - 1`, Triangle: `2 * abs((phase / PI) - 1) - 1`.
-
-### [Logic] [Range]
-- **Octave Shift**: +/- 4 octaves. `effective_midi = keyboard_midi + (octave_shift * 12)`. Clamp [0, 127].
-
 ---
 
 ## Development & Review Workflow
@@ -37,56 +28,40 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 2. **Feature Initialization**:
     - Create a **GitHub Milestone** for the feature.
     - Create a **GitHub Issue** with label `enhancement`, linked to the milestone.
-    - **Issue Content**: The issue body MUST contain the full technical checklist (copy from internal task artifact).
+    - **Issue Content**: The issue body MUST contain the full technical checklist.
 3. **Implementation**: Code and test changes.
-4. **Artifact Maintenance**:
-    - Unique artifacts per feature: `[feature_name]_task.artifact.md`, `[feature_name]_review.artifact.md`, `[feature_name]_walkthrough.artifact.md`.
-    - Preserve previous artifacts.
-5. **Automated Testing**: Unit (GTest/JUnit) and Functional (Espresso) required. Display success output.
+4. **Artifact Maintenance**: Unique artifacts per feature.
+5. **Automated Testing**:
+    - **Fast Path**: Local JVM Unit tests + Robolectric for UI.
+    - **Hardware Path**: Instrumented tests for JNI/Audio.
 6. **Integration**: Push and `gh pr create`.
-    - **PR Description**:
-        - Explain **Why** (problem/motivation).
-        - Detail **Tests** (how it was verified).
-        - State **Value** (what it adds to the app).
-        - Include `Closes #enhancement_issue_id`.
-7. **Merge Message Review Loop**:
-    - Draft the merge message.
-    - Perform at least **2 iterations** of self-review.
-    - Ensure each iteration increases technical value and quality.
-8. **Code Review Cycles (5 Cycles)**:
-    - Perform a cycle:
-        - Identify **2 self-reviews** on the current state.
-        - **Requirement Verification**: Confirm implementation matches requested specs.
-        - Create **2 GitHub Issues** with label `review`, linked to the milestone.
-        - Apply fixes and commit.
-        - **Commit Message**: MUST include `Fixes #review_issue_id`.
-        - **Closure**: Once the fix is pushed, explicitly close the review issue using `gh issue close #review_issue_id`.
-    - Repeat until **10 total review issues** are resolved.
-9. **Merge**: Squash and Merge via `gh pr merge` using the reviewed Merge Message.
-10. **Cleanup**: Delete branch and close milestone.
+7. **Code Review Cycles (5 Cycles)**: 10 total review issues resolved and closed.
+8. **Merge**: Squash and Merge via `gh pr merge`.
+9. **Cleanup**: Delete branch and close milestone.
 
 ---
 
 ## Completed Milestones
 - **Milestones 1-12**: Core Synthesis, Filter, ADSR, LFO, Viz, Recording, Metronome, Sequencer, Pad Sampling, Workspace Layout, Sample Persistence.
 - **Milestone 13**: Layout Squashing, Workspace Refinement, Help Mode, Demo Mode [DONE].
+- **Milestone 14**: Advanced Pattern Export and Management [DONE].
 
 ---
 
 ## Roadmap
 
-### Milestone 14: Advanced Export & Sequence Polish [NEXT]
-- **Logic**:
-    - **Offline Render**: C++ engine loop to render the pattern to MP3 faster than real-time.
-    - **Export Management**: Share intent for exported MP3 files.
-- **UI**:
-    - **Pattern Saving**: Save and load sequencer patterns independently of synth presets.
-    - **Multi-Note Sequencer**: Allow recording and editing different notes per step (Piano Roll Lite).
+### Milestone 15: Test Performance & Stability [IN PROGRESS]
+- **Objective**: Speed up test suite and fix failing UI tests.
+- **Robolectric Migration**:
+    - Move `LayoutRatioTest.kt`, `WorkspaceRefinementTest.kt`, `WorkspaceUiTest.kt`, `RecordingUiTest.kt`, `SequencerUiTest.kt` to `src/test`.
+    - Move `PatternPersistenceTest.kt` to `src/test`.
+- **UI Fixes**:
+    - Disable animations on emulator via Gradle/Shell.
+    - Fix `AppNotIdleException` by disabling `beatPoller` in testing mode.
+    - Adjust `LayoutRatioTest` expectations for DP-to-pixel rounding.
 
-### Milestone 15: Keyboard Interaction Refinement (Gestures)
+### Milestone 16: Keyboard Interaction Refinement (Gestures)
 - **UX**: Slide left/right on keys for Pitch Bend or Mod Wheel mapping.
-- **Logic**: Real-time interpolation of parameter shifts based on horizontal touch position.
 
-### Milestone 16: Project & Set Management
-- **Logic**: Capture full state of all 256 pads, the sequencer pattern, and synth parameters as a "Project" file.
-- **UI**: Project Browser for managing large sets of sounds.
+### Milestone 17: Project & Set Management
+- **Logic**: Full state capture of all pads, patterns, and synth parameters.
