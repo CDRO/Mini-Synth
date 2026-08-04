@@ -284,7 +284,7 @@ void AudioEngine::renderPatternToFile(const std::string& path) {
                     if (grid[step].test(note)) renderVm.noteOff(note);
                  }
             }
-            pcmBuffer[s] = renderVm.nextSample();
+            pcmBuffer[s] = renderVm.nextSample(); // Use internal mix logic (includes 0.5f headroom)
         }
         encoder.encode(pcmBuffer.data(), stepDuration);
     }

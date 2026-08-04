@@ -11,12 +11,12 @@ struct WavHeader {
     char format[4] = {'W', 'A', 'V', 'E'};
     char subchunk1Id[4] = {'f', 'm', 't', ' '};
     uint32_t subchunk1Size = 16;
-    uint16_t audioFormat = 3; // IEEE Float
+    uint16_t audioFormat = 1; // PCM (16-bit)
     uint16_t numChannels = 1;
     uint32_t sampleRate = 48000;
     uint32_t byteRate = 0;
     uint16_t blockAlign = 0;
-    uint16_t bitsPerSample = 32;
+    uint16_t bitsPerSample = 16;
     char subchunk2Id[4] = {'d', 'a', 't', 'a'};
     uint32_t subchunk2Size = 0;
 };
