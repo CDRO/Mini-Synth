@@ -21,6 +21,8 @@ struct EngineParams {
     LfoTarget lfoTarget;
     float filterCutoff, filterResonance;
     bool isPolyphonic;
+    float pitchBend;
+    float modulation;
 };
 
 class VoiceManager {
@@ -49,6 +51,9 @@ public:
     void setFilterCutoff(float frequency) { mFilterCutoff = frequency; mParamsChanged = true; }
     void setFilterResonance(float resonance) { mFilterResonance = resonance; mParamsChanged = true; }
 
+    void setPitchBend(float semitones) { mPitchBend = semitones; mParamsChanged = true; }
+    void setModulation(float amount) { mModulation = amount; mParamsChanged = true; }
+
     EngineParams getParams() const;
     void setParams(const EngineParams& params);
 
@@ -71,6 +76,8 @@ private:
     std::atomic<LfoTarget> mLfoTarget{LfoTarget::Pitch};
     std::atomic<float> mFilterCutoff{1000.0f};
     std::atomic<float> mFilterResonance{0.5f};
+    std::atomic<float> mPitchBend{0.0f};
+    std::atomic<float> mModulation{0.0f};
     std::atomic<bool> mParamsChanged{false};
 
     int findFreeVoice();

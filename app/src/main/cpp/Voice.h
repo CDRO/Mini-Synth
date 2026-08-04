@@ -41,6 +41,9 @@ public:
     void setFilterCutoff(float frequency) { mBaseCutoff = frequency; mFilter.setCutoff(frequency); }
     void setFilterResonance(float resonance) { mFilter.setResonance(resonance); }
 
+    void setPitchBend(float semitones) { mTargetPitchBend = semitones; }
+    void setModulation(float amount) { mTargetModulation = amount; }
+
     float nextSample();
 
 private:
@@ -51,6 +54,10 @@ private:
     Filter mFilter;
     LfoTarget mLfoTarget = LfoTarget::Pitch;
     float mBaseCutoff = 1000.0f;
+    float mTargetPitchBend = 0.0f;
+    float mCurrentPitchBend = 0.0f;
+    float mTargetModulation = 0.0f;
+    float mCurrentModulation = 0.0f;
     bool mActive;
     bool mIsSampleMode;
     int mNote;

@@ -117,6 +117,9 @@ float VoiceManager::nextSample() {
 
                 mVoices[i].setFilterCutoff(mFilterCutoff);
                 mVoices[i].setFilterResonance(mFilterResonance);
+
+                mVoices[i].setPitchBend(mPitchBend);
+                mVoices[i].setModulation(mModulation);
             }
 
             mixedSample += mVoices[i].nextSample();
@@ -146,6 +149,8 @@ EngineParams VoiceManager::getParams() const {
     p.filterCutoff = mFilterCutoff.load();
     p.filterResonance = mFilterResonance.load();
     p.isPolyphonic = mIsPolyphonic;
+    p.pitchBend = mPitchBend.load();
+    p.modulation = mModulation.load();
     return p;
 }
 
@@ -163,4 +168,6 @@ void VoiceManager::setParams(const EngineParams& p) {
     setFilterCutoff(p.filterCutoff);
     setFilterResonance(p.filterResonance);
     setPolyphonic(p.isPolyphonic);
+    setPitchBend(p.pitchBend);
+    setModulation(p.modulation);
 }
