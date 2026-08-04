@@ -2,144 +2,95 @@
 
 High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Strict adherence to Caveman Rules for technical specs.
 
+> [!CAUTION]
+> **STRICT WORKFLOW REQUIREMENT**: Every feature MUST follow the GitHub-integrated workflow defined below.
+
 ## Core Architectural Requirements
 
 ### Audio & Performance
-- **Performance**: C++ (Oboe/AAudio) for all sound generation and mixing. Low latency target < 10ms.
+- **Performance**: C++ (Oboe/AAudio) sound generation. Target < 10ms latency.
 - **Threading**: Audio thread real-time priority. **No locks/allocations in callback**.
 - **Polyphony**: 16 simultaneous voices. Additive mixing. Output normalization.
-- **Backends**: Oboe handles fallback between AAudio and OpenSL ES automatically.
-
-### Logic & Features
-- **Configurability**: Toggle between Polyphonic and Monophonic modes.
-- **Oscillators**: Sine, Square, Saw, Triangle support.
-- **Keyboard**: 13-key fixed range (C to C). Support for ±4 octave internal shift.
-- **Sound Board**: Toggleable 4x4 pad grid mode.
 
 ### Design & UX (FL Studio Aesthetic)
-- **Theme**: Dark, high-contrast "Stealth Synth" look.
+- **Theme**: Dark, high-contrast. Charcoal background (#121212), Acid Green accents (#C0FF00).
 - **Orientation**: Locked Landscape. Single screen layout.
-- **Feedback**: Backlit keys/pads.
-    - `Acid Green` (#C0FF00): Touch input.
-    - `Electric Blue` (#00A3FF): Playback state.
-    - `Vibrant Red` (#FF3B30): Recording state.
+- **Layout Percentages**:
+    - Header (Visualizer/Metronome): Max 20% height.
+    - Control/Workspace: Remaining 50%.
+    - Input (Keyboard/Pads): Max 30% height.
 
 ## Technical Specifications (Caveman Mode)
 
 ### [Logic] [Oscillator]
-- **Math**:
-    - Sine: `sin(phase)`
-    - Square: `phase < PI ? 1 : -1`
-    - Saw: `(phase / PI) - 1`
-    - Triangle: `2 * abs((phase / PI) - 1) - 1`
-- **Control**: `trigger(midi, velocity)`, `release(midi)`.
+- **Waveforms**: Sine, Square, Saw, Triangle.
+- **Math**: Sine: `sin(phase)`, Square: `phase < PI ? 1 : -1`, Saw: `(phase / PI) - 1`, Triangle: `2 * abs((phase / PI) - 1) - 1`.
 
 ### [Logic] [Range]
-- **Calculation**: `effective_midi = keyboard_midi + (octave_shift * 12)`.
-- **Constraint**: Clamp result to valid MIDI range [0, 127].
+- **Octave Shift**: +/- 4 octaves. `effective_midi = keyboard_midi + (octave_shift * 12)`. Clamp [0, 127].
 
-### [Interface] [JNI Bridge]
-- **Bridge**: Minimal overhead. No heavy objects passed.
-- **Methods**: `startAudio()`, `stopAudio()`, `setNote()`, `releaseNote()`, `setPolyphony()`, `setWaveform()`, `setOctaveShift()`.
+---
 
 ## Development & Review Workflow
 
-> [!IMPORTANT]
-> **MANDATORY WORKFLOW**: This section must NEVER be removed. Every feature implementation AND bugfix MUST follow these steps without exception.
-
-1. **Branching**: New git branch per feature or bugfix (`feature/*` or `fix/*`). Sequential development only.
-2. **Implementation**: Code and test changes.
-3. **Artifact Maintenance**:
+1. **Branching**: `feature/*` or `fix/*`. Sequential development only.
+2. **Feature Initialization**:
+    - Create a **GitHub Milestone** for the feature.
+    - Create a **GitHub Issue** with label `enhancement`, linked to the milestone.
+    - **Issue Content**: The issue body MUST contain the full technical checklist (copy from internal task artifact).
+3. **Implementation**: Code and test changes.
+4. **Artifact Maintenance**:
     - Unique artifacts per feature: `[feature_name]_task.artifact.md`, `[feature_name]_review.artifact.md`, `[feature_name]_walkthrough.artifact.md`.
     - Preserve previous artifacts.
-4. **Automated Testing**:
-    - **Unit Tests**: Algorithms, math, and business logic (GTest/JUnit).
-    - **Functional Tests**: UI interaction and integration (Espresso).
-    - **Evidence**: Display test results in conversation.
-5. **Commit**: Meaningful messages. Author: `Gemini <gemini@google.com>`.
-6. **Integration**: Push and `gh pr create`. (GH CLI: `C:\Program Files\GitHub CLI\gh.exe`).
-    - **PR Description Requirements**:
-        - **Why**: Explain the reason for the change and the problem it solves.
-        - **Tests**: Detail new tests added and the verification logic.
-        - **Value**: Explicitly state the additional value expected from this merge.
-        - **No File List**: Do not list modified files (VCS handles this).
+5. **Automated Testing**: Unit (GTest/JUnit) and Functional (Espresso) required. Display success output.
+6. **Integration**: Push and `gh pr create`.
+    - **PR Description**:
+        - Explain **Why** (problem/motivation).
+        - Detail **Tests** (how it was verified).
+        - State **Value** (what it adds to the app).
+        - Include `Closes #enhancement_issue_id`.
 7. **Merge Message Review Loop**:
     - Draft the merge message.
-    - Perform at least **2 iterations** of self-review and adaptation on the message.
-    - Ensure each iteration **increases quality and technical value**.
-8. **Code Review Cycles (1-10)**:
+    - Perform at least **2 iterations** of self-review.
+    - Ensure each iteration increases technical value and quality.
+8. **Code Review Cycles (5 Cycles)**:
     - Perform a cycle:
-        - Identify **1 self-review** on the code current state.
-        - **Requirement Verification**: Explicitly review that the changes correctly and completely implement the requested feature requirements.
-        - Post the review as a **comment** on the GitHub PR via `gh pr comment`.
-        - Apply fixes to the code based on the review.
-        - Commit and **push** changes to the branch.
-    - Proceed to the next review cycle only after pushing the fixes.
-    - Repeat until **10 total review cycles** are completed.
-9. **Merge**: Squash and Merge via `gh pr merge` using the reviewed Merge Message. Author: `Gemini <gemini@google.com>`.
-10. **Cleanup**: Delete the feature branch locally and remotely immediately after a successful merge.
+        - Identify **2 self-reviews** on the current state.
+        - **Requirement Verification**: Confirm implementation matches requested specs.
+        - Create **2 GitHub Issues** with label `review`, linked to the milestone.
+        - Apply fixes, commit with `Fixes #review_issue_id`, and **push**.
+    - Repeat until **10 total review issues** are resolved.
+9. **Merge**: Squash and Merge via `gh pr merge` using the reviewed Merge Message.
+10. **Cleanup**: Delete branch and close milestone.
 
 ---
 
-## Milestone 1: Resonant Low-Pass Filter [DONE]
-
-### [Logic] [Filter]
-- **Type**: 2-pole Resonant Low-Pass Filter.
-- **Cutoff**: 20Hz to 20,000Hz (Exponential mapping).
-- **Resonance**: 0.0 to 1.0 (Q factor).
-- **Implementation**: Per-voice filtering in the audio thread.
-
-### [UI] [FilterControls]
-- **Sliders**: Cutoff Frequency and Resonance.
-- **Labels**: Show Hz and Q values.
+## Completed Milestones
+- **Milestones 1-12**: Core Synthesis, Filter, ADSR, LFO, Viz, Recording, Metronome, Sequencer, Pad Sampling, Workspace Layout, Sample Persistence.
 
 ---
 
-## Milestone 2: Preset Management [DONE]
+## Roadmap
 
-### [Logic] [Presets]
-- **Storage**: Jetpack DataStore with JSON serialization.
-- **Save**: Capture all current engine parameters (Osc, ADSR, LFO, LPF) and write to `presets.json`.
-- **Load**: Read JSON and batch-apply parameters to JNI engine.
+### Milestone 13: Layout Squashing & Workspace Refinement [NEXT]
+- **UI**:
+    - Header (Viz/Metro): Constraint 20% height.
+    - Input (Keys/Pads): Constraint 30% height.
+    - Mini-fix: Remove stray character in bottom-right.
+- **UX**:
+    - Switch-to-Pads: Hide all config UI except "Keys" and Sample Browser.
+    - Fullscreen Pads: Toggle between config and full-grid play mode.
 
----
+### Milestone 14: Keyboard Interaction Refinement
+- **Hold Gesture**: Slide up > 50% of key length to hold note; slide down to release.
+- **Hidable Keyboard**: Button at top-right of keyboard (Down/Up arrow toggles).
 
-## Milestone 3: Visualization & Recording [DONE]
+### Milestone 15: Discovery & Help Mode
+- **UX**: Question mark button enters help mode.
+- **Interaction**: Keyboard hidden. Clicking UI elements shows interactive tooltips (Attack, Cutoff, etc.).
 
-### [Logic] [Recording & Viz]
-- **Audio Tap**: Implement a thread-safe capturing mechanism in `AudioEngine`.
-- **Recording**: Real-time PCM capture to a background thread.
-- **Encoding**: Integrate **LAME** (C) for high-quality MP3 encoding via NDK.
-- **Visualization**: Expose real-time PCM buffers for UI rendering.
+### Milestone 16: Demo Mode (Predefined Song)
+- **Logic**: Automated playback of multi-part sequence using all synth features.
 
-### [UI] [Visualizer]
-- **VisualizerView**: Real-time oscilloscope display above the keyboard.
-
----
-
-## Milestone 4: Metronome & BPM Control [DONE]
-
-### [Logic] [Metronome]
-- **Engine**: Sample-accurate native tick generation.
-- **BPM**: Dynamic control from 40 to 240 BPM.
-- **Visuals**: Synced beat indicator LED in the control bar.
-
----
-
-## Future Features & Roadmap
-
-### [Feature] [Sampling & Sequencing]
-- **Keyboard Sample Creation**:
-    - Select step duration (1/16 to 1/1 notes).
-    - Step-by-step recording of melodies.
-    - Loop playback of recorded sequences.
-- **Pad Sampling**:
-    - Capture keyboard performance directly to a pad.
-    - **Pad Holding**: Swipe from one pad to another in sampling mode to define note duration (hold).
-- **Sample Mapping**:
-    - Additional column on the left of the pad grid for mapping external or recorded samples.
-
-### [UI] [Pad Customization]
-- **Dynamic Grid**: Default 4x4, expandable to 16 columns. Scrollable interface for large grids.
-- **Config Visibility**: Option to hide parameter controls to maximize pad space.
-- **Color Configuration**: Per-pad color assignment for organization and visual feedback.
+### Milestone 17: MP3 Export & Set Management
+- **Logic**: Offline LAME rendering. Full set state persistence.

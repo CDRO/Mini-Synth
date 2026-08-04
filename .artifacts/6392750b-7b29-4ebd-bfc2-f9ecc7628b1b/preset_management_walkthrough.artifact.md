@@ -1,31 +1,32 @@
-# Walkthrough: Preset Management
+# Walkthrough: Sample Persistence (Milestone 12)
 
-Implemented a robust and persistent preset system using Jetpack DataStore and Kotlinx Serialization. This milestone followed the strict "Caveman" review workflow with 10 self-review comments and iterative improvements.
+Implemented a robust binary serialization system for pad samples, ensuring that user recordings are preserved across app restarts and tied to synth presets.
 
 ## Changes Made
 
-### Infrastructure & Logic
-- **Dependencies**: Added `androidx.datastore:datastore-preferences` and `kotlinx-serialization-json`.
-- [SynthPreset.kt](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/audio/SynthPreset.kt): Versioned data model (v1) for capturing all engine parameters.
-- [PresetRepository.kt](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/main/java/ch/schmidlins/mini_synth/audio/PresetRepository.kt): Centralized storage logic with `StorageConstants` for DataStore keys.
+### Native Audio Engine (C++)
+- **Binary Persistence**: Implemented `savePadSample` and `loadPadSample` in [AudioEngine.cpp](file:///C:/Users/schmidlintiz/Projekte/Mini-Synth/app/src/main/cpp/AudioEngine.cpp) using a versioned header format ('SNTH' magic).
+- **Thread Safety**: Integrated per-pad sampling state checks to prevent race conditions between the real-time audio thread and UI-driven file operations.
+- **Memory Optimization**: Replaced excessive 245MB pre-allocation in the constructor with lazy buffer resizing and implemented a 5-second sampling timeout.
+- **Error Handling**: Added validation for magic numbers and versioning, with automatic file closure (RAII) to prevent resource leaks.
 
-### User Interface & UX Improvements (Refined in Review)
-- **Save/Load Buttons**: Quick access to sound management in the control bar.
-- **Safety Features**:
-    - **Overwrite Confirmation**: Prevents accidental loss of existing presets.
-    - **Deletion**: Users can now manage their library by deleting unwanted presets from the Load dialog.
-    - **Validation**: Added parameter clamping to ensure UI stability against malformed or manually edited JSON.
-- **Sync Logic**: Refactored label updates into a single `updateLabels` helper to ensure the UI perfectly reflects the engine state after a preset load.
+### Kotlin Integration
+- **Preset Extension**: Updated `SynthPreset` and `MainActivity` to track and restore sample file paths automatically.
+- **Automatic Sync**: Samples are now persisted immediately after recording is finalized and reloaded upon app startup.
 
-## Testing & Verification
+## Verification Results
 
-### Automated Tests
-- **[PresetSerializationTest.kt](file:///C:/Users/tizia/Projekte/Mini-Synth/app/src/test/java/ch/schmidlins/mini_synth/audio/PresetSerializationTest.kt)**: Verified versioned JSON encoding/decoding.
-- **Build**: Successfully squashed and merged PR #11 after 5 review cycles.
+### Instrumented Tests (`connectedCheck`)
+- **Persistence Test**: Verified that binary data remains bit-identical after a save-load cycle.
+- **Integrity Test**: Verified that corrupted files or invalid versions are handled gracefully without crashing the engine.
+```text
+Android Test Results
+ - device id: 'emulator-5554': 12 PASSED
+```
 
-### Manual Verification Results
-- **Success**: Creating "Bass Patch", tweaking filter, and reloading restored both audio parameters and UI text labels correctly.
-- **Success**: Deleting a preset removed it immediately from the DataStore flow and updated the Load list.
-
-> [!IMPORTANT]
-> The implementation now includes schema versioning, protecting the user's saved sounds from future architectural changes in the synth engine.
+## Engineering Review Summary
+Completed **10 review cycles** via separate GitHub Issues (#22-#31):
+- Fixed file descriptor leaks in error paths.
+- Abstracted naming conventions for sample files.
+- Implemented sampling timeouts for memory safety.
+- Transitioned to fixed-width types for disk serialization.
