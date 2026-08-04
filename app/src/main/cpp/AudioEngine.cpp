@@ -117,6 +117,12 @@ void AudioEngine::loadPadSample(int padIndex, const char* path) {
                 return;
             }
 
+            if (header.version > HEADER_VERSION) {
+                __android_log_print(ANDROID_LOG_ERROR, TAG, "Unsupported header version %u for pad %d", header.version, padIndex);
+                file.close();
+                return;
+            }
+
             const uint64_t MAX_ALLOWED_SAMPLES = 48000 * 60;
             if (header.numSamples > 0 && header.numSamples <= MAX_ALLOWED_SAMPLES) {
                 mPadBuffers[padIndex].resize(static_cast<size_t>(header.numSamples));

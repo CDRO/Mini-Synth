@@ -6,6 +6,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -36,6 +37,11 @@ class MainActivity : AppCompatActivity() {
     private var isZenMode = false
     private var mappingSampleId: Int? = null // if not null, we are in mapping mode
     private val padSamplePaths = mutableMapOf<Int, String>()
+    
+    companion object {
+        fun getSampleFileName(padIndex: Int) = "pad_$padIndex.bin"
+    }
+
     private var bpm = 120f
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private val beatPoller = object : Runnable {
@@ -98,7 +104,8 @@ class MainActivity : AppCompatActivity() {
                     if (isPadSamplingMode) {
                         synthManager.stopPadSampling()
                         val padIndex = midi - 60
-                        val samplePath = File(filesDir, "pad_$padIndex.bin").absolutePath
+                        val sampleFile = File(filesDir, getSampleFileName(padIndex))
+                        val samplePath = sampleFile.absolutePath
                         synthManager.savePadSample(padIndex, samplePath)
                         padSamplePaths[padIndex] = samplePath
                         synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, false)
