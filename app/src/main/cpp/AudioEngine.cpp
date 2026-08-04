@@ -8,9 +8,6 @@
 
 AudioEngine::AudioEngine() {
     updateMetronomeParams();
-    for (auto & mPadBuffer : mPadBuffers) {
-        mPadBuffer.reserve(48000 * 5); // 5 seconds pre-allocated
-    }
 }
 
 AudioEngine::~AudioEngine() {
@@ -108,30 +105,22 @@ void AudioEngine::loadPadSample(int padIndex, const char* path) {
     if (!isPadAvailable(padIndex)) return;
 
     std::ifstream file(path, std::ios::binary);
-    if (file.is_open()) {
-        SampleHeader header;
-        if (file.read(reinterpret_cast<char*>(&header), sizeof(header))) {
-            if (std::memcmp(header.magic, "SNTH", 4) != 0) {
-                __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid file format for pad %d", padIndex);
-                file.close();
-                return;
-            }
+    if (!file.is_open()) return;
 
-            if (header.version > HEADER_VERSION) {
-                __android_log_print(ANDROID_LOG_ERROR, TAG, "Unsupported header version %u for pad %d", header.version, padIndex);
-                file.close();
-                return;
-            }
-
+    SampleHeader header;
+    if (file.read(reinterpret_cast<char*>(&header), sizeof(header))) {
+        if (std::memcmp(header.magic, "SNTH", 4) == 0 && header.version <= HEADER_VERSION) {
             const uint64_t MAX_ALLOWED_SAMPLES = 48000 * 60;
             if (header.numSamples > 0 && header.numSamples <= MAX_ALLOWED_SAMPLES) {
                 mPadBuffers[padIndex].resize(static_cast<size_t>(header.numSamples));
                 file.read(reinterpret_cast<char*>(mPadBuffers[padIndex].data()),
                           static_cast<std::streamsize>(header.numSamples * sizeof(float)));
             }
+        } else {
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid format or version for pad %d", padIndex);
         }
-        file.close();
     }
+    file.close();
 }
 
 void AudioEngine::padNoteOn(int padIndex, float velocity) {
