@@ -17,5 +17,6 @@ data class SynthPreset(
     val lfoTargetIndex: Int = 0,
     val filterCutoff: Float = 1000.0f,
     val filterResonance: Float = 0.2f,
-    val sequencerStepDivision: Float = 0.25f
+    val sequencerStepDivision: Float = 0.25f,
+    val padSamplePaths: Map<Int, String> = emptyMap()
 )

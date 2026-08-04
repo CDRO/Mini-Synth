@@ -1,14 +1,13 @@
 #include "AudioEngine.h"
 #include <android/log.h>
+#include <fstream>
+#include <cstring>
 #include "Mp3Encoder.h"
 
 #define TAG "AudioEngine"
 
 AudioEngine::AudioEngine() {
     updateMetronomeParams();
-    for (auto & mPadBuffer : mPadBuffers) {
-        mPadBuffer.reserve(48000 * 5); // 5 seconds pre-allocated
-    }
 }
 
 AudioEngine::~AudioEngine() {
@@ -35,7 +34,6 @@ void AudioEngine::start() {
     }
 
     mVoiceManager.setSampleRate(mStream->getSampleRate());
-    // Ensure metronome is aware of actual sample rate from the stream
     updateMetronomeParams();
 
     result = mStream->requestStart();
@@ -56,7 +54,8 @@ void AudioEngine::startPadSampling(int padIndex) {
     stopPadSampling();
     if (padIndex >= 0 && padIndex < MAX_PADS) {
         mSamplingPadIndex = padIndex;
-        mPadBuffers[padIndex].resize(48000 * 5); // 5 seconds pre-allocated
+        mPadBuffers[padIndex].clear();
+        mPadBuffers[padIndex].resize(48000 * 5); // 5s limit
         mSampleRecorder.startRecording(mPadBuffers[padIndex]);
     }
 }
@@ -67,12 +66,11 @@ void AudioEngine::stopPadSampling() {
 }
 
 void AudioEngine::loadFactorySample(int padIndex, int sampleId) {
-    if (padIndex < 0 || padIndex >= MAX_PADS) return;
+    if (!isPadAvailable(padIndex)) return;
     if (!mStream || mStream->getSampleRate() <= 0) return;
 
     mPadBuffers[padIndex].clear();
-    // Simulate loading a factory sample by generating a 0.2s burst
-    float freq = (sampleId == 0) ? 60.0f : 440.0f; // Kick vs Snare simulation
+    float freq = (sampleId == 0) ? 60.0f : 440.0f;
     int numSamples = static_cast<int>(mStream->getSampleRate() * 0.2f);
     mPadBuffers[padIndex].reserve(numSamples);
     for (int i = 0; i < numSamples; ++i) {
@@ -82,13 +80,62 @@ void AudioEngine::loadFactorySample(int padIndex, int sampleId) {
     }
 }
 
+bool AudioEngine::isPadAvailable(int padIndex) {
+    return (padIndex >= 0 && padIndex < MAX_PADS && mSamplingPadIndex != padIndex);
+}
+
+/**
+ * BINARY SERIALIZATION FORMAT:
+ * [4 bytes] Magic: 'SNTH'
+ * [4 bytes] Version: uint32 (Current: 1)
+ * [8 bytes] Size: uint64 (Number of float samples)
+ * [N bytes] Data: float[] (Raw PCM data)
+ */
+void AudioEngine::savePadSample(int padIndex, const char* path) {
+    if (!isPadAvailable(padIndex)) return;
+
+    std::ofstream file(path, std::ios::binary);
+    if (file.is_open()) {
+        SampleHeader header;
+        std::memcpy(header.magic, "SNTH", 4);
+        header.version = HEADER_VERSION;
+        header.numSamples = static_cast<uint64_t>(mPadBuffers[padIndex].size());
+
+        file.write(reinterpret_cast<const char*>(&header), sizeof(header));
+        if (header.numSamples > 0) {
+            file.write(reinterpret_cast<const char*>(mPadBuffers[padIndex].data()),
+                       static_cast<std::streamsize>(header.numSamples * sizeof(float)));
+        }
+        file.close();
+    }
+}
+
+void AudioEngine::loadPadSample(int padIndex, const char* path) {
+    if (!isPadAvailable(padIndex)) return;
+
+    std::ifstream file(path, std::ios::binary);
+    if (!file.is_open()) return;
+
+    SampleHeader header;
+    if (file.read(reinterpret_cast<char*>(&header), sizeof(header))) {
+        if (std::memcmp(header.magic, "SNTH", 4) == 0 && header.version <= HEADER_VERSION) {
+            const uint64_t MAX_ALLOWED_SAMPLES = 48000 * 60;
+            if (header.numSamples > 0 && header.numSamples <= MAX_ALLOWED_SAMPLES) {
+                mPadBuffers[padIndex].resize(static_cast<size_t>(header.numSamples));
+                file.read(reinterpret_cast<char*>(mPadBuffers[padIndex].data()),
+                          static_cast<std::streamsize>(header.numSamples * sizeof(float)));
+            }
+        } else {
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid format or version for pad %d", padIndex);
+        }
+    }
+    file.close();
+}
+
 void AudioEngine::padNoteOn(int padIndex, float velocity) {
     if (padIndex < 0 || padIndex >= MAX_PADS || padIndex == mSamplingPadIndex) return;
 
     if (mPadBuffers[padIndex].empty()) {
-        // Fallback to standard synth note for this pad if no sample recorded
-        // Map pads to some default notes if empty? No, better to just be silent or use specific mapping.
-        // For now, let's just trigger a note based on pad index.
         mVoiceManager.noteOn(60 + padIndex, velocity);
     } else {
         mVoiceManager.noteOn(60 + padIndex, velocity, &mPadBuffers[padIndex]);
@@ -115,7 +162,12 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
         float sample = mVoiceManager.nextSample();
 
         if (mSamplingPadIndex != -1) {
-            mSampleRecorder.recordSample(sample);
+            // Sampling timeout/limit check (5s)
+            if (mPadBuffers[mSamplingPadIndex].size() < (48000 * 5)) {
+                mSampleRecorder.recordSample(sample);
+            } else {
+                stopPadSampling();
+            }
         }
 
         if (mMetronomeEnabled) {
@@ -123,16 +175,12 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
         }
 
         sample = std::max(-1.0f, std::min(sample, 1.0f));
-
-        // Tap for visualizer
         mVizQueue.push(sample);
 
-        // Tap for recording
         if (mIsRecording.load(std::memory_order_relaxed)) {
             mRecordQueue.push(sample);
         }
 
-        // Duplicate mono sample to all output channels (Stereo mapping fix)
         for (int channel = 0; channel < channelCount; ++channel) {
             output[i * channelCount + channel] = sample;
         }
@@ -152,7 +200,6 @@ void AudioEngine::startRecording(const std::string& path) {
     if (mIsRecording) return;
     mIsRecording = true;
     mRecordQueue.clear();
-    // Copy path into the loop thread to avoid race conditions
     mRecordingThread = std::thread(&AudioEngine::recordingLoop, this, path);
 }
 
@@ -184,7 +231,6 @@ void AudioEngine::recordingLoop(const std::string& path) {
         if (count > 0) {
             encoder.encode(pcmBuffer.data(), count);
         } else {
-            // Wait for more data
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     }
@@ -219,8 +265,6 @@ void AudioEngine::onErrorAfterClose(oboe::AudioStream *oboeStream, oboe::Result 
         __android_log_print(ANDROID_LOG_INFO, TAG, "Restarting audio engine after error: %s (Retry %d)",
                            oboe::convertToText(error), mRestartRetryCount + 1);
         start();
-    } else {
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "Audio engine restart limit reached. Engine stopped.");
     }
 }
 
@@ -243,25 +287,20 @@ bool AudioEngine::isBeatStarted() {
 
 float AudioEngine::getMetronomeSample() {
     float sample = 0.0f;
-
     if (mSampleCounter == 0) {
         mBeatFlag.store(true);
     }
-
-    // Generates a simple tick: a decaying burst of sine
-    if (mSampleCounter < 500) { // 500 samples duration (~10ms)
+    if (mSampleCounter < 500) {
         float freq = (mBeatCounter == 0 ? 880.0f : 440.0f);
         float sampleRate = (mStream ? static_cast<float>(mStream->getSampleRate()) : 48000.0f);
         float phase = 2.0f * PI_F * freq * static_cast<float>(mSampleCounter) / sampleRate;
         float amplitude = 0.5f * (1.0f - static_cast<float>(mSampleCounter) / 500.0f);
         sample = sinf(phase) * amplitude;
     }
-
     mSampleCounter++;
     if (mSampleCounter >= mSamplesPerBeat) {
         mSampleCounter = 0;
         mBeatCounter = (mBeatCounter + 1) % 4;
     }
-
     return sample;
 }

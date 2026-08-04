@@ -6,6 +6,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -17,6 +18,7 @@ import ch.schmidlins.mini_synth.databinding.ActivityMainBinding
 import ch.schmidlins.mini_synth.ui.KeyboardPadView
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.io.File
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +36,12 @@ class MainActivity : AppCompatActivity() {
     private var isPadMode = false
     private var isZenMode = false
     private var mappingSampleId: Int? = null // if not null, we are in mapping mode
+    private val padSamplePaths = mutableMapOf<Int, String>()
+    
+    companion object {
+        fun getSampleFileName(padIndex: Int) = "pad_$padIndex.bin"
+    }
+
     private var bpm = 120f
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private val beatPoller = object : Runnable {
@@ -70,6 +78,9 @@ class MainActivity : AppCompatActivity() {
                         synthManager.loadFactorySample(midi - 60, mappingSampleId!!)
                         mappingSampleId = null
                         content.sidebarBrowser.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.surface_dark))
+                        // Note: Factory samples are not currently auto-persisted to bin files here, 
+                        // but could be if we extracted the buffer data. 
+                        // For now, we focus on recorded samples.
                     } else if (isPadSamplingMode) {
                         synthManager.startPadSampling(midi - 60) // midi is baseNote + padIndex
                         synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, true)
@@ -92,6 +103,11 @@ class MainActivity : AppCompatActivity() {
                 if (isPadMode) {
                     if (isPadSamplingMode) {
                         synthManager.stopPadSampling()
+                        val padIndex = midi - 60
+                        val sampleFile = File(filesDir, getSampleFileName(padIndex))
+                        val samplePath = sampleFile.absolutePath
+                        synthManager.savePadSample(padIndex, samplePath)
+                        padSamplePaths[padIndex] = samplePath
                         synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, false)
                     } else {
                         synthManager.padNoteOff(midi - 60)
@@ -548,7 +564,8 @@ class MainActivity : AppCompatActivity() {
                 3 -> 2.0f
                 4 -> 4.0f
                 else -> 0.25f
-            }
+            },
+            padSamplePaths = padSamplePaths.toMap()
         )
         lifecycleScope.launch {
             presetRepository.savePreset(preset)
@@ -593,6 +610,15 @@ class MainActivity : AppCompatActivity() {
             else -> 0
         }
         content.spinnerStepDuration!!.setSelection(divIndex)
+        
+        // Load samples
+        padSamplePaths.clear()
+        preset.padSamplePaths.forEach { (idx, path) ->
+            if (File(path).exists()) {
+                synthManager.loadPadSample(idx, path)
+                padSamplePaths[idx] = path
+            }
+        }
         
         // Manually trigger label updates if setting progress didn't trigger listener (or for safety)
         updateLabels(content)
