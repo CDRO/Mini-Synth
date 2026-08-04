@@ -62,6 +62,8 @@ public:
     void setMetronomeEnabled(bool enabled);
     bool isBeatStarted();
 
+    void renderPatternToFile(const std::string& path);
+
     // Pad Sampling
     void startPadSampling(int padIndex);
     void stopPadSampling();

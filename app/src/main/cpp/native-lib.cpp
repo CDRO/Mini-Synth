@@ -214,6 +214,14 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_stopRecording(JNIEnv *env, job
 }
 
 extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_renderPatternToFile(JNIEnv *env, jobject thiz, jstring path) {
+    const char *nativePath = env->GetStringUTFChars(path, nullptr);
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->renderPatternToFile(std::string(nativePath));
+    env->ReleaseStringUTFChars(path, nativePath);
+}
+
+extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setBpm(JNIEnv *env, jobject thiz, jfloat bpm) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setBpm(bpm);

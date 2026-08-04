@@ -58,7 +58,9 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
         - Identify **2 self-reviews** on the current state.
         - **Requirement Verification**: Confirm implementation matches requested specs.
         - Create **2 GitHub Issues** with label `review`, linked to the milestone.
-        - Apply fixes, commit with `Fixes #review_issue_id`, and **push**.
+        - Apply fixes and commit.
+        - **Commit Message**: MUST include `Fixes #review_issue_id`.
+        - **Closure**: Once the fix is pushed, explicitly close the review issue using `gh issue close #review_issue_id`.
     - Repeat until **10 total review issues** are resolved.
 9. **Merge**: Squash and Merge via `gh pr merge` using the reviewed Merge Message.
 10. **Cleanup**: Delete branch and close milestone.
@@ -67,30 +69,24 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ## Completed Milestones
 - **Milestones 1-12**: Core Synthesis, Filter, ADSR, LFO, Viz, Recording, Metronome, Sequencer, Pad Sampling, Workspace Layout, Sample Persistence.
+- **Milestone 13**: Layout Squashing, Workspace Refinement, Help Mode, Demo Mode [DONE].
 
 ---
 
 ## Roadmap
 
-### Milestone 13: Layout Squashing & Workspace Refinement [NEXT]
+### Milestone 14: Advanced Export & Sequence Polish [NEXT]
+- **Logic**:
+    - **Offline Render**: C++ engine loop to render the pattern to MP3 faster than real-time.
+    - **Export Management**: Share intent for exported MP3 files.
 - **UI**:
-    - Header (Viz/Metro): Constraint 20% height.
-    - Input (Keys/Pads): Constraint 30% height.
-    - Mini-fix: Remove stray character in bottom-right.
-- **UX**:
-    - Switch-to-Pads: Hide all config UI except "Keys" and Sample Browser.
-    - Fullscreen Pads: Toggle between config and full-grid play mode.
+    - **Pattern Saving**: Save and load sequencer patterns independently of synth presets.
+    - **Multi-Note Sequencer**: Allow recording and editing different notes per step (Piano Roll Lite).
 
-### Milestone 14: Keyboard Interaction Refinement
-- **Hold Gesture**: Slide up > 50% of key length to hold note; slide down to release.
-- **Hidable Keyboard**: Button at top-right of keyboard (Down/Up arrow toggles).
+### Milestone 15: Keyboard Interaction Refinement (Gestures)
+- **UX**: Slide left/right on keys for Pitch Bend or Mod Wheel mapping.
+- **Logic**: Real-time interpolation of parameter shifts based on horizontal touch position.
 
-### Milestone 15: Discovery & Help Mode
-- **UX**: Question mark button enters help mode.
-- **Interaction**: Keyboard hidden. Clicking UI elements shows interactive tooltips (Attack, Cutoff, etc.).
-
-### Milestone 16: Demo Mode (Predefined Song)
-- **Logic**: Automated playback of multi-part sequence using all synth features.
-
-### Milestone 17: MP3 Export & Set Management
-- **Logic**: Offline LAME rendering. Full set state persistence.
+### Milestone 16: Project & Set Management
+- **Logic**: Capture full state of all 256 pads, the sequencer pattern, and synth parameters as a "Project" file.
+- **UI**: Project Browser for managing large sets of sounds.

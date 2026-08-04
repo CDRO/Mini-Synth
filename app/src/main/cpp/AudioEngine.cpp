@@ -252,6 +252,47 @@ void AudioEngine::setMetronomeEnabled(bool enabled) {
     mMetronomeEnabled = enabled;
 }
 
+void AudioEngine::renderPatternToFile(const std::string& path) {
+    EngineParams params = mVoiceManager.getParams();
+    int32_t sampleRate = mStream ? mStream->getSampleRate() : 48000;
+    int32_t samplesPerBeat = static_cast<int32_t>(static_cast<float>(sampleRate) * 60.0f / mBpm);
+
+    VoiceManager renderVm;
+    renderVm.setSampleRate(sampleRate);
+    renderVm.setParams(params);
+
+    Mp3Encoder encoder;
+    if (!encoder.init(path, sampleRate, 1, 192)) return;
+
+    float stepDivision = mMidiSequencer.getStepDivision();
+    int32_t stepDuration = static_cast<int32_t>(static_cast<float>(samplesPerBeat) * stepDivision);
+    int32_t gateSamples = static_cast<int32_t>(static_cast<float>(stepDuration) * 0.9f);
+
+    std::vector<float> pcmBuffer(stepDuration);
+    const auto* grid = mMidiSequencer.getGrid();
+
+    // Render 16 steps
+    for (int step = 0; step < 16; ++step) {
+        // Trigger
+        for (int note = 0; note < 128; ++note) {
+            if (grid[step].test(note)) renderVm.noteOn(note, 0.8f);
+        }
+
+        for (int s = 0; s < stepDuration; ++s) {
+            if (s == gateSamples) {
+                 for (int note = 0; note < 128; ++note) {
+                    if (grid[step].test(note)) renderVm.noteOff(note);
+                 }
+            }
+            pcmBuffer[s] = renderVm.nextSample();
+        }
+        encoder.encode(pcmBuffer.data(), stepDuration);
+    }
+
+    encoder.flush();
+    encoder.close();
+}
+
 void AudioEngine::onErrorAfterClose(oboe::AudioStream *oboeStream, oboe::Result error) {
     auto now = std::chrono::steady_clock::now();
     if (now - mLastRestartTime < MIN_RESTART_INTERVAL) {
