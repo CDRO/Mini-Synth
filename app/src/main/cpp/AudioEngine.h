@@ -93,6 +93,14 @@ private:
     static constexpr int MAX_RESTART_RETRIES = 5;
     static constexpr auto MIN_RESTART_INTERVAL = std::chrono::seconds(2);
 
+    bool isPadAvailable(int padIndex);
+    struct SampleHeader {
+        char magic[4];
+        uint32_t version;
+        uint64_t numSamples;
+    };
+    static constexpr uint32_t HEADER_VERSION = 1;
+
     std::shared_ptr<oboe::AudioStream> mStream;
     VoiceManager mVoiceManager;
     MidiSequencer mMidiSequencer;
