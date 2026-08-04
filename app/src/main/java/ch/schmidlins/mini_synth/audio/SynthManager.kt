@@ -42,6 +42,8 @@ class SynthManager {
 
     external fun setFilterCutoff(frequency: Float)
     external fun setFilterResonance(resonance: Float)
+    external fun setPitchBend(semitones: Float)
+    external fun setModulation(amount: Float)
 
     external fun getVisualizerData(buffer: FloatArray): Int
     external fun startRecording(path: String)

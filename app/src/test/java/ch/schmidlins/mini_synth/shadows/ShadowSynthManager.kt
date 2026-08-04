@@ -33,6 +33,8 @@ class ShadowSynthManager {
     @Implementation fun setLfoTarget(targetIndex: Int) {}
     @Implementation fun setFilterCutoff(frequency: Float) {}
     @Implementation fun setFilterResonance(resonance: Float) {}
+    @Implementation fun setPitchBend(semitones: Float) {}
+    @Implementation fun setModulation(amount: Float) {}
     @Implementation fun getVisualizerData(buffer: FloatArray): Int = 0
     @Implementation fun startRecording(path: String) {}
     @Implementation fun stopRecording() {}

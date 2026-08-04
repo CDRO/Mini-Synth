@@ -139,6 +139,10 @@ class MainActivity : AppCompatActivity() {
                     showPadColorPicker(padIndex)
                 }
             }
+            override fun onGesture(pitchBend: Float, modulation: Float) {
+                synthManager.setPitchBend(pitchBend)
+                synthManager.setModulation(modulation)
+            }
         }
         
         // Mode toggle

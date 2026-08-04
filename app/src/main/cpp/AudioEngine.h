@@ -52,6 +52,9 @@ public:
     void setFilterCutoff(float frequency) { mVoiceManager.setFilterCutoff(frequency); }
     void setFilterResonance(float resonance) { mVoiceManager.setFilterResonance(resonance); }
 
+    void setPitchBend(float semitones) { mVoiceManager.setPitchBend(semitones); }
+    void setModulation(float amount) { mVoiceManager.setModulation(amount); }
+
     float renderSampleForTest();
 
     int32_t getVisualizerData(float* buffer, int32_t size);

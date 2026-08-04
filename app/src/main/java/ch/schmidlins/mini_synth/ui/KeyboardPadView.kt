@@ -21,6 +21,7 @@ class KeyboardPadView @JvmOverloads constructor(
         fun onGridTouchStart(midi: Int)
         fun onGridTouchEnd()
         fun onPadLongPress(padIndex: Int)
+        fun onGesture(pitchBend: Float, modulation: Float)
     }
 
     enum class Mode { KEYBOARD, PAD_GRID }
@@ -30,6 +31,7 @@ class KeyboardPadView @JvmOverloads constructor(
 
     private var mode = Mode.KEYBOARD
     private var baseNote = 60
+    private var lastPb = 0.0f
     var gridColumns = 4
     var gridRows = 4
     var listener: OnNoteEventListener? = null
@@ -37,7 +39,8 @@ class KeyboardPadView @JvmOverloads constructor(
     // UI state - Thread safe bitmask storage
     private val noteStates = ConcurrentHashMap<Int, Int>()
     private val pointerToNote = mutableMapOf<Int, Int>()
-    private val pointerStartPositions = mutableMapOf<Int, Float>() // pointerId -> startY
+    private val pointerStartPositionsX = mutableMapOf<Int, Float>() // pointerId -> startX
+    private val pointerStartPositionsY = mutableMapOf<Int, Float>() // pointerId -> startY
     private val heldMidiNotes = ConcurrentHashMap.newKeySet<Int>()
     private val padColors = ConcurrentHashMap<Int, Int>() // padIndex -> color
     private val handler = android.os.Handler(android.os.Looper.getMainLooper())
@@ -53,6 +56,7 @@ class KeyboardPadView @JvmOverloads constructor(
     private val backlightRecordPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.vibrant_red); style = Paint.Style.FILL; alpha = 128 }
     private val backlightPlayPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.electric_blue); style = Paint.Style.FILL; alpha = 128 }
     private val backlightHoldPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.acid_green); style = Paint.Style.STROKE; strokeWidth = 8f; alpha = 200 }
+    private val backlightBendPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.electric_blue); style = Paint.Style.FILL; alpha = 100 }
     private val customPadPaint = Paint().apply { style = Paint.Style.FILL }
     private val holdTextPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.acid_green); textSize = 32f; textAlign = Paint.Align.RIGHT; typeface = android.graphics.Typeface.DEFAULT_BOLD }
     private val textFontMetrics = textPaint.fontMetrics
@@ -155,11 +159,14 @@ class KeyboardPadView @JvmOverloads constructor(
     private fun drawBacklight(canvas: Canvas, rect: RectF, midi: Int) {
         val state = noteStates[midi] ?: 0
         val isHeld = heldMidiNotes.contains(midi)
-        
+        val isActive = pointerToNote.values.contains(midi)
+
         if (state == 0 && !isHeld) return
         
         val paint = when {
-            (state and Backlight.TOUCH.bit) != 0 -> backlightTouchPaint
+            (state and Backlight.TOUCH.bit) != 0 -> {
+                if (isActive && Math.abs(lastPb) > 0.1f) backlightBendPaint else backlightTouchPaint
+            }
             (state and Backlight.RECORD.bit) != 0 -> backlightRecordPaint
             (state and Backlight.PLAY.bit) != 0 -> backlightPlayPaint
             else -> null
@@ -186,9 +193,11 @@ class KeyboardPadView @JvmOverloads constructor(
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
                 performClick()
+                val x = event.getX(actionIndex)
                 val y = event.getY(actionIndex)
-                pointerStartPositions[pId] = y
-                val midi = getMidiAt(event.getX(actionIndex), y)
+                pointerStartPositionsX[pId] = x
+                pointerStartPositionsY[pId] = y
+                val midi = getMidiAt(x, y)
                 if (midi != -1) {
                     noteOn(pId, midi)
                     if (mode == Mode.PAD_GRID) {
@@ -201,41 +210,62 @@ class KeyboardPadView @JvmOverloads constructor(
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP, MotionEvent.ACTION_CANCEL -> {
                 longPressRunnables.remove(pId)?.let { handler.removeCallbacks(it) }
-                val startY = pointerStartPositions.remove(pId) ?: event.getY(actionIndex)
+                pointerStartPositionsX.remove(pId)
+                val startY = pointerStartPositionsY.remove(pId) ?: event.getY(actionIndex)
                 val currentY = event.getY(actionIndex)
                 val midi = pointerToNote[pId]
                 
                 if (midi != null && mode == Mode.KEYBOARD) {
                     val deltaY = startY - currentY // Positive if sliding UP
                     if (deltaY > height * 0.5f) {
-                        // HOLD triggered
                         heldMidiNotes.add(midi)
                     } else if (deltaY < -height * 0.2f && heldMidiNotes.contains(midi)) {
-                        // RELEASE HOLD triggered by sliding down
                         heldMidiNotes.remove(midi)
                     }
                 }
                 
                 noteOff(pId)
-            }
+                
+            // Reset gesture on release
+            lastPb = 0.0f
+            listener?.onGesture(0.0f, 0.0f)
+            invalidate()
+        }
             MotionEvent.ACTION_MOVE -> {
                 for (i in 0 until event.pointerCount) {
                     val pid = event.getPointerId(i)
+                    val currentX = event.getX(i)
                     val currentY = event.getY(i)
-                    val newMidi = getMidiAt(event.getX(i), currentY)
-                    val oldMidi = pointerToNote[pid]
+                    val oldMidi = pointerToNote[pid] ?: -1
                     
-                    if (newMidi != oldMidi) {
-                        longPressRunnables.remove(pid)?.let { handler.removeCallbacks(it) }
-                        
-                        // Check for hold trigger on move too? 
-                        // User said "when pressing and sliding up ... the key is hold, even when no longer pressed"
-                        // This usually implies detection on release, but let's check.
-                        
-                        noteOff(pid)
-                        if (newMidi != -1) {
-                            noteOn(pid, newMidi)
-                            pointerStartPositions[pid] = currentY // Reset start pos for new key
+                    // Gesture detection (Horizontal slide for pitch bend, vertical for modulation)
+                    val startX = pointerStartPositionsX[pid] ?: currentX
+                    val startY = pointerStartPositionsY[pid] ?: currentY
+                    
+                    val keyWidth = width / 8f
+                    val deltaX = currentX - startX
+                    val deltaY = startY - currentY
+                    
+                    // If we moved horizontally enough, treat it as Pitch Bend and STAY on this note
+                    // Otherwise, if we move into a new key area, switch notes.
+                    
+                    val pb = (deltaX / keyWidth) * 2.0f
+                    val mod = (deltaY / height).coerceIn(0f, 1f)
+                    
+                    if (mode == Mode.KEYBOARD && oldMidi != -1) {
+                        lastPb = pb
+                        listener?.onGesture(pb, mod)
+                        invalidate()
+                    } else {
+                        val newMidi = getMidiAt(currentX, currentY)
+                        if (newMidi != oldMidi) {
+                            longPressRunnables.remove(pid)?.let { handler.removeCallbacks(it) }
+                            noteOff(pid)
+                            if (newMidi != -1) {
+                                noteOn(pid, newMidi)
+                                pointerStartPositionsX[pid] = currentX
+                                pointerStartPositionsY[pid] = currentY
+                            }
                         }
                     }
                 }

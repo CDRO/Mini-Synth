@@ -176,6 +176,18 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setFilterResonance(JNIEnv *env
     if (engine) engine->setFilterResonance(resonance);
 }
 
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setPitchBend(JNIEnv *env, jobject thiz, jfloat semitones) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setPitchBend(semitones);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setModulation(JNIEnv *env, jobject thiz, jfloat amount) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setModulation(amount);
+}
+
 extern "C" JNIEXPORT jfloat JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_renderSampleForTest(JNIEnv *env, jobject thiz) {
     std::lock_guard<std::mutex> lock(engineMutex);
