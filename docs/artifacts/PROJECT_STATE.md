@@ -1,45 +1,41 @@
 # Consolidated Project Status: Mini-Synth
 
-Merging context from initial feature implementation (`6392750b`) and stability refinements (`29f4297d`).
+Merging context from initial feature implementation and workspace refinements.
 
 ## Current System State
 
 ### Audio Engine (C++ / Oboe)
 - **Core**: 16-voice polyphonic engine with Sine, Square, Saw, Triangle waveforms.
-- **Stability**: Summing mixer (consistent volume), automatic error recovery with 5-retry limit and 2s cool-down.
-- **Modules**: ADSR Envelopes, Resonant Low-Pass Filter (LPF), LFO (Modulating Pitch, Volume, or Filter).
-- **Metronome**: Sample-accurate native tick generator, synced with BPM (40-240).
-- **Recording**: Real-time MP3 encoding using LAME (asynchronous thread).
+- **Stability**: Summing mixer (consistent volume), automatic error recovery.
+- **Modules**: ADSR Envelopes, Resonant Low-Pass Filter (LPF), LFO.
+- **Metronome**: Sample-accurate native tick generator, synced with BPM.
+- **Recording**: Real-time MP3 encoding using LAME.
+- **Persistence**: Milestone 12 completed. Recorded samples are persisted using versioned binary headers.
 
 ### UI (Kotlin)
-- **Aesthetic**: Dark DAW theme (Charcoal/Matte Grey/Acid Green).
-- **Layout**: Non-scrolling top header with perfectly centered Visualizer (50%) and compact Metronome controls (25% right).
-- **Components**: `KeyboardPadView` supports multi-touch, 13-key keyboard, and 4x4 pad grid modes.
-- **Feedback**: Robust backlight priority (Touch > Record > Play).
-- **Presets**: Jetpack DataStore persistence for all parameters.
+- **Aesthetic**: Dark DAW theme.
+- **Layout**: Milestone 13 completed. Optimized 20/30/50 ratio. perfectly centered Visualizer (20% height) and compact Metronome.
+- **Modes**: 
+    - Keyboard mode with 'Hold' gesture (Slide up > 50%).
+    - Pad mode with fullscreen toggle and sampling logic.
+    - Discovery mode (Help dialogs on click).
+    - Demo mode (Predefined song playback).
 
 ## Feature Roadmap
 
-### [DONE] Milestone 1: Core Synthesis & Voice Management
-### [DONE] Milestone 2: Resonant Filter & ADSR
-### [DONE] Milestone 3: LFO & Parameter Modulation
-### [DONE] Milestone 4: Visualization & MP3 Recording
-### [DONE] Milestone 5: Metronome & BPM Control
-### [DONE] Milestone 6: Visual MIDI Sequencer
-### [DONE] Milestone 7: Keyboard Step-Recording
-### [DONE] Milestone 8: Pad Sampling & Playback
-### [DONE] Milestone 9: Swipe-to-Hold Pad Recording
-### [DONE] Milestone 10: Dynamic Pad Customization
-### [DONE] Milestone 11: Sample Mapping & Workspace Layout
+### [DONE] Milestone 1-11: Core Synthesis, Sequencer, Mapping, Workspace.
+### [DONE] Milestone 12: Sample Persistence.
+### [DONE] Milestone 13: Layout Squashing & Onboarding.
 
-### [NEXT] Milestone 12: Sample Persistence
-- **Objective**: Persist recorded and mapped samples to disk.
+### [NEXT] Milestone 14: Advanced Export & Sequence Polish
+- **Objective**: Implement high-speed offline rendering and independent pattern management.
 - **Key Features**:
-    - Binary serialization of pad PCM buffers.
-    - Automatic reloading of samples on app startup.
-    - Integration with Preset system to store sample paths.
+    - C++ offline render loop for MP3 export.
+    - Android Share intent integration.
+    - Independent Save/Load for sequencer patterns.
+    - Multi-note step support.
 
 ## Quality Assurance Status
-- **Unit Tests**: 5 passed (Oscillators, Envelopes, ViewModel logic).
-- **Android Tests**: 17 passed (Stress tests for high BPM, polyphony, UI visibility, and lifecycle safety).
-- **Workflow**: Mandatory branching, 10-cycle review loop, and detailed walkthroughs established.
+- **Unit Tests**: 12 passed (Oscillators, Envelopes, Filter Stability, Binary Persistence).
+- **Android Tests**: 17 passed (Stress tests for high BPM, UI transitions).
+- **Workflow**: GitHub-integrated milestone tracking and 10-issue review loop.

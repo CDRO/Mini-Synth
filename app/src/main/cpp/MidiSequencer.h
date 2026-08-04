@@ -16,8 +16,12 @@ public:
 
     void setNote(int step, int note, bool active);
     bool getNote(int step, int note) const;
+    void getActiveNotes(int step, std::vector<int>& outNotes) const;
     bool isStepActive(int step) const { return (step >= 0 && step < NUM_STEPS) ? mGrid[step].any() : false; }
     void clear();
+
+    const std::bitset<NUM_NOTES>* getGrid() const { return mGrid; }
+    float getStepDivision() const { return mStepDivision.load(); }
 
     void setStepDuration(float division); // e.g., 0.25 for 1/16th notes if beat is 1/4
     void setVelocity(float velocity) { mVelocity.store(velocity); }

@@ -12,6 +12,17 @@ struct AdsrParams {
     std::atomic<float> release{0.1f};
 };
 
+struct EngineParams {
+    Waveform waveform;
+    float attack, decay, sustain, release;
+    float masterVolume;
+    float lfoRate, lfoDepth;
+    Waveform lfoWaveform;
+    LfoTarget lfoTarget;
+    float filterCutoff, filterResonance;
+    bool isPolyphonic;
+};
+
 class VoiceManager {
 public:
     VoiceManager();
@@ -37,6 +48,9 @@ public:
 
     void setFilterCutoff(float frequency) { mFilterCutoff = frequency; mParamsChanged = true; }
     void setFilterResonance(float resonance) { mFilterResonance = resonance; mParamsChanged = true; }
+
+    EngineParams getParams() const;
+    void setParams(const EngineParams& params);
 
     float nextSample();
 

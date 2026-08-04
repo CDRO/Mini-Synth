@@ -62,6 +62,8 @@ public:
     void setMetronomeEnabled(bool enabled);
     bool isBeatStarted();
 
+    void renderPatternToFile(const std::string& path);
+
     // Pad Sampling
     void startPadSampling(int padIndex);
     void stopPadSampling();
@@ -75,6 +77,7 @@ public:
     bool isSequencerPlaying() const { return mMidiSequencer.isPlaying(); }
     void setSequencerNote(int step, int note, bool active) { mMidiSequencer.setNote(step, note, active); }
     bool isSequencerNoteActive(int step, int note) const { return mMidiSequencer.getNote(step, note); }
+    void getSequencerActiveNotes(int step, std::vector<int>& notes) const { mMidiSequencer.getActiveNotes(step, notes); }
     bool isSequencerStepActive(int step) const { return mMidiSequencer.isStepActive(step); }
     int recordSequencerNote(int note) { return mMidiSequencer.recordNote(note); }
     void clearSequencer() { mMidiSequencer.clear(); }

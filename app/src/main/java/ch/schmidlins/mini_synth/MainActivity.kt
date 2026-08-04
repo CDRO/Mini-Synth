@@ -13,8 +13,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import ch.schmidlins.mini_synth.audio.PatternRepository
 import ch.schmidlins.mini_synth.audio.PresetRepository
 import ch.schmidlins.mini_synth.audio.SynthManager
+import ch.schmidlins.mini_synth.audio.SynthPattern
 import ch.schmidlins.mini_synth.audio.SynthPreset
 import ch.schmidlins.mini_synth.databinding.ActivityMainBinding
 import ch.schmidlins.mini_synth.ui.KeyboardPadView
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val synthManager = SynthManager()
     private lateinit var presetRepository: PresetRepository
+    private lateinit var patternRepository: PatternRepository
     private var isPoly = true
     private var octaveShift = 0
     private var isMockRec = false
@@ -73,6 +76,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         presetRepository = PresetRepository(this)
+        patternRepository = PatternRepository(this)
 
         val content = binding.appBarMain.contentMain
         val synthView = content.keyboardPadView!!
@@ -247,6 +251,7 @@ class MainActivity : AppCompatActivity() {
         setupSequencer(content)
         setupPadCustomization(content)
         setupWorkspaceRefinement(content)
+        setupPatternManagement(content)
     }
 
     private fun updateOctave() {
@@ -492,6 +497,31 @@ class MainActivity : AppCompatActivity() {
             synthManager.clearSequencer()
             for (id in stepButtonIds) content.root.findViewById<android.widget.ToggleButton>(id)?.isChecked = false
         }
+
+        content.btnSequencerExport!!.setOnClickListener {
+            if (isHelpMode) { showHelp("Export the current pattern to a high-quality file and share it."); return@setOnClickListener }
+            
+            val dir = getExternalFilesDir(null) ?: filesDir
+            val file = java.io.File(dir, "pattern_export_${System.currentTimeMillis()}.wav")
+            
+            lifecycleScope.launch {
+                if (isFinishing || isDestroyed) return@launch
+                val progress = AlertDialog.Builder(this@MainActivity)
+                    .setMessage("Exporting...")
+                    .setCancelable(false)
+                    .show()
+                
+                try {
+                    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                        synthManager.renderPatternToFile(file.absolutePath)
+                    }
+                } finally {
+                    if (!isFinishing && !isDestroyed) progress.dismiss()
+                }
+                
+                if (!isFinishing && !isDestroyed) shareFile(file)
+            }
+        }
         val durations = arrayOf("1/16", "1/8", "1/4", "1/2", "1/1")
         val divisions = floatArrayOf(0.25f, 0.5f, 1.0f, 2.0f, 4.0f)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, durations)
@@ -530,13 +560,32 @@ class MainActivity : AppCompatActivity() {
         mainHandler.post(sequencerPoller!!)
     }
 
+    private fun shareFile(file: File) {
+        try {
+            val uri = androidx.core.content.FileProvider.getUriForFile(this, "${applicationContext.packageName}.fileprovider", file)
+            val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+                type = "audio/wav"
+                putExtra(android.content.Intent.EXTRA_STREAM, uri)
+                addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            startActivity(android.content.Intent.createChooser(intent, "Share Exported Pattern"))
+        } catch (e: Exception) {
+            Toast.makeText(this, "Export failed: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun updateSequencerUI(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding, current: Int, last: Int) {
         val synthView = content.keyboardPadView!!
         if (last != -1 && last < stepButtonIds.size) {
             content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[last])?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
             for (note in 60..72) synthView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, false)
         }
-        if (current < stepButtonIds.size) content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[current])?.setBackgroundColor(ContextCompat.getColor(this, R.color.acid_green))
+        if (current < stepButtonIds.size) {
+            val toggle = content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[current])
+            val activeNotes = synthManager.getSequencerActiveNotes(current)
+            val isMulti = (activeNotes?.size ?: 0) > 1
+            toggle?.setBackgroundColor(ContextCompat.getColor(this, if (isMulti) R.color.electric_blue else R.color.acid_green))
+        }
         for (note in 60..72) if (synthManager.isSequencerNoteActive(current, note)) synthView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, true)
     }
 
@@ -544,7 +593,13 @@ class MainActivity : AppCompatActivity() {
         for (i in 0 until 16) {
             val id = stepButtonIds[i]
             val toggle = content.root.findViewById<android.widget.ToggleButton>(id)
-            toggle?.isChecked = synthManager.isSequencerStepActive(i)
+            val activeNotes = synthManager.getSequencerActiveNotes(i)
+            toggle?.isChecked = activeNotes != null && activeNotes.isNotEmpty()
+            if (activeNotes != null && activeNotes.size > 1) {
+                toggle?.setBackgroundColor(ContextCompat.getColor(this, R.color.electric_blue))
+            } else {
+                toggle?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+            }
         }
     }
 
@@ -669,6 +724,71 @@ class MainActivity : AppCompatActivity() {
         padSamplePaths.clear()
         preset.padSamplePaths.forEach { (idx, path) -> if (File(path).exists()) { synthManager.loadPadSample(idx, path); padSamplePaths[idx] = path } }
         updateLabels(content)
+    }
+
+    private fun setupPatternManagement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.btnSavePattern!!.setOnClickListener {
+            if (isHelpMode) { showHelp("Save the current 16-step pattern."); return@setOnClickListener }
+            val input = EditText(this)
+            input.hint = "Pattern Name"
+            AlertDialog.Builder(this).setTitle("Save Pattern").setView(input).setPositiveButton("Save") { _, _ ->
+                val name = input.text.toString().trim()
+                if (name.isNotEmpty()) saveCurrentPattern(name)
+            }.setNegativeButton("Cancel", null).show()
+        }
+
+        content.btnLoadPattern!!.setOnClickListener {
+            if (isHelpMode) { showHelp("Load a saved sequence pattern."); return@setOnClickListener }
+            lifecycleScope.launch {
+                val patterns = patternRepository.patterns.first()
+                if (patterns.isEmpty()) Toast.makeText(this@MainActivity, "No patterns saved.", Toast.LENGTH_SHORT).show()
+                else {
+                    val names = patterns.map { it.name }.toTypedArray()
+                    AlertDialog.Builder(this@MainActivity).setTitle("Load Pattern").setItems(names) { _, which ->
+                        applyPattern(patterns[which])
+                    }
+                    .setNeutralButton("Delete") { _, _ ->
+                        showDeletePatternDialog(patterns)
+                    }
+                    .show()
+                }
+            }
+        }
+    }
+
+    private fun showDeletePatternDialog(patterns: List<SynthPattern>) {
+        val names = patterns.map { it.name }.toTypedArray()
+        AlertDialog.Builder(this).setTitle("Delete Pattern").setItems(names) { _, which ->
+            lifecycleScope.launch { patternRepository.deletePattern(patterns[which].name) }
+        }.setNegativeButton("Cancel", null).show()
+    }
+
+    private fun saveCurrentPattern(name: String) {
+        val grid = mutableListOf<List<Int>>()
+        for (step in 0 until 16) {
+            val notes = synthManager.getSequencerActiveNotes(step)?.toList() ?: emptyList()
+            grid.add(notes)
+        }
+        val division = when (binding.appBarMain.contentMain.spinnerStepDuration!!.selectedItemPosition) {
+            0 -> 0.25f; 1 -> 0.5f; 2 -> 1.0f; 3 -> 2.0f; 4 -> 4.0f; else -> 0.25f
+        }
+        val pattern = SynthPattern(name, grid, division)
+        lifecycleScope.launch { patternRepository.savePattern(pattern) }
+    }
+
+    private fun applyPattern(pattern: SynthPattern) {
+        val content = binding.appBarMain.contentMain
+        synthManager.clearSequencer()
+        pattern.grid.forEachIndexed { step, notes ->
+            notes.forEach { note ->
+                synthManager.setSequencerNote(step, note, true)
+            }
+        }
+        val divIndex = when (pattern.stepDivision) {
+            0.25f -> 0; 0.5f -> 1; 1.0f -> 2; 2.0f -> 3; 4.0f -> 4; else -> 0
+        }
+        content.spinnerStepDuration!!.setSelection(divIndex)
+        updateSequencerToggles(content)
     }
 
     private fun updateLabels(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {

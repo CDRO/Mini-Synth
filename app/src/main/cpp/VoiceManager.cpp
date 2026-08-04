@@ -130,3 +130,37 @@ float VoiceManager::nextSample() {
 
     return mixedSample * currentVol;
 }
+
+EngineParams VoiceManager::getParams() const {
+    EngineParams p;
+    p.waveform = mCurrentWaveform;
+    p.attack = mParams.attack.load();
+    p.decay = mParams.decay.load();
+    p.sustain = mParams.sustain.load();
+    p.release = mParams.release.load();
+    p.masterVolume = mMasterVolume.load();
+    p.lfoRate = mLfoRate.load();
+    p.lfoDepth = mLfoDepth.load();
+    p.lfoWaveform = mLfoWaveform.load();
+    p.lfoTarget = mLfoTarget.load();
+    p.filterCutoff = mFilterCutoff.load();
+    p.filterResonance = mFilterResonance.load();
+    p.isPolyphonic = mIsPolyphonic;
+    return p;
+}
+
+void VoiceManager::setParams(const EngineParams& p) {
+    setWaveform(p.waveform);
+    setAttack(p.attack);
+    setDecay(p.decay);
+    setSustain(p.sustain);
+    setRelease(p.release);
+    setMasterVolume(p.masterVolume);
+    setLfoRate(p.lfoRate);
+    setLfoDepth(p.lfoDepth);
+    setLfoWaveform(p.lfoWaveform);
+    setLfoTarget(p.lfoTarget);
+    setFilterCutoff(p.filterCutoff);
+    setFilterResonance(p.filterResonance);
+    setPolyphonic(p.isPolyphonic);
+}

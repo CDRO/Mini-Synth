@@ -17,6 +17,15 @@ bool MidiSequencer::getNote(int step, int note) const {
     return false;
 }
 
+void MidiSequencer::getActiveNotes(int step, std::vector<int>& outNotes) const {
+    outNotes.clear();
+    if (step >= 0 && step < NUM_STEPS) {
+        for (int i = 0; i < NUM_NOTES; ++i) {
+            if (mGrid[step].test(i)) outNotes.push_back(i);
+        }
+    }
+}
+
 void MidiSequencer::clear() {
     for (int i = 0; i < NUM_STEPS; ++i) {
         mGrid[i].reset();
