@@ -85,24 +85,41 @@ void AudioEngine::loadFactorySample(int padIndex, int sampleId) {
 
 void AudioEngine::savePadSample(int padIndex, const char* path) {
     if (padIndex < 0 || padIndex >= MAX_PADS) return;
+
+    // Safety check: Cannot save if currently sampling into this pad
+    if (mSamplingPadIndex == padIndex) {
+        __android_log_print(ANDROID_LOG_WARN, TAG, "Cannot save pad %d while sampling", padIndex);
+        return;
+    }
+
     std::ofstream file(path, std::ios::binary);
     if (file.is_open()) {
         uint64_t size = static_cast<uint64_t>(mPadBuffers[padIndex].size());
         file.write(reinterpret_cast<const char*>(&size), sizeof(size));
-        file.write(reinterpret_cast<const char*>(mPadBuffers[padIndex].data()), static_cast<std::streamsize>(size * sizeof(float)));
+        if (size > 0) {
+            file.write(reinterpret_cast<const char*>(mPadBuffers[padIndex].data()), static_cast<std::streamsize>(size * sizeof(float)));
+        }
         file.close();
     }
 }
 
 void AudioEngine::loadPadSample(int padIndex, const char* path) {
     if (padIndex < 0 || padIndex >= MAX_PADS) return;
+
+    // Safety check: Cannot load if currently sampling into this pad
+    if (mSamplingPadIndex == padIndex) return;
+
     std::ifstream file(path, std::ios::binary);
     if (file.is_open()) {
         uint64_t size;
-        file.read(reinterpret_cast<char*>(&size), sizeof(size));
-        if (size > 0 && size < (48000 * 60)) { // Limit to 60s max for sanity
-            mPadBuffers[padIndex].resize(static_cast<size_t>(size));
-            file.read(reinterpret_cast<char*>(mPadBuffers[padIndex].data()), static_cast<std::streamsize>(size * sizeof(float)));
+        if (file.read(reinterpret_cast<char*>(&size), sizeof(size))) {
+            const uint64_t MAX_ALLOWED_SAMPLES = 48000 * 60; // 60 seconds
+            if (size > 0 && size <= MAX_ALLOWED_SAMPLES) {
+                mPadBuffers[padIndex].resize(static_cast<size_t>(size));
+                file.read(reinterpret_cast<char*>(mPadBuffers[padIndex].data()), static_cast<std::streamsize>(size * sizeof(float)));
+            } else {
+                 __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid sample size in file: %llu", size);
+            }
         }
         file.close();
     }
