@@ -50,8 +50,8 @@ private:
         }
     };
 
-    static const int NUM_COMBS = 4;
-    static const int NUM_ALLPASS = 2;
+    static const int NUM_COMBS = 8; // Increased for density
+    static const int NUM_ALLPASS = 4; // Increased for smoothness
     CombFilter mCombs[NUM_COMBS];
     AllPassFilter mAllPass[NUM_ALLPASS];
 

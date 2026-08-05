@@ -29,8 +29,8 @@ void Reverb::setMix(float mix) {
 }
 
 void Reverb::initFilters() {
-    int combLengths[] = {1116, 1188, 1277, 1356};
-    int apLengths[] = {556, 441};
+    int combLengths[] = {1116, 1188, 1277, 1356, 1422, 1491, 1557, 1617};
+    int apLengths[] = {556, 441, 341, 225};
 
     float scale = mSampleRate / 44100.0f;
 
@@ -61,7 +61,7 @@ float Reverb::process(float input) {
     }
 
     // Gain normalization
-    wet *= 0.25f;
+    wet *= 0.125f;
 
     // Serial All-pass
     for (int i = 0; i < NUM_ALLPASS; ++i) {
