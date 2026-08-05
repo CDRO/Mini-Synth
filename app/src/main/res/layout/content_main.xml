@@ -702,6 +702,131 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- Effects Section -->
+                <LinearLayout
+                    android:id="@+id/fx_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/matte_grey">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="BUILT-IN EFFECTS"
+                        android:textColor="@color/acid_green"
+                        android:textStyle="bold"
+                        android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="4dp">
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:text="Dly T"
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <SeekBar
+                            android:id="@+id/seek_delay_time"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="25" />
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:text="Dly F"
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <SeekBar
+                            android:id="@+id/seek_delay_feedback"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="50" />
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:text="Dly M"
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <SeekBar
+                            android:id="@+id/seek_delay_mix"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="0" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="4dp">
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:text="Rev S"
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <SeekBar
+                            android:id="@+id/seek_reverb_size"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="50" />
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:text="Rev D"
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <SeekBar
+                            android:id="@+id/seek_reverb_damping"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="50" />
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:text="Rev M"
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <SeekBar
+                            android:id="@+id/seek_reverb_mix"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="100"
+                            android:progress="0" />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <!-- Sequencer Section -->
                 <LinearLayout
                     android:id="@+id/sequencer_section"
