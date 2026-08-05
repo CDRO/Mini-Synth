@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import ch.schmidlins.mini_synth.audio.MidiDeviceManager
 import ch.schmidlins.mini_synth.audio.PatternRepository
 import ch.schmidlins.mini_synth.audio.PresetRepository
 import ch.schmidlins.mini_synth.audio.SynthManager
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val synthManager = SynthManager()
+    private lateinit var midiDeviceManager: MidiDeviceManager
     private lateinit var presetRepository: PresetRepository
     private lateinit var patternRepository: PatternRepository
     private var isPoly = true
@@ -82,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         presetRepository = PresetRepository(this)
         patternRepository = PatternRepository(this)
+        midiDeviceManager = MidiDeviceManager(this, synthManager)
 
         val content = binding.appBarMain.contentMain
         val synthView = content.keyboardPadView!!
@@ -978,6 +981,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         synthManager.startEngine()
+        midiDeviceManager.start()
         mainHandler.post(beatPoller)
         val content = binding.appBarMain.contentMain
         synthManager.setMasterVolume(content.seekMasterVol!!.progress / 100f)
@@ -1007,6 +1011,7 @@ class MainActivity : AppCompatActivity() {
         mainHandler.removeCallbacks(beatPoller)
         sequencerPoller?.let { mainHandler.removeCallbacks(it) }
         binding.appBarMain.contentMain.keyboardPadView!!.clearHeldNotes() // Fixes #40
+        midiDeviceManager.stop()
         synthManager.stopEngine()
     }
 }
