@@ -36,8 +36,8 @@ if (NOT ANDROID_PLATFORM)
     FetchContent_MakeAvailable(googletest)
 
     add_executable(synth_tests
-        tests/main.cpp
         tests/smoke_test.cpp
+        tests/OscillatorTest.cpp
         Oscillator.cpp
         Filter.cpp
         Envelope.cpp
