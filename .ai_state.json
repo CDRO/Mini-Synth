@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "20_Built_in_Effects",
     "current_step": "Review Loop",
-    "loop_iteration": 4,
-    "last_action_completed": "Integrated Reverb into AudioEngine.",
-    "next_immediate_action": "Add JNI bridges for FX parameters."
+    "loop_iteration": 5,
+    "last_action_completed": "Added JNI bridges for FX parameters.",
+    "next_immediate_action": "Build FX UI panel in content_main.xml."
   }
 }
