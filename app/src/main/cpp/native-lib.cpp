@@ -346,3 +346,13 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_loadProject(JNIEnv *env, jobje
     if (engine) engine->loadProject(std::string(nativeDir));
     env->ReleaseStringUTFChars(directory, nativeDir);
 }
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_processMidi(JNIEnv *env, jobject thiz, jbyteArray data, jint length) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) {
+        jbyte* bytes = env->GetByteArrayElements(data, nullptr);
+        engine->processExternalMidi(reinterpret_cast<const uint8_t*>(bytes), length);
+        env->ReleaseByteArrayElements(data, bytes, JNI_ABORT);
+    }
+}

@@ -67,6 +67,9 @@ public:
 
     void renderPatternToFile(const std::string& path);
 
+    // External MIDI
+    void processExternalMidi(const uint8_t* data, int32_t length);
+
     // Pad Sampling
     void startPadSampling(int padIndex);
     void stopPadSampling();

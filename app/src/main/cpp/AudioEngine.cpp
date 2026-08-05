@@ -368,3 +368,27 @@ void AudioEngine::loadProject(const std::string& directory) {
         }
     }
 }
+
+void AudioEngine::processExternalMidi(const uint8_t* data, int32_t length) {
+    if (length < 3) return;
+    uint8_t status = data[0] & 0xF0;
+    uint8_t channel = data[0] & 0x0F;
+    uint8_t note = data[1];
+    uint8_t velocity = data[2];
+
+    if (status == 0x90 && velocity > 0) {
+        mVoiceManager.noteOn(note, velocity / 127.0f);
+    } else if (status == 0x80 || (status == 0x90 && velocity == 0)) {
+        mVoiceManager.noteOff(note);
+    } else if (status == 0xB0) {
+        // CC Mapping
+        uint8_t ccNumber = data[1];
+        uint8_t ccValue = data[2];
+        if (ccNumber == 1) { // Mod Wheel
+            mVoiceManager.setModulation(ccValue / 127.0f);
+        } else if (ccNumber == 74) { // Filter Cutoff
+            // Map 0-127 to log 20-20000? No, let's just use the JNI logic mapping
+            mVoiceManager.setFilterCutoff(20.0f * powf(1000.0f, ccValue / 127.0f));
+        }
+    }
+}
