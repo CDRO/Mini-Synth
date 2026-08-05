@@ -65,5 +65,8 @@ class SynthManager {
     external fun setSequencerStepDuration(division: Float)
     external fun getSequencerCurrentStep(): Int
 
+    external fun saveProject(directory: String)
+    external fun loadProject(directory: String)
+
     external fun renderSampleForTest(): Float
 }

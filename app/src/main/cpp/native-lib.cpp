@@ -330,3 +330,19 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_getSequencerCurrentStep(JNIEnv
     if (engine) return engine->getSequencerCurrentStep();
     return 0;
 }
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_saveProject(JNIEnv *env, jobject thiz, jstring directory) {
+    const char *nativeDir = env->GetStringUTFChars(directory, nullptr);
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->saveProject(std::string(nativeDir));
+    env->ReleaseStringUTFChars(directory, nativeDir);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_loadProject(JNIEnv *env, jobject thiz, jstring directory) {
+    const char *nativeDir = env->GetStringUTFChars(directory, nullptr);
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->loadProject(std::string(nativeDir));
+    env->ReleaseStringUTFChars(directory, nativeDir);
+}
