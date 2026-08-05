@@ -387,8 +387,10 @@ void AudioEngine::processExternalMidi(const uint8_t* data, int32_t length) {
         if (ccNumber == 1) { // Mod Wheel
             mVoiceManager.setModulation(ccValue / 127.0f);
         } else if (ccNumber == 74) { // Filter Cutoff
-            // Map 0-127 to log 20-20000? No, let's just use the JNI logic mapping
-            mVoiceManager.setFilterCutoff(20.0f * powf(1000.0f, ccValue / 127.0f));
+            // Use smoother exponential mapping
+            float normalized = ccValue / 127.0f;
+            float frequency = 20.0f * powf(1000.0f, normalized);
+            mVoiceManager.setFilterCutoff(frequency);
         }
     }
 }
