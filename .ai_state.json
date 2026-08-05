@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "21_Automated_Demo_Sampling",
     "current_step": "Review Loop",
-    "loop_iteration": 4,
-    "last_action_completed": "Added visual feedback for automated sampling.",
-    "next_immediate_action": "Optimize demo cleanup (ensure engine state resets)."
+    "loop_iteration": 5,
+    "last_action_completed": "Optimized demo cleanup (reset engine state).",
+    "next_immediate_action": "Add 'Discovery' style toast explanations during demo."
   }
 }

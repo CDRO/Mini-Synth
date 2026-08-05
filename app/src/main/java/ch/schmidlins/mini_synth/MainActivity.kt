@@ -508,8 +508,21 @@ class MainActivity : AppCompatActivity() {
             delay(1000)
             isDemoPlaying = false
             binding.appBarMain.contentMain.btnDemoMode.text = "DEMO"
+            resetEngineState()
             Toast.makeText(this@MainActivity, "Demo Complete.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun resetEngineState() {
+        synthManager.setAttack(0.1f)
+        synthManager.setDecay(0.1f)
+        synthManager.setSustain(0.8f)
+        synthManager.setRelease(0.1f)
+        synthManager.setFilterCutoff(1000f)
+        synthManager.setFilterResonance(0.5f)
+        synthManager.setDelayMix(0f)
+        synthManager.setReverbMix(0f)
+        updateLabels(binding.appBarMain.contentMain)
     }
 
     private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
