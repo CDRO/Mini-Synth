@@ -20,6 +20,7 @@ import ch.schmidlins.mini_synth.audio.SynthPattern
 import ch.schmidlins.mini_synth.audio.SynthPreset
 import ch.schmidlins.mini_synth.databinding.ActivityMainBinding
 import ch.schmidlins.mini_synth.ui.KeyboardPadView
+import ch.schmidlins.mini_synth.ui.ProjectBrowserFragment
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -257,6 +258,16 @@ class MainActivity : AppCompatActivity() {
         setupPadCustomization(content)
         setupWorkspaceRefinement(content)
         setupPatternManagement(content)
+        
+        content.btnProjects.setOnClickListener {
+            if (isHelpMode) {
+                showHelp("Project Browser: Manage your music projects (Save, Load, Create).")
+                return@setOnClickListener
+            }
+            ProjectBrowserFragment(synthManager) {
+                refreshUiFromEngine()
+            }.show(supportFragmentManager, "projects")
+        }
     }
 
     private fun updateOctave() {
@@ -929,6 +940,11 @@ class MainActivity : AppCompatActivity() {
         }
         content.seekFilterCutoff!!.setOnSeekBarChangeListener(listener)
         content.seekFilterRes!!.setOnSeekBarChangeListener(listener)
+    }
+
+    private fun refreshUiFromEngine() {
+        // TODO: Implement full UI refresh from engine state
+        Toast.makeText(this, "Project Loaded", Toast.LENGTH_SHORT).show()
     }
 
     override fun onStart() {

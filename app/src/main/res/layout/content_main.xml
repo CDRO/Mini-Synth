@@ -293,6 +293,19 @@
                         android:textColor="@color/electric_blue"
                         android:textSize="10sp" />
 
+                    <Space
+                        android:layout_width="8dp"
+                        android:layout_height="match_parent" />
+
+                    <Button
+                        android:id="@+id/btn_projects"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:text="PROJ"
+                        android:textColor="@color/acid_green"
+                        android:textSize="10sp" />
+
                 </LinearLayout>
 
                 <LinearLayout
