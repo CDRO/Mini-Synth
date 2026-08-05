@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var bpm = 120f
+    private var bankIndex = 0
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private val beatPoller = object : Runnable {
         override fun run() {
@@ -256,6 +257,7 @@ class MainActivity : AppCompatActivity() {
         setupMetronome(content)
         setupSequencer(content)
         setupPadCustomization(content)
+        setupBankManagement(content)
         setupWorkspaceRefinement(content)
         setupPatternManagement(content)
         
@@ -481,6 +483,32 @@ class MainActivity : AppCompatActivity() {
                 content.tvRowsValue!!.text = synthView.gridRows.toString()
             }
         }
+    }
+
+    private fun setupBankManagement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        val synthView = content.keyboardPadView!!
+        content.btnBankDown!!.setOnClickListener {
+            if (isHelpMode) { showHelp("Switch to the previous bank of pads."); return@setOnClickListener }
+            if (bankIndex > 0) {
+                bankIndex--
+                updateBank(content)
+            }
+        }
+        content.btnBankUp!!.setOnClickListener {
+            if (isHelpMode) { showHelp("Switch to the next bank of pads."); return@setOnClickListener }
+            val maxBank = 255 / (synthView.gridColumns * synthView.gridRows)
+            if (bankIndex < maxBank) {
+                bankIndex++
+                updateBank(content)
+            }
+        }
+    }
+
+    private fun updateBank(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        val synthView = content.keyboardPadView!!
+        val offset = bankIndex * (synthView.gridColumns * synthView.gridRows)
+        synthView.setPadOffset(offset)
+        content.tvBankValue!!.text = (bankIndex + 1).toString()
     }
 
     private fun showPadColorPicker(padIndex: Int) {

@@ -31,6 +31,7 @@ class KeyboardPadView @JvmOverloads constructor(
 
     private var mode = Mode.KEYBOARD
     private var baseNote = 60
+    private var padOffset = 0
     private var lastPb = 0.0f
     var gridColumns = 4
     var gridRows = 4
@@ -149,10 +150,11 @@ class KeyboardPadView @JvmOverloads constructor(
                 canvas.drawRect(rect, whiteKeyPaint)
             }
             canvas.drawRect(rect, borderPaint)
-            val midi = baseNote + i
+            val padIndex = padOffset + i
+            val midi = baseNote + i // UI still uses baseNote for state tracking per screen
             drawBacklight(canvas, rect, midi)
             val textY = rect.centerY() - (textFontMetrics.ascent + textFontMetrics.descent) / 2f
-            canvas.drawText("P$i", rect.centerX(), textY, textPaint)
+            canvas.drawText("P$padIndex", rect.centerX(), textY, textPaint)
         }
     }
 
@@ -279,11 +281,9 @@ class KeyboardPadView @JvmOverloads constructor(
         pointerToNote[pointerId] = midi
         updateNoteState(midi, Backlight.TOUCH.bit, true)
         
-        // If it was held, we are re-triggering it or keeping it active
-        // But if it was held and we touch it again, we might want to "un-hold" it? 
-        // User said "hold is lost when sliding down".
+        val triggerIndex = if (mode == Mode.PAD_GRID) padOffset + (midi - baseNote) else midi
+        listener?.onNoteOn(triggerIndex, 0.8f)
         
-        listener?.onNoteOn(midi, 0.8f)
         if (isFirstTouch && mode == Mode.PAD_GRID) {
             listener?.onGridTouchStart(midi)
         }
@@ -294,7 +294,8 @@ class KeyboardPadView @JvmOverloads constructor(
         pointerToNote.remove(pointerId)?.let { midi ->
             if (!pointerToNote.values.contains(midi) && !heldMidiNotes.contains(midi)) {
                 updateNoteState(midi, Backlight.TOUCH.bit, false)
-                listener?.onNoteOff(midi)
+                val triggerIndex = if (mode == Mode.PAD_GRID) padOffset + (midi - baseNote) else midi
+                listener?.onNoteOff(triggerIndex)
             }
         }
         if (pointerToNote.isEmpty() && mode == Mode.PAD_GRID) {
@@ -352,6 +353,11 @@ class KeyboardPadView @JvmOverloads constructor(
         gridColumns = cols
         gridRows = rows
         calculateLayouts(width, height)
+        invalidate()
+    }
+
+    fun setPadOffset(offset: Int) {
+        padOffset = offset
         invalidate()
     }
 
