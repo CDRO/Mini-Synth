@@ -38,6 +38,7 @@ if (NOT ANDROID_PLATFORM)
     add_executable(synth_tests
         tests/smoke_test.cpp
         tests/OscillatorTest.cpp
+        tests/FilterTest.cpp
         Oscillator.cpp
         Filter.cpp
         Envelope.cpp
