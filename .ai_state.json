@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "21_Automated_Demo_Sampling",
     "current_step": "Review Loop",
-    "loop_iteration": 5,
-    "last_action_completed": "Optimized demo cleanup (reset engine state).",
-    "next_immediate_action": "Add 'Discovery' style toast explanations during demo."
+    "loop_iteration": 6,
+    "last_action_completed": "Added detailed demo explanations.",
+    "next_immediate_action": "Implement automated mode switching (Keys -> Pads) refinement."
   }
 }

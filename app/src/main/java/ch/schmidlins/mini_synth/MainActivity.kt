@@ -461,7 +461,7 @@ class MainActivity : AppCompatActivity() {
             synthManager.setReverbMix(0.2f)
             
             delay(1000)
-            Toast.makeText(this@MainActivity, "Demo: Playing melody...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@MainActivity, "Demo: Playing melody with Delay + Reverb", Toast.LENGTH_SHORT).show()
 
             val notes = listOf(60, 63, 67, 72, 67, 63)
             for (note in notes) {
