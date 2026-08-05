@@ -441,28 +441,72 @@ class MainActivity : AppCompatActivity() {
     private fun playDemoSong() {
         demoJob?.cancel()
         demoJob = lifecycleScope.launch {
-            // Reset for demo - Fixes #42
-            synthManager.setWaveform(2) // Saw
-            synthManager.setAttack(0.01f)
-            synthManager.setDecay(0.1f)
-            synthManager.setSustain(0.7f)
-            synthManager.setRelease(0.3f)
-            synthManager.setFilterCutoff(2000f)
-            synthManager.setFilterResonance(0.2f)
+            // Discovery explanation
+            Toast.makeText(this@MainActivity, "Demo: Initializing synth patch...", Toast.LENGTH_SHORT).show()
             
+            // Reset for demo
+            synthManager.setWaveform(2) // Saw
+            synthManager.setAttack(0.02f)
+            synthManager.setDecay(0.2f)
+            synthManager.setSustain(0.5f)
+            synthManager.setRelease(0.5f)
+            synthManager.setFilterCutoff(1500f)
+            synthManager.setFilterResonance(0.3f)
+            
+            // FX Setup
+            synthManager.setDelayTime(0.4f)
+            synthManager.setDelayFeedback(0.6f)
+            synthManager.setDelayMix(0.3f)
+            synthManager.setReverbSize(0.7f)
+            synthManager.setReverbMix(0.2f)
+            
+            delay(1000)
+            Toast.makeText(this@MainActivity, "Demo: Playing melody...", Toast.LENGTH_SHORT).show()
+
             val notes = listOf(60, 63, 67, 72, 67, 63)
-            var i = 0
-            while (isDemoPlaying) {
-                val note = notes[i % notes.size]
+            for (note in notes) {
+                if (!isDemoPlaying) break
                 synthManager.noteOn(note, 0.8f)
-                delay(300)
+                delay(400)
                 synthManager.noteOff(note)
                 delay(100)
-                i++
-                if (i == notes.size) {
-                    synthManager.setFilterCutoff(if (i % 12 == 0) 2000f else 500f)
-                }
             }
+            
+            if (!isDemoPlaying) return@launch
+            
+            Toast.makeText(this@MainActivity, "Demo: Automated sampling to Pad 0...", Toast.LENGTH_SHORT).show()
+            synthManager.startAutomatedSampling(0, 2.0f)
+            
+            // Play a big chord to sample
+            synthManager.noteOn(60, 0.9f)
+            synthManager.noteOn(64, 0.9f)
+            synthManager.noteOn(67, 0.9f)
+            delay(1500)
+            synthManager.noteOff(60)
+            synthManager.noteOff(64)
+            synthManager.noteOff(67)
+            delay(600) // let it finish sampling
+            
+            Toast.makeText(this@MainActivity, "Demo: Switching to Pad Mode...", Toast.LENGTH_SHORT).show()
+            
+            // Automated UI transition
+            isPadMode = true
+            binding.appBarMain.contentMain.btnModeToggle.text = "Keys"
+            binding.appBarMain.contentMain.keyboardPadView.setMode(KeyboardPadView.Mode.PAD_GRID)
+            updateWorkspaceVisibility(binding.appBarMain.contentMain)
+            
+            delay(1000)
+            Toast.makeText(this@MainActivity, "Demo: Triggering sampled pad!", Toast.LENGTH_SHORT).show()
+            
+            // Trigger sampled pad
+            synthManager.padNoteOn(0, 1.0f)
+            delay(2000)
+            synthManager.padNoteOff(0)
+            
+            delay(1000)
+            isDemoPlaying = false
+            binding.appBarMain.contentMain.btnDemoMode.text = "DEMO"
+            Toast.makeText(this@MainActivity, "Demo Complete.", Toast.LENGTH_SHORT).show()
         }
     }
 
