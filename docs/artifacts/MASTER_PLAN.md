@@ -103,6 +103,13 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 - **Reverb**: Lightweight algorithmic plate reverb.
 - **Chain**: Post-mixer global effects rack.
 
+## Milestone 21: Automated Demo & Sampling [TODO]
+
+### [Logic] [Demo]
+- **Automated Sampling**: Native logic to trigger engine output recording to pads.
+- **Performance Demo**: Complex pattern playback demonstrating filter sweeps and LFO.
+- **Workflow**: One-click demo initialization for new users.
+
 ---
 
 ## Future Features & Roadmap

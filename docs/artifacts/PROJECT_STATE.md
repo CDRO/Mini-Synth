@@ -41,6 +41,12 @@ Merging context from initial feature implementation and workspace refinements.
     - Convolution or Algorithmic Reverb.
     - Per-channel dry/wet controls.
 
+### [NEXT] Milestone 21: Automated Demo & Sampling
+- **Objective**: Implement automated sampling and app demonstration.
+- **Key Features**:
+    - Automated engine-to-pad sampling.
+    - Full engine demonstration sequence.
+
 ## Quality Assurance Status
 - **Unit Tests**: 12 passed (Oscillators, Envelopes, Filter Stability, Binary Persistence).
 - **Android Tests**: 17 passed (Stress tests for high BPM, UI transitions).

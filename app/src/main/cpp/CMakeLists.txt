@@ -16,6 +16,7 @@ add_library(mini_synth SHARED
         MidiSequencer.cpp
         SamplePlayer.cpp
         ProjectManager.cpp
+        Delay.cpp
 )
 
 target_include_directories(mini_synth PRIVATE . lame)
