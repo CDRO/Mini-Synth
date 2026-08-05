@@ -192,6 +192,12 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
             // Sampling timeout/limit check (5s)
             if (mPadBuffers[mSamplingPadIndex].size() < (48000 * 5)) {
                 mSampleRecorder.recordSample(sample);
+                if (mAutoSampleRemaining > 0) {
+                    mAutoSampleRemaining--;
+                    if (mAutoSampleRemaining == 0) {
+                        stopPadSampling();
+                    }
+                }
             } else {
                 stopPadSampling();
             }
@@ -415,4 +421,11 @@ void AudioEngine::noteOff(int midiNote) {
     if (shifted < 0) shifted = 0;
     if (shifted > 127) shifted = 127;
     mMidiQueue.push({0x80, static_cast<uint8_t>(shifted), 0});
+}
+
+void AudioEngine::startAutomatedSampling(int padIndex, float durationSeconds) {
+    if (padIndex < 0 || padIndex >= MAX_PADS) return;
+    int32_t sampleRate = mStream ? mStream->getSampleRate() : 48000;
+    mAutoSampleRemaining = static_cast<int32_t>(durationSeconds * static_cast<float>(sampleRate));
+    startPadSampling(padIndex);
 }

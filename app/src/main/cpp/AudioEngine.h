@@ -132,6 +132,7 @@ private:
     static const int MAX_PADS = 256;
     std::vector<float> mPadBuffers[MAX_PADS];
     int mSamplingPadIndex = -1;
+    int32_t mAutoSampleRemaining = 0;
     SamplePlayer mSampleRecorder;
 
     LockFreeQueue<float> mVizQueue{4096};

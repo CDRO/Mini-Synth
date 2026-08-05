@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "21_Automated_Demo_Sampling",
     "current_step": "Review Loop",
-    "loop_iteration": 1,
-    "last_action_completed": "Added JNI bridge for automated sampling.",
-    "next_immediate_action": "Implement AudioEngine::autoSampleToPad."
+    "loop_iteration": 2,
+    "last_action_completed": "Implemented AudioEngine::autoSampleToPad.",
+    "next_immediate_action": "Update MainActivity.kt demo patch settings."
   }
 }
