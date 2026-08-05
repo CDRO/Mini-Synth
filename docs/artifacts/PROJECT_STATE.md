@@ -26,14 +26,22 @@ Merging context from initial feature implementation and workspace refinements.
 ### [DONE] Milestone 1-11: Core Synthesis, Sequencer, Mapping, Workspace.
 ### [DONE] Milestone 12: Sample Persistence.
 ### [DONE] Milestone 13: Layout Squashing & Onboarding.
+### [DONE] Milestone 14: Advanced Export & Sequence Polish.
+### [DONE] Milestone 15: Fast JVM-Based UI Testing with Robolectric.
+### [DONE] Milestone 16: Pitch Bend and Modulation Gestures.
 
-### [NEXT] Milestone 14: Advanced Export & Sequence Polish
-- **Objective**: Implement high-speed offline rendering and independent pattern management.
+### [NEXT] Milestone 17: Native Unit Testing
+- **Objective**: Establish pure C++ testing framework with GoogleTest.
 - **Key Features**:
-    - C++ offline render loop for MP3 export.
-    - Android Share intent integration.
-    - Independent Save/Load for sequencer patterns.
-    - Multi-note step support.
+    - GTest integration via CMake.
+    - Oscillator, Filter, Envelope, and LFO test suites.
+
+### [NEXT] Milestone 18: Project & Set Management
+- **Objective**: Full state capture of pads, patterns, and synth parameters.
+- **Key Features**:
+    - `.synthproj` hierarchical format.
+    - Project Browser UI.
+    - 256-pad bank management.
 
 ## Quality Assurance Status
 - **Unit Tests**: 12 passed (Oscillators, Envelopes, Filter Stability, Binary Persistence).

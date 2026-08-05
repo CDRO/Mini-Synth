@@ -25,8 +25,27 @@ target_link_libraries(mini_synth
 )
 
 # Testing
-if (ANDROID_PLATFORM)
-    # No standalone tests on Android usually, they run through JNI
-else()
-    # Host side tests could go here
+if (NOT ANDROID_PLATFORM)
+    include(FetchContent)
+    FetchContent_Declare(
+      googletest
+      URL https://github.com/google/googletest/archive/03597a01eeebcda3a818e9769796667a5e01bbd3.zip
+    )
+    # For Windows: prevent overriding the parent project's compiler/linker settings
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(googletest)
+
+    add_executable(synth_tests
+        tests/main.cpp
+        tests/smoke_test.cpp
+        Oscillator.cpp
+        Filter.cpp
+        Envelope.cpp
+        Lfo.cpp
+    )
+    target_include_directories(synth_tests PRIVATE . tests)
+    target_link_libraries(synth_tests GTest::gtest_main)
+
+    include(GoogleTest)
+    gtest_discover_tests(synth_tests)
 endif()
