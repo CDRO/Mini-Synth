@@ -1,0 +1,22 @@
+# Tasks: Milestone 20 - Built-in Effects
+
+- `[ ]` Setup Effects Infrastructure
+    - `[x]` Create milestone folder and plans.
+    - `[ ]` Create GitHub Issue for M20.
+    - `[ ]` Create feature branch `feature/m20-builtin-fx`.
+    - `[ ]` Build baseline project.
+- `[ ]` Review Loop 1-10
+    - `[ ]` 1/10: Implement Delay module.
+    - `[ ]` 2/10: Integrate Delay into AudioEngine.
+    - `[ ]` 3/10: Implement Reverb module.
+    - `[ ]` 4/10: Integrate Reverb into AudioEngine.
+    - `[ ]` 5/10: Add JNI bridges for FX.
+    - `[ ]` 6/10: Build FX UI panel in content_main.xml.
+    - `[ ]` 7/10: Connect UI to SynthManager.
+    - `[ ]` 8/10: Optimize Reverb math (Schroeder/Freeverb).
+    - `[ ]` 9/10: Add Interpolation to Delay time.
+    - `[ ]` 10/10: Final cleanup and documentation.
+- `[ ]` Merge and Cleanup
+    - `[ ]` Verify build.
+    - `[ ]` Final merge review.
+    - `[ ]` Squash and merge.
