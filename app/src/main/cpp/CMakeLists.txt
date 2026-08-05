@@ -40,6 +40,7 @@ if (NOT ANDROID_PLATFORM)
         tests/OscillatorTest.cpp
         tests/FilterTest.cpp
         tests/EnvelopeTest.cpp
+        tests/LfoTest.cpp
         Oscillator.cpp
         Filter.cpp
         Envelope.cpp
