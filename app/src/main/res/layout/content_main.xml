@@ -165,6 +165,16 @@
                 android:textColor="@color/electric_blue"
                 android:textSize="10sp" />
 
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="match_parent" />
+
+            <View
+                android:id="@+id/midi_status_indicator"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@android:color/darker_gray" />
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

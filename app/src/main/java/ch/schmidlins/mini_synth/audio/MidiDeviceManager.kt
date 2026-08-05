@@ -16,6 +16,7 @@ class MidiDeviceManager(
     private val midiManager = context.getSystemService(Context.MIDI_SERVICE) as MidiManager
     private val connectedDevices = mutableMapOf<Int, MidiDevice>()
     private val mainHandler = Handler(Looper.getMainLooper())
+    var onStatusChanged: ((Boolean) -> Unit)? = null
 
     private val deviceCallback = object : MidiManager.OnDeviceOpenedListener {
         override fun onDeviceOpened(device: MidiDevice?) {
@@ -23,6 +24,7 @@ class MidiDeviceManager(
                 val info = device.info
                 Log.d("MidiDeviceManager", "Device opened: ${info.properties.getString(MidiDeviceInfo.PROPERTY_NAME)}")
                 connectedDevices[info.id] = device
+                onStatusChanged?.invoke(connectedDevices.isNotEmpty())
                 
                 // Open all input ports
                 for (portInfo in info.ports) {
@@ -75,6 +77,7 @@ class MidiDeviceManager(
             }
             override fun onDeviceRemoved(device: MidiDeviceInfo) {
                 connectedDevices.remove(device.id)?.close()
+                onStatusChanged?.invoke(connectedDevices.isNotEmpty())
             }
         }, mainHandler)
 

@@ -84,7 +84,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         presetRepository = PresetRepository(this)
         patternRepository = PatternRepository(this)
-        midiDeviceManager = MidiDeviceManager(this, synthManager)
+        midiDeviceManager = MidiDeviceManager(this, synthManager).apply {
+            onStatusChanged = { connected ->
+                runOnUiThread {
+                    binding.appBarMain.contentMain.midiStatusIndicator.setBackgroundColor(
+                        if (connected) ContextCompat.getColor(this@MainActivity, R.color.acid_green)
+                        else android.graphics.Color.DKGRAY
+                    )
+                }
+            }
+        }
 
         val content = binding.appBarMain.contentMain
         val synthView = content.keyboardPadView!!
