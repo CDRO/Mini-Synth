@@ -39,6 +39,7 @@ if (NOT ANDROID_PLATFORM)
         tests/smoke_test.cpp
         tests/OscillatorTest.cpp
         tests/FilterTest.cpp
+        tests/EnvelopeTest.cpp
         Oscillator.cpp
         Filter.cpp
         Envelope.cpp
