@@ -157,6 +157,30 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
     int32_t channelCount = audioStream->getChannelCount();
     if (channelCount < 1) return oboe::DataCallbackResult::Stop;
 
+    // Process External MIDI Queue
+    MidiEvent event;
+    while (mMidiQueue.pop(event)) {
+        uint8_t status = event.status & 0xF0;
+        uint8_t note = event.data1;
+        uint8_t velocity = event.data2;
+
+        if (status == 0x90 && velocity > 0) {
+            mVoiceManager.noteOn(note, velocity / 127.0f);
+        } else if (status == 0x80 || (status == 0x90 && velocity == 0)) {
+            mVoiceManager.noteOff(note);
+        } else if (status == 0xB0) {
+            uint8_t ccNumber = event.data1;
+            uint8_t ccValue = event.data2;
+            if (ccNumber == 1) {
+                mVoiceManager.setModulation(ccValue / 127.0f);
+            } else if (ccNumber == 74) {
+                float normalized = ccValue / 127.0f;
+                float frequency = 20.0f * powf(1000.0f, normalized);
+                mVoiceManager.setFilterCutoff(frequency);
+            }
+        }
+    }
+
     mMidiSequencer.process(numFrames, mSamplesPerBeat, mVoiceManager);
 
     for (int i = 0; i < numFrames; ++i) {
@@ -367,4 +391,23 @@ void AudioEngine::loadProject(const std::string& directory) {
             mPadBuffers[i] = pads[i];
         }
     }
+}
+
+void AudioEngine::processExternalMidi(const uint8_t* data, int32_t length) {
+    if (length < 3) return;
+    mMidiQueue.push({data[0], data[1], data[2]});
+}
+
+void AudioEngine::noteOn(int midiNote, float velocity) {
+    int shifted = midiNote + (mOctaveShift * 12);
+    if (shifted < 0) shifted = 0;
+    if (shifted > 127) shifted = 127;
+    mMidiQueue.push({0x90, static_cast<uint8_t>(shifted), static_cast<uint8_t>(velocity * 127.0f)});
+}
+
+void AudioEngine::noteOff(int midiNote) {
+    int shifted = midiNote + (mOctaveShift * 12);
+    if (shifted < 0) shifted = 0;
+    if (shifted > 127) shifted = 127;
+    mMidiQueue.push({0x80, static_cast<uint8_t>(shifted), 0});
 }

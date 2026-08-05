@@ -18,18 +18,8 @@ public:
     void stop();
     bool isRunning() { return mStream != nullptr; }
 
-    void noteOn(int midiNote, float velocity) {
-        int shifted = midiNote + (mOctaveShift * 12);
-        if (shifted < 0) shifted = 0;
-        if (shifted > 127) shifted = 127;
-        mVoiceManager.noteOn(shifted, velocity);
-    }
-    void noteOff(int midiNote) {
-        int shifted = midiNote + (mOctaveShift * 12);
-        if (shifted < 0) shifted = 0;
-        if (shifted > 127) shifted = 127;
-        mVoiceManager.noteOff(shifted);
-    }
+    void noteOn(int midiNote, float velocity);
+    void noteOff(int midiNote);
 
     void padNoteOn(int padIndex, float velocity);
     void padNoteOff(int padIndex);
@@ -66,6 +56,9 @@ public:
     bool isBeatStarted();
 
     void renderPatternToFile(const std::string& path);
+
+    // External MIDI
+    void processExternalMidi(const uint8_t* data, int32_t length);
 
     // Pad Sampling
     void startPadSampling(int padIndex);
@@ -109,6 +102,13 @@ private:
         uint64_t numSamples;
     };
     static constexpr uint32_t HEADER_VERSION = 1;
+
+    struct MidiEvent {
+        uint8_t status;
+        uint8_t data1;
+        uint8_t data2;
+    };
+    LockFreeQueue<MidiEvent> mMidiQueue{1024};
 
     std::shared_ptr<oboe::AudioStream> mStream;
     VoiceManager mVoiceManager;

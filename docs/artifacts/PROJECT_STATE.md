@@ -30,18 +30,22 @@ Merging context from initial feature implementation and workspace refinements.
 ### [DONE] Milestone 15: Fast JVM-Based UI Testing with Robolectric.
 ### [DONE] Milestone 16: Pitch Bend and Modulation Gestures.
 
-### [NEXT] Milestone 17: Native Unit Testing
-- **Objective**: Establish pure C++ testing framework with GoogleTest.
-- **Key Features**:
-    - GTest integration via CMake.
-    - Oscillator, Filter, Envelope, and LFO test suites.
+### [DONE] Milestone 17: Native Unit Testing.
+### [DONE] Milestone 18: Project & Set Management.
 
-### [NEXT] Milestone 18: Project & Set Management
-- **Objective**: Full state capture of pads, patterns, and synth parameters.
+### [NEXT] Milestone 19: MIDI Device Support
+- **Objective**: Integrate USB and Bluetooth MIDI device support via Android MIDI API.
 - **Key Features**:
-    - `.synthproj` hierarchical format.
-    - Project Browser UI.
-    - 256-pad bank management.
+    - USB-MIDI plug-and-play.
+    - Bluetooth LE MIDI discovery.
+    - Low-latency JNI note routing.
+
+### [NEXT] Milestone 20: Built-in Effects
+- **Objective**: Implement Delay and Reverb DSP modules in the C++ engine.
+- **Key Features**:
+    - Stereo Delay with feedback and sync.
+    - Convolution or Algorithmic Reverb.
+    - Per-channel dry/wet controls.
 
 ## Quality Assurance Status
 - **Unit Tests**: 12 passed (Oscillators, Envelopes, Filter Stability, Binary Persistence).

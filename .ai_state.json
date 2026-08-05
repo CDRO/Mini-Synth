@@ -1,0 +1,18 @@
+{
+  "environment": {
+    "os": "Windows",
+    "terminal": "PowerShell",
+    "syntax_restriction": "Never use && or ||. Execute all commands as separate, single lines."
+  },
+  "workflow_rules": {
+    "target_review_loops": 10,
+    "milestones_folder_path": "docs/artifacts/milestones"
+  },
+  "current_state": {
+    "active_milestone_file": "19_MIDI_Device_Support",
+    "current_step": "Review Loop",
+    "loop_iteration": 10,
+    "last_action_completed": "Completed all review loops for Milestone 19.",
+    "next_immediate_action": "Merge and move to Milestone 20."
+  }
+}

@@ -15,6 +15,7 @@ public:
 
     void trigger(const std::vector<float>& buffer);
     void stop();
+    void setPlaybackRate(float rate) { mPlaybackRate = rate; }
     float nextSample();
 
     bool isActive() const { return mIsPlaying; }
@@ -23,7 +24,8 @@ public:
 private:
     std::vector<float>* mCurrentBuffer = nullptr;
     const std::vector<float>* mPlaybackBuffer = nullptr;
-    size_t mPlaybackIndex = 0;
+    float mPlaybackRate = 1.0f;
+    float mPlaybackIndex = 0.0f; // Changed to float for interpolated playback
     size_t mRecordIndex = 0;
     std::atomic<bool> mIsRecording{false};
     std::atomic<bool> mIsPlaying{false};
