@@ -35,6 +35,7 @@ void AudioEngine::start() {
     }
 
     mVoiceManager.setSampleRate(mStream->getSampleRate());
+    mDelay.setSampleRate(mStream->getSampleRate());
     updateMetronomeParams();
 
     result = mStream->requestStart();
@@ -198,6 +199,8 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
         if (mMetronomeEnabled) {
             sample += getMetronomeSample();
         }
+
+        sample = mDelay.process(sample);
 
         sample = std::max(-1.0f, std::min(sample, 1.0f));
         mVizQueue.push(sample);
