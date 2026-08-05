@@ -32,13 +32,7 @@ Merging context from initial feature implementation and workspace refinements.
 
 ### [DONE] Milestone 17: Native Unit Testing.
 ### [DONE] Milestone 18: Project & Set Management.
-
-### [NEXT] Milestone 19: MIDI Device Support
-- **Objective**: Integrate USB and Bluetooth MIDI device support via Android MIDI API.
-- **Key Features**:
-    - USB-MIDI plug-and-play.
-    - Bluetooth LE MIDI discovery.
-    - Low-latency JNI note routing.
+### [DONE] Milestone 19: MIDI Device Support.
 
 ### [NEXT] Milestone 20: Built-in Effects
 - **Objective**: Implement Delay and Reverb DSP modules in the C++ engine.

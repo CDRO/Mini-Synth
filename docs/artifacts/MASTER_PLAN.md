@@ -94,15 +94,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ## Milestone 17: Native Unit Testing [DONE]
 ## Milestone 18: Project & Set Management [DONE]
-
----
-
-## Milestone 19: MIDI Device Support [TODO]
-
-### [Logic] [MIDI]
-- **API**: Android MIDI API (AMidi) for low latency.
-- **Support**: USB Class Compliant MIDI and BLE MIDI.
-- **Routing**: Map external CC messages to internal parameters.
+## Milestone 19: MIDI Device Support [DONE]
 
 ## Milestone 20: Built-in Effects [TODO]
 
