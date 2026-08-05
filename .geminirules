@@ -7,17 +7,18 @@
 
 # Strict Workflow Execution
 You are executing a 10-step iterative review process. Do not skip steps.
-1. Create a GitHub issue using `gh issue create`.
+1. Create a GitHub issue using `gh issue create`. Use the label `enhancement`.
 2. Create a local git branch and an associated Pull Request using `gh pr create`.
 3. Build the project using `.\gradlew.bat assembleDebug` to verify baseline status.
 4. Execute the "Review & Repair Loop" exactly 10 times.
 
 # The Review & Repair Loop Rules
 For each iteration (1 through 10):
-- You must physically edit the Kotlin/Java files to fix bugs or optimize architecture.
-- DO NOT just leave comments or PR reviews. You must also write actual code changes and
-- After editing, compile the code using `.\gradlew.bat compileDebugKotlin`.
-- Commit changes using `git commit -am "Review loop X/10: [details]"`.
+- You must physically edit the Kotlin/Java/C++ files to fix bugs or optimize architecture.
+- DO NOT just leave comments or PR reviews. You must write actual code changes.
+- After editing, compile the code using `.\gradlew.bat compileDebugKotlin` or equivalent.
+- Commit changes using `git commit -am "Review loop X/10: [details] (fixes #ISSUE_NUMBER)"`.
+- Push the commit immediately to the remote branch using `git push origin [branch]`.
 - Update the `.ai_state.json` file to increment the loop count before proceeding.
 
 # Project Paths & Context

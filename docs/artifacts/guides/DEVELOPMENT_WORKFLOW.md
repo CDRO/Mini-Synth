@@ -27,7 +27,7 @@ To ensure stability, performance, and adherence to the "Caveman" engineering sta
         - Identify **1 self-review** item.
         - **Requirement Verification**: Explicitly check if changes meet ALL technical specs in the Master Plan.
         - Post a comment on the PR via `gh pr comment`.
-        - Apply fixes, commit, and **push**.
+        - Apply fixes, commit with issue reference (e.g., `(fixes #81)`), and **push**.
     - Repeat until **10 total review cycles** are completed.
 6.  **Merge Message Review Loop**:
     - Draft the merge message.

@@ -53,6 +53,14 @@ class SynthManager {
     external fun setMetronomeEnabled(enabled: Boolean)
     external fun isBeatStarted(): Boolean
 
+    // Effects
+    external fun setDelayTime(seconds: Float)
+    external fun setDelayFeedback(feedback: Float)
+    external fun setDelayMix(mix: Float)
+    external fun setReverbSize(size: Float)
+    external fun setReverbDamping(damping: Float)
+    external fun setReverbMix(mix: Float)
+
     // Sequencer
     external fun setSequencerPlaying(playing: Boolean)
     external fun isSequencerPlaying(): Boolean

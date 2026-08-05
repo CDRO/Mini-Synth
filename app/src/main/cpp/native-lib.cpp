@@ -356,3 +356,39 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_processMidi(JNIEnv *env, jobje
         env->ReleaseByteArrayElements(data, bytes, JNI_ABORT);
     }
 }
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setDelayTime(JNIEnv *env, jobject thiz, jfloat seconds) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setDelayTime(seconds);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setDelayFeedback(JNIEnv *env, jobject thiz, jfloat feedback) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setDelayFeedback(feedback);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setDelayMix(JNIEnv *env, jobject thiz, jfloat mix) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setDelayMix(mix);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setReverbSize(JNIEnv *env, jobject thiz, jfloat size) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setReverbSize(size);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setReverbDamping(JNIEnv *env, jobject thiz, jfloat damping) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setReverbDamping(damping);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setReverbMix(JNIEnv *env, jobject thiz, jfloat mix) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setReverbMix(mix);
+}

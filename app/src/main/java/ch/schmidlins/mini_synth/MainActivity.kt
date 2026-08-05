@@ -270,6 +270,7 @@ class MainActivity : AppCompatActivity() {
         setupSequencer(content)
         setupPadCustomization(content)
         setupBankManagement(content)
+        setupEffects(content)
         setupWorkspaceRefinement(content)
         setupPatternManagement(content)
         
@@ -678,6 +679,43 @@ class MainActivity : AppCompatActivity() {
     private fun clearSequencerVisuals(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         for (id in stepButtonIds) content.root.findViewById<android.widget.ToggleButton>(id)?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
         for (note in 60..72) content.keyboardPadView!!.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, false)
+    }
+
+    private fun setupEffects(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        val listener = object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (isHelpMode && fromUser) {
+                    val desc = when (seekBar) {
+                        content.seekDelayTime -> "Delay Time: Duration of the echo effect (up to 2 seconds)."
+                        content.seekDelayFeedback -> "Delay Feedback: Number of repeats."
+                        content.seekDelayMix -> "Delay Mix: Blend between dry and echo sound."
+                        content.seekReverbSize -> "Reverb Size: Simulated room size."
+                        content.seekReverbDamping -> "Reverb Damping: High frequency attenuation in space."
+                        content.seekReverbMix -> "Reverb Mix: Blend between dry and spatial sound."
+                        else -> ""
+                    }
+                    showHelp(desc)
+                    return
+                }
+                val value = progress / 100f
+                when (seekBar) {
+                    content.seekDelayTime -> synthManager.setDelayTime(value * 2.0f)
+                    content.seekDelayFeedback -> synthManager.setDelayFeedback(value * 0.95f)
+                    content.seekDelayMix -> synthManager.setDelayMix(value)
+                    content.seekReverbSize -> synthManager.setReverbSize(value)
+                    content.seekReverbDamping -> synthManager.setReverbDamping(value)
+                    content.seekReverbMix -> synthManager.setReverbMix(value)
+                }
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        }
+        content.seekDelayTime!!.setOnSeekBarChangeListener(listener)
+        content.seekDelayFeedback!!.setOnSeekBarChangeListener(listener)
+        content.seekDelayMix!!.setOnSeekBarChangeListener(listener)
+        content.seekReverbSize!!.setOnSeekBarChangeListener(listener)
+        content.seekReverbDamping!!.setOnSeekBarChangeListener(listener)
+        content.seekReverbMix!!.setOnSeekBarChangeListener(listener)
     }
 
     private fun setupMetronome(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
