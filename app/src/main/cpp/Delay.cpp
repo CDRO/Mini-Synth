@@ -13,7 +13,8 @@ void Delay::setSampleRate(int32_t sampleRate) {
 }
 
 void Delay::setTime(float seconds) {
-    mDelaySamples = std::max(0.0f, std::min(seconds, 2.0f)) * mSampleRate;
+    mTargetDelaySamples = std::max(0.0f, std::min(seconds, 2.0f)) * mSampleRate;
+    if (mCurrentDelaySamples == 0.0f) mCurrentDelaySamples = mTargetDelaySamples;
 }
 
 void Delay::setFeedback(float feedback) {
@@ -25,10 +26,13 @@ void Delay::setMix(float mix) {
 }
 
 float Delay::process(float input) {
-    if (mDelaySamples < 1.0f) return input;
+    if (mTargetDelaySamples < 1.0f && mCurrentDelaySamples < 1.0f) return input;
+
+    // Smooth delay time transition (approx 20ms ramp)
+    mCurrentDelaySamples = mCurrentDelaySamples * 0.999f + mTargetDelaySamples * 0.001f;
 
     // Linear Interpolation for delay read
-    float readIdx = static_cast<float>(mWriteIndex) - mDelaySamples;
+    float readIdx = static_cast<float>(mWriteIndex) - mCurrentDelaySamples;
     while (readIdx < 0) readIdx += static_cast<float>(mBuffer.size());
 
     size_t idx1 = static_cast<size_t>(readIdx);

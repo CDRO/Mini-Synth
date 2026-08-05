@@ -21,8 +21,8 @@ private:
 
     std::vector<float> mBuffer;
     size_t mWriteIndex = 0;
-    float mReadIndex = 0.0f;
-    float mDelaySamples = 0.0f;
+    float mCurrentDelaySamples = 0.0f;
+    float mTargetDelaySamples = 0.0f;
 
     void updateDelayLength();
 };
