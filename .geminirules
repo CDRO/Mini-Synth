@@ -15,7 +15,7 @@ You are executing a 10-step iterative review process. Do not skip steps.
 # The Review & Repair Loop Rules
 For each iteration (1 through 10):
 - You must physically edit the Kotlin/Java files to fix bugs or optimize architecture.
-- DO NOT just leave comments or PR reviews. You must write actual code changes.
+- DO NOT just leave comments or PR reviews. You must also write actual code changes and
 - After editing, compile the code using `.\gradlew.bat compileDebugKotlin`.
 - Commit changes using `git commit -am "Review loop X/10: [details]"`.
 - Update the `.ai_state.json` file to increment the loop count before proceeding.

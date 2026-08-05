@@ -113,6 +113,13 @@ private:
     };
     static constexpr uint32_t HEADER_VERSION = 1;
 
+    struct MidiEvent {
+        uint8_t status;
+        uint8_t data1;
+        uint8_t data2;
+    };
+    LockFreeQueue<MidiEvent> mMidiQueue{1024};
+
     std::shared_ptr<oboe::AudioStream> mStream;
     VoiceManager mVoiceManager;
     MidiSequencer mMidiSequencer;
