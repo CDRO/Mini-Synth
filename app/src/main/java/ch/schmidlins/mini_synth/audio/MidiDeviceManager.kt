@@ -29,10 +29,36 @@ class MidiDeviceManager(
                     if (portInfo.type == MidiDeviceInfo.PortInfo.TYPE_INPUT) {
                         val outputPort = device.openOutputPort(portInfo.portNumber)
                         outputPort?.connect(object : MidiReceiver() {
+                            private var runningStatus: Byte = 0
+
                             override fun onSend(data: ByteArray, offset: Int, count: Int, timestamp: Long) {
-                                // Simplified: send only 3-byte messages for now
-                                if (count >= 3) {
-                                    synthManager.processMidi(data.sliceArray(offset until offset + 3), 3)
+                                var i = offset
+                                while (i < offset + count) {
+                                    val b = data[i]
+                                    if (b.toInt() and 0x80 != 0) {
+                                        // Status byte
+                                        runningStatus = b
+                                        val status = b.toInt() and 0xF0
+                                        if (status == 0x90 || status == 0x80 || status == 0xB0) {
+                                            if (i + 2 < offset + count) {
+                                                synthManager.processMidi(data.sliceArray(i until i + 3), 3)
+                                                i += 3
+                                                continue
+                                            }
+                                        }
+                                    } else if (runningStatus != 0.toByte()) {
+                                        // Data byte with running status
+                                        val status = runningStatus.toInt() and 0xF0
+                                        if (status == 0x90 || status == 0x80 || status == 0xB0) {
+                                            if (i + 1 < offset + count) {
+                                                val msg = byteArrayOf(runningStatus, data[i], data[i+1])
+                                                synthManager.processMidi(msg, 3)
+                                                i += 2
+                                                continue
+                                            }
+                                        }
+                                    }
+                                    i++
                                 }
                             }
                         })
