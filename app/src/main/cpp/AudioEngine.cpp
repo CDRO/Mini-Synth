@@ -3,6 +3,7 @@
 #include <fstream>
 #include <cstring>
 #include "Mp3Encoder.h"
+#include "ProjectManager.h"
 
 #define TAG "AudioEngine"
 
@@ -344,4 +345,26 @@ float AudioEngine::getMetronomeSample() {
         mBeatCounter = (mBeatCounter + 1) % 4;
     }
     return sample;
+}
+
+void AudioEngine::saveProject(const std::string& directory) {
+    std::vector<std::vector<float>> pads(MAX_PADS);
+    for (int i = 0; i < MAX_PADS; ++i) {
+        pads[i] = mPadBuffers[i];
+    }
+    ProjectManager::saveProject(directory, mVoiceManager.getParams(), mMidiSequencer, pads, mBpm);
+}
+
+void AudioEngine::loadProject(const std::string& directory) {
+    EngineParams params;
+    std::vector<std::vector<float>> pads;
+    float bpm;
+    if (ProjectManager::loadProject(directory, params, mMidiSequencer, pads, bpm)) {
+        mVoiceManager.setParams(params);
+        mBpm = bpm;
+        updateMetronomeParams();
+        for (int i = 0; i < MAX_PADS && i < pads.size(); ++i) {
+            mPadBuffers[i] = pads[i];
+        }
+    }
 }
