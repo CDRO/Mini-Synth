@@ -22,6 +22,7 @@ class SynthManager {
     external fun padNoteOff(padIndex: Int)
     external fun startPadSampling(padIndex: Int)
     external fun stopPadSampling()
+    external fun startAutomatedSampling(padIndex: Int, durationSeconds: Float)
     external fun loadFactorySample(padIndex: Int, sampleId: Int)
     external fun savePadSample(padIndex: Int, path: String)
     external fun loadPadSample(padIndex: Int, path: String)

@@ -392,3 +392,10 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setReverbMix(JNIEnv *env, jobj
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setReverbMix(mix);
 }
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_startAutomatedSampling(JNIEnv *env, jobject thiz, jint pad_index, jfloat duration) {
+    if (pad_index < 0 || pad_index >= 256) return;
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->startAutomatedSampling(pad_index, duration);
+}

@@ -74,6 +74,7 @@ public:
     // Pad Sampling
     void startPadSampling(int padIndex);
     void stopPadSampling();
+    void startAutomatedSampling(int padIndex, float durationSeconds);
     bool isPadSampling() const { return mSamplingPadIndex != -1; }
     void loadFactorySample(int padIndex, int sampleId);
     void savePadSample(int padIndex, const char* path);
