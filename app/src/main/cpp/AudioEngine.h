@@ -18,18 +18,8 @@ public:
     void stop();
     bool isRunning() { return mStream != nullptr; }
 
-    void noteOn(int midiNote, float velocity) {
-        int shifted = midiNote + (mOctaveShift * 12);
-        if (shifted < 0) shifted = 0;
-        if (shifted > 127) shifted = 127;
-        mVoiceManager.noteOn(shifted, velocity);
-    }
-    void noteOff(int midiNote) {
-        int shifted = midiNote + (mOctaveShift * 12);
-        if (shifted < 0) shifted = 0;
-        if (shifted > 127) shifted = 127;
-        mVoiceManager.noteOff(shifted);
-    }
+    void noteOn(int midiNote, float velocity);
+    void noteOff(int midiNote);
 
     void padNoteOn(int padIndex, float velocity);
     void padNoteOff(int padIndex);

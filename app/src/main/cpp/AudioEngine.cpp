@@ -397,3 +397,17 @@ void AudioEngine::processExternalMidi(const uint8_t* data, int32_t length) {
     if (length < 3) return;
     mMidiQueue.push({data[0], data[1], data[2]});
 }
+
+void AudioEngine::noteOn(int midiNote, float velocity) {
+    int shifted = midiNote + (mOctaveShift * 12);
+    if (shifted < 0) shifted = 0;
+    if (shifted > 127) shifted = 127;
+    mMidiQueue.push({0x90, static_cast<uint8_t>(shifted), static_cast<uint8_t>(velocity * 127.0f)});
+}
+
+void AudioEngine::noteOff(int midiNote) {
+    int shifted = midiNote + (mOctaveShift * 12);
+    if (shifted < 0) shifted = 0;
+    if (shifted > 127) shifted = 127;
+    mMidiQueue.push({0x80, static_cast<uint8_t>(shifted), 0});
+}
