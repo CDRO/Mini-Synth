@@ -87,6 +87,9 @@ public:
     void setSequencerStepDuration(float division) { mMidiSequencer.setStepDuration(division); }
     int getSequencerCurrentStep() const { return mMidiSequencer.getCurrentStep(); }
 
+    void saveProject(const std::string& directory);
+    void loadProject(const std::string& directory);
+
     oboe::DataCallbackResult onAudioReady(
             oboe::AudioStream *audioStream,
             void *audioData,

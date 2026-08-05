@@ -15,6 +15,7 @@ add_library(mini_synth SHARED
         Mp3Encoder.cpp
         MidiSequencer.cpp
         SamplePlayer.cpp
+        ProjectManager.cpp
 )
 
 target_include_directories(mini_synth PRIVATE . lame)
@@ -22,7 +23,15 @@ target_include_directories(mini_synth PRIVATE . lame)
 target_link_libraries(mini_synth
         oboe::oboe
         log
+        nlohmann_json::nlohmann_json
 )
+
+include(FetchContent)
+FetchContent_Declare(
+  json
+  URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz
+)
+FetchContent_MakeAvailable(json)
 
 # Testing
 if (NOT ANDROID_PLATFORM)
