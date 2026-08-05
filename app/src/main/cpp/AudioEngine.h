@@ -6,6 +6,7 @@
 #include "MidiSequencer.h"
 #include "LockFreeQueue.h"
 #include "Delay.h"
+#include "Reverb.h"
 #include <thread>
 #include <atomic>
 #include <chrono>
@@ -50,6 +51,10 @@ public:
     void setDelayTime(float seconds) { mDelay.setTime(seconds); }
     void setDelayFeedback(float feedback) { mDelay.setFeedback(feedback); }
     void setDelayMix(float mix) { mDelay.setMix(mix); }
+
+    void setReverbSize(float size) { mReverb.setSize(size); }
+    void setReverbDamping(float damping) { mReverb.setDamping(damping); }
+    void setReverbMix(float mix) { mReverb.setMix(mix); }
 
     float renderSampleForTest();
 
@@ -120,6 +125,7 @@ private:
     VoiceManager mVoiceManager;
     MidiSequencer mMidiSequencer;
     Delay mDelay;
+    Reverb mReverb;
     int mOctaveShift = 0;
 
     static const int MAX_PADS = 256;
