@@ -1,0 +1,21 @@
+# Tasks: Milestone 19 - MIDI Device Support
+
+- `[ ]` Setup MIDI Infrastructure
+    - `[ ]` Create GitHub Issue for M19.
+    - `[ ]` Create feature branch `feature/m19-midi-support`.
+    - `[ ]` Build baseline project.
+- `[ ]` Review Loop 1-10
+    - `[ ]` 1/10: Add JNI external MIDI bridges.
+    - `[ ]` 2/10: Implement MidiDeviceManager discovery.
+    - `[ ]` 3/10: Implement MidiReceiver byte parsing.
+    - `[ ]` 4/10: Connect MidiReceiver to JNI.
+    - `[ ]` 5/10: Add UI indicator for connected devices.
+    - `[ ]` 6/10: Handle BLE-MIDI specific discovery.
+    - `[ ]` 7/10: Implement CC mapping for Filter Cutoff.
+    - `[ ]` 8/10: Optimize MIDI event queueing.
+    - `[ ]` 9/10: Regression test touch vs external MIDI.
+    - `[ ]` 10/10: Final cleanup and documentation.
+- `[ ]` Merge and Cleanup
+    - `[ ]` Verify build.
+    - `[ ]` Final merge review.
+    - `[ ]` Squash and merge.
