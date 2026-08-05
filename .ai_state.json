@@ -1,0 +1,18 @@
+{
+  "environment": {
+    "os": "Windows",
+    "terminal": "PowerShell",
+    "syntax_restriction": "Never use && or ||. Execute all commands as separate, single lines."
+  },
+  "workflow_rules": {
+    "target_review_loops": 10,
+    "milestones_folder_path": "docs/artifacts/milestones"
+  },
+  "current_state": {
+    "active_milestone_file": "19_MIDI_Device_Support",
+    "current_step": "Initialization",
+    "loop_iteration": 0,
+    "last_action_completed": "Project initialized with current state.",
+    "next_immediate_action": "Create milestone folder and initial artifacts."
+  }
+}

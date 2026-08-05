@@ -19,6 +19,7 @@ public:
     void setWaveform(Waveform waveform) { mWaveform = waveform; }
     void setFrequency(float frequency);
     void setDepth(float depth) { mDepth = depth; }
+    float getDepth() const { return mDepth; }
 
     float nextValue(); // Returns value in range [-depth, depth]
 

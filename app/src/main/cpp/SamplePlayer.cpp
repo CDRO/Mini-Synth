@@ -27,7 +27,7 @@ void SamplePlayer::recordSample(float sample) {
 void SamplePlayer::trigger(const std::vector<float>& buffer) {
     mPlaybackBuffer = &buffer;
     if (mPlaybackBuffer && !mPlaybackBuffer->empty()) {
-        mPlaybackIndex = 0;
+        mPlaybackIndex = 0.0f;
         mIsPlaying = true;
     }
 }
@@ -39,16 +39,19 @@ void SamplePlayer::stop() {
 float SamplePlayer::nextSample() {
     if (!mIsPlaying || !mPlaybackBuffer) return 0.0f;
 
-    if (mPlaybackIndex >= mPlaybackBuffer->size()) {
+    size_t index = static_cast<size_t>(mPlaybackIndex);
+    if (index >= mPlaybackBuffer->size()) {
         mIsPlaying = false;
         return 0.0f;
     }
 
-    return (*mPlaybackBuffer)[mPlaybackIndex++];
+    float sample = (*mPlaybackBuffer)[index];
+    mPlaybackIndex += mPlaybackRate;
+    return sample;
 }
 
 void SamplePlayer::reset() {
-    mPlaybackIndex = 0;
+    mPlaybackIndex = 0.0f;
     mIsRecording = false;
     mIsPlaying = false;
     mCurrentBuffer = nullptr;

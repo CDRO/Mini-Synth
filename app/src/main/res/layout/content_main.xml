@@ -957,7 +957,7 @@
                             style="?attr/materialButtonOutlinedStyle"
                             android:layout_width="40dp"
                             android:layout_height="36dp"
-                            android:text="<"
+                            android:text="&lt;"
                             android:textColor="@color/acid_green" />
 
                         <TextView
@@ -973,7 +973,7 @@
                             style="?attr/materialButtonOutlinedStyle"
                             android:layout_width="40dp"
                             android:layout_height="36dp"
-                            android:text=">"
+                            android:text="&gt;"
                             android:textColor="@color/acid_green" />
 
                     </LinearLayout>

@@ -92,26 +92,24 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 17: Native Unit Testing [TODO]
+## Milestone 17: Native Unit Testing [DONE]
+## Milestone 18: Project & Set Management [DONE]
 
-### [Logic] [Testing]
-- **Framework**: GoogleTest (GTest) integrated via `FetchContent`.
-- **Target**: Standalone `synth_tests` executable.
-- **Suites**:
-    - **Oscillators**: Phase accumulation and waveform math.
-    - **Filters**: Stability at high Q and frequency response.
-    - **Envelopes**: State transitions and timing accuracy.
-    - **LFOs**: Modulation depth and shape verification.
+---
 
-## Milestone 18: Project & Set Management [TODO]
+## Milestone 19: MIDI Device Support [TODO]
 
-### [Logic] [Persistence]
-- **Format**: Hierarchical `.synthproj` bundling (JSON + binary samples).
-- **Scope**: All 256 pads, all patterns, and global engine parameters.
+### [Logic] [MIDI]
+- **API**: Android MIDI API (AMidi) for low latency.
+- **Support**: USB Class Compliant MIDI and BLE MIDI.
+- **Routing**: Map external CC messages to internal parameters.
 
-### [UI] [Management]
-- **Project Browser**: File-system like interface for managing saves.
-- **Pad Banks**: Paged access to the full 256 pad set.
+## Milestone 20: Built-in Effects [TODO]
+
+### [Logic] [DSP]
+- **Delay**: Tap-tempo synced digital delay.
+- **Reverb**: Lightweight algorithmic plate reverb.
+- **Chain**: Post-mixer global effects rack.
 
 ---
 
