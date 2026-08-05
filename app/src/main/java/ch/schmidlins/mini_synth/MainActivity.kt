@@ -503,8 +503,12 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this@MainActivity, "Demo: Triggering sampled pad!", Toast.LENGTH_SHORT).show()
             
             // Trigger sampled pad
+            synthManager.setReverbMix(0.1f)
             synthManager.padNoteOn(0, 1.0f)
-            delay(2000)
+            for (i in 0..10) {
+                synthManager.setReverbMix(0.1f + (i * 0.05f))
+                delay(200)
+            }
             synthManager.padNoteOff(0)
             
             delay(1000)
