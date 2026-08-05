@@ -17,6 +17,7 @@ add_library(mini_synth SHARED
         SamplePlayer.cpp
         ProjectManager.cpp
         Delay.cpp
+        Reverb.cpp
 )
 
 target_include_directories(mini_synth PRIVATE . lame)
