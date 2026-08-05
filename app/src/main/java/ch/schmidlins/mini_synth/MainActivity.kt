@@ -476,6 +476,7 @@ class MainActivity : AppCompatActivity() {
             
             Toast.makeText(this@MainActivity, "Demo: Automated sampling to Pad 0...", Toast.LENGTH_SHORT).show()
             synthManager.startAutomatedSampling(0, 2.0f)
+            binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, true)
             
             // Play a big chord to sample
             synthManager.noteOn(60, 0.9f)
@@ -486,6 +487,7 @@ class MainActivity : AppCompatActivity() {
             synthManager.noteOff(64)
             synthManager.noteOff(67)
             delay(600) // let it finish sampling
+            binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, false)
             
             Toast.makeText(this@MainActivity, "Demo: Switching to Pad Mode...", Toast.LENGTH_SHORT).show()
             

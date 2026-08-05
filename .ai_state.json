@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "21_Automated_Demo_Sampling",
     "current_step": "Review Loop",
-    "loop_iteration": 3,
-    "last_action_completed": "Updated MainActivity.kt demo patch and sequence logic.",
-    "next_immediate_action": "Implement melody-to-sampling transition in coroutine (completed in loop 3, verifying)."
+    "loop_iteration": 4,
+    "last_action_completed": "Added visual feedback for automated sampling.",
+    "next_immediate_action": "Optimize demo cleanup (ensure engine state resets)."
   }
 }
