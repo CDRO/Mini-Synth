@@ -43,6 +43,7 @@ class KeyboardPadView @JvmOverloads constructor(
     private val pointerStartPositionsX = mutableMapOf<Int, Float>() // pointerId -> startX
     private val pointerStartPositionsY = mutableMapOf<Int, Float>() // pointerId -> startY
     private val heldMidiNotes = ConcurrentHashMap.newKeySet<Int>()
+    private val gesturePads = mutableMapOf<Int, MutableSet<Int>>() // pointerId -> set of midis triggered in this swipe
     private val padColors = ConcurrentHashMap<Int, Int>() // padIndex -> color
     private val handler = android.os.Handler(android.os.Looper.getMainLooper())
     private val longPressRunnables = mutableMapOf<Int, Runnable>() // pointerId -> Runnable
@@ -203,6 +204,8 @@ class KeyboardPadView @JvmOverloads constructor(
                 if (midi != -1) {
                     noteOn(pId, midi)
                     if (mode == Mode.PAD_GRID) {
+                        gesturePads.getOrPut(pId) { mutableSetOf() }.add(midi)
+                        
                         val padIndex = midi - baseNote
                         val runnable = Runnable { listener?.onPadLongPress(padIndex) }
                         longPressRunnables[pId] = runnable
@@ -226,6 +229,15 @@ class KeyboardPadView @JvmOverloads constructor(
                     }
                 }
                 
+                // Release all pads triggered during this swipe
+                gesturePads.remove(pId)?.forEach { m ->
+                    if (!pointerToNote.values.contains(m)) {
+                        updateNoteState(m, Backlight.TOUCH.bit, false)
+                        val triggerIndex = if (mode == Mode.PAD_GRID) padOffset + (m - baseNote) else m
+                        listener?.onNoteOff(triggerIndex)
+                    }
+                }
+
                 noteOff(pId)
                 
             // Reset gesture on release
@@ -248,9 +260,6 @@ class KeyboardPadView @JvmOverloads constructor(
                     val deltaX = currentX - startX
                     val deltaY = startY - currentY
                     
-                    // If we moved horizontally enough, treat it as Pitch Bend and STAY on this note
-                    // Otherwise, if we move into a new key area, switch notes.
-                    
                     val pb = (deltaX / keyWidth) * 2.0f
                     val mod = (deltaY / height).coerceIn(0f, 1f)
                     
@@ -260,10 +269,19 @@ class KeyboardPadView @JvmOverloads constructor(
                         invalidate()
                     } else {
                         val newMidi = getMidiAt(currentX, currentY)
-                        if (newMidi != oldMidi) {
+                        if (newMidi != oldMidi && newMidi != -1) {
                             longPressRunnables.remove(pid)?.let { handler.removeCallbacks(it) }
-                            noteOff(pid)
-                            if (newMidi != -1) {
+                            
+                            // In Pad Mode, swiping into a new pad keeps the old one ACTIVE 
+                            // (forming a group for the duration of the touch)
+                            if (mode == Mode.PAD_GRID) {
+                                pointerToNote[pid] = newMidi
+                                updateNoteState(newMidi, Backlight.TOUCH.bit, true)
+                                val triggerIndex = padOffset + (newMidi - baseNote)
+                                listener?.onNoteOn(triggerIndex, 0.8f)
+                                gesturePads.getOrPut(pid) { mutableSetOf() }.add(newMidi)
+                            } else {
+                                noteOff(pid)
                                 noteOn(pid, newMidi)
                                 pointerStartPositionsX[pid] = currentX
                                 pointerStartPositionsY[pid] = currentY
