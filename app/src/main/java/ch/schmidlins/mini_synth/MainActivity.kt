@@ -462,7 +462,9 @@ class MainActivity : AppCompatActivity() {
             synthManager.setReverbMix(0.2f)
             
             delay(1000)
-            Toast.makeText(this@MainActivity, "Demo: Playing melody with Delay + Reverb", Toast.LENGTH_SHORT).show()
+            showDemoToast("Oscillators support SINE, SQUARE, SAW, and TRIANGLE waves.")
+            delay(2000)
+            showDemoToast("Now playing melody with built-in Delay + Reverb effects.")
 
             val notes = listOf(60, 63, 67, 72, 67, 63)
             for (i in notes.indices) {
@@ -471,7 +473,9 @@ class MainActivity : AppCompatActivity() {
                 
                 // Automate Cutoff and LFO Depth during melody
                 synthManager.setFilterCutoff(500f + (i * 300f))
+                if (i == 2) showDemoToast("Resonant Filter Cutoff is being automated...")
                 if (i > 3) {
+                    if (i == 4) showDemoToast("LFO is now modulating the Pitch (Vibrato).")
                     synthManager.setLfoTarget(0) // Pitch
                     synthManager.setLfoRate(6.0f)
                     synthManager.setLfoDepth(0.3f)
@@ -484,7 +488,7 @@ class MainActivity : AppCompatActivity() {
             
             if (!isDemoPlaying) return@launch
             
-            Toast.makeText(this@MainActivity, "Demo: Automated sampling to Pad 0...", Toast.LENGTH_SHORT).show()
+            showDemoToast("Automated Sampling: Recording 2 seconds of the current sound to Pad 0.")
             synthManager.startAutomatedSampling(0, 2.0f)
             binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, true)
             
@@ -499,7 +503,7 @@ class MainActivity : AppCompatActivity() {
             delay(600) // let it finish sampling
             binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, false)
             
-            Toast.makeText(this@MainActivity, "Demo: Switching to Pad Mode...", Toast.LENGTH_SHORT).show()
+            showDemoToast("Switching to Pad Mode automatically.")
             
             // Automated UI transition
             isPadMode = true
@@ -508,12 +512,13 @@ class MainActivity : AppCompatActivity() {
             updateWorkspaceVisibility(binding.appBarMain.contentMain)
             
             delay(1000)
-            Toast.makeText(this@MainActivity, "Demo: Triggering sampled pad!", Toast.LENGTH_SHORT).show()
+            showDemoToast("Triggering the freshly sampled sound from Pad 0!")
             
             // Trigger sampled pad
             synthManager.setReverbMix(0.1f)
             synthManager.padNoteOn(0, 1.0f)
             for (i in 0..10) {
+                if (i == 5) showDemoToast("Modulating Reverb Wet Mix during playback.")
                 synthManager.setReverbMix(0.1f + (i * 0.05f))
                 delay(200)
             }
@@ -523,7 +528,13 @@ class MainActivity : AppCompatActivity() {
             isDemoPlaying = false
             binding.appBarMain.contentMain.btnDemoMode.text = "DEMO"
             resetEngineState()
-            Toast.makeText(this@MainActivity, "Demo Complete.", Toast.LENGTH_SHORT).show()
+            showDemoToast("Demo Complete. You can now use all these features manually!")
+        }
+    }
+
+    private fun showDemoToast(message: String) {
+        runOnUiThread {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         }
     }
 
