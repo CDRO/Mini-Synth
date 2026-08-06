@@ -58,6 +58,13 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_padNoteOff(JNIEnv *env, jobjec
 }
 
 extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setPadLooping(JNIEnv *env, jobject thiz, jint pad_index, jboolean looping) {
+    if (pad_index < 0 || pad_index >= 256) return;
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setPadLooping(pad_index, looping == JNI_TRUE);
+}
+
+extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_startPadSampling(JNIEnv *env, jobject thiz, jint pad_index) {
     if (pad_index < 0 || pad_index >= 256) return;
     std::lock_guard<std::mutex> lock(engineMutex);

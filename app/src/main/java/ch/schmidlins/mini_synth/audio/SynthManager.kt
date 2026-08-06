@@ -36,6 +36,9 @@ class SynthManager {
     /** Stop playback of a sampled pad. */
     external fun padNoteOff(padIndex: Int)
     
+    /** Toggle looping for a sampled pad. */
+    external fun setPadLooping(padIndex: Int, looping: Boolean)
+    
     /** Start recording engine output into a specific pad buffer. */
     external fun startPadSampling(padIndex: Int)
     

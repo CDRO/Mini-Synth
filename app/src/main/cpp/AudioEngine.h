@@ -25,6 +25,7 @@ public:
 
     void padNoteOn(int padIndex, float velocity);
     void padNoteOff(int padIndex);
+    void setPadLooping(int padIndex, bool looping);
 
     void setPolyphonic(bool isPolyphonic) { mVoiceManager.setPolyphonic(isPolyphonic); }
     void setWaveform(Waveform waveform) { mVoiceManager.setWaveform(waveform); }

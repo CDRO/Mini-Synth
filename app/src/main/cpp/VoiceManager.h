@@ -35,6 +35,7 @@ public:
 
     void noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer = nullptr);
     void noteOff(int midiNote);
+    void setPadLooping(int midiNote, bool looping);
 
     void setAttack(float seconds) { mParams.attack = seconds; }
     void setDecay(float seconds) { mParams.decay = seconds; }
