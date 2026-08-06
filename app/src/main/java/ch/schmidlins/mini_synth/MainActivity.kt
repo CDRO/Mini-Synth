@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     private val padMappings = mutableMapOf<Int, String>() // Pad index -> Sample name
     private var mappingSampleId: Int? = null // if not null, we are in mapping mode
     private val padSamplePaths = mutableMapOf<Int, String>()
+    private val lastAftertouch = mutableMapOf<Int, Float>()
     
     companion object {
         fun getSampleFileName(padIndex: Int) = "pad_$padIndex.bin"
@@ -175,6 +176,7 @@ class MainActivity : AppCompatActivity() {
                     if (isSequencerRecordMode && synthManager.isSequencerPlaying()) {
                         synthManager.handleRealTimeNoteOff(midi)
                     }
+                    lastAftertouch.remove(midi)
                     synthManager.noteOff(midi)
                 }
                 
@@ -192,6 +194,13 @@ class MainActivity : AppCompatActivity() {
             override fun onGesture(pitchBend: Float, modulation: Float) {
                 synthManager.setPitchBend(pitchBend)
                 synthManager.setModulation(modulation)
+            }
+            override fun onAftertouch(midi: Int, amount: Float) {
+                val last = lastAftertouch[midi] ?: -1f
+                if (Math.abs(amount - last) > 0.01f) {
+                    synthManager.setAftertouch(midi, amount)
+                    lastAftertouch[midi] = amount
+                }
             }
         }
         
@@ -1272,6 +1281,16 @@ class MainActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (isHelpMode) return
                 synthManager.setLfoTarget(position)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+        
+        content.spinnerAftertouchTarget!!.adapter = targetAdapter
+        content.spinnerAftertouchTarget!!.setSelection(2) // Default Filter
+        content.spinnerAftertouchTarget!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isHelpMode) return
+                synthManager.setAftertouchTarget(position)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }

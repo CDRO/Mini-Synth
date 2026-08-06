@@ -175,6 +175,12 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setLfoTarget(JNIEnv *env, jobj
 }
 
 extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setAftertouchTarget(JNIEnv *env, jobject thiz, jint target_index) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setAftertouchTarget(static_cast<LfoTarget>(target_index));
+}
+
+extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setFilterCutoff(JNIEnv *env, jobject thiz, jfloat frequency) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setFilterCutoff(frequency);
@@ -196,6 +202,12 @@ extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setModulation(JNIEnv *env, jobject thiz, jfloat amount) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setModulation(amount);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setAftertouch(JNIEnv *env, jobject thiz, jint midi_note, jfloat amount) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setAftertouch(midi_note, amount);
 }
 
 extern "C" JNIEXPORT jfloat JNICALL

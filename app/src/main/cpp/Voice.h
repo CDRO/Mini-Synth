@@ -38,12 +38,14 @@ public:
     void setLfoDepth(float depth) { mLfo.setDepth(depth); }
     void setLfoWaveform(Waveform waveform) { mLfo.setWaveform(waveform); }
     void setLfoTarget(LfoTarget target) { mLfoTarget = target; }
+    void setAftertouchTarget(LfoTarget target) { mAftertouchTarget = target; }
 
     void setFilterCutoff(float frequency) { mBaseCutoff = frequency; mFilter.setCutoff(frequency); }
     void setFilterResonance(float resonance) { mFilter.setResonance(resonance); }
 
     void setPitchBend(float semitones) { mTargetPitchBend = semitones; }
     void setModulation(float amount) { mTargetModulation = amount; }
+    void setAftertouch(float amount) { mTargetAftertouch = amount; }
 
     float nextSample();
 
@@ -54,11 +56,14 @@ private:
     Lfo mLfo;
     Filter mFilter;
     LfoTarget mLfoTarget = LfoTarget::Pitch;
+    LfoTarget mAftertouchTarget = LfoTarget::Filter;
     float mBaseCutoff = 1000.0f;
     float mTargetPitchBend = 0.0f;
     float mCurrentPitchBend = 0.0f;
     float mTargetModulation = 0.0f;
     float mCurrentModulation = 0.0f;
+    float mTargetAftertouch = 0.0f;
+    float mCurrentAftertouch = 0.0f;
     bool mActive;
     bool mIsSampleMode;
     int mNote;

@@ -17,7 +17,12 @@ public:
     void setNote(int step, int note, bool active);
     bool getNote(int step, int note) const;
     void getActiveNotes(int step, std::vector<int>& outNotes) const;
-    bool isStepActive(int step) const { return (step >= 0 && step < mNumSteps) ? mGrid[step].any() : false; }
+    bool isStepActive(int step) const {
+        if (step >= 0 && step < mNumSteps) {
+            return mGrid[step][0].load() != 0 || mGrid[step][1].load() != 0;
+        }
+        return false;
+    }
     void clear();
 
     const std::atomic<uint64_t>* getGridData() const { return &mGrid[0][0]; }

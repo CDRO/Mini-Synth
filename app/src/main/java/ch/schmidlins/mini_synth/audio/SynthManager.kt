@@ -81,6 +81,7 @@ class SynthManager {
     external fun setLfoDepth(depth: Float)
     external fun setLfoWaveform(waveformIndex: Int)
     external fun setLfoTarget(targetIndex: Int)
+    external fun setAftertouchTarget(targetIndex: Int)
 
     external fun setFilterCutoff(frequency: Float)
     external fun setFilterResonance(resonance: Float)
@@ -90,6 +91,9 @@ class SynthManager {
     
     /** Adjust modulation depth (Mod Wheel equivalent). */
     external fun setModulation(amount: Float)
+
+    /** Apply per-voice pressure modulation. */
+    external fun setAftertouch(midiNote: Int, amount: Float)
 
     /** Retrieve real-time PCM data for UI visualization. */
     external fun getVisualizerData(buffer: FloatArray): Int

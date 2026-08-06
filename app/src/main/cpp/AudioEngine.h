@@ -41,12 +41,14 @@ public:
     void setLfoDepth(float depth) { mVoiceManager.setLfoDepth(depth); }
     void setLfoWaveform(Waveform waveform) { mVoiceManager.setLfoWaveform(waveform); }
     void setLfoTarget(LfoTarget target) { mVoiceManager.setLfoTarget(target); }
+    void setAftertouchTarget(LfoTarget target) { mVoiceManager.setAftertouchTarget(target); }
 
     void setFilterCutoff(float frequency) { mVoiceManager.setFilterCutoff(frequency); }
     void setFilterResonance(float resonance) { mVoiceManager.setFilterResonance(resonance); }
 
     void setPitchBend(float semitones) { mVoiceManager.setPitchBend(semitones); }
     void setModulation(float amount) { mVoiceManager.setModulation(amount); }
+    void setAftertouch(int midiNote, float amount) { mVoiceManager.setVoiceAftertouch(midiNote, amount); }
 
     // Effects
     void setDelayTime(float seconds) { mDelay.setTime(seconds); }
