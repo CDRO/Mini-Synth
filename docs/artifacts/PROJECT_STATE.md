@@ -10,16 +10,13 @@ Merging context from initial feature implementation and workspace refinements.
 - **Modules**: ADSR Envelopes, Resonant Low-Pass Filter (LPF), LFO.
 - **Metronome**: Sample-accurate native tick generator, synced with BPM.
 - **Recording**: Real-time MP3 encoding using LAME.
-- **Persistence**: Milestone 12 completed. Recorded samples are persisted using versioned binary headers.
+- **MIDI Sequencer**: Supports real-time loop overdub, input quantization, and up to 64 steps. Atomic bitmask implementation for thread safety.
 
 ### UI (Kotlin)
 - **Aesthetic**: Dark DAW theme.
-- **Layout**: Milestone 13 completed. Optimized 20/30/50 ratio. perfectly centered Visualizer (20% height) and compact Metronome.
-- **Modes**: 
-    - Keyboard mode with 'Hold' gesture (Slide up > 50%).
-    - Pad mode with fullscreen toggle and sampling logic.
-    - Discovery mode (Help dialogs on click).
-    - Demo mode (Predefined song playback).
+- **Layout**: Optimized 20/30/50 ratio. perfectly centered Visualizer (20% height).
+- **Modes**: Keyboard (with Gestures), Pad (with Bank management), Discovery, and Demo modes.
+- **Sequencer UI**: Paginated step view (16 steps per page), with multi-note highlighting.
 
 ## Feature Roadmap
 
@@ -27,27 +24,14 @@ Merging context from initial feature implementation and workspace refinements.
 ### [DONE] Milestone 12: Sample Persistence.
 ### [DONE] Milestone 13: Layout Squashing & Onboarding.
 ### [DONE] Milestone 14: Advanced Export & Sequence Polish.
-### [DONE] Milestone 15: Fast JVM-Based UI Testing with Robolectric.
-### [DONE] Milestone 16: Pitch Bend and Modulation Gestures.
+### [DONE] Milestone 15: Fast JVM-Based UI Testing.
+### [DONE] Milestone 16: Keyboard Gestures.
+### [DONE] Milestone 17-21: MIDI Support, Effects, Automated Sampling.
+### [DONE] Milestone 23: MIDI Loop Recording.
 
-### [DONE] Milestone 17: Native Unit Testing.
-### [DONE] Milestone 18: Project & Set Management.
-### [DONE] Milestone 19: MIDI Device Support.
-
-### [NEXT] Milestone 20: Built-in Effects
-- **Objective**: Implement Delay and Reverb DSP modules in the C++ engine.
-- **Key Features**:
-    - Stereo Delay with feedback and sync.
-    - Convolution or Algorithmic Reverb.
-    - Per-channel dry/wet controls.
-
-### [NEXT] Milestone 21: Automated Demo & Sampling
-- **Objective**: Implement automated sampling and app demonstration.
-- **Key Features**:
-    - Automated engine-to-pad sampling.
-    - Full engine demonstration sequence.
+### [NEXT] Milestone 24: Polyphonic Aftertouch Simulation
+- **Objective**: Implement vertical finger pressure (sliding) on keys to modulate per-voice parameters.
 
 ## Quality Assurance Status
-- **Unit Tests**: 12 passed (Oscillators, Envelopes, Filter Stability, Binary Persistence).
-- **Android Tests**: 17 passed (Stress tests for high BPM, UI transitions).
+- **Unit Tests**: 16 local JVM tests passing (Robolectric).
 - **Workflow**: GitHub-integrated milestone tracking and 10-issue review loop.

@@ -98,6 +98,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ## Milestone 20: Built-in Effects [DONE]
 ## Milestone 21: Automated Demo & Sampling [DONE]
+## Milestone 23: MIDI Loop Recording [DONE]
 
 ---
 
