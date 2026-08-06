@@ -3,18 +3,28 @@
 
 MidiSequencer::MidiSequencer() {
     clear();
-    std::memset(mActiveNoteTracking, 0, sizeof(mActiveNoteTracking));
+    mActiveNoteTracking[0].store(0);
+    mActiveNoteTracking[1].store(0);
 }
 
 void MidiSequencer::setNote(int step, int note, bool active) {
     if (step >= 0 && step < NUM_STEPS && note >= 0 && note < NUM_NOTES) {
-        mGrid[step].set(note, active);
+        int word = note / 64;
+        int bit = note % 64;
+        uint64_t mask = 1ULL << bit;
+        if (active) {
+            mGrid[step][word].fetch_or(mask);
+        } else {
+            mGrid[step][word].fetch_and(~mask);
+        }
     }
 }
 
 bool MidiSequencer::getNote(int step, int note) const {
     if (step >= 0 && step < NUM_STEPS && note >= 0 && note < NUM_NOTES) {
-        return mGrid[step].test(note);
+        int word = note / 64;
+        int bit = note % 64;
+        return (mGrid[step][word].load() & (1ULL << bit)) != 0;
     }
     return false;
 }
@@ -22,15 +32,19 @@ bool MidiSequencer::getNote(int step, int note) const {
 void MidiSequencer::getActiveNotes(int step, std::vector<int>& outNotes) const {
     outNotes.clear();
     if (step >= 0 && step < NUM_STEPS) {
-        for (int i = 0; i < NUM_NOTES; ++i) {
-            if (mGrid[step].test(i)) outNotes.push_back(i);
+        for (int word = 0; word < 2; ++word) {
+            uint64_t val = mGrid[step][word].load();
+            for (int bit = 0; bit < 64; ++bit) {
+                if (val & (1ULL << bit)) outNotes.push_back(word * 64 + bit);
+            }
         }
     }
 }
 
 void MidiSequencer::clear() {
     for (int i = 0; i < NUM_STEPS; ++i) {
-        mGrid[i].reset();
+        mGrid[i][0].store(0);
+        mGrid[i][1].store(0);
     }
     reset();
 }
@@ -44,8 +58,12 @@ void MidiSequencer::setStepDuration(float division) {
 int MidiSequencer::recordNote(int note) {
     if (note < 0 || note >= NUM_NOTES) return mCurrentStep.load();
     int step = mCurrentStep.load();
-    mGrid[step].reset();
-    mGrid[step].set(note, true);
+
+    // For single note step recording, we clear the step first
+    mGrid[step][0].store(0);
+    mGrid[step][1].store(0);
+
+    setNote(step, note, true);
 
     int nextStep = step;
     if (!mIsPlaying.load()) {
@@ -70,19 +88,25 @@ void MidiSequencer::handleRealTimeNoteOn(int note) {
         }
     }
 
-    mGrid[targetStep].set(note, true);
-    mActiveNoteTracking[note] = true;
+    setNote(targetStep, note, true);
+
+    int word = note / 64;
+    int bit = note % 64;
+    mActiveNoteTracking[word].fetch_or(1ULL << bit);
 }
 
 void MidiSequencer::handleRealTimeNoteOff(int note) {
     if (note < 0 || note >= NUM_NOTES) return;
-    mActiveNoteTracking[note] = false;
+    int word = note / 64;
+    int bit = note % 64;
+    mActiveNoteTracking[word].fetch_and(~(1ULL << bit));
 }
 
 void MidiSequencer::stop(VoiceManager& voiceManager) {
     releaseStep(mCurrentStep, voiceManager);
     reset();
-    std::memset(mActiveNoteTracking, 0, sizeof(mActiveNoteTracking));
+    mActiveNoteTracking[0].store(0);
+    mActiveNoteTracking[1].store(0);
 }
 
 void MidiSequencer::reset() {
@@ -107,11 +131,10 @@ void MidiSequencer::process(int32_t numFrames, int32_t samplesPerBeat, VoiceMana
 
             if (mIsRecording.load()) {
                 // Record active notes into the grid for the current step
-                for (int note = 0; note < NUM_NOTES; ++note) {
-                    if (mActiveNoteTracking[note]) {
-                        mGrid[mCurrentStep].set(note, true);
-                    }
-                }
+                uint64_t track0 = mActiveNoteTracking[0].load();
+                uint64_t track1 = mActiveNoteTracking[1].load();
+                if (track0 != 0) mGrid[mCurrentStep][0].fetch_or(track0);
+                if (track1 != 0) mGrid[mCurrentStep][1].fetch_or(track1);
             }
         }
 
@@ -131,17 +154,25 @@ void MidiSequencer::process(int32_t numFrames, int32_t samplesPerBeat, VoiceMana
 
 void MidiSequencer::triggerStep(int step, VoiceManager& voiceManager) {
     float vel = mVelocity.load();
-    for (int i = 0; i < NUM_NOTES; ++i) {
-        if (mGrid[step].test(i)) {
-            voiceManager.noteOn(i, vel);
+    for (int word = 0; word < 2; ++word) {
+        uint64_t val = mGrid[step][word].load();
+        if (val == 0) continue;
+        for (int bit = 0; bit < 64; ++bit) {
+            if (val & (1ULL << bit)) {
+                voiceManager.noteOn(word * 64 + bit, vel);
+            }
         }
     }
 }
 
 void MidiSequencer::releaseStep(int step, VoiceManager& voiceManager) {
-    for (int i = 0; i < NUM_NOTES; ++i) {
-        if (mGrid[step].test(i)) {
-            voiceManager.noteOff(i);
+    for (int word = 0; word < 2; ++word) {
+        uint64_t val = mGrid[step][word].load();
+        if (val == 0) continue;
+        for (int bit = 0; bit < 64; ++bit) {
+            if (val & (1ULL << bit)) {
+                voiceManager.noteOff(word * 64 + bit);
+            }
         }
     }
 }

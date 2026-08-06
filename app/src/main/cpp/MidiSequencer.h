@@ -20,7 +20,7 @@ public:
     bool isStepActive(int step) const { return (step >= 0 && step < NUM_STEPS) ? mGrid[step].any() : false; }
     void clear();
 
-    const std::bitset<NUM_NOTES>* getGrid() const { return mGrid; }
+    const std::atomic<uint64_t>* getGridData() const { return &mGrid[0][0]; }
     float getStepDivision() const { return mStepDivision.load(); }
 
     void setStepDuration(float division); // e.g., 0.25 for 1/16th notes if beat is 1/4
@@ -41,7 +41,7 @@ public:
     bool isRecording() const { return mIsRecording.load(); }
 
 private:
-    std::bitset<NUM_NOTES> mGrid[NUM_STEPS];
+    std::atomic<uint64_t> mGrid[NUM_STEPS][2]; // 128 notes per step (2x64 bits)
     std::atomic<int> mCurrentStep{0};
     std::atomic<int32_t> mSamplesProcessed{0};
     std::atomic<int32_t> mLastStepDuration{4800}; // 48kHz / 120bpm * 60 * 0.25
@@ -50,7 +50,7 @@ private:
     std::atomic<bool> mIsRecording{false};
     std::atomic<bool> mInputQuantize{true};
     std::atomic<float> mVelocity{0.8f};
-    bool mActiveNoteTracking[NUM_NOTES];
+    std::atomic<uint64_t> mActiveNoteTracking[2];
 
     void stop(VoiceManager& voiceManager);
     void reset();
