@@ -42,7 +42,7 @@ void MidiSequencer::setStepDuration(float division) {
 int MidiSequencer::recordNote(int note) {
     if (note < 0 || note >= NUM_NOTES) return mCurrentStep.load();
     int step = mCurrentStep.load();
-    mGrid[step].reset(); // Clear existing notes at this step
+    mGrid[step].reset();
     mGrid[step].set(note, true);
 
     int nextStep = step;
@@ -51,6 +51,24 @@ int MidiSequencer::recordNote(int note) {
         mCurrentStep.store(nextStep);
     }
     return nextStep;
+}
+
+void MidiSequencer::handleRealTimeNoteOn(int note) {
+    if (note < 0 || note >= NUM_NOTES) return;
+    if (!mIsPlaying.load()) return;
+
+    int current = mCurrentStep.load();
+    int samples = mSamplesProcessed.load();
+    int total = mLastStepDuration.load();
+
+    int targetStep = current;
+    if (mInputQuantize.load() && total > 0) {
+        if (samples > (total / 2)) {
+            targetStep = (current + 1) % NUM_STEPS;
+        }
+    }
+
+    mGrid[targetStep].set(note, true);
 }
 
 void MidiSequencer::stop(VoiceManager& voiceManager) {
@@ -68,6 +86,8 @@ void MidiSequencer::process(int32_t numFrames, int32_t samplesPerBeat, VoiceMana
 
     float currentDivision = mStepDivision.load();
     int32_t stepDurationSamples = static_cast<int32_t>(static_cast<float>(samplesPerBeat) * currentDivision);
+    mLastStepDuration.store(stepDurationSamples);
+
     int32_t gateSamples = static_cast<int32_t>(static_cast<float>(stepDurationSamples) * 0.9f); // 90% Gate
 
     int32_t samplesCounter = mSamplesProcessed.load();

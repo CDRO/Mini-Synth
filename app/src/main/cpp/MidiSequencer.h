@@ -25,7 +25,9 @@ public:
 
     void setStepDuration(float division); // e.g., 0.25 for 1/16th notes if beat is 1/4
     void setVelocity(float velocity) { mVelocity.store(velocity); }
+    void setInputQuantize(bool enabled) { mInputQuantize.store(enabled); }
     int recordNote(int note);
+    void handleRealTimeNoteOn(int note);
     void process(int32_t numFrames, int32_t samplesPerBeat, VoiceManager& voiceManager);
 
     int getCurrentStep() const { return mCurrentStep.load(); }
@@ -39,8 +41,10 @@ private:
     std::bitset<NUM_NOTES> mGrid[NUM_STEPS];
     std::atomic<int> mCurrentStep{0};
     std::atomic<int32_t> mSamplesProcessed{0};
+    std::atomic<int32_t> mLastStepDuration{4800}; // 48kHz / 120bpm * 60 * 0.25
     std::atomic<float> mStepDivision{0.25f}; // Default to 1/16th notes (4 steps per beat)
     std::atomic<bool> mIsPlaying{false};
+    std::atomic<bool> mInputQuantize{true};
     std::atomic<float> mVelocity{0.8f};
 
     void stop(VoiceManager& voiceManager);
