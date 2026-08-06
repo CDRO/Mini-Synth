@@ -64,17 +64,37 @@ class VisualizerView @JvmOverloads constructor(
         // Draw FFT Spectrum (Bottom Half)
         val fftCount = manager.getFftData(fftBuffer)
         if (fftCount > 0) {
-            val barWidth = width.toFloat() / fftCount
+            val numBuckets = 64
+            val bucketWidth = width.toFloat() / numBuckets
             val bottomY = height.toFloat()
             val maxBarHeight = height / 2f
             
-            for (i in 0 until fftCount) {
-                // Magnitude scaling (very rough for now)
-                val magnitude = fftBuffer[i] * 10f 
+            val minFreq = 20.0
+            val maxFreq = 20000.0
+            val logMin = Math.log10(minFreq)
+            val logMax = Math.log10(maxFreq)
+            
+            for (i in 0 until numBuckets) {
+                // Find frequency range for this bucket
+                val fStart = Math.pow(10.0, logMin + (i.toDouble() / numBuckets) * (logMax - logMin))
+                val fEnd = Math.pow(10.0, logMin + ((i + 1).toDouble() / numBuckets) * (logMax - logMin))
+                
+                // Map frequency to FFT bin
+                // Freq = bin * (sampleRate / FFT_SIZE)
+                val sampleRate = 48000.0
+                val binStart = (fStart * 1024.0 / sampleRate).toInt().coerceIn(0, fftCount - 1)
+                val binEnd = (fEnd * 1024.0 / sampleRate).toInt().coerceIn(binStart + 1, fftCount)
+                
+                var maxMag = 0.0f
+                for (b in binStart until binEnd) {
+                    maxMag = Math.max(maxMag, fftBuffer[b])
+                }
+                
+                val magnitude = maxMag * 15f 
                 val barHeight = (magnitude * maxBarHeight).coerceIn(0f, maxBarHeight)
                 
-                val left = i * barWidth
-                canvas.drawRect(left, bottomY - barHeight, left + barWidth - 1f, bottomY, barPaint)
+                val left = i * bucketWidth
+                canvas.drawRect(left, bottomY - barHeight, left + bucketWidth - 1f, bottomY, barPaint)
             }
         }
         
