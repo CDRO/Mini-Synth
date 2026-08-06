@@ -9,10 +9,10 @@
     "milestones_folder_path": "docs/artifacts/milestones"
   },
   "current_state": {
-    "active_milestone_file": "23_MIDI_Loop_Recording",
-    "current_step": "Complete",
-    "loop_iteration": 10,
-    "last_action_completed": "Review loop 10/10: Final documentation and code cleanup.",
-    "next_immediate_action": "Merge feature/m23-loop-recording to main."
+    "active_milestone_file": "24_Polyphonic_Aftertouch",
+    "current_step": "Review Loop",
+    "loop_iteration": 1,
+    "last_action_completed": "Review loop 1/10: Added aftertouch support and smoothing to Voice class.",
+    "next_immediate_action": "Expose setVoiceAftertouch in VoiceManager."
   }
 }

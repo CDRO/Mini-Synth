@@ -44,6 +44,7 @@ public:
 
     void setPitchBend(float semitones) { mTargetPitchBend = semitones; }
     void setModulation(float amount) { mTargetModulation = amount; }
+    void setAftertouch(float amount) { mTargetAftertouch = amount; }
 
     float nextSample();
 
@@ -59,6 +60,8 @@ private:
     float mCurrentPitchBend = 0.0f;
     float mTargetModulation = 0.0f;
     float mCurrentModulation = 0.0f;
+    float mTargetAftertouch = 0.0f;
+    float mCurrentAftertouch = 0.0f;
     bool mActive;
     bool mIsSampleMode;
     int mNote;

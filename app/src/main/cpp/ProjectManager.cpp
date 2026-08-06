@@ -33,11 +33,10 @@ bool ProjectManager::saveProject(const std::string& directory,
 
     // Sequencer
     j["sequencer"]["stepDivision"] = sequencer.getStepDivision();
-    const auto* grid = sequencer.getGrid();
     for (int s = 0; s < 16; ++s) {
         std::vector<int> activeNotes;
         for (int n = 0; n < 128; ++n) {
-            if (grid[s].test(n)) activeNotes.push_back(n);
+            if (sequencer.getNote(s, n)) activeNotes.push_back(n);
         }
         j["sequencer"]["steps"][s] = activeNotes;
     }

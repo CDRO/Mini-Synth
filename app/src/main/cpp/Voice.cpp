@@ -35,6 +35,7 @@ float Voice::nextSample() {
     // Simple Parameter Smoothing (approx 5-10ms ramp)
     mCurrentPitchBend = mCurrentPitchBend * 0.995f + mTargetPitchBend * 0.005f;
     mCurrentModulation = mCurrentModulation * 0.995f + mTargetModulation * 0.005f;
+    mCurrentAftertouch = mCurrentAftertouch * 0.99f + mTargetAftertouch * 0.01f;
 
     if (mIsSampleMode) {
         // Pitch bend for samples (change playback rate)
@@ -68,8 +69,9 @@ float Voice::nextSample() {
     float totalPitchShift = mCurrentPitchBend + modPitch;
     mOscillator.setFrequency(midiToFreq(mNote) * pow(2.0, totalPitchShift / 12.0));
 
-    // Apply Filter Modulation + direct Modulation influence
-    float filterShift = modFilter + (mCurrentModulation * 2.0f); // Up to 2 octaves direct shift
+    // Apply Filter Modulation + direct Modulation influence + Aftertouch
+    // Aftertouch can sweep up to 4 octaves
+    float filterShift = modFilter + (mCurrentModulation * 2.0f) + (mCurrentAftertouch * 4.0f);
     mFilter.setCutoff(mBaseCutoff * powf(2.0f, filterShift));
 
     float sample = mOscillator.nextSample() * mVelocity * mEnvelope.nextLevel() * modVolume;
