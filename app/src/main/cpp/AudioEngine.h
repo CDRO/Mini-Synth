@@ -84,7 +84,10 @@ public:
     // Sequencer
     void setSequencerPlaying(bool playing) { mMidiSequencer.setPlaying(playing, mVoiceManager); }
     bool isSequencerPlaying() const { return mMidiSequencer.isPlaying(); }
-    void setSequencerRecording(bool recording) { mIsSequencerRecording.store(recording); }
+    void setSequencerRecording(bool recording) {
+        mIsSequencerRecording.store(recording);
+        mMidiSequencer.setRecording(recording);
+    }
     bool isSequencerRecording() const { return mIsSequencerRecording.load(); }
     void setSequencerNote(int step, int note, bool active) { mMidiSequencer.setNote(step, note, active); }
     bool isSequencerNoteActive(int step, int note) const { return mMidiSequencer.getNote(step, note); }

@@ -57,7 +57,7 @@ int MidiSequencer::recordNote(int note) {
 
 void MidiSequencer::handleRealTimeNoteOn(int note) {
     if (note < 0 || note >= NUM_NOTES) return;
-    if (!mIsPlaying.load()) return;
+    if (!mIsPlaying.load() || !mIsRecording.load()) return;
 
     int current = mCurrentStep.load();
     int samples = mSamplesProcessed.load();
@@ -105,10 +105,12 @@ void MidiSequencer::process(int32_t numFrames, int32_t samplesPerBeat, VoiceMana
         if (samplesCounter == 0) {
             triggerStep(mCurrentStep, voiceManager);
 
-            // Record active notes into the grid for the current step
-            for (int note = 0; note < NUM_NOTES; ++note) {
-                if (mActiveNoteTracking[note]) {
-                    mGrid[mCurrentStep].set(note, true);
+            if (mIsRecording.load()) {
+                // Record active notes into the grid for the current step
+                for (int note = 0; note < NUM_NOTES; ++note) {
+                    if (mActiveNoteTracking[note]) {
+                        mGrid[mCurrentStep].set(note, true);
+                    }
                 }
             }
         }

@@ -37,6 +37,8 @@ public:
         if (!playing) stop(voiceManager);
     }
     bool isPlaying() const { return mIsPlaying.load(); }
+    void setRecording(bool recording) { mIsRecording.store(recording); }
+    bool isRecording() const { return mIsRecording.load(); }
 
 private:
     std::bitset<NUM_NOTES> mGrid[NUM_STEPS];
@@ -45,6 +47,7 @@ private:
     std::atomic<int32_t> mLastStepDuration{4800}; // 48kHz / 120bpm * 60 * 0.25
     std::atomic<float> mStepDivision{0.25f}; // Default to 1/16th notes (4 steps per beat)
     std::atomic<bool> mIsPlaying{false};
+    std::atomic<bool> mIsRecording{false};
     std::atomic<bool> mInputQuantize{true};
     std::atomic<float> mVelocity{0.8f};
     bool mActiveNoteTracking[NUM_NOTES];
