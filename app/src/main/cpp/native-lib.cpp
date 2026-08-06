@@ -231,6 +231,20 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_getVisualizerData(JNIEnv *env,
     return count;
 }
 
+extern "C" JNIEXPORT jint JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_getFftData(JNIEnv *env, jobject thiz, jfloatArray buffer) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (!engine) return 0;
+
+    jsize len = env->GetArrayLength(buffer);
+    float* nativeBuffer = env->GetFloatArrayElements(buffer, nullptr);
+
+    int32_t count = engine->getFftData(nativeBuffer, len);
+
+    env->ReleaseFloatArrayElements(buffer, nativeBuffer, 0);
+    return count;
+}
+
 extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_startRecording(JNIEnv *env, jobject thiz, jstring path) {
     std::lock_guard<std::mutex> lock(engineMutex);

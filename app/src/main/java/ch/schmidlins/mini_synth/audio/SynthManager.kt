@@ -98,6 +98,9 @@ class SynthManager {
     /** Retrieve real-time PCM data for UI visualization. */
     external fun getVisualizerData(buffer: FloatArray): Int
     
+    /** Retrieve FFT magnitude data. */
+    external fun getFftData(buffer: FloatArray): Int
+    
     /** Start recording engine output to an MP3 file. */
     external fun startRecording(path: String)
     
