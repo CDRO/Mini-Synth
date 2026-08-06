@@ -47,6 +47,7 @@ public:
 
     void setPitchBend(float semitones) { mVoiceManager.setPitchBend(semitones); }
     void setModulation(float amount) { mVoiceManager.setModulation(amount); }
+    void setAftertouch(int midiNote, float amount) { mVoiceManager.setVoiceAftertouch(midiNote, amount); }
 
     // Effects
     void setDelayTime(float seconds) { mDelay.setTime(seconds); }

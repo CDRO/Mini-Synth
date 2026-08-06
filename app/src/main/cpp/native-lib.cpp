@@ -198,6 +198,12 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setModulation(JNIEnv *env, job
     if (engine) engine->setModulation(amount);
 }
 
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setAftertouch(JNIEnv *env, jobject thiz, jint midi_note, jfloat amount) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setAftertouch(midi_note, amount);
+}
+
 extern "C" JNIEXPORT jfloat JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_renderSampleForTest(JNIEnv *env, jobject thiz) {
     std::lock_guard<std::mutex> lock(engineMutex);

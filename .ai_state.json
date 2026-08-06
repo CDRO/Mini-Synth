@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "24_Polyphonic_Aftertouch",
     "current_step": "Review Loop",
-    "loop_iteration": 2,
-    "last_action_completed": "Review loop 2/10: Exposed setVoiceAftertouch in VoiceManager.",
-    "next_immediate_action": "Add JNI bridge for per-note aftertouch."
+    "loop_iteration": 3,
+    "last_action_completed": "Review loop 3/10: Added JNI bridge for per-note polyphonic aftertouch.",
+    "next_immediate_action": "Update KeyboardPadView to track multi-touch Y displacement."
   }
 }

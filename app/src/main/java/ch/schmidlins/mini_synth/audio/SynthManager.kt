@@ -91,6 +91,9 @@ class SynthManager {
     /** Adjust modulation depth (Mod Wheel equivalent). */
     external fun setModulation(amount: Float)
 
+    /** Apply per-voice pressure modulation. */
+    external fun setAftertouch(midiNote: Int, amount: Float)
+
     /** Retrieve real-time PCM data for UI visualization. */
     external fun getVisualizerData(buffer: FloatArray): Int
     
