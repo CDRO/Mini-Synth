@@ -15,6 +15,8 @@ void Voice::trigger(int note, float velocity, const std::vector<float>* sampleBu
     } else {
         mIsSampleMode = false;
         mOscillator.setFrequency(midiToFreq(note));
+        mTargetAftertouch = 0.0f;
+        mCurrentAftertouch = 0.0f;
         mEnvelope.trigger();
     }
     mActive = true;

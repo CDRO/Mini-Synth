@@ -176,6 +176,7 @@ class MainActivity : AppCompatActivity() {
                     if (isSequencerRecordMode && synthManager.isSequencerPlaying()) {
                         synthManager.handleRealTimeNoteOff(midi)
                     }
+                    lastAftertouch.remove(midi)
                     synthManager.noteOff(midi)
                 }
                 

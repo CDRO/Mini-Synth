@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "24_Polyphonic_Aftertouch",
     "current_step": "Review Loop",
-    "loop_iteration": 8,
-    "last_action_completed": "Review loop 8/10: Optimized JNI call frequency for aftertouch with a 1% change threshold.",
-    "next_immediate_action": "Fix potential stuck aftertouch on note-off."
+    "loop_iteration": 9,
+    "last_action_completed": "Review loop 9/10: Fixed stuck aftertouch by resetting state in Voice::trigger and clearing tracking in MainActivity.",
+    "next_immediate_action": "Final cleanup and technical walkthrough for Milestone 24."
   }
 }
