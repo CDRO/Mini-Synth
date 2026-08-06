@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     private var demoJob: kotlinx.coroutines.Job? = null
     var isPollingEnabled = true // Exposed for tests
     private val padLinks = mutableMapOf<Int, MutableSet<Int>>() // Source pad -> Set of linked pads
+    private val padTriggerModes = mutableMapOf<Int, Boolean>() // Pad index -> isOneShot
     private val padMappings = mutableMapOf<Int, String>() // Pad index -> Sample name
     private var mappingSampleId: Int? = null // if not null, we are in mapping mode
     private val padSamplePaths = mutableMapOf<Int, String>()
@@ -122,6 +123,13 @@ class MainActivity : AppCompatActivity() {
                         padLinks[midi - 60]?.forEach { linked ->
                             synthManager.padNoteOn(linked, velocity)
                         }
+                        
+                        if (padTriggerModes[midi - 60] == true) {
+                            // One-shot: Trigger off immediately or let engine handle it? 
+                            // Usually one-shot means play until end regardless of release.
+                            // Our engine trigger() for samples plays until end if looping is off.
+                            // But if we want to simulate one-shot with release, we just don't send noteOff.
+                        }
                     }
                 } else {
                     if (isSequencerRecordMode) {
@@ -146,10 +154,15 @@ class MainActivity : AppCompatActivity() {
                         padSamplePaths[padIndex] = samplePath
                         synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, false)
                     } else {
-                        synthManager.padNoteOff(midi - 60)
-                        // Pad Linking
-                        padLinks[midi - 60]?.forEach { linked ->
-                            synthManager.padNoteOff(linked)
+                        // Only send noteOff if NOT in One-Shot mode
+                        if (padTriggerModes[midi - 60] != true) {
+                            synthManager.padNoteOff(midi - 60)
+                            // Pad Linking
+                            padLinks[midi - 60]?.forEach { linked ->
+                                if (padTriggerModes[linked] != true) {
+                                    synthManager.padNoteOff(linked)
+                                }
+                            }
                         }
                     }
                 } else {
@@ -667,6 +680,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
         layout.addView(loopCheck)
+
+        val triggerCheck = android.widget.CheckBox(this).apply {
+            text = "One-Shot (Trigger Mode)"
+            isChecked = padTriggerModes[padIndex] ?: false
+            setOnCheckedChangeListener { _, isChecked ->
+                padTriggerModes[padIndex] = isChecked
+            }
+        }
+        layout.addView(triggerCheck)
 
         val linkLabel = android.widget.TextView(this).apply {
             text = "Link to Pad (Index):"
