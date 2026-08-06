@@ -14,6 +14,7 @@ public:
 private:
     void fft(std::vector<std::complex<double>>& a, bool invert);
     std::vector<std::complex<double>> mBuffer;
+    std::vector<double> mWindow;
 };
 
 #endif //MINI_SYNTH_FFTPROCESSOR_H

@@ -7,16 +7,22 @@
 
 FftProcessor::FftProcessor() {
     mBuffer.resize(FFT_SIZE);
+    mWindow.resize(FFT_SIZE);
+
+    // Pre-calculate Hann window
+    for (int i = 0; i < FFT_SIZE; ++i) {
+        mWindow[i] = 0.5 * (1.0 - cos(2.0 * PI * i / (FFT_SIZE - 1)));
+    }
 }
 
 void FftProcessor::process(const float* input, float* magnitudes) {
     for (int i = 0; i < FFT_SIZE; ++i) {
-        mBuffer[i] = std::complex<double>(input[i], 0.0);
+        // Apply windowing to the input
+        mBuffer[i] = std::complex<double>(input[i] * mWindow[i], 0.0);
     }
 
     fft(mBuffer, false);
 
-    // Only need the first half (Nyquist frequency)
     for (int i = 0; i < FFT_SIZE / 2; ++i) {
         magnitudes[i] = static_cast<float>(std::abs(mBuffer[i]));
     }
@@ -32,7 +38,7 @@ void FftProcessor::fft(std::vector<std::complex<double>>& a, bool invert) {
         j ^= bit;
 
         if (i < j)
-            swap(a[i], a[j]);
+            std::swap(a[i], a[j]);
     }
 
     for (int len = 2; len <= n; len <<= 1) {
