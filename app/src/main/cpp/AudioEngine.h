@@ -91,6 +91,7 @@ public:
     void getSequencerActiveNotes(int step, std::vector<int>& notes) const { mMidiSequencer.getActiveNotes(step, notes); }
     bool isSequencerStepActive(int step) const { return mMidiSequencer.isStepActive(step); }
     int recordSequencerNote(int note) { return mMidiSequencer.recordNote(note); }
+    void handleRealTimeNoteOn(int note) { mMidiSequencer.handleRealTimeNoteOn(note); }
     void clearSequencer() { mMidiSequencer.clear(); }
     void setSequencerStepDuration(float division) { mMidiSequencer.setStepDuration(division); }
     void setInputQuantize(bool enabled) { mMidiSequencer.setInputQuantize(enabled); }

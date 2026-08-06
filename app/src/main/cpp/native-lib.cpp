@@ -348,6 +348,13 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_recordSequencerNote(JNIEnv *en
 }
 
 extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_handleRealTimeNoteOn(JNIEnv *env, jobject thiz, jint note) {
+    if (note < 0 || note >= 128) return;
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->handleRealTimeNoteOn(note);
+}
+
+extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setSequencerStepDuration(JNIEnv *env, jobject thiz, jfloat division) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setSequencerStepDuration(division);

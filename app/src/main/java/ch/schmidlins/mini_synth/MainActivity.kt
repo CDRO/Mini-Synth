@@ -133,7 +133,11 @@ class MainActivity : AppCompatActivity() {
                     }
                 } else {
                     if (isSequencerRecordMode) {
-                        synthManager.recordSequencerNote(midi)
+                        if (synthManager.isSequencerPlaying()) {
+                            synthManager.handleRealTimeNoteOn(midi)
+                        } else {
+                            synthManager.recordSequencerNote(midi)
+                        }
                         updateSequencerToggles(content)
                     }
                     synthManager.noteOn(midi, velocity)
@@ -747,8 +751,14 @@ class MainActivity : AppCompatActivity() {
             content.btnSequencerPlay!!.text = if (playing) "STOP" else "PLAY"
         }
         content.toggleSequencerRec!!.setOnCheckedChangeListener { _, isChecked ->
-            if (isHelpMode) { showHelp("Enable Step Recording. Play notes on the keyboard to map them to the next sequencer step."); return@setOnCheckedChangeListener }
+            if (isHelpMode) { showHelp("Enable Real-time Recording. If the sequencer is playing, your keyboard performance will be recorded into the loop."); return@setOnCheckedChangeListener }
             isSequencerRecordMode = isChecked
+            synthManager.setSequencerRecording(isChecked)
+        }
+
+        content.toggleInputQuantize!!.setOnCheckedChangeListener { _, isChecked ->
+            if (isHelpMode) { showHelp("Toggle Input Quantization. When enabled, your performance snaps to the nearest 16th note."); return@setOnCheckedChangeListener }
+            synthManager.setInputQuantize(isChecked)
         }
         content.togglePadSampling!!.setOnCheckedChangeListener { _, isChecked ->
             if (isHelpMode) { showHelp("Enable Pad Sampling. While active, touching a pad will record the current engine output into that pad."); return@setOnCheckedChangeListener }

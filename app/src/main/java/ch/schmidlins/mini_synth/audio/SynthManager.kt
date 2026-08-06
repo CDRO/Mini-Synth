@@ -130,6 +130,7 @@ class SynthManager {
     external fun getSequencerActiveNotes(step: Int): IntArray?
     external fun isSequencerStepActive(step: Int): Boolean
     external fun recordSequencerNote(note: Int): Int
+    external fun handleRealTimeNoteOn(note: Int)
     external fun clearSequencer()
     external fun setSequencerStepDuration(division: Float)
     external fun setInputQuantize(enabled: Boolean)
