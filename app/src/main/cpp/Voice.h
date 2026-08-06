@@ -38,6 +38,7 @@ public:
     void setLfoDepth(float depth) { mLfo.setDepth(depth); }
     void setLfoWaveform(Waveform waveform) { mLfo.setWaveform(waveform); }
     void setLfoTarget(LfoTarget target) { mLfoTarget = target; }
+    void setAftertouchTarget(LfoTarget target) { mAftertouchTarget = target; }
 
     void setFilterCutoff(float frequency) { mBaseCutoff = frequency; mFilter.setCutoff(frequency); }
     void setFilterResonance(float resonance) { mFilter.setResonance(resonance); }
@@ -55,6 +56,7 @@ private:
     Lfo mLfo;
     Filter mFilter;
     LfoTarget mLfoTarget = LfoTarget::Pitch;
+    LfoTarget mAftertouchTarget = LfoTarget::Filter;
     float mBaseCutoff = 1000.0f;
     float mTargetPitchBend = 0.0f;
     float mCurrentPitchBend = 0.0f;

@@ -122,6 +122,7 @@ float VoiceManager::nextSample() {
                 mVoices[i].setLfoDepth(mLfoDepth);
                 mVoices[i].setLfoWaveform(mLfoWaveform);
                 mVoices[i].setLfoTarget(mLfoTarget);
+                mVoices[i].setAftertouchTarget(mAftertouchTarget);
 
                 mVoices[i].setFilterCutoff(mFilterCutoff);
                 mVoices[i].setFilterResonance(mFilterResonance);

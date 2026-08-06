@@ -48,6 +48,7 @@ public:
     void setLfoDepth(float depth) { mLfoDepth = depth; mParamsChanged = true; }
     void setLfoWaveform(Waveform waveform) { mLfoWaveform = waveform; mParamsChanged = true; }
     void setLfoTarget(LfoTarget target) { mLfoTarget = target; mParamsChanged = true; }
+    void setAftertouchTarget(LfoTarget target) { mAftertouchTarget = target; mParamsChanged = true; }
 
     void setFilterCutoff(float frequency) { mFilterCutoff = frequency; mParamsChanged = true; }
     void setFilterResonance(float resonance) { mFilterResonance = resonance; mParamsChanged = true; }
@@ -76,6 +77,7 @@ private:
     std::atomic<float> mLfoDepth{0.0f};
     std::atomic<Waveform> mLfoWaveform{Waveform::Sine};
     std::atomic<LfoTarget> mLfoTarget{LfoTarget::Pitch};
+    std::atomic<LfoTarget> mAftertouchTarget{LfoTarget::Filter};
     std::atomic<float> mFilterCutoff{1000.0f};
     std::atomic<float> mFilterResonance{0.5f};
     std::atomic<float> mPitchBend{0.0f};

@@ -41,6 +41,7 @@ public:
     void setLfoDepth(float depth) { mVoiceManager.setLfoDepth(depth); }
     void setLfoWaveform(Waveform waveform) { mVoiceManager.setLfoWaveform(waveform); }
     void setLfoTarget(LfoTarget target) { mVoiceManager.setLfoTarget(target); }
+    void setAftertouchTarget(LfoTarget target) { mVoiceManager.setAftertouchTarget(target); }
 
     void setFilterCutoff(float frequency) { mVoiceManager.setFilterCutoff(frequency); }
     void setFilterResonance(float resonance) { mVoiceManager.setFilterResonance(resonance); }

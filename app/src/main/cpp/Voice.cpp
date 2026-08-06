@@ -38,7 +38,6 @@ float Voice::nextSample() {
     mCurrentAftertouch = mCurrentAftertouch * 0.99f + mTargetAftertouch * 0.01f;
 
     if (mIsSampleMode) {
-        // Pitch bend for samples (change playback rate)
         float rate = powf(2.0f, mCurrentPitchBend / 12.0f);
         mSamplePlayer.setPlaybackRate(rate);
         return mSamplePlayer.nextSample() * mVelocity;
@@ -49,9 +48,25 @@ float Voice::nextSample() {
     float modVolume = 1.0f;
     float modFilter = 0.0f;
 
-    // Modulation Wheel (Vertical Gesture) can add to LFO depth or change Cutoff directly
-    // For now, let's map it to adding to LFO depth and direct Filter Cutoff offset
+    // Base modulation (Mod Wheel)
     float effectiveLfoDepth = mLfo.getDepth() + (mCurrentModulation * 0.5f);
+
+    // Apply Aftertouch to specific target
+    float atVolume = 0.0f;
+    float atPitch = 0.0f;
+    float atFilter = 0.0f;
+
+    switch (mAftertouchTarget) {
+        case LfoTarget::Pitch:
+            atPitch = mCurrentAftertouch * 2.0f; // +/- 2 semitones
+            break;
+        case LfoTarget::Volume:
+            atVolume = mCurrentAftertouch * 0.5f; // +50% gain
+            break;
+        case LfoTarget::Filter:
+            atFilter = mCurrentAftertouch * 4.0f; // +4 octaves
+            break;
+    }
 
     switch (mLfoTarget) {
         case LfoTarget::Pitch:
@@ -65,15 +80,13 @@ float Voice::nextSample() {
             break;
     }
 
-    // Apply Pitch Bend (Horizontal Gesture)
-    float totalPitchShift = mCurrentPitchBend + modPitch;
+    // Combine all modulations
+    float totalPitchShift = mCurrentPitchBend + modPitch + atPitch;
     mOscillator.setFrequency(midiToFreq(mNote) * pow(2.0, totalPitchShift / 12.0));
 
-    // Apply Filter Modulation + direct Modulation influence + Aftertouch
-    // Aftertouch can sweep up to 4 octaves
-    float filterShift = modFilter + (mCurrentModulation * 2.0f) + (mCurrentAftertouch * 4.0f);
+    float filterShift = modFilter + (mCurrentModulation * 2.0f) + atFilter;
     mFilter.setCutoff(mBaseCutoff * powf(2.0f, filterShift));
 
-    float sample = mOscillator.nextSample() * mVelocity * mEnvelope.nextLevel() * modVolume;
+    float sample = mOscillator.nextSample() * mVelocity * mEnvelope.nextLevel() * (modVolume + atVolume);
     return mFilter.process(sample);
 }
