@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "23_MIDI_Loop_Recording",
     "current_step": "Review Loop",
-    "loop_iteration": 3,
-    "last_action_completed": "Added JNI bridge for real-time sequencer recording.",
-    "next_immediate_action": "Update MainActivity.kt to handle overdub toggle and 'IQ' toggle button."
+    "loop_iteration": 5,
+    "last_action_completed": "Review loop 4/10: Expose handleRealTimeNoteOff to JNI and call it in MainActivity.",
+    "next_immediate_action": "Verify real-time note-on/off quantization in MidiSequencer.cpp."
   }
 }

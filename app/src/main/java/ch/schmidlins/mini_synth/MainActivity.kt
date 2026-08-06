@@ -170,6 +170,9 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 } else {
+                    if (isSequencerRecordMode && synthManager.isSequencerPlaying()) {
+                        synthManager.handleRealTimeNoteOff(midi)
+                    }
                     synthManager.noteOff(midi)
                 }
                 

@@ -92,6 +92,7 @@ public:
     bool isSequencerStepActive(int step) const { return mMidiSequencer.isStepActive(step); }
     int recordSequencerNote(int note) { return mMidiSequencer.recordNote(note); }
     void handleRealTimeNoteOn(int note) { mMidiSequencer.handleRealTimeNoteOn(note); }
+    void handleRealTimeNoteOff(int note) { mMidiSequencer.handleRealTimeNoteOff(note); }
     void clearSequencer() { mMidiSequencer.clear(); }
     void setSequencerStepDuration(float division) { mMidiSequencer.setStepDuration(division); }
     void setInputQuantize(bool enabled) { mMidiSequencer.setInputQuantize(enabled); }

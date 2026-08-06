@@ -28,6 +28,7 @@ public:
     void setInputQuantize(bool enabled) { mInputQuantize.store(enabled); }
     int recordNote(int note);
     void handleRealTimeNoteOn(int note);
+    void handleRealTimeNoteOff(int note);
     void process(int32_t numFrames, int32_t samplesPerBeat, VoiceManager& voiceManager);
 
     int getCurrentStep() const { return mCurrentStep.load(); }
@@ -46,6 +47,7 @@ private:
     std::atomic<bool> mIsPlaying{false};
     std::atomic<bool> mInputQuantize{true};
     std::atomic<float> mVelocity{0.8f};
+    bool mActiveNoteTracking[NUM_NOTES];
 
     void stop(VoiceManager& voiceManager);
     void reset();

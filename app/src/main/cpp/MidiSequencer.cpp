@@ -1,7 +1,9 @@
 #include "MidiSequencer.h"
+#include <cstring>
 
 MidiSequencer::MidiSequencer() {
     clear();
+    std::memset(mActiveNoteTracking, 0, sizeof(mActiveNoteTracking));
 }
 
 void MidiSequencer::setNote(int step, int note, bool active) {
@@ -69,11 +71,18 @@ void MidiSequencer::handleRealTimeNoteOn(int note) {
     }
 
     mGrid[targetStep].set(note, true);
+    mActiveNoteTracking[note] = true;
+}
+
+void MidiSequencer::handleRealTimeNoteOff(int note) {
+    if (note < 0 || note >= NUM_NOTES) return;
+    mActiveNoteTracking[note] = false;
 }
 
 void MidiSequencer::stop(VoiceManager& voiceManager) {
     releaseStep(mCurrentStep, voiceManager);
     reset();
+    std::memset(mActiveNoteTracking, 0, sizeof(mActiveNoteTracking));
 }
 
 void MidiSequencer::reset() {
@@ -95,6 +104,13 @@ void MidiSequencer::process(int32_t numFrames, int32_t samplesPerBeat, VoiceMana
     for (int i = 0; i < numFrames; ++i) {
         if (samplesCounter == 0) {
             triggerStep(mCurrentStep, voiceManager);
+
+            // Record active notes into the grid for the current step
+            for (int note = 0; note < NUM_NOTES; ++note) {
+                if (mActiveNoteTracking[note]) {
+                    mGrid[mCurrentStep].set(note, true);
+                }
+            }
         }
 
         samplesCounter++;
