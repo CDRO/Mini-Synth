@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     private val padMappings = mutableMapOf<Int, String>() // Pad index -> Sample name
     private var mappingSampleId: Int? = null // if not null, we are in mapping mode
     private val padSamplePaths = mutableMapOf<Int, String>()
+    private val lastAftertouch = mutableMapOf<Int, Float>()
     
     companion object {
         fun getSampleFileName(padIndex: Int) = "pad_$padIndex.bin"
@@ -194,7 +195,11 @@ class MainActivity : AppCompatActivity() {
                 synthManager.setModulation(modulation)
             }
             override fun onAftertouch(midi: Int, amount: Float) {
-                synthManager.setAftertouch(midi, amount)
+                val last = lastAftertouch[midi] ?: -1f
+                if (Math.abs(amount - last) > 0.01f) {
+                    synthManager.setAftertouch(midi, amount)
+                    lastAftertouch[midi] = amount
+                }
             }
         }
         
