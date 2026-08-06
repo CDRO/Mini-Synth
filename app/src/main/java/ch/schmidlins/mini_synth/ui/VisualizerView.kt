@@ -27,6 +27,7 @@ class VisualizerView @JvmOverloads constructor(
     private val drawBuffer = FloatArray(1024)
     private val fftBuffer = FloatArray(512)
     private val smoothedMagnitudes = FloatArray(64)
+    private var lastFftTime = 0L
     private val barPaint = Paint().apply {
         style = Paint.Style.FILL
     }
@@ -62,7 +63,7 @@ class VisualizerView @JvmOverloads constructor(
         }
 
         path.reset()
-        val centerY = height / 4f // Center of top half
+        val centerY = height / 4f 
         val stepX = width.toFloat() / drawBuffer.size
 
         path.moveTo(0f, centerY)
@@ -74,44 +75,47 @@ class VisualizerView @JvmOverloads constructor(
         }
         canvas.drawPath(path, paint)
 
-        // Draw FFT Spectrum (Bottom Half)
-        val fftCount = manager.getFftData(fftBuffer)
-        if (fftCount > 0) {
-            val numBuckets = 64
-            val bucketWidth = width.toFloat() / numBuckets
-            val bottomY = height.toFloat()
-            val maxBarHeight = height / 2f
-            
-            val minFreq = 20.0
-            val maxFreq = 20000.0
-            val logMin = Math.log10(minFreq)
-            val logMax = Math.log10(maxFreq)
-            
-            for (i in 0 until numBuckets) {
-                // Find frequency range for this bucket
-                val fStart = Math.pow(10.0, logMin + (i.toDouble() / numBuckets) * (logMax - logMin))
-                val fEnd = Math.pow(10.0, logMin + ((i + 1).toDouble() / numBuckets) * (logMax - logMin))
-                
-                // Map frequency to FFT bin
-                // Freq = bin * (sampleRate / FFT_SIZE)
+        // Update FFT magnitudes at 30fps
+        val now = System.currentTimeMillis()
+        if (now - lastFftTime > 32) {
+            val fftCount = manager.getFftData(fftBuffer)
+            if (fftCount > 0) {
+                lastFftTime = now
+                val numBuckets = 64
+                val minFreq = 20.0
+                val maxFreq = 20000.0
+                val logMin = Math.log10(minFreq)
+                val logMax = Math.log10(maxFreq)
                 val sampleRate = 48000.0
-                val binStart = (fStart * 1024.0 / sampleRate).toInt().coerceIn(0, fftCount - 1)
-                val binEnd = (fEnd * 1024.0 / sampleRate).toInt().coerceIn(binStart + 1, fftCount)
-                
-                var maxMag = 0.0f
-                for (b in binStart until binEnd) {
-                    maxMag = Math.max(maxMag, fftBuffer[b])
+
+                for (i in 0 until numBuckets) {
+                    val fStart = Math.pow(10.0, logMin + (i.toDouble() / numBuckets) * (logMax - logMin))
+                    val fEnd = Math.pow(10.0, logMin + ((i + 1).toDouble() / numBuckets) * (logMax - logMin))
+                    
+                    val binStart = (fStart * 1024.0 / sampleRate).toInt().coerceIn(0, fftCount - 1)
+                    val binEnd = (fEnd * 1024.0 / sampleRate).toInt().coerceIn(binStart + 1, fftCount)
+                    
+                    var maxMag = 0.0f
+                    for (b in binStart until binEnd) {
+                        maxMag = Math.max(maxMag, fftBuffer[b])
+                    }
+                    
+                    val targetMag = maxMag * 15f
+                    smoothedMagnitudes[i] = (smoothedMagnitudes[i] * 0.7f) + (targetMag * 0.3f)
                 }
-                
-                // Exponential Smoothing
-                val targetMag = maxMag * 15f
-                smoothedMagnitudes[i] = (smoothedMagnitudes[i] * 0.7f) + (targetMag * 0.3f)
-                
-                val barHeight = (smoothedMagnitudes[i] * maxBarHeight).coerceIn(0f, maxBarHeight)
-                
-                val left = i * bucketWidth
-                canvas.drawRect(left, bottomY - barHeight, left + bucketWidth - 1f, bottomY, barPaint)
             }
+        }
+
+        // Always draw the spectrum using current smoothed values
+        val numBuckets = 64
+        val bucketWidth = width.toFloat() / numBuckets
+        val bottomY = height.toFloat()
+        val maxBarHeight = height / 2f
+        
+        for (i in 0 until numBuckets) {
+            val barHeight = (smoothedMagnitudes[i] * maxBarHeight).coerceIn(0f, maxBarHeight)
+            val left = i * bucketWidth
+            canvas.drawRect(left, bottomY - barHeight, left + bucketWidth - 1f, bottomY, barPaint)
         }
         
         postInvalidateDelayed(16)
