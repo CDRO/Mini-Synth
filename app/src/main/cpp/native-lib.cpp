@@ -47,7 +47,10 @@ extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_padNoteOn(JNIEnv *env, jobject thiz, jint pad_index, jfloat velocity) {
     if (pad_index < 0 || pad_index >= 256) return;
     std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) engine->padNoteOn(pad_index, velocity);
+    if (engine) {
+        // __android_log_print(ANDROID_LOG_DEBUG, "JNI", "Pad Note On: %d", pad_index);
+        engine->padNoteOn(pad_index, velocity);
+    }
 }
 
 extern "C" JNIEXPORT void JNICALL
