@@ -54,6 +54,7 @@ public:
 
     void setPitchBend(float semitones) { mPitchBend = semitones; mParamsChanged = true; }
     void setModulation(float amount) { mModulation = amount; mParamsChanged = true; }
+    void setVoiceAftertouch(int midiNote, float amount);
 
     EngineParams getParams() const;
     void setParams(const EngineParams& params);

@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "24_Polyphonic_Aftertouch",
     "current_step": "Review Loop",
-    "loop_iteration": 1,
-    "last_action_completed": "Review loop 1/10: Added aftertouch support and smoothing to Voice class.",
-    "next_immediate_action": "Expose setVoiceAftertouch in VoiceManager."
+    "loop_iteration": 2,
+    "last_action_completed": "Review loop 2/10: Exposed setVoiceAftertouch in VoiceManager.",
+    "next_immediate_action": "Add JNI bridge for per-note aftertouch."
   }
 }

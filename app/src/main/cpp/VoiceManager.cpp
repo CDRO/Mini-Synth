@@ -179,3 +179,10 @@ void VoiceManager::setParams(const EngineParams& p) {
     setPitchBend(p.pitchBend);
     setModulation(p.modulation);
 }
+
+void VoiceManager::setVoiceAftertouch(int midiNote, float amount) {
+    int index = findVoiceByNote(midiNote);
+    if (index != -1) {
+        mVoices[index].setAftertouch(amount);
+    }
+}
