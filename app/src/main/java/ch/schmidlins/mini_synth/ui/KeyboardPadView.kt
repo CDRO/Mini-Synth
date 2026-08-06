@@ -22,6 +22,7 @@ class KeyboardPadView @JvmOverloads constructor(
         fun onGridTouchEnd()
         fun onPadLongPress(padIndex: Int)
         fun onGesture(pitchBend: Float, modulation: Float)
+        fun onAftertouch(midi: Int, amount: Float)
     }
 
     enum class Mode { KEYBOARD, PAD_GRID }
@@ -286,6 +287,11 @@ class KeyboardPadView @JvmOverloads constructor(
                     if (mode == Mode.KEYBOARD && oldMidi != -1) {
                         lastPb = pb
                         listener?.onGesture(pb, mod)
+                        
+                        // Per-pointer aftertouch based on Y position within the view height (0 at bottom, 1 at top)
+                        val atAmount = (1.0f - (currentY / height)).coerceIn(0f, 1f)
+                        listener?.onAftertouch(oldMidi, atAmount)
+                        
                         invalidate()
                     } else {
                         val newMidi = getMidiAt(currentX, currentY)

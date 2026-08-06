@@ -193,6 +193,9 @@ class MainActivity : AppCompatActivity() {
                 synthManager.setPitchBend(pitchBend)
                 synthManager.setModulation(modulation)
             }
+            override fun onAftertouch(midi: Int, amount: Float) {
+                synthManager.setAftertouch(midi, amount)
+            }
         }
         
         // Mode toggle
