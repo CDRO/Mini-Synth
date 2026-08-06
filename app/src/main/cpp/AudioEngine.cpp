@@ -218,6 +218,7 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
 
         sample = std::max(-1.0f, std::min(sample, 1.0f));
         mVizQueue.push(sample);
+        mFftQueue.push(sample);
 
         if (mIsRecording.load(std::memory_order_relaxed)) {
             mRecordQueue.push(sample);
@@ -236,6 +237,33 @@ int32_t AudioEngine::getVisualizerData(float* buffer, int32_t size) {
         count++;
     }
     return count;
+}
+
+int32_t AudioEngine::getFftData(float* buffer, int32_t size) {
+    if (size < FftProcessor::FFT_SIZE / 2) return 0;
+
+    std::vector<float> samples(FftProcessor::FFT_SIZE);
+    int count = 0;
+
+    // We want the LATEST samples.
+    // If we have more than FFT_SIZE in queue, skip some?
+    // Or just pull until empty and keep last 1024.
+    float s;
+    std::vector<float> allSamples;
+    while (mFftQueue.pop(s)) {
+        allSamples.push_back(s);
+    }
+
+    if (allSamples.size() < FftProcessor::FFT_SIZE) return 0;
+
+    // Take the last 1024
+    size_t start = allSamples.size() - FftProcessor::FFT_SIZE;
+    for (int i = 0; i < FftProcessor::FFT_SIZE; ++i) {
+        samples[i] = allSamples[start + i];
+    }
+
+    mFftProcessor.process(samples.data(), buffer);
+    return FftProcessor::FFT_SIZE / 2;
 }
 
 void AudioEngine::startRecording(const std::string& path) {
