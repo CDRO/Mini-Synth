@@ -25,6 +25,12 @@ class VisualizerView @JvmOverloads constructor(
     private var synthManager: SynthManager? = null
     private val buffer = FloatArray(1024)
     private val drawBuffer = FloatArray(1024)
+    private val fftBuffer = FloatArray(512)
+    private val barPaint = Paint().apply {
+        color = ContextCompat.getColor(context, R.color.acid_green)
+        style = Paint.Style.FILL
+        alpha = 180
+    }
 
     fun setSynthManager(manager: SynthManager) {
         this.synthManager = manager
@@ -34,31 +40,44 @@ class VisualizerView @JvmOverloads constructor(
         super.onDraw(canvas)
         
         val manager = synthManager ?: return
-        val count = manager.getVisualizerData(buffer)
         
+        // Draw Waveform (Top Half)
+        val count = manager.getVisualizerData(buffer)
         if (count > 0) {
-            // Shift existing data to the left and append new data
-            // This creates a scrolling effect or just refreshes if count is large
             System.arraycopy(drawBuffer, count, drawBuffer, 0, drawBuffer.size - count)
             System.arraycopy(buffer, 0, drawBuffer, drawBuffer.size - count, count)
         }
 
         path.reset()
-        val centerY = height / 2f
+        val centerY = height / 4f // Center of top half
         val stepX = width.toFloat() / drawBuffer.size
 
         path.moveTo(0f, centerY)
         for (i in drawBuffer.indices) {
             val x = i * stepX
-            // Clamp and scale: normalize to roughly +/- 0.5 then scale to 80% view height
             val sample = drawBuffer[i].coerceIn(-1f, 1f)
             val y = centerY - (sample * centerY * 0.8f)
             path.lineTo(x, y)
         }
-
         canvas.drawPath(path, paint)
+
+        // Draw FFT Spectrum (Bottom Half)
+        val fftCount = manager.getFftData(fftBuffer)
+        if (fftCount > 0) {
+            val barWidth = width.toFloat() / fftCount
+            val bottomY = height.toFloat()
+            val maxBarHeight = height / 2f
+            
+            for (i in 0 until fftCount) {
+                // Magnitude scaling (very rough for now)
+                val magnitude = fftBuffer[i] * 10f 
+                val barHeight = (magnitude * maxBarHeight).coerceIn(0f, maxBarHeight)
+                
+                val left = i * barWidth
+                canvas.drawRect(left, bottomY - barHeight, left + barWidth - 1f, bottomY, barPaint)
+            }
+        }
         
-        // Throttled invalidate to ~60fps
         postInvalidateDelayed(16)
     }
 }
