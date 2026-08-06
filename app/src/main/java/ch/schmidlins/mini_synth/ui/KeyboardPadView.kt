@@ -41,6 +41,7 @@ class KeyboardPadView @JvmOverloads constructor(
     // UI state - Thread safe bitmask storage
     private val noteStates = ConcurrentHashMap<Int, Int>()
     private val pointerToNote = mutableMapOf<Int, Int>()
+    private val pointerAftertouch = mutableMapOf<Int, Float>() // pointerId -> aftertouch amount
     private val pointerStartPositionsX = mutableMapOf<Int, Float>() // pointerId -> startX
     private val pointerStartPositionsY = mutableMapOf<Int, Float>() // pointerId -> startY
     private val heldMidiNotes = ConcurrentHashMap.newKeySet<Int>()
@@ -183,13 +184,23 @@ class KeyboardPadView @JvmOverloads constructor(
     private fun drawBacklight(canvas: Canvas, rect: RectF, midi: Int) {
         val state = noteStates[midi] ?: 0
         val isHeld = heldMidiNotes.contains(midi)
-        val isActive = pointerToNote.values.contains(midi)
+        
+        // Find aftertouch for this midi note (max of all fingers on this note)
+        var atAmount = 0.0f
+        pointerToNote.forEach { (pid, note) ->
+            if (note == midi) {
+                atAmount = Math.max(atAmount, pointerAftertouch[pid] ?: 0.0f)
+            }
+        }
 
         if (state == 0 && !isHeld) return
         
         val paint = when {
             (state and Backlight.TOUCH.bit) != 0 -> {
-                if (isActive && Math.abs(lastPb) > 0.1f) backlightBendPaint else backlightTouchPaint
+                val p = if (Math.abs(lastPb) > 0.1f) backlightBendPaint else backlightTouchPaint
+                // Modulate alpha based on aftertouch
+                p.alpha = (128 + (atAmount * 127)).toInt()
+                p
             }
             (state and Backlight.RECORD.bit) != 0 -> backlightRecordPaint
             (state and Backlight.PLAY.bit) != 0 -> backlightPlayPaint
@@ -237,6 +248,7 @@ class KeyboardPadView @JvmOverloads constructor(
             MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP, MotionEvent.ACTION_CANCEL -> {
                 longPressRunnables.remove(pId)?.let { handler.removeCallbacks(it) }
                 pointerStartPositionsX.remove(pId)
+                pointerAftertouch.remove(pId)
                 val startY = pointerStartPositionsY.remove(pId) ?: event.getY(actionIndex)
                 val currentY = event.getY(actionIndex)
                 val midi = pointerToNote[pId]
@@ -290,6 +302,7 @@ class KeyboardPadView @JvmOverloads constructor(
                         
                         // Per-pointer aftertouch based on Y position within the view height (0 at bottom, 1 at top)
                         val atAmount = (1.0f - (currentY / height)).coerceIn(0f, 1f)
+                        pointerAftertouch[pid] = atAmount
                         listener?.onAftertouch(oldMidi, atAmount)
                         
                         invalidate()

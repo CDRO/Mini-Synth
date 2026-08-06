@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "24_Polyphonic_Aftertouch",
     "current_step": "Review Loop",
-    "loop_iteration": 6,
-    "last_action_completed": "Review loop 6/10: Added Aftertouch Target selector to the UI and JNI bridge.",
-    "next_immediate_action": "Implement visual feedback for aftertouch intensity on keys."
+    "loop_iteration": 7,
+    "last_action_completed": "Review loop 7/10: Implemented visual feedback for aftertouch intensity on keys.",
+    "next_immediate_action": "Optimize JNI call frequency for aftertouch."
   }
 }
