@@ -219,10 +219,39 @@
                 android:layout_weight="1">
 
                 <LinearLayout
-                    android:id="@+id/sample_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="FACTORY"
+                        android:textColor="@color/dim_grey"
+                        android:textSize="9sp"
+                        android:paddingBottom="4dp" />
+
+                    <LinearLayout
+                        android:id="@+id/sample_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="PAD MAP"
+                        android:textColor="@color/dim_grey"
+                        android:textSize="9sp"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="4dp" />
+
+                    <LinearLayout
+                        android:id="@+id/mapping_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+                </LinearLayout>
             </ScrollView>
 
             <TextView

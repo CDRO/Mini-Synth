@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     private var demoJob: kotlinx.coroutines.Job? = null
     var isPollingEnabled = true // Exposed for tests
     private val padLinks = mutableMapOf<Int, MutableSet<Int>>() // Source pad -> Set of linked pads
+    private val padMappings = mutableMapOf<Int, String>() // Pad index -> Sample name
     private var mappingSampleId: Int? = null // if not null, we are in mapping mode
     private val padSamplePaths = mutableMapOf<Int, String>()
     
@@ -105,10 +106,13 @@ class MainActivity : AppCompatActivity() {
             override fun onNoteOn(midi: Int, velocity: Float) {
                 if (isPadMode) {
                     if (mappingSampleId != null) {
+                        val sampleName = arrayOf("Kick 808", "Snare 909", "Hat Closed", "Hat Open", "Clap", "Rim")[mappingSampleId!!]
                         synthManager.loadFactorySample(midi - 60, mappingSampleId!!)
+                        padMappings[midi - 60] = sampleName
                         mappingSampleId = null
                         content.tvMappingStatus.text = "Sample mapped!"
                         content.sidebarBrowser.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.surface_dark))
+                        updateMappingList(content)
                     } else if (isPadSamplingMode) {
                         synthManager.startPadSampling(midi - 60) // midi is baseNote + padIndex
                         synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, true)
@@ -384,6 +388,19 @@ class MainActivity : AppCompatActivity() {
             content.btnOctaveUp.visibility = View.VISIBLE
             content.tvOctaveValue.visibility = View.VISIBLE
             content.toggleZenMode.visibility = View.VISIBLE
+        }
+    }
+
+    private fun updateMappingList(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.mappingContainer.removeAllViews()
+        padMappings.toSortedMap().forEach { (idx, name) ->
+            val tv = android.widget.TextView(this).apply {
+                text = "P$idx: $name"
+                textSize = 9f
+                setTextColor(ContextCompat.getColor(this@MainActivity, R.color.off_white))
+                setPadding(0, 4, 0, 4)
+            }
+            content.mappingContainer.addView(tv)
         }
     }
 
