@@ -346,50 +346,51 @@ class MainActivity : AppCompatActivity() {
 
         content.keyboardPadView.isEnabled = !isHelpMode
 
+        val keyboardId = R.id.keyboard_pad_view
+        val toggleKbId = R.id.toggle_keyboard
+        val headerId = R.id.top_header
+        val workspaceId = R.id.workspace_layout
+        val fullToggleId = R.id.toggle_pads_fullscreen
+
         val kbVisible = !(isKeyboardHidden || isHelpMode)
-        val kbVisibility = if (kbVisible) View.VISIBLE else View.GONE
-        
-        set.setVisibility(R.id.keyboard_pad_view, kbVisibility)
-        set.setVisibility(R.id.toggle_keyboard, if (isHelpMode) View.GONE else View.VISIBLE)
+        set.setVisibility(keyboardId, if (kbVisible) View.VISIBLE else View.GONE)
+        set.setVisibility(toggleKbId, if (isHelpMode) View.GONE else View.VISIBLE)
+        set.setVisibility(fullToggleId, if (isPadMode) View.VISIBLE else View.GONE)
         
         if (!kbVisible) {
-            set.clear(R.id.toggle_keyboard, ConstraintSet.BOTTOM)
-            set.connect(R.id.toggle_keyboard, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+            set.clear(toggleKbId, ConstraintSet.BOTTOM)
+            set.connect(toggleKbId, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
         } else {
-            set.clear(R.id.toggle_keyboard, ConstraintSet.BOTTOM)
-            set.connect(R.id.toggle_keyboard, ConstraintSet.BOTTOM, R.id.keyboard_pad_view, ConstraintSet.TOP)
+            set.clear(toggleKbId, ConstraintSet.BOTTOM)
+            set.connect(toggleKbId, ConstraintSet.BOTTOM, keyboardId, ConstraintSet.TOP)
         }
 
         if (isPadMode) {
-            set.setVisibility(R.id.toggle_pads_fullscreen, View.VISIBLE)
-            
             if (isFullscreenPads) {
-                set.setVisibility(R.id.top_header, View.GONE)
-                set.setVisibility(R.id.workspace_layout, View.GONE)
-                set.setVisibility(R.id.toggle_keyboard, View.GONE)
+                set.setVisibility(headerId, View.GONE)
+                set.setVisibility(workspaceId, View.GONE)
+                set.setVisibility(toggleKbId, View.GONE)
                 
-                set.connect(R.id.keyboard_pad_view, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-                set.constrainPercentHeight(R.id.keyboard_pad_view, 1.0f)
+                set.connect(keyboardId, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                set.constrainPercentHeight(keyboardId, 1.0f)
             } else {
-                set.setVisibility(R.id.toggle_keyboard, View.VISIBLE)
-                set.setVisibility(R.id.top_header, View.VISIBLE)
-                set.setVisibility(R.id.workspace_layout, View.VISIBLE)
+                set.setVisibility(headerId, View.VISIBLE)
+                set.setVisibility(workspaceId, View.VISIBLE)
                 
-                set.connect(R.id.keyboard_pad_view, ConstraintSet.TOP, R.id.workspace_layout, ConstraintSet.BOTTOM)
-                if (kbVisible) set.constrainPercentHeight(R.id.keyboard_pad_view, 0.3f)
+                set.connect(keyboardId, ConstraintSet.TOP, workspaceId, ConstraintSet.BOTTOM)
+                if (kbVisible) set.constrainPercentHeight(keyboardId, 0.3f)
             }
         } else {
-            set.setVisibility(R.id.toggle_pads_fullscreen, View.GONE)
-            set.setVisibility(R.id.top_header, View.VISIBLE)
-            set.setVisibility(R.id.workspace_layout, View.VISIBLE)
+            set.setVisibility(headerId, View.VISIBLE)
+            set.setVisibility(workspaceId, View.VISIBLE)
             
-            set.connect(R.id.keyboard_pad_view, ConstraintSet.TOP, R.id.workspace_layout, ConstraintSet.BOTTOM)
-            if (kbVisible) set.constrainPercentHeight(R.id.keyboard_pad_view, 0.3f)
+            set.connect(keyboardId, ConstraintSet.TOP, workspaceId, ConstraintSet.BOTTOM)
+            if (kbVisible) set.constrainPercentHeight(keyboardId, 0.3f)
         }
         
         set.applyTo(root)
 
-        // Nested views (not direct children of ConstraintLayout) must be handled manually AFTER applyTo
+        // Nested views visibility (managed directly as they are not top-level children of the root ConstraintLayout)
         if (isPadMode && !isFullscreenPads) {
             content.parameterContainer.visibility = View.GONE
             content.sequencerSection.visibility = View.GONE
@@ -809,6 +810,21 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+        
+        val lengths = arrayOf("8 steps", "16 steps", "32 steps", "64 steps")
+        val lengthValues = intArrayOf(8, 16, 32, 64)
+        val lengthAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, lengths)
+        lengthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        content.spinnerLoopLength!!.adapter = lengthAdapter
+        content.spinnerLoopLength!!.setSelection(1) // Default 16
+        content.spinnerLoopLength!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isHelpMode) return
+                synthManager.setSequencerNumSteps(lengthValues[position])
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+        
         stepButtonIds.forEachIndexed { i, id ->
             val toggle = content.root.findViewById<android.widget.ToggleButton>(id)
             toggle?.setOnCheckedChangeListener { _, isChecked ->

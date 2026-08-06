@@ -1024,6 +1024,22 @@
                             android:id="@+id/spinner_step_duration"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
+
+                        <Space
+                            android:layout_width="16dp"
+                            android:layout_height="match_parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Loop: "
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <Spinner
+                            android:id="@+id/spinner_loop_length"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <GridLayout

@@ -10,6 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowLooper
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [33], qualifiers = "w1280dp-h800dp-land-mdpi", shadows = [ShadowSynthManager::class])
@@ -27,12 +28,14 @@ class WorkspaceRefinementTest {
                 
                 // Switch to Pads
                 btnToggle.performClick()
+                ShadowLooper.idleMainLooper()
                 
                 assertEquals("Parameter container should be GONE", View.GONE, paramContainer.visibility)
                 assertEquals("Fullscreen toggle should be VISIBLE", View.VISIBLE, fullToggle.visibility)
                 
                 // Toggle Fullscreen ON
                 fullToggle.performClick()
+                ShadowLooper.idleMainLooper()
                 assertEquals("Header should be GONE in fullscreen", View.GONE, activity.findViewById<View>(R.id.top_header).visibility)
             }
         }
@@ -47,6 +50,7 @@ class WorkspaceRefinementTest {
                 val keyboard = activity.findViewById<View>(R.id.keyboard_pad_view)
                 
                 btnHelp.performClick()
+                ShadowLooper.idleMainLooper()
                 assertEquals("Keyboard should be GONE in Help Mode", View.GONE, keyboard.visibility)
             }
         }

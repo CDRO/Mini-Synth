@@ -11,6 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowLooper
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [33], qualifiers = "w1280dp-h800dp-land-mdpi", shadows = [ShadowSynthManager::class])
@@ -25,6 +26,7 @@ class RecordingUiTest {
                 
                 assertEquals("REC OFF", recToggle.text.toString())
                 recToggle.performClick()
+                ShadowLooper.idleMainLooper()
                 assertEquals("REC ON", recToggle.text.toString())
             }
         }

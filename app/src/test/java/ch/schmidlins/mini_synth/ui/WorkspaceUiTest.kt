@@ -10,6 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowLooper
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [33], qualifiers = "w1280dp-h800dp-land-mdpi", shadows = [ShadowSynthManager::class])
@@ -26,9 +27,11 @@ class WorkspaceUiTest {
                 assertEquals(View.VISIBLE, paramContainer.visibility)
                 
                 zenToggle.performClick()
+                ShadowLooper.idleMainLooper()
                 assertEquals("Parameter container should be GONE in Zen Mode", View.GONE, paramContainer.visibility)
                 
                 zenToggle.performClick()
+                ShadowLooper.idleMainLooper()
                 assertEquals(View.VISIBLE, paramContainer.visibility)
             }
         }
