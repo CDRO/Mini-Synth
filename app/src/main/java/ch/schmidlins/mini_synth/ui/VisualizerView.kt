@@ -28,13 +28,25 @@ class VisualizerView @JvmOverloads constructor(
     private val fftBuffer = FloatArray(512)
     private val smoothedMagnitudes = FloatArray(64)
     private val barPaint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.acid_green)
         style = Paint.Style.FILL
-        alpha = 180
     }
+    private var gradient: android.graphics.LinearGradient? = null
 
     fun setSynthManager(manager: SynthManager) {
         this.synthManager = manager
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        if (w > 0 && h > 0) {
+            gradient = android.graphics.LinearGradient(
+                0f, h.toFloat(), 0f, h / 2f,
+                ContextCompat.getColor(context, R.color.acid_green),
+                ContextCompat.getColor(context, R.color.electric_blue),
+                android.graphics.Shader.TileMode.CLAMP
+            )
+            barPaint.shader = gradient
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
