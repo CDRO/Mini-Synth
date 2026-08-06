@@ -615,24 +615,54 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showPadColorPicker(padIndex: Int) {
-        val colors = arrayOf("Acid Green", "Electric Blue", "Vibrant Red", "Off-White", "Dim Grey")
+        val padView = binding.appBarMain.contentMain.keyboardPadView!!
+        
+        val colors = arrayOf("No Color", "Acid Green", "Electric Blue", "Vibrant Red", "Off-White", "Dim Grey")
         val colorValues = intArrayOf(
+            0,
             ContextCompat.getColor(this, R.color.acid_green),
             ContextCompat.getColor(this, R.color.electric_blue),
             ContextCompat.getColor(this, R.color.vibrant_red),
             ContextCompat.getColor(this, R.color.off_white),
             ContextCompat.getColor(this, R.color.dim_grey)
         )
-        val options = arrayOf("Use Oscillator", "Use Recorded Sample")
+        
+        val layout = android.widget.LinearLayout(this).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            setPadding(48, 40, 48, 40)
+        }
+        
+        val loopCheck = android.widget.CheckBox(this).apply {
+            text = "Loop Sample"
+            setOnCheckedChangeListener { _, isChecked ->
+                synthManager.setPadLooping(padIndex, isChecked)
+            }
+        }
+        layout.addView(loopCheck)
+
+        val colorLabel = android.widget.TextView(this).apply {
+            text = "Pad Color:"
+            setPadding(0, 20, 0, 8)
+        }
+        layout.addView(colorLabel)
+
+        val colorSpinner = android.widget.Spinner(this)
+        colorSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, colors)
+        colorSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (position == 0) padView.setPadColor(padIndex, null)
+                else padView.setPadColor(padIndex, colorValues[position])
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+        layout.addView(colorSpinner)
+
         AlertDialog.Builder(this)
             .setTitle("Pad $padIndex Configuration")
-            .setItems(colors) { _, which ->
-                binding.appBarMain.contentMain.keyboardPadView!!.setPadColor(padIndex, colorValues[which])
-            }
-            .setNeutralButton("Clear Color") { _, _ ->
-                binding.appBarMain.contentMain.keyboardPadView!!.setPadColor(padIndex, null)
-            }
-            .setPositiveButton("Sound Source") { _, _ ->
+            .setView(layout)
+            .setPositiveButton("OK", null)
+            .setNeutralButton("Sound Source") { _, _ ->
+                val options = arrayOf("Use Oscillator", "Use Recorded Sample")
                 AlertDialog.Builder(this).setTitle("Select Source").setItems(options) { _, _ -> }.show()
             }
             .show()

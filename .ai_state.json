@@ -9,10 +9,10 @@
     "milestones_folder_path": "docs/artifacts/milestones"
   },
   "current_state": {
-    "active_milestone_file": "21_Automated_Demo_Sampling",
+    "active_milestone_file": "22_Advanced_Pad_Control",
     "current_step": "Review Loop",
-    "loop_iteration": 10,
-    "last_action_completed": "Added Discovery style toast explanations during demo.",
-    "next_immediate_action": "Final cleanup and documentation."
+    "loop_iteration": 2,
+    "last_action_completed": "Implemented SamplePlayer loop points and interpolation.",
+    "next_immediate_action": "Add setLooping JNI bridge and Kotlin UI support."
   }
 }
