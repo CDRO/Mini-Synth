@@ -84,6 +84,14 @@ void VoiceManager::noteOff(int midiNote) {
     }
 }
 
+void VoiceManager::setPadLooping(int midiNote, bool looping) {
+    for (int i = 0; i < MAX_VOICES; ++i) {
+        if (mVoices[i].getNote() == midiNote) {
+            mVoices[i].setSampleLooping(looping);
+        }
+    }
+}
+
 int VoiceManager::findFreeVoice() {
     for (int i = 0; i < MAX_VOICES; ++i) {
         if (!mVoices[i].isActive()) return i;

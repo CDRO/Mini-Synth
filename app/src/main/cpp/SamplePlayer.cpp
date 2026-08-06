@@ -1,4 +1,6 @@
 #include "SamplePlayer.h"
+#include <cmath>
+#include <algorithm>
 
 SamplePlayer::SamplePlayer() {
 }
@@ -12,7 +14,7 @@ void SamplePlayer::startRecording(std::vector<float>& buffer) {
 
 void SamplePlayer::stopRecording() {
     if (mIsRecording && mCurrentBuffer) {
-        mCurrentBuffer->resize(mRecordIndex); // Trim to actual length on stop (safe outside audio loop)
+        mCurrentBuffer->resize(mRecordIndex);
     }
     mIsRecording = false;
     mCurrentBuffer = nullptr;
@@ -37,15 +39,35 @@ void SamplePlayer::stop() {
 }
 
 float SamplePlayer::nextSample() {
-    if (!mIsPlaying || !mPlaybackBuffer) return 0.0f;
+    if (!mIsPlaying || !mPlaybackBuffer || mPlaybackBuffer->empty()) return 0.0f;
 
-    size_t index = static_cast<size_t>(mPlaybackIndex);
-    if (index >= mPlaybackBuffer->size()) {
-        mIsPlaying = false;
-        return 0.0f;
+    float index = mPlaybackIndex;
+    size_t i0 = static_cast<size_t>(index);
+    size_t i1 = i0 + 1;
+
+    size_t size = mPlaybackBuffer->size();
+
+    if (mIsLooping) {
+        if (mPlaybackIndex >= static_cast<float>(size)) {
+            mPlaybackIndex -= static_cast<float>(size);
+        }
+        i0 = static_cast<size_t>(mPlaybackIndex);
+        i1 = i0 + 1;
+        if (i1 >= size) i1 = 0;
+    } else {
+        if (i0 >= size) {
+            mIsPlaying = false;
+            return 0.0f;
+        }
+        if (i1 >= size) i1 = i0; // Clamp
     }
 
-    float sample = (*mPlaybackBuffer)[index];
+    // Linear Interpolation
+    float frac = index - static_cast<float>(i0);
+    float s0 = (*mPlaybackBuffer)[i0];
+    float s1 = (*mPlaybackBuffer)[i1];
+    float sample = s0 + frac * (s1 - s0);
+
     mPlaybackIndex += mPlaybackRate;
     return sample;
 }
@@ -54,6 +76,7 @@ void SamplePlayer::reset() {
     mPlaybackIndex = 0.0f;
     mIsRecording = false;
     mIsPlaying = false;
+    mIsLooping = false;
     mCurrentBuffer = nullptr;
     mPlaybackBuffer = nullptr;
 }

@@ -23,6 +23,7 @@ public:
     void release();
 
     void setSampleMode(bool enabled) { mIsSampleMode = enabled; }
+    void setSampleLooping(bool looping) { mSamplePlayer.setLooping(looping); }
     SamplePlayer& getSamplePlayer() { return mSamplePlayer; }
 
     bool isActive() const { return mEnvelope.isActive() || mSamplePlayer.isActive(); }

@@ -50,6 +50,9 @@ class MainActivity : AppCompatActivity() {
     private var isDemoPlaying = false
     private var demoJob: kotlinx.coroutines.Job? = null
     var isPollingEnabled = true // Exposed for tests
+    private val padLinks = mutableMapOf<Int, MutableSet<Int>>() // Source pad -> Set of linked pads
+    private val padTriggerModes = mutableMapOf<Int, Boolean>() // Pad index -> isOneShot
+    private val padMappings = mutableMapOf<Int, String>() // Pad index -> Sample name
     private var mappingSampleId: Int? = null // if not null, we are in mapping mode
     private val padSamplePaths = mutableMapOf<Int, String>()
     
@@ -104,14 +107,29 @@ class MainActivity : AppCompatActivity() {
             override fun onNoteOn(midi: Int, velocity: Float) {
                 if (isPadMode) {
                     if (mappingSampleId != null) {
+                        val sampleName = arrayOf("Kick 808", "Snare 909", "Hat Closed", "Hat Open", "Clap", "Rim")[mappingSampleId!!]
                         synthManager.loadFactorySample(midi - 60, mappingSampleId!!)
+                        padMappings[midi - 60] = sampleName
                         mappingSampleId = null
+                        content.tvMappingStatus.text = "Sample mapped!"
                         content.sidebarBrowser.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.surface_dark))
+                        updateMappingList(content)
                     } else if (isPadSamplingMode) {
                         synthManager.startPadSampling(midi - 60) // midi is baseNote + padIndex
                         synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, true)
                     } else {
                         synthManager.padNoteOn(midi - 60, velocity)
+                        // Pad Linking
+                        padLinks[midi - 60]?.forEach { linked ->
+                            synthManager.padNoteOn(linked, velocity)
+                        }
+                        
+                        if (padTriggerModes[midi - 60] == true) {
+                            // One-shot: Trigger off immediately or let engine handle it? 
+                            // Usually one-shot means play until end regardless of release.
+                            // Our engine trigger() for samples plays until end if looping is off.
+                            // But if we want to simulate one-shot with release, we just don't send noteOff.
+                        }
                     }
                 } else {
                     if (isSequencerRecordMode) {
@@ -136,7 +154,16 @@ class MainActivity : AppCompatActivity() {
                         padSamplePaths[padIndex] = samplePath
                         synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, false)
                     } else {
-                        synthManager.padNoteOff(midi - 60)
+                        // Only send noteOff if NOT in One-Shot mode
+                        if (padTriggerModes[midi - 60] != true) {
+                            synthManager.padNoteOff(midi - 60)
+                            // Pad Linking
+                            padLinks[midi - 60]?.forEach { linked ->
+                                if (padTriggerModes[linked] != true) {
+                                    synthManager.padNoteOff(linked)
+                                }
+                            }
+                        }
                     }
                 } else {
                     synthManager.noteOff(midi)
@@ -377,6 +404,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateMappingList(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.mappingContainer.removeAllViews()
+        padMappings.toSortedMap().forEach { (idx, name) ->
+            val tv = android.widget.TextView(this).apply {
+                text = "P$idx: $name"
+                textSize = 9f
+                setTextColor(ContextCompat.getColor(this@MainActivity, R.color.off_white))
+                setPadding(0, 4, 0, 4)
+            }
+            content.mappingContainer.addView(tv)
+        }
+    }
+
     private fun setupWorkspaceRefinement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         content.btnHelpMode.setOnClickListener {
             isHelpMode = !isHelpMode
@@ -430,6 +470,7 @@ class MainActivity : AppCompatActivity() {
                 setOnClickListener {
                     if (isHelpMode) { showHelp("Sample: ${samples[i]}. Click to enter mapping mode, then touch a pad to assign."); return@setOnClickListener }
                     mappingSampleId = i
+                    content.tvMappingStatus.text = "Mapping: ${samples[i]}..."
                     content.sidebarBrowser.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.border_dim))
                     setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.acid_green))
                     postDelayed({ setBackgroundColor(android.graphics.Color.TRANSPARENT) }, 200)
@@ -615,24 +656,84 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showPadColorPicker(padIndex: Int) {
-        val colors = arrayOf("Acid Green", "Electric Blue", "Vibrant Red", "Off-White", "Dim Grey")
+        val padView = binding.appBarMain.contentMain.keyboardPadView!!
+        
+        val colors = arrayOf("No Color", "Acid Green", "Electric Blue", "Vibrant Red", "Off-White", "Dim Grey")
         val colorValues = intArrayOf(
+            0,
             ContextCompat.getColor(this, R.color.acid_green),
             ContextCompat.getColor(this, R.color.electric_blue),
             ContextCompat.getColor(this, R.color.vibrant_red),
             ContextCompat.getColor(this, R.color.off_white),
             ContextCompat.getColor(this, R.color.dim_grey)
         )
-        val options = arrayOf("Use Oscillator", "Use Recorded Sample")
+        
+        val layout = android.widget.LinearLayout(this).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            setPadding(48, 40, 48, 40)
+        }
+        
+        val loopCheck = android.widget.CheckBox(this).apply {
+            text = "Loop Sample"
+            setOnCheckedChangeListener { _, isChecked ->
+                synthManager.setPadLooping(padIndex, isChecked)
+            }
+        }
+        layout.addView(loopCheck)
+
+        val triggerCheck = android.widget.CheckBox(this).apply {
+            text = "One-Shot (Trigger Mode)"
+            isChecked = padTriggerModes[padIndex] ?: false
+            setOnCheckedChangeListener { _, isChecked ->
+                padTriggerModes[padIndex] = isChecked
+            }
+        }
+        layout.addView(triggerCheck)
+
+        val linkLabel = android.widget.TextView(this).apply {
+            text = "Link to Pad (Index):"
+            setPadding(0, 20, 0, 8)
+        }
+        layout.addView(linkLabel)
+
+        val linkInput = android.widget.EditText(this).apply {
+            hint = "e.g. 1"
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER
+            setText(padLinks[padIndex]?.joinToString(",") ?: "")
+        }
+        layout.addView(linkInput)
+
+        val colorLabel = android.widget.TextView(this).apply {
+            text = "Pad Color:"
+            setPadding(0, 20, 0, 8)
+        }
+        layout.addView(colorLabel)
+
+        val colorSpinner = android.widget.Spinner(this)
+        colorSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, colors)
+        colorSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (position == 0) padView.setPadColor(padIndex, null)
+                else padView.setPadColor(padIndex, colorValues[position])
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+        layout.addView(colorSpinner)
+
         AlertDialog.Builder(this)
             .setTitle("Pad $padIndex Configuration")
-            .setItems(colors) { _, which ->
-                binding.appBarMain.contentMain.keyboardPadView!!.setPadColor(padIndex, colorValues[which])
+            .setView(layout)
+            .setPositiveButton("OK") { _, _ ->
+                val input = linkInput.text.toString()
+                if (input.isNotEmpty()) {
+                    val linkedPads = input.split(",").mapNotNull { it.trim().toIntOrNull() }.toMutableSet()
+                    padLinks[padIndex] = linkedPads
+                } else {
+                    padLinks.remove(padIndex)
+                }
             }
-            .setNeutralButton("Clear Color") { _, _ ->
-                binding.appBarMain.contentMain.keyboardPadView!!.setPadColor(padIndex, null)
-            }
-            .setPositiveButton("Sound Source") { _, _ ->
+            .setNeutralButton("Sound Source") { _, _ ->
+                val options = arrayOf("Use Oscillator", "Use Recorded Sample")
                 AlertDialog.Builder(this).setTitle("Select Source").setItems(options) { _, _ -> }.show()
             }
             .show()

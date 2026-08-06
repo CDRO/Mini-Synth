@@ -16,6 +16,7 @@ public:
     void trigger(const std::vector<float>& buffer);
     void stop();
     void setPlaybackRate(float rate) { mPlaybackRate = rate; }
+    void setLooping(bool looping) { mIsLooping = looping; }
     float nextSample();
 
     bool isActive() const { return mIsPlaying; }
@@ -25,10 +26,11 @@ private:
     std::vector<float>* mCurrentBuffer = nullptr;
     const std::vector<float>* mPlaybackBuffer = nullptr;
     float mPlaybackRate = 1.0f;
-    float mPlaybackIndex = 0.0f; // Changed to float for interpolated playback
+    float mPlaybackIndex = 0.0f;
     size_t mRecordIndex = 0;
     std::atomic<bool> mIsRecording{false};
     std::atomic<bool> mIsPlaying{false};
+    std::atomic<bool> mIsLooping{false};
     static const size_t MAX_SAMPLES = 48000 * 5; // 5 seconds at 48kHz
 
     void reset();

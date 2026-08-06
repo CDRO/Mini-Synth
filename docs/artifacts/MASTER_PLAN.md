@@ -96,19 +96,8 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 ## Milestone 18: Project & Set Management [DONE]
 ## Milestone 19: MIDI Device Support [DONE]
 
-## Milestone 20: Built-in Effects [TODO]
-
-### [Logic] [DSP]
-- **Delay**: Tap-tempo synced digital delay.
-- **Reverb**: Lightweight algorithmic plate reverb.
-- **Chain**: Post-mixer global effects rack.
-
-## Milestone 21: Automated Demo & Sampling [TODO]
-
-### [Logic] [Demo]
-- **Automated Sampling**: Native logic to trigger engine output recording to pads.
-- **Performance Demo**: Complex pattern playback demonstrating filter sweeps and LFO.
-- **Workflow**: One-click demo initialization for new users.
+## Milestone 20: Built-in Effects [DONE]
+## Milestone 21: Automated Demo & Sampling [DONE]
 
 ---
 

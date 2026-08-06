@@ -187,10 +187,10 @@
         app:layout_constraintBottom_toTopOf="@id/keyboard_pad_view"
         app:layout_constraintTop_toBottomOf="@id/top_header">
 
-        <!-- Sidebar Browser (Milestone 11) -->
+        <!-- Sidebar Browser (Milestone 11/22) -->
         <LinearLayout
             android:id="@+id/sidebar_browser"
-            android:layout_width="140dp"
+            android:layout_width="160dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="8dp"
@@ -200,16 +200,70 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SAMPLES"
+                android:text="SAMPLE BROWSER"
                 android:textColor="@color/acid_green"
                 android:textStyle="bold"
-                android:textSize="10sp" />
+                android:textSize="11sp"
+                android:paddingBottom="8dp"
+                android:gravity="center" />
 
-            <LinearLayout
-                android:id="@+id/sample_container"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/border_dim"
+                android:layout_marginBottom="8dp" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="FACTORY"
+                        android:textColor="@color/dim_grey"
+                        android:textSize="9sp"
+                        android:paddingBottom="4dp" />
+
+                    <LinearLayout
+                        android:id="@+id/sample_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="PAD MAP"
+                        android:textColor="@color/dim_grey"
+                        android:textSize="9sp"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="4dp" />
+
+                    <LinearLayout
+                        android:id="@+id/mapping_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+                </LinearLayout>
+            </ScrollView>
+
+            <TextView
+                android:id="@+id/tv_mapping_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:text="Select a sample..."
+                android:textColor="@color/off_white"
+                android:textSize="9sp"
+                android:paddingTop="8dp"
+                android:gravity="center" />
+
         </LinearLayout>
 
         <ScrollView

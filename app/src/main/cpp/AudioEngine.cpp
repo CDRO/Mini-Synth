@@ -150,6 +150,11 @@ void AudioEngine::padNoteOff(int padIndex) {
     mVoiceManager.noteOff(60 + padIndex);
 }
 
+void AudioEngine::setPadLooping(int padIndex, bool looping) {
+    if (padIndex < 0 || padIndex >= MAX_PADS) return;
+    mVoiceManager.setPadLooping(60 + padIndex, looping);
+}
+
 oboe::DataCallbackResult AudioEngine::onAudioReady(
         oboe::AudioStream *audioStream,
         void *audioData,
