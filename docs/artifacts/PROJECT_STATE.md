@@ -28,9 +28,10 @@ Merging context from initial feature implementation and workspace refinements.
 ### [DONE] Milestone 16: Keyboard Gestures.
 ### [DONE] Milestone 17-21: MIDI Support, Effects, Automated Sampling.
 ### [DONE] Milestone 23: MIDI Loop Recording.
+### [DONE] Milestone 24: Polyphonic Aftertouch Simulation.
 
-### [NEXT] Milestone 24: Polyphonic Aftertouch Simulation
-- **Objective**: Implement vertical finger pressure (sliding) on keys to modulate per-voice parameters.
+### [NEXT] Milestone 25: Waveform Visualization Refinement
+- **Objective**: Real-time frequency spectrum (FFT) display in the header.
 
 ## Quality Assurance Status
 - **Unit Tests**: 16 local JVM tests passing (Robolectric).
