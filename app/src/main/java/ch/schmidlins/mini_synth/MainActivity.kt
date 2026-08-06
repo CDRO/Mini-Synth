@@ -62,6 +62,8 @@ class MainActivity : AppCompatActivity() {
 
     private var bpm = 120f
     private var bankIndex = 0
+    private var stepPageIndex = 0
+    private var numSteps = 16
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private val beatPoller = object : Runnable {
         override fun run() {
@@ -133,7 +135,11 @@ class MainActivity : AppCompatActivity() {
                     }
                 } else {
                     if (isSequencerRecordMode) {
-                        synthManager.recordSequencerNote(midi)
+                        if (synthManager.isSequencerPlaying()) {
+                            synthManager.handleRealTimeNoteOn(midi)
+                        } else {
+                            synthManager.recordSequencerNote(midi)
+                        }
                         updateSequencerToggles(content)
                     }
                     synthManager.noteOn(midi, velocity)
@@ -166,6 +172,9 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 } else {
+                    if (isSequencerRecordMode && synthManager.isSequencerPlaying()) {
+                        synthManager.handleRealTimeNoteOff(midi)
+                    }
                     synthManager.noteOff(midi)
                 }
                 
@@ -277,6 +286,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         updateOctave()
+        updateStepPageUI(content)
 
         // Master Volume
         content.seekMasterVol!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -339,50 +349,51 @@ class MainActivity : AppCompatActivity() {
 
         content.keyboardPadView.isEnabled = !isHelpMode
 
+        val keyboardId = R.id.keyboard_pad_view
+        val toggleKbId = R.id.toggle_keyboard
+        val headerId = R.id.top_header
+        val workspaceId = R.id.workspace_layout
+        val fullToggleId = R.id.toggle_pads_fullscreen
+
         val kbVisible = !(isKeyboardHidden || isHelpMode)
-        val kbVisibility = if (kbVisible) View.VISIBLE else View.GONE
-        
-        set.setVisibility(R.id.keyboard_pad_view, kbVisibility)
-        set.setVisibility(R.id.toggle_keyboard, if (isHelpMode) View.GONE else View.VISIBLE)
+        set.setVisibility(keyboardId, if (kbVisible) View.VISIBLE else View.GONE)
+        set.setVisibility(toggleKbId, if (isHelpMode) View.GONE else View.VISIBLE)
+        set.setVisibility(fullToggleId, if (isPadMode) View.VISIBLE else View.GONE)
         
         if (!kbVisible) {
-            set.clear(R.id.toggle_keyboard, ConstraintSet.BOTTOM)
-            set.connect(R.id.toggle_keyboard, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+            set.clear(toggleKbId, ConstraintSet.BOTTOM)
+            set.connect(toggleKbId, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
         } else {
-            set.clear(R.id.toggle_keyboard, ConstraintSet.BOTTOM)
-            set.connect(R.id.toggle_keyboard, ConstraintSet.BOTTOM, R.id.keyboard_pad_view, ConstraintSet.TOP)
+            set.clear(toggleKbId, ConstraintSet.BOTTOM)
+            set.connect(toggleKbId, ConstraintSet.BOTTOM, keyboardId, ConstraintSet.TOP)
         }
 
         if (isPadMode) {
-            set.setVisibility(R.id.toggle_pads_fullscreen, View.VISIBLE)
-            
             if (isFullscreenPads) {
-                set.setVisibility(R.id.top_header, View.GONE)
-                set.setVisibility(R.id.workspace_layout, View.GONE)
-                set.setVisibility(R.id.toggle_keyboard, View.GONE)
+                set.setVisibility(headerId, View.GONE)
+                set.setVisibility(workspaceId, View.GONE)
+                set.setVisibility(toggleKbId, View.GONE)
                 
-                set.connect(R.id.keyboard_pad_view, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-                set.constrainPercentHeight(R.id.keyboard_pad_view, 1.0f)
+                set.connect(keyboardId, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                set.constrainPercentHeight(keyboardId, 1.0f)
             } else {
-                set.setVisibility(R.id.toggle_keyboard, View.VISIBLE)
-                set.setVisibility(R.id.top_header, View.VISIBLE)
-                set.setVisibility(R.id.workspace_layout, View.VISIBLE)
+                set.setVisibility(headerId, View.VISIBLE)
+                set.setVisibility(workspaceId, View.VISIBLE)
                 
-                set.connect(R.id.keyboard_pad_view, ConstraintSet.TOP, R.id.workspace_layout, ConstraintSet.BOTTOM)
-                if (kbVisible) set.constrainPercentHeight(R.id.keyboard_pad_view, 0.3f)
+                set.connect(keyboardId, ConstraintSet.TOP, workspaceId, ConstraintSet.BOTTOM)
+                if (kbVisible) set.constrainPercentHeight(keyboardId, 0.3f)
             }
         } else {
-            set.setVisibility(R.id.toggle_pads_fullscreen, View.GONE)
-            set.setVisibility(R.id.top_header, View.VISIBLE)
-            set.setVisibility(R.id.workspace_layout, View.VISIBLE)
+            set.setVisibility(headerId, View.VISIBLE)
+            set.setVisibility(workspaceId, View.VISIBLE)
             
-            set.connect(R.id.keyboard_pad_view, ConstraintSet.TOP, R.id.workspace_layout, ConstraintSet.BOTTOM)
-            if (kbVisible) set.constrainPercentHeight(R.id.keyboard_pad_view, 0.3f)
+            set.connect(keyboardId, ConstraintSet.TOP, workspaceId, ConstraintSet.BOTTOM)
+            if (kbVisible) set.constrainPercentHeight(keyboardId, 0.3f)
         }
         
         set.applyTo(root)
 
-        // Nested views (not direct children of ConstraintLayout) must be handled manually AFTER applyTo
+        // Nested views visibility (managed directly as they are not top-level children of the root ConstraintLayout)
         if (isPadMode && !isFullscreenPads) {
             content.parameterContainer.visibility = View.GONE
             content.sequencerSection.visibility = View.GONE
@@ -747,8 +758,14 @@ class MainActivity : AppCompatActivity() {
             content.btnSequencerPlay!!.text = if (playing) "STOP" else "PLAY"
         }
         content.toggleSequencerRec!!.setOnCheckedChangeListener { _, isChecked ->
-            if (isHelpMode) { showHelp("Enable Step Recording. Play notes on the keyboard to map them to the next sequencer step."); return@setOnCheckedChangeListener }
+            if (isHelpMode) { showHelp("Enable Real-time Recording. If the sequencer is playing, your keyboard performance will be recorded into the loop."); return@setOnCheckedChangeListener }
             isSequencerRecordMode = isChecked
+            synthManager.setSequencerRecording(isChecked)
+        }
+
+        content.toggleInputQuantize!!.setOnCheckedChangeListener { _, isChecked ->
+            if (isHelpMode) { showHelp("Toggle Input Quantization. When enabled, your performance snaps to the nearest 16th note."); return@setOnCheckedChangeListener }
+            synthManager.setInputQuantize(isChecked)
         }
         content.togglePadSampling!!.setOnCheckedChangeListener { _, isChecked ->
             if (isHelpMode) { showHelp("Enable Pad Sampling. While active, touching a pad will record the current engine output into that pad."); return@setOnCheckedChangeListener }
@@ -796,11 +813,47 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+        
+        val lengths = arrayOf("8 steps", "16 steps", "32 steps", "64 steps")
+        val lengthValues = intArrayOf(8, 16, 32, 64)
+        val lengthAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, lengths)
+        lengthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        content.spinnerLoopLength!!.adapter = lengthAdapter
+        content.spinnerLoopLength!!.setSelection(1) // Default 16
+        content.spinnerLoopLength!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isHelpMode) return
+                numSteps = lengthValues[position]
+                synthManager.setSequencerNumSteps(numSteps)
+                
+                // Adjust page index if necessary
+                val maxPage = (numSteps - 1) / 16
+                if (stepPageIndex > maxPage) stepPageIndex = maxPage
+                updateStepPageUI(content)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+        
+        content.btnStepPagePrev!!.setOnClickListener {
+            if (stepPageIndex > 0) {
+                stepPageIndex--
+                updateStepPageUI(content)
+            }
+        }
+        content.btnStepPageNext!!.setOnClickListener {
+            val maxPage = (numSteps - 1) / 16
+            if (stepPageIndex < maxPage) {
+                stepPageIndex++
+                updateStepPageUI(content)
+            }
+        }
+        
         stepButtonIds.forEachIndexed { i, id ->
             val toggle = content.root.findViewById<android.widget.ToggleButton>(id)
             toggle?.setOnCheckedChangeListener { _, isChecked ->
-                if (isHelpMode) { showHelp("Toggle note at step ${i+1}."); return@setOnCheckedChangeListener }
-                synthManager.setSequencerNote(i, 60, isChecked)
+                val actualStep = stepPageIndex * 16 + i
+                if (isHelpMode) { showHelp("Toggle note at step ${actualStep+1}."); return@setOnCheckedChangeListener }
+                synthManager.setSequencerNote(actualStep, 60, isChecked)
             }
         }
         sequencerPoller = object : Runnable {
@@ -838,31 +891,68 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateStepPageUI(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        val maxPage = (numSteps - 1) / 16
+        content.tvStepPageValue!!.text = "${stepPageIndex + 1} / ${maxPage + 1}"
+        content.btnStepPagePrev!!.isEnabled = stepPageIndex > 0
+        content.btnStepPageNext!!.isEnabled = stepPageIndex < maxPage
+        
+        updateSequencerToggles(content)
+    }
+
     private fun updateSequencerUI(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding, current: Int, last: Int) {
         val synthView = content.keyboardPadView!!
-        if (last != -1 && last < stepButtonIds.size) {
-            content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[last])?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+        
+        // Clear last visual highlight only if it was on the current page
+        if (last != -1) {
+            val lastPage = last / 16
+            val lastSubStep = last % 16
+            if (lastPage == stepPageIndex) {
+                content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[lastSubStep])?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+            }
+            // Always clear keyboard backlight? No, only if note off arrived. 
+            // triggerStep/releaseStep handles audio. 
+            // For now, we clear all to be safe during polling.
             for (note in 60..72) synthView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, false)
         }
-        if (current < stepButtonIds.size) {
-            val toggle = content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[current])
+        
+        // Highlight current step if it's on the current page
+        val currentPage = current / 16
+        val currentSubStep = current % 16
+        if (currentPage == stepPageIndex) {
+            val toggle = content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[currentSubStep])
             val activeNotes = synthManager.getSequencerActiveNotes(current)
             val isMulti = (activeNotes?.size ?: 0) > 1
             toggle?.setBackgroundColor(ContextCompat.getColor(this, if (isMulti) R.color.electric_blue else R.color.acid_green))
         }
+        
         for (note in 60..72) if (synthManager.isSequencerNoteActive(current, note)) synthView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, true)
     }
 
     private fun updateSequencerToggles(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         for (i in 0 until 16) {
+            val actualStep = stepPageIndex * 16 + i
             val id = stepButtonIds[i]
             val toggle = content.root.findViewById<android.widget.ToggleButton>(id)
-            val activeNotes = synthManager.getSequencerActiveNotes(i)
-            toggle?.isChecked = activeNotes != null && activeNotes.isNotEmpty()
-            if (activeNotes != null && activeNotes.size > 1) {
-                toggle?.setBackgroundColor(ContextCompat.getColor(this, R.color.electric_blue))
+            
+            if (actualStep < numSteps) {
+                toggle?.visibility = View.VISIBLE
+                val activeNotes = synthManager.getSequencerActiveNotes(actualStep)
+                // Use isChecked without triggering listener
+                toggle?.setOnCheckedChangeListener(null)
+                toggle?.isChecked = activeNotes != null && activeNotes.isNotEmpty()
+                toggle?.setOnCheckedChangeListener { _, isChecked ->
+                    if (isHelpMode) { showHelp("Toggle note at step ${actualStep+1}."); return@setOnCheckedChangeListener }
+                    synthManager.setSequencerNote(actualStep, 60, isChecked)
+                }
+                
+                if (activeNotes != null && activeNotes.size > 1) {
+                    toggle?.setBackgroundColor(ContextCompat.getColor(this, R.color.electric_blue))
+                } else {
+                    toggle?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+                }
             } else {
-                toggle?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+                toggle?.visibility = View.INVISIBLE
             }
         }
     }

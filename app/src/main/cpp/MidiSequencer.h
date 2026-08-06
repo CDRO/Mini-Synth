@@ -9,7 +9,7 @@
 
 class MidiSequencer {
 public:
-    static const int NUM_STEPS = 16;
+    static const int MAX_STEPS = 64;
     static const int NUM_NOTES = 128;
 
     MidiSequencer();
@@ -17,15 +17,21 @@ public:
     void setNote(int step, int note, bool active);
     bool getNote(int step, int note) const;
     void getActiveNotes(int step, std::vector<int>& outNotes) const;
-    bool isStepActive(int step) const { return (step >= 0 && step < NUM_STEPS) ? mGrid[step].any() : false; }
+    bool isStepActive(int step) const { return (step >= 0 && step < mNumSteps) ? mGrid[step].any() : false; }
     void clear();
 
-    const std::bitset<NUM_NOTES>* getGrid() const { return mGrid; }
+    const std::atomic<uint64_t>* getGridData() const { return &mGrid[0][0]; }
     float getStepDivision() const { return mStepDivision.load(); }
 
-    void setStepDuration(float division); // e.g., 0.25 for 1/16th notes if beat is 1/4
+    void setStepDuration(float division);
     void setVelocity(float velocity) { mVelocity.store(velocity); }
+    void setInputQuantize(bool enabled) { mInputQuantize.store(enabled); }
+    void setOverdub(bool enabled) { mIsOverdub.store(enabled); }
+    void setNumSteps(int steps) { if (steps > 0 && steps <= MAX_STEPS) mNumSteps.store(steps); }
+    int getNumSteps() const { return mNumSteps.load(); }
     int recordNote(int note);
+    void handleRealTimeNoteOn(int note);
+    void handleRealTimeNoteOff(int note);
     void process(int32_t numFrames, int32_t samplesPerBeat, VoiceManager& voiceManager);
 
     int getCurrentStep() const { return mCurrentStep.load(); }
@@ -34,14 +40,22 @@ public:
         if (!playing) stop(voiceManager);
     }
     bool isPlaying() const { return mIsPlaying.load(); }
+    void setRecording(bool recording) { mIsRecording.store(recording); }
+    bool isRecording() const { return mIsRecording.load(); }
 
 private:
-    std::bitset<NUM_NOTES> mGrid[NUM_STEPS];
+    std::atomic<uint64_t> mGrid[MAX_STEPS][2];
+    std::atomic<int> mNumSteps{16};
     std::atomic<int> mCurrentStep{0};
     std::atomic<int32_t> mSamplesProcessed{0};
+    std::atomic<int32_t> mLastStepDuration{4800}; // 48kHz / 120bpm * 60 * 0.25
     std::atomic<float> mStepDivision{0.25f}; // Default to 1/16th notes (4 steps per beat)
     std::atomic<bool> mIsPlaying{false};
+    std::atomic<bool> mIsRecording{false};
+    std::atomic<bool> mIsOverdub{true};
+    std::atomic<bool> mInputQuantize{true};
     std::atomic<float> mVelocity{0.8f};
+    std::atomic<uint64_t> mActiveNoteTracking[2];
 
     void stop(VoiceManager& voiceManager);
     void reset();

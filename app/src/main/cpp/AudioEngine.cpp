@@ -173,6 +173,7 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
 
         if (status == 0x90 && velocity > 0) {
             mVoiceManager.noteOn(note, velocity / 127.0f);
+            if (mIsSequencerRecording.load()) mMidiSequencer.handleRealTimeNoteOn(note);
         } else if (status == 0x80 || (status == 0x90 && velocity == 0)) {
             mVoiceManager.noteOff(note);
         } else if (status == 0xB0) {
@@ -310,19 +311,27 @@ void AudioEngine::renderPatternToFile(const std::string& path) {
     int32_t gateSamples = static_cast<int32_t>(static_cast<float>(stepDuration) * 0.9f);
 
     std::vector<float> pcmBuffer(stepDuration);
-    const auto* grid = mMidiSequencer.getGrid();
+    const std::atomic<uint64_t>* grid = mMidiSequencer.getGridData();
 
     // Render 16 steps
     for (int step = 0; step < 16; ++step) {
         // Trigger
-        for (int note = 0; note < 128; ++note) {
-            if (grid[step].test(note)) renderVm.noteOn(note, 0.8f);
+        for (int word = 0; word < 2; ++word) {
+            uint64_t val = grid[step * 2 + word].load();
+            if (val == 0) continue;
+            for (int bit = 0; bit < 64; ++bit) {
+                if (val & (1ULL << bit)) renderVm.noteOn(word * 64 + bit, 0.8f);
+            }
         }
 
         for (int s = 0; s < stepDuration; ++s) {
             if (s == gateSamples) {
-                 for (int note = 0; note < 128; ++note) {
-                    if (grid[step].test(note)) renderVm.noteOff(note);
+                 for (int word = 0; word < 2; ++word) {
+                    uint64_t val = grid[step * 2 + word].load();
+                    if (val == 0) continue;
+                    for (int bit = 0; bit < 64; ++bit) {
+                        if (val & (1ULL << bit)) renderVm.noteOff(word * 64 + bit);
+                    }
                  }
             }
             pcmBuffer[s] = renderVm.nextSample(); // Use internal mix logic (includes 0.5f headroom)

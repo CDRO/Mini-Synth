@@ -84,13 +84,23 @@ public:
     // Sequencer
     void setSequencerPlaying(bool playing) { mMidiSequencer.setPlaying(playing, mVoiceManager); }
     bool isSequencerPlaying() const { return mMidiSequencer.isPlaying(); }
+    void setSequencerRecording(bool recording) {
+        mIsSequencerRecording.store(recording);
+        mMidiSequencer.setRecording(recording);
+    }
+    bool isSequencerRecording() const { return mIsSequencerRecording.load(); }
     void setSequencerNote(int step, int note, bool active) { mMidiSequencer.setNote(step, note, active); }
     bool isSequencerNoteActive(int step, int note) const { return mMidiSequencer.getNote(step, note); }
     void getSequencerActiveNotes(int step, std::vector<int>& notes) const { mMidiSequencer.getActiveNotes(step, notes); }
     bool isSequencerStepActive(int step) const { return mMidiSequencer.isStepActive(step); }
     int recordSequencerNote(int note) { return mMidiSequencer.recordNote(note); }
+    void handleRealTimeNoteOn(int note) { mMidiSequencer.handleRealTimeNoteOn(note); }
+    void handleRealTimeNoteOff(int note) { mMidiSequencer.handleRealTimeNoteOff(note); }
     void clearSequencer() { mMidiSequencer.clear(); }
     void setSequencerStepDuration(float division) { mMidiSequencer.setStepDuration(division); }
+    void setSequencerNumSteps(int steps) { mMidiSequencer.setNumSteps(steps); }
+    void setInputQuantize(bool enabled) { mMidiSequencer.setInputQuantize(enabled); }
+    void setOverdub(bool enabled) { mMidiSequencer.setOverdub(enabled); }
     int getSequencerCurrentStep() const { return mMidiSequencer.getCurrentStep(); }
 
     void saveProject(const std::string& directory);
@@ -139,6 +149,7 @@ private:
     LockFreeQueue<float> mVizQueue{4096};
     LockFreeQueue<float> mRecordQueue{262144}; // Increased to 256k for better safety margin
     std::atomic<bool> mIsRecording{false};
+    std::atomic<bool> mIsSequencerRecording{false};
     std::string mRecordPath;
     std::thread mRecordingThread;
 

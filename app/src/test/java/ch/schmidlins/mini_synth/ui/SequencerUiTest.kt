@@ -12,6 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowLooper
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [33], qualifiers = "w1280dp-h800dp-land-mdpi", shadows = [ShadowSynthManager::class])
@@ -24,6 +25,7 @@ class SequencerUiTest {
                 activity.isPollingEnabled = false
                 val step0 = activity.findViewById<ToggleButton>(R.id.step_0)
                 step0.performClick()
+                ShadowLooper.idleMainLooper()
                 assertTrue(step0.isChecked)
             }
         }
@@ -38,6 +40,7 @@ class SequencerUiTest {
                 
                 assertEquals("PLAY", btnPlay.text.toString())
                 btnPlay.performClick()
+                ShadowLooper.idleMainLooper()
                 assertEquals("STOP", btnPlay.text.toString())
             }
         }
