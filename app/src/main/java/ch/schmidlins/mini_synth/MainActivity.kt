@@ -306,62 +306,66 @@ class MainActivity : AppCompatActivity() {
         if (isPollingEnabled) {
             TransitionManager.beginDelayedTransition(root)
         }
+        
         val set = ConstraintSet()
         set.clone(root)
 
         content.keyboardPadView.isEnabled = !isHelpMode
 
-        val keyboardId = content.keyboardPadView.id
-        val toggleKbId = content.toggleKeyboard.id
-        val headerId = content.topHeader.id
-        val workspaceId = content.workspaceLayout.id
-        val fullToggleId = content.togglePadsFullscreen.id
-
-        // Direct children visibility via ConstraintSet
-        if (isKeyboardHidden || isHelpMode) {
-            set.setVisibility(keyboardId, View.GONE)
-            set.clear(toggleKbId, ConstraintSet.BOTTOM)
-            set.connect(toggleKbId, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+        val kbVisible = !(isKeyboardHidden || isHelpMode)
+        val kbVisibility = if (kbVisible) View.VISIBLE else View.GONE
+        
+        set.setVisibility(R.id.keyboard_pad_view, kbVisibility)
+        set.setVisibility(R.id.toggle_keyboard, if (isHelpMode) View.GONE else View.VISIBLE)
+        
+        if (!kbVisible) {
+            set.clear(R.id.toggle_keyboard, ConstraintSet.BOTTOM)
+            set.connect(R.id.toggle_keyboard, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
         } else {
-            set.setVisibility(keyboardId, View.VISIBLE)
-            set.clear(toggleKbId, ConstraintSet.BOTTOM)
-            set.connect(toggleKbId, ConstraintSet.BOTTOM, keyboardId, ConstraintSet.TOP)
+            set.clear(R.id.toggle_keyboard, ConstraintSet.BOTTOM)
+            set.connect(R.id.toggle_keyboard, ConstraintSet.BOTTOM, R.id.keyboard_pad_view, ConstraintSet.TOP)
         }
 
         if (isPadMode) {
-            set.setVisibility(fullToggleId, View.VISIBLE)
+            set.setVisibility(R.id.toggle_pads_fullscreen, View.VISIBLE)
             
             if (isFullscreenPads) {
-                set.setVisibility(headerId, View.GONE)
-                set.setVisibility(workspaceId, View.GONE)
-                set.connect(keyboardId, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-                set.constrainPercentHeight(keyboardId, 1.0f)
-                set.setVisibility(toggleKbId, View.GONE)
+                set.setVisibility(R.id.top_header, View.GONE)
+                set.setVisibility(R.id.workspace_layout, View.GONE)
+                set.setVisibility(R.id.toggle_keyboard, View.GONE)
+                
+                set.connect(R.id.keyboard_pad_view, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                set.constrainPercentHeight(R.id.keyboard_pad_view, 1.0f)
             } else {
-                set.setVisibility(toggleKbId, View.VISIBLE)
-                set.setVisibility(headerId, View.VISIBLE)
-                set.setVisibility(workspaceId, View.VISIBLE)
+                set.setVisibility(R.id.toggle_keyboard, View.VISIBLE)
+                set.setVisibility(R.id.top_header, View.VISIBLE)
+                set.setVisibility(R.id.workspace_layout, View.VISIBLE)
                 
-                // Nested views managed directly
-                content.parameterContainer.visibility = View.GONE
-                content.sequencerSection.visibility = View.GONE
-                content.padCustomizationSection.visibility = View.GONE
-                content.btnPolyToggle.visibility = View.GONE
-                content.btnOctaveDown.visibility = View.GONE
-                content.btnOctaveUp.visibility = View.GONE
-                content.tvOctaveValue.visibility = View.GONE
-                content.toggleZenMode.visibility = View.GONE
-                
-                set.connect(keyboardId, ConstraintSet.TOP, workspaceId, ConstraintSet.BOTTOM)
-                if (!isKeyboardHidden) set.constrainPercentHeight(keyboardId, 0.3f)
+                set.connect(R.id.keyboard_pad_view, ConstraintSet.TOP, R.id.workspace_layout, ConstraintSet.BOTTOM)
+                if (kbVisible) set.constrainPercentHeight(R.id.keyboard_pad_view, 0.3f)
             }
         } else {
-            set.setVisibility(toggleKbId, if (isHelpMode) View.GONE else View.VISIBLE)
-            set.setVisibility(fullToggleId, View.GONE)
-            set.setVisibility(headerId, View.VISIBLE)
-            set.setVisibility(workspaceId, View.VISIBLE)
+            set.setVisibility(R.id.toggle_pads_fullscreen, View.GONE)
+            set.setVisibility(R.id.top_header, View.VISIBLE)
+            set.setVisibility(R.id.workspace_layout, View.VISIBLE)
             
-            // Nested views managed directly
+            set.connect(R.id.keyboard_pad_view, ConstraintSet.TOP, R.id.workspace_layout, ConstraintSet.BOTTOM)
+            if (kbVisible) set.constrainPercentHeight(R.id.keyboard_pad_view, 0.3f)
+        }
+        
+        set.applyTo(root)
+
+        // Nested views (not direct children of ConstraintLayout) must be handled manually AFTER applyTo
+        if (isPadMode && !isFullscreenPads) {
+            content.parameterContainer.visibility = View.GONE
+            content.sequencerSection.visibility = View.GONE
+            content.padCustomizationSection.visibility = View.GONE
+            content.btnPolyToggle.visibility = View.GONE
+            content.btnOctaveDown.visibility = View.GONE
+            content.btnOctaveUp.visibility = View.GONE
+            content.tvOctaveValue.visibility = View.GONE
+            content.toggleZenMode.visibility = View.GONE
+        } else if (!isPadMode) {
             content.parameterContainer.visibility = if (isZenMode) View.GONE else View.VISIBLE
             content.sequencerSection.visibility = View.VISIBLE
             content.padCustomizationSection.visibility = View.VISIBLE
@@ -370,11 +374,7 @@ class MainActivity : AppCompatActivity() {
             content.btnOctaveUp.visibility = View.VISIBLE
             content.tvOctaveValue.visibility = View.VISIBLE
             content.toggleZenMode.visibility = View.VISIBLE
-            
-            set.connect(keyboardId, ConstraintSet.TOP, workspaceId, ConstraintSet.BOTTOM)
-            if (!isKeyboardHidden) set.constrainPercentHeight(keyboardId, 0.3f)
         }
-        set.applyTo(root)
     }
 
     private fun setupWorkspaceRefinement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -389,6 +389,7 @@ class MainActivity : AppCompatActivity() {
             if (isDemoPlaying) {
                 isDemoPlaying = false
                 demoJob?.cancel()
+                resetEngineState()
                 content.btnDemoMode.text = "DEMO"
             } else {
                 isDemoPlaying = true
@@ -467,8 +468,15 @@ class MainActivity : AppCompatActivity() {
             for (i in notes.indices) {
                 if (!isDemoPlaying) break
                 synthManager.noteOn(notes[i], 0.8f)
-                // Automate Cutoff during melody
+                
+                // Automate Cutoff and LFO Depth during melody
                 synthManager.setFilterCutoff(500f + (i * 300f))
+                if (i > 3) {
+                    synthManager.setLfoTarget(0) // Pitch
+                    synthManager.setLfoRate(6.0f)
+                    synthManager.setLfoDepth(0.3f)
+                }
+                
                 delay(400)
                 synthManager.noteOff(notes[i])
                 delay(100)
@@ -526,9 +534,15 @@ class MainActivity : AppCompatActivity() {
         synthManager.setRelease(0.1f)
         synthManager.setFilterCutoff(1000f)
         synthManager.setFilterResonance(0.5f)
+        synthManager.setLfoDepth(0f)
         synthManager.setDelayMix(0f)
         synthManager.setReverbMix(0f)
-        updateLabels(binding.appBarMain.contentMain)
+        synthManager.setPitchBend(0f)
+        synthManager.setModulation(0f)
+        
+        val content = binding.appBarMain.contentMain
+        content.keyboardPadView.clearHeldNotes()
+        updateLabels(content)
     }
 
     private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -979,7 +993,8 @@ class MainActivity : AppCompatActivity() {
         content.tvLfoDepthVal!!.text = String.format(Locale.US, "%.2f", content.seekLfoDepth!!.progress / 100f)
         val cutoff = (20.0 * Math.pow(1000.0, content.seekFilterCutoff!!.progress / 100.0)).toFloat()
         content.tvFilterCutoffVal!!.text = String.format(Locale.US, "%dHz", cutoff.toInt())
-        content.tvFilterResVal!!.text = String.format(Locale.US, "%.2f", content.seekFilterRes!!.progress / 100f)
+        val resVal = content.seekFilterRes!!.progress / 100f
+        content.tvFilterResVal!!.text = String.format(Locale.US, "%.2f", resVal)
     }
 
     private fun setupAdsr(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {

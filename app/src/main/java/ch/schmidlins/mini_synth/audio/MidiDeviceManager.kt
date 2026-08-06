@@ -13,7 +13,11 @@ class MidiDeviceManager(
     private val context: Context,
     private val synthManager: SynthManager
 ) {
-    private val midiManager = context.getSystemService(Context.MIDI_SERVICE) as MidiManager
+    private val midiManager: MidiManager? = try {
+        context.getSystemService(Context.MIDI_SERVICE) as? MidiManager
+    } catch (e: Exception) {
+        null
+    }
     private val connectedDevices = mutableMapOf<Int, MidiDevice>()
     private val mainHandler = Handler(Looper.getMainLooper())
     var onStatusChanged: ((Boolean) -> Unit)? = null
@@ -71,6 +75,11 @@ class MidiDeviceManager(
     }
 
     fun start() {
+        if (midiManager == null) {
+            Log.w("MidiDeviceManager", "MIDI service not available")
+            return
+        }
+        
         midiManager.registerDeviceCallback(object : MidiManager.DeviceCallback() {
             override fun onDeviceAdded(device: MidiDeviceInfo) {
                 openDevice(device)
@@ -88,7 +97,7 @@ class MidiDeviceManager(
     }
 
     private fun openDevice(info: MidiDeviceInfo) {
-        midiManager.openDevice(info, deviceCallback, mainHandler)
+        midiManager?.openDevice(info, deviceCallback, mainHandler)
     }
 
     fun stop() {
