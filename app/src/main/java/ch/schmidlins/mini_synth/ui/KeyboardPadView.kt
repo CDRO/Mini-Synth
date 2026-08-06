@@ -43,7 +43,7 @@ class KeyboardPadView @JvmOverloads constructor(
     private val pointerStartPositionsX = mutableMapOf<Int, Float>() // pointerId -> startX
     private val pointerStartPositionsY = mutableMapOf<Int, Float>() // pointerId -> startY
     private val heldMidiNotes = ConcurrentHashMap.newKeySet<Int>()
-    private val gesturePads = mutableMapOf<Int, MutableSet<Int>>() // pointerId -> set of midis triggered in this swipe
+    private val gesturePads = mutableMapOf<Int, MutableList<Int>>() // pointerId -> list of midis triggered in this swipe
     private val padColors = ConcurrentHashMap<Int, Int>() // padIndex -> color
     private val handler = android.os.Handler(android.os.Looper.getMainLooper())
     private val longPressRunnables = mutableMapOf<Int, Runnable>() // pointerId -> Runnable
@@ -59,6 +59,7 @@ class KeyboardPadView @JvmOverloads constructor(
     private val backlightPlayPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.electric_blue); style = Paint.Style.FILL; alpha = 128 }
     private val backlightHoldPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.acid_green); style = Paint.Style.STROKE; strokeWidth = 8f; alpha = 200 }
     private val backlightBendPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.electric_blue); style = Paint.Style.FILL; alpha = 100 }
+    private val gestureLinePaint = Paint().apply { color = ContextCompat.getColor(context, R.color.acid_green); style = Paint.Style.STROKE; strokeWidth = 10f; strokeCap = Paint.Cap.ROUND; alpha = 180 }
     private val customPadPaint = Paint().apply { style = Paint.Style.FILL }
     private val holdTextPaint = Paint().apply { color = ContextCompat.getColor(context, R.color.acid_green); textSize = 32f; textAlign = Paint.Align.RIGHT; typeface = android.graphics.Typeface.DEFAULT_BOLD }
     private val textFontMetrics = textPaint.fontMetrics
@@ -121,6 +122,25 @@ class KeyboardPadView @JvmOverloads constructor(
             drawKeyboard(canvas)
         } else {
             drawPadGrid(canvas)
+            drawGestureLines(canvas)
+        }
+    }
+
+    private fun drawGestureLines(canvas: Canvas) {
+        if (gesturePads.isEmpty()) return
+        
+        gesturePads.forEach { (_, midis) ->
+            var lastRect: RectF? = null
+            midis.forEach { midi ->
+                val padIndexOnScreen = midi - baseNote
+                if (padIndexOnScreen in padRects.indices) {
+                    val rect = padRects[padIndexOnScreen]
+                    if (lastRect != null) {
+                        canvas.drawLine(lastRect!!.centerX(), lastRect!!.centerY(), rect.centerX(), rect.centerY(), gestureLinePaint)
+                    }
+                    lastRect = rect
+                }
+            }
         }
     }
 
@@ -204,7 +224,7 @@ class KeyboardPadView @JvmOverloads constructor(
                 if (midi != -1) {
                     noteOn(pId, midi)
                     if (mode == Mode.PAD_GRID) {
-                        gesturePads.getOrPut(pId) { mutableSetOf() }.add(midi)
+                        gesturePads.getOrPut(pId) { mutableListOf() }.add(midi)
                         
                         val padIndex = midi - baseNote
                         val runnable = Runnable { listener?.onPadLongPress(padIndex) }
@@ -279,7 +299,12 @@ class KeyboardPadView @JvmOverloads constructor(
                                 updateNoteState(newMidi, Backlight.TOUCH.bit, true)
                                 val triggerIndex = padOffset + (newMidi - baseNote)
                                 listener?.onNoteOn(triggerIndex, 0.8f)
-                                gesturePads.getOrPut(pid) { mutableSetOf() }.add(newMidi)
+                                
+                                val list = gesturePads.getOrPut(pid) { mutableListOf() }
+                                if (list.lastOrNull() != newMidi) {
+                                    list.add(newMidi)
+                                }
+                                invalidate()
                             } else {
                                 noteOff(pid)
                                 noteOn(pid, newMidi)
