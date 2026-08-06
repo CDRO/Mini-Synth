@@ -123,6 +123,8 @@ class SynthManager {
     // Sequencer
     external fun setSequencerPlaying(playing: Boolean)
     external fun isSequencerPlaying(): Boolean
+    external fun setSequencerRecording(recording: Boolean)
+    external fun isSequencerRecording(): Boolean
     external fun setSequencerNote(step: Int, note: Int, active: Boolean)
     external fun isSequencerNoteActive(step: Int, note: Int): Boolean
     external fun getSequencerActiveNotes(step: Int): IntArray?
@@ -130,6 +132,7 @@ class SynthManager {
     external fun recordSequencerNote(note: Int): Int
     external fun clearSequencer()
     external fun setSequencerStepDuration(division: Float)
+    external fun setInputQuantize(enabled: Boolean)
     external fun getSequencerCurrentStep(): Int
 
     /** Process a 3-byte MIDI message. Thread-safe. */

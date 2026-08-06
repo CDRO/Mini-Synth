@@ -173,6 +173,7 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
 
         if (status == 0x90 && velocity > 0) {
             mVoiceManager.noteOn(note, velocity / 127.0f);
+            if (mIsSequencerRecording.load()) mMidiSequencer.handleRealTimeNoteOn(note);
         } else if (status == 0x80 || (status == 0x90 && velocity == 0)) {
             mVoiceManager.noteOff(note);
         } else if (status == 0xB0) {
