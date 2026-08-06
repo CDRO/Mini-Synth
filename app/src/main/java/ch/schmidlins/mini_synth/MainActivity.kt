@@ -107,6 +107,7 @@ class MainActivity : AppCompatActivity() {
                     if (mappingSampleId != null) {
                         synthManager.loadFactorySample(midi - 60, mappingSampleId!!)
                         mappingSampleId = null
+                        content.tvMappingStatus.text = "Sample mapped!"
                         content.sidebarBrowser.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.surface_dark))
                     } else if (isPadSamplingMode) {
                         synthManager.startPadSampling(midi - 60) // midi is baseNote + padIndex
@@ -439,6 +440,7 @@ class MainActivity : AppCompatActivity() {
                 setOnClickListener {
                     if (isHelpMode) { showHelp("Sample: ${samples[i]}. Click to enter mapping mode, then touch a pad to assign."); return@setOnClickListener }
                     mappingSampleId = i
+                    content.tvMappingStatus.text = "Mapping: ${samples[i]}..."
                     content.sidebarBrowser.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.border_dim))
                     setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.acid_green))
                     postDelayed({ setBackgroundColor(android.graphics.Color.TRANSPARENT) }, 200)
