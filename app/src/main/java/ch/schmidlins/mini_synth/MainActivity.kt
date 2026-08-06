@@ -62,6 +62,8 @@ class MainActivity : AppCompatActivity() {
 
     private var bpm = 120f
     private var bankIndex = 0
+    private var stepPageIndex = 0
+    private var numSteps = 16
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private val beatPoller = object : Runnable {
         override fun run() {
@@ -284,6 +286,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         updateOctave()
+        updateStepPageUI(content)
 
         // Master Volume
         content.seekMasterVol!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -820,16 +823,37 @@ class MainActivity : AppCompatActivity() {
         content.spinnerLoopLength!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (isHelpMode) return
-                synthManager.setSequencerNumSteps(lengthValues[position])
+                numSteps = lengthValues[position]
+                synthManager.setSequencerNumSteps(numSteps)
+                
+                // Adjust page index if necessary
+                val maxPage = (numSteps - 1) / 16
+                if (stepPageIndex > maxPage) stepPageIndex = maxPage
+                updateStepPageUI(content)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+        
+        content.btnStepPagePrev!!.setOnClickListener {
+            if (stepPageIndex > 0) {
+                stepPageIndex--
+                updateStepPageUI(content)
+            }
+        }
+        content.btnStepPageNext!!.setOnClickListener {
+            val maxPage = (numSteps - 1) / 16
+            if (stepPageIndex < maxPage) {
+                stepPageIndex++
+                updateStepPageUI(content)
+            }
         }
         
         stepButtonIds.forEachIndexed { i, id ->
             val toggle = content.root.findViewById<android.widget.ToggleButton>(id)
             toggle?.setOnCheckedChangeListener { _, isChecked ->
-                if (isHelpMode) { showHelp("Toggle note at step ${i+1}."); return@setOnCheckedChangeListener }
-                synthManager.setSequencerNote(i, 60, isChecked)
+                val actualStep = stepPageIndex * 16 + i
+                if (isHelpMode) { showHelp("Toggle note at step ${actualStep+1}."); return@setOnCheckedChangeListener }
+                synthManager.setSequencerNote(actualStep, 60, isChecked)
             }
         }
         sequencerPoller = object : Runnable {
@@ -867,31 +891,68 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateStepPageUI(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        val maxPage = (numSteps - 1) / 16
+        content.tvStepPageValue!!.text = "${stepPageIndex + 1} / ${maxPage + 1}"
+        content.btnStepPagePrev!!.isEnabled = stepPageIndex > 0
+        content.btnStepPageNext!!.isEnabled = stepPageIndex < maxPage
+        
+        updateSequencerToggles(content)
+    }
+
     private fun updateSequencerUI(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding, current: Int, last: Int) {
         val synthView = content.keyboardPadView!!
-        if (last != -1 && last < stepButtonIds.size) {
-            content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[last])?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+        
+        // Clear last visual highlight only if it was on the current page
+        if (last != -1) {
+            val lastPage = last / 16
+            val lastSubStep = last % 16
+            if (lastPage == stepPageIndex) {
+                content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[lastSubStep])?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+            }
+            // Always clear keyboard backlight? No, only if note off arrived. 
+            // triggerStep/releaseStep handles audio. 
+            // For now, we clear all to be safe during polling.
             for (note in 60..72) synthView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, false)
         }
-        if (current < stepButtonIds.size) {
-            val toggle = content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[current])
+        
+        // Highlight current step if it's on the current page
+        val currentPage = current / 16
+        val currentSubStep = current % 16
+        if (currentPage == stepPageIndex) {
+            val toggle = content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[currentSubStep])
             val activeNotes = synthManager.getSequencerActiveNotes(current)
             val isMulti = (activeNotes?.size ?: 0) > 1
             toggle?.setBackgroundColor(ContextCompat.getColor(this, if (isMulti) R.color.electric_blue else R.color.acid_green))
         }
+        
         for (note in 60..72) if (synthManager.isSequencerNoteActive(current, note)) synthView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, true)
     }
 
     private fun updateSequencerToggles(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         for (i in 0 until 16) {
+            val actualStep = stepPageIndex * 16 + i
             val id = stepButtonIds[i]
             val toggle = content.root.findViewById<android.widget.ToggleButton>(id)
-            val activeNotes = synthManager.getSequencerActiveNotes(i)
-            toggle?.isChecked = activeNotes != null && activeNotes.isNotEmpty()
-            if (activeNotes != null && activeNotes.size > 1) {
-                toggle?.setBackgroundColor(ContextCompat.getColor(this, R.color.electric_blue))
+            
+            if (actualStep < numSteps) {
+                toggle?.visibility = View.VISIBLE
+                val activeNotes = synthManager.getSequencerActiveNotes(actualStep)
+                // Use isChecked without triggering listener
+                toggle?.setOnCheckedChangeListener(null)
+                toggle?.isChecked = activeNotes != null && activeNotes.isNotEmpty()
+                toggle?.setOnCheckedChangeListener { _, isChecked ->
+                    if (isHelpMode) { showHelp("Toggle note at step ${actualStep+1}."); return@setOnCheckedChangeListener }
+                    synthManager.setSequencerNote(actualStep, 60, isChecked)
+                }
+                
+                if (activeNotes != null && activeNotes.size > 1) {
+                    toggle?.setBackgroundColor(ContextCompat.getColor(this, R.color.electric_blue))
+                } else {
+                    toggle?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+                }
             } else {
-                toggle?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+                toggle?.visibility = View.INVISIBLE
             }
         }
     }
