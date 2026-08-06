@@ -306,62 +306,66 @@ class MainActivity : AppCompatActivity() {
         if (isPollingEnabled) {
             TransitionManager.beginDelayedTransition(root)
         }
+        
         val set = ConstraintSet()
         set.clone(root)
 
         content.keyboardPadView.isEnabled = !isHelpMode
 
-        val keyboardId = content.keyboardPadView.id
-        val toggleKbId = content.toggleKeyboard.id
-        val headerId = content.topHeader.id
-        val workspaceId = content.workspaceLayout.id
-        val fullToggleId = content.togglePadsFullscreen.id
-
-        // Direct children visibility via ConstraintSet
-        if (isKeyboardHidden || isHelpMode) {
-            set.setVisibility(keyboardId, View.GONE)
-            set.clear(toggleKbId, ConstraintSet.BOTTOM)
-            set.connect(toggleKbId, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+        val kbVisible = !(isKeyboardHidden || isHelpMode)
+        val kbVisibility = if (kbVisible) View.VISIBLE else View.GONE
+        
+        set.setVisibility(R.id.keyboard_pad_view, kbVisibility)
+        set.setVisibility(R.id.toggle_keyboard, if (isHelpMode) View.GONE else View.VISIBLE)
+        
+        if (!kbVisible) {
+            set.clear(R.id.toggle_keyboard, ConstraintSet.BOTTOM)
+            set.connect(R.id.toggle_keyboard, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
         } else {
-            set.setVisibility(keyboardId, View.VISIBLE)
-            set.clear(toggleKbId, ConstraintSet.BOTTOM)
-            set.connect(toggleKbId, ConstraintSet.BOTTOM, keyboardId, ConstraintSet.TOP)
+            set.clear(R.id.toggle_keyboard, ConstraintSet.BOTTOM)
+            set.connect(R.id.toggle_keyboard, ConstraintSet.BOTTOM, R.id.keyboard_pad_view, ConstraintSet.TOP)
         }
 
         if (isPadMode) {
-            set.setVisibility(fullToggleId, View.VISIBLE)
+            set.setVisibility(R.id.toggle_pads_fullscreen, View.VISIBLE)
             
             if (isFullscreenPads) {
-                set.setVisibility(headerId, View.GONE)
-                set.setVisibility(workspaceId, View.GONE)
-                set.connect(keyboardId, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-                set.constrainPercentHeight(keyboardId, 1.0f)
-                set.setVisibility(toggleKbId, View.GONE)
+                set.setVisibility(R.id.top_header, View.GONE)
+                set.setVisibility(R.id.workspace_layout, View.GONE)
+                set.setVisibility(R.id.toggle_keyboard, View.GONE)
+                
+                set.connect(R.id.keyboard_pad_view, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                set.constrainPercentHeight(R.id.keyboard_pad_view, 1.0f)
             } else {
-                set.setVisibility(toggleKbId, View.VISIBLE)
-                set.setVisibility(headerId, View.VISIBLE)
-                set.setVisibility(workspaceId, View.VISIBLE)
+                set.setVisibility(R.id.toggle_keyboard, View.VISIBLE)
+                set.setVisibility(R.id.top_header, View.VISIBLE)
+                set.setVisibility(R.id.workspace_layout, View.VISIBLE)
                 
-                // Nested views managed directly
-                content.parameterContainer.visibility = View.GONE
-                content.sequencerSection.visibility = View.GONE
-                content.padCustomizationSection.visibility = View.GONE
-                content.btnPolyToggle.visibility = View.GONE
-                content.btnOctaveDown.visibility = View.GONE
-                content.btnOctaveUp.visibility = View.GONE
-                content.tvOctaveValue.visibility = View.GONE
-                content.toggleZenMode.visibility = View.GONE
-                
-                set.connect(keyboardId, ConstraintSet.TOP, workspaceId, ConstraintSet.BOTTOM)
-                if (!isKeyboardHidden) set.constrainPercentHeight(keyboardId, 0.3f)
+                set.connect(R.id.keyboard_pad_view, ConstraintSet.TOP, R.id.workspace_layout, ConstraintSet.BOTTOM)
+                if (kbVisible) set.constrainPercentHeight(R.id.keyboard_pad_view, 0.3f)
             }
         } else {
-            set.setVisibility(toggleKbId, if (isHelpMode) View.GONE else View.VISIBLE)
-            set.setVisibility(fullToggleId, View.GONE)
-            set.setVisibility(headerId, View.VISIBLE)
-            set.setVisibility(workspaceId, View.VISIBLE)
+            set.setVisibility(R.id.toggle_pads_fullscreen, View.GONE)
+            set.setVisibility(R.id.top_header, View.VISIBLE)
+            set.setVisibility(R.id.workspace_layout, View.VISIBLE)
             
-            // Nested views managed directly
+            set.connect(R.id.keyboard_pad_view, ConstraintSet.TOP, R.id.workspace_layout, ConstraintSet.BOTTOM)
+            if (kbVisible) set.constrainPercentHeight(R.id.keyboard_pad_view, 0.3f)
+        }
+        
+        set.applyTo(root)
+
+        // Nested views (not direct children of ConstraintLayout) must be handled manually AFTER applyTo
+        if (isPadMode && !isFullscreenPads) {
+            content.parameterContainer.visibility = View.GONE
+            content.sequencerSection.visibility = View.GONE
+            content.padCustomizationSection.visibility = View.GONE
+            content.btnPolyToggle.visibility = View.GONE
+            content.btnOctaveDown.visibility = View.GONE
+            content.btnOctaveUp.visibility = View.GONE
+            content.tvOctaveValue.visibility = View.GONE
+            content.toggleZenMode.visibility = View.GONE
+        } else if (!isPadMode) {
             content.parameterContainer.visibility = if (isZenMode) View.GONE else View.VISIBLE
             content.sequencerSection.visibility = View.VISIBLE
             content.padCustomizationSection.visibility = View.VISIBLE
@@ -370,11 +374,7 @@ class MainActivity : AppCompatActivity() {
             content.btnOctaveUp.visibility = View.VISIBLE
             content.tvOctaveValue.visibility = View.VISIBLE
             content.toggleZenMode.visibility = View.VISIBLE
-            
-            set.connect(keyboardId, ConstraintSet.TOP, workspaceId, ConstraintSet.BOTTOM)
-            if (!isKeyboardHidden) set.constrainPercentHeight(keyboardId, 0.3f)
         }
-        set.applyTo(root)
     }
 
     private fun setupWorkspaceRefinement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -389,6 +389,7 @@ class MainActivity : AppCompatActivity() {
             if (isDemoPlaying) {
                 isDemoPlaying = false
                 demoJob?.cancel()
+                resetEngineState()
                 content.btnDemoMode.text = "DEMO"
             } else {
                 isDemoPlaying = true
@@ -441,29 +442,118 @@ class MainActivity : AppCompatActivity() {
     private fun playDemoSong() {
         demoJob?.cancel()
         demoJob = lifecycleScope.launch {
-            // Reset for demo - Fixes #42
-            synthManager.setWaveform(2) // Saw
-            synthManager.setAttack(0.01f)
-            synthManager.setDecay(0.1f)
-            synthManager.setSustain(0.7f)
-            synthManager.setRelease(0.3f)
-            synthManager.setFilterCutoff(2000f)
-            synthManager.setFilterResonance(0.2f)
+            // Discovery explanation
+            Toast.makeText(this@MainActivity, "Demo: Initializing synth patch...", Toast.LENGTH_SHORT).show()
             
+            // Reset for demo
+            synthManager.setWaveform(2) // Saw
+            synthManager.setAttack(0.02f)
+            synthManager.setDecay(0.2f)
+            synthManager.setSustain(0.5f)
+            synthManager.setRelease(0.5f)
+            synthManager.setFilterCutoff(1500f)
+            synthManager.setFilterResonance(0.3f)
+            
+            // FX Setup
+            synthManager.setDelayTime(0.4f)
+            synthManager.setDelayFeedback(0.6f)
+            synthManager.setDelayMix(0.3f)
+            synthManager.setReverbSize(0.7f)
+            synthManager.setReverbMix(0.2f)
+            
+            delay(1000)
+            showDemoToast("Oscillators support SINE, SQUARE, SAW, and TRIANGLE waves.")
+            delay(2000)
+            showDemoToast("Now playing melody with built-in Delay + Reverb effects.")
+
             val notes = listOf(60, 63, 67, 72, 67, 63)
-            var i = 0
-            while (isDemoPlaying) {
-                val note = notes[i % notes.size]
-                synthManager.noteOn(note, 0.8f)
-                delay(300)
-                synthManager.noteOff(note)
-                delay(100)
-                i++
-                if (i == notes.size) {
-                    synthManager.setFilterCutoff(if (i % 12 == 0) 2000f else 500f)
+            for (i in notes.indices) {
+                if (!isDemoPlaying) break
+                synthManager.noteOn(notes[i], 0.8f)
+                
+                // Automate Cutoff and LFO Depth during melody
+                synthManager.setFilterCutoff(500f + (i * 300f))
+                if (i == 2) showDemoToast("Resonant Filter Cutoff is being automated...")
+                if (i > 3) {
+                    if (i == 4) showDemoToast("LFO is now modulating the Pitch (Vibrato).")
+                    synthManager.setLfoTarget(0) // Pitch
+                    synthManager.setLfoRate(6.0f)
+                    synthManager.setLfoDepth(0.3f)
                 }
+                
+                delay(400)
+                synthManager.noteOff(notes[i])
+                delay(100)
             }
+            
+            if (!isDemoPlaying) return@launch
+            
+            showDemoToast("Automated Sampling: Recording 2 seconds of the current sound to Pad 0.")
+            synthManager.startAutomatedSampling(0, 2.0f)
+            binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, true)
+            
+            // Play a big chord to sample
+            synthManager.noteOn(60, 0.9f)
+            synthManager.noteOn(64, 0.9f)
+            synthManager.noteOn(67, 0.9f)
+            delay(1500)
+            synthManager.noteOff(60)
+            synthManager.noteOff(64)
+            synthManager.noteOff(67)
+            delay(600) // let it finish sampling
+            binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, false)
+            
+            showDemoToast("Switching to Pad Mode automatically.")
+            
+            // Automated UI transition
+            isPadMode = true
+            binding.appBarMain.contentMain.btnModeToggle.text = "Keys"
+            binding.appBarMain.contentMain.keyboardPadView.setMode(KeyboardPadView.Mode.PAD_GRID)
+            updateWorkspaceVisibility(binding.appBarMain.contentMain)
+            
+            delay(1000)
+            showDemoToast("Triggering the freshly sampled sound from Pad 0!")
+            
+            // Trigger sampled pad
+            synthManager.setReverbMix(0.1f)
+            synthManager.padNoteOn(0, 1.0f)
+            for (i in 0..10) {
+                if (i == 5) showDemoToast("Modulating Reverb Wet Mix during playback.")
+                synthManager.setReverbMix(0.1f + (i * 0.05f))
+                delay(200)
+            }
+            synthManager.padNoteOff(0)
+            
+            delay(1000)
+            isDemoPlaying = false
+            binding.appBarMain.contentMain.btnDemoMode.text = "DEMO"
+            resetEngineState()
+            showDemoToast("Demo Complete. You can now use all these features manually!")
         }
+    }
+
+    private fun showDemoToast(message: String) {
+        runOnUiThread {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun resetEngineState() {
+        synthManager.setAttack(0.1f)
+        synthManager.setDecay(0.1f)
+        synthManager.setSustain(0.8f)
+        synthManager.setRelease(0.1f)
+        synthManager.setFilterCutoff(1000f)
+        synthManager.setFilterResonance(0.5f)
+        synthManager.setLfoDepth(0f)
+        synthManager.setDelayMix(0f)
+        synthManager.setReverbMix(0f)
+        synthManager.setPitchBend(0f)
+        synthManager.setModulation(0f)
+        
+        val content = binding.appBarMain.contentMain
+        content.keyboardPadView.clearHeldNotes()
+        updateLabels(content)
     }
 
     private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -914,7 +1004,8 @@ class MainActivity : AppCompatActivity() {
         content.tvLfoDepthVal!!.text = String.format(Locale.US, "%.2f", content.seekLfoDepth!!.progress / 100f)
         val cutoff = (20.0 * Math.pow(1000.0, content.seekFilterCutoff!!.progress / 100.0)).toFloat()
         content.tvFilterCutoffVal!!.text = String.format(Locale.US, "%dHz", cutoff.toInt())
-        content.tvFilterResVal!!.text = String.format(Locale.US, "%.2f", content.seekFilterRes!!.progress / 100f)
+        val resVal = content.seekFilterRes!!.progress / 100f
+        content.tvFilterResVal!!.text = String.format(Locale.US, "%.2f", resVal)
     }
 
     private fun setupAdsr(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {

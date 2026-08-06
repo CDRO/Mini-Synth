@@ -9,10 +9,10 @@
     "milestones_folder_path": "docs/artifacts/milestones"
   },
   "current_state": {
-    "active_milestone_file": "20_Built_in_Effects",
+    "active_milestone_file": "21_Automated_Demo_Sampling",
     "current_step": "Review Loop",
     "loop_iteration": 10,
-    "last_action_completed": "Completed all review loops for Milestone 20.",
-    "next_immediate_action": "Merge and move to Milestone 21."
+    "last_action_completed": "Added Discovery style toast explanations during demo.",
+    "next_immediate_action": "Final cleanup and documentation."
   }
 }

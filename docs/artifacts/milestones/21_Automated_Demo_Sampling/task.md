@@ -1,0 +1,21 @@
+# Tasks: Milestone 21 - Automated Demo & Sampling
+
+- `[ ]` Setup Demo Infrastructure
+    - `[x]` Create milestone folder and plans.
+    - `[ ]` Create local branch and PR.
+    - `[ ]` Build baseline project.
+- `[ ]` Review Loop 1-10
+    - `[ ]` 1/10: Add JNI bridge for automated sampling.
+    - `[ ]` 2/10: Implement `AudioEngine::autoSampleToPad`.
+    - `[ ]` 3/10: Update `MainActivity.kt` demo patch settings.
+    - `[ ]` 4/10: Implement melody-to-sampling transition in coroutine.
+    - `[ ]` 5/10: Add visual feedback for automated sampling (backlights).
+    - `[ ]` 6/10: Implement automated mode switching (Keys -> Pads).
+    - `[ ]` 7/10: Add Delay/Reverb modulation to demo.
+    - `[ ]` 8/10: Optimize demo cleanup (ensure engine state resets).
+    - `[ ]` 9/10: Add 'Discovery' style toast explanations during demo.
+    - `[ ]` 10/10: Final cleanup and documentation.
+- `[ ]` Merge and Cleanup
+    - `[ ]` Verify build.
+    - `[ ]` Final merge review.
+    - `[ ]` Squash and merge.
