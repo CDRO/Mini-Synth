@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "24_Polyphonic_Aftertouch",
     "current_step": "Review Loop",
-    "loop_iteration": 4,
-    "last_action_completed": "Review loop 4/10: Updated KeyboardPadView to report per-pointer aftertouch values based on Y position.",
-    "next_immediate_action": "Implement aftertouch-to-parameter mapping in Voice.cpp logic."
+    "loop_iteration": 6,
+    "last_action_completed": "Review loop 6/10: Added Aftertouch Target selector to the UI and JNI bridge.",
+    "next_immediate_action": "Implement visual feedback for aftertouch intensity on keys."
   }
 }

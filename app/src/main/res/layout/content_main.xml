@@ -696,6 +696,22 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
+                        <Space
+                            android:layout_width="16dp"
+                            android:layout_height="match_parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="AT Target:"
+                            android:textColor="@color/off_white"
+                            android:textSize="12sp" />
+
+                        <Spinner
+                            android:id="@+id/spinner_aftertouch_target"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -1011,7 +1027,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:gravity="center_vertical"
                         android:layout_marginTop="4dp">
 
                         <TextView

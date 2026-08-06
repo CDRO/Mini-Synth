@@ -1278,6 +1278,16 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+        
+        content.spinnerAftertouchTarget!!.adapter = targetAdapter
+        content.spinnerAftertouchTarget!!.setSelection(2) // Default Filter
+        content.spinnerAftertouchTarget!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isHelpMode) return
+                synthManager.setAftertouchTarget(position)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
     }
 
     private fun setupFilter(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
