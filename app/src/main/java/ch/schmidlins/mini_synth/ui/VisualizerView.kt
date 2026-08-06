@@ -26,6 +26,7 @@ class VisualizerView @JvmOverloads constructor(
     private val buffer = FloatArray(1024)
     private val drawBuffer = FloatArray(1024)
     private val fftBuffer = FloatArray(512)
+    private val smoothedMagnitudes = FloatArray(64)
     private val barPaint = Paint().apply {
         color = ContextCompat.getColor(context, R.color.acid_green)
         style = Paint.Style.FILL
@@ -90,8 +91,11 @@ class VisualizerView @JvmOverloads constructor(
                     maxMag = Math.max(maxMag, fftBuffer[b])
                 }
                 
-                val magnitude = maxMag * 15f 
-                val barHeight = (magnitude * maxBarHeight).coerceIn(0f, maxBarHeight)
+                // Exponential Smoothing
+                val targetMag = maxMag * 15f
+                smoothedMagnitudes[i] = (smoothedMagnitudes[i] * 0.7f) + (targetMag * 0.3f)
+                
+                val barHeight = (smoothedMagnitudes[i] * maxBarHeight).coerceIn(0f, maxBarHeight)
                 
                 val left = i * bucketWidth
                 canvas.drawRect(left, bottomY - barHeight, left + bucketWidth - 1f, bottomY, barPaint)
