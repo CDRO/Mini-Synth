@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
     private var isDemoPlaying = false
     private var demoJob: kotlinx.coroutines.Job? = null
     var isPollingEnabled = true // Exposed for tests
+    private val padLinks = mutableMapOf<Int, MutableSet<Int>>() // Source pad -> Set of linked pads
     private var mappingSampleId: Int? = null // if not null, we are in mapping mode
     private val padSamplePaths = mutableMapOf<Int, String>()
     
@@ -112,6 +113,10 @@ class MainActivity : AppCompatActivity() {
                         synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, true)
                     } else {
                         synthManager.padNoteOn(midi - 60, velocity)
+                        // Pad Linking
+                        padLinks[midi - 60]?.forEach { linked ->
+                            synthManager.padNoteOn(linked, velocity)
+                        }
                     }
                 } else {
                     if (isSequencerRecordMode) {
@@ -137,6 +142,10 @@ class MainActivity : AppCompatActivity() {
                         synthView.setNoteBacklight(midi, KeyboardPadView.Backlight.RECORD, false)
                     } else {
                         synthManager.padNoteOff(midi - 60)
+                        // Pad Linking
+                        padLinks[midi - 60]?.forEach { linked ->
+                            synthManager.padNoteOff(linked)
+                        }
                     }
                 } else {
                     synthManager.noteOff(midi)
@@ -640,6 +649,19 @@ class MainActivity : AppCompatActivity() {
         }
         layout.addView(loopCheck)
 
+        val linkLabel = android.widget.TextView(this).apply {
+            text = "Link to Pad (Index):"
+            setPadding(0, 20, 0, 8)
+        }
+        layout.addView(linkLabel)
+
+        val linkInput = android.widget.EditText(this).apply {
+            hint = "e.g. 1"
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER
+            setText(padLinks[padIndex]?.joinToString(",") ?: "")
+        }
+        layout.addView(linkInput)
+
         val colorLabel = android.widget.TextView(this).apply {
             text = "Pad Color:"
             setPadding(0, 20, 0, 8)
@@ -660,7 +682,15 @@ class MainActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle("Pad $padIndex Configuration")
             .setView(layout)
-            .setPositiveButton("OK", null)
+            .setPositiveButton("OK") { _, _ ->
+                val input = linkInput.text.toString()
+                if (input.isNotEmpty()) {
+                    val linkedPads = input.split(",").mapNotNull { it.trim().toIntOrNull() }.toMutableSet()
+                    padLinks[padIndex] = linkedPads
+                } else {
+                    padLinks.remove(padIndex)
+                }
+            }
             .setNeutralButton("Sound Source") { _, _ ->
                 val options = arrayOf("Use Oscillator", "Use Recorded Sample")
                 AlertDialog.Builder(this).setTitle("Select Source").setItems(options) { _, _ -> }.show()
