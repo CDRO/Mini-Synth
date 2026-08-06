@@ -29,9 +29,10 @@ Merging context from initial feature implementation and workspace refinements.
 ### [DONE] Milestone 17-21: MIDI Support, Effects, Automated Sampling.
 ### [DONE] Milestone 23: MIDI Loop Recording.
 ### [DONE] Milestone 24: Polyphonic Aftertouch Simulation.
+### [DONE] Milestone 25: FFT Frequency Visualization.
 
-### [NEXT] Milestone 25: Waveform Visualization Refinement
-- **Objective**: Real-time frequency spectrum (FFT) display in the header.
+### [NEXT] Milestone 26: Adaptive Buffer Management
+- **Objective**: Dynamically adjust Oboe buffer size based on CPU load and underrun counts.
 
 ## Quality Assurance Status
 - **Unit Tests**: 16 local JVM tests passing (Robolectric).

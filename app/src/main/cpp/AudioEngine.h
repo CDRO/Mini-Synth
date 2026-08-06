@@ -7,6 +7,7 @@
 #include "LockFreeQueue.h"
 #include "Delay.h"
 #include "Reverb.h"
+#include "FftProcessor.h"
 #include <thread>
 #include <atomic>
 #include <chrono>
@@ -62,6 +63,7 @@ public:
     float renderSampleForTest();
 
     int32_t getVisualizerData(float* buffer, int32_t size);
+    int32_t getFftData(float* buffer, int32_t size);
     void startRecording(const std::string& path);
     void stopRecording();
 
@@ -138,6 +140,7 @@ private:
     std::shared_ptr<oboe::AudioStream> mStream;
     VoiceManager mVoiceManager;
     MidiSequencer mMidiSequencer;
+    FftProcessor mFftProcessor;
     Delay mDelay;
     Reverb mReverb;
     int mOctaveShift = 0;
@@ -149,7 +152,8 @@ private:
     SamplePlayer mSampleRecorder;
 
     LockFreeQueue<float> mVizQueue{4096};
-    LockFreeQueue<float> mRecordQueue{262144}; // Increased to 256k for better safety margin
+    LockFreeQueue<float> mFftQueue{4096};
+    LockFreeQueue<float> mRecordQueue{262144};
     std::atomic<bool> mIsRecording{false};
     std::atomic<bool> mIsSequencerRecording{false};
     std::string mRecordPath;
