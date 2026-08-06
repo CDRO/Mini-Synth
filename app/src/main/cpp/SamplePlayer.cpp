@@ -48,11 +48,11 @@ float SamplePlayer::nextSample() {
     size_t size = mPlaybackBuffer->size();
 
     if (mIsLooping) {
-        if (i0 >= size) {
-            mPlaybackIndex = fmodf(mPlaybackIndex, static_cast<float>(size));
-            i0 = static_cast<size_t>(mPlaybackIndex);
-            i1 = i0 + 1;
+        if (mPlaybackIndex >= static_cast<float>(size)) {
+            mPlaybackIndex -= static_cast<float>(size);
         }
+        i0 = static_cast<size_t>(mPlaybackIndex);
+        i1 = i0 + 1;
         if (i1 >= size) i1 = 0;
     } else {
         if (i0 >= size) {
