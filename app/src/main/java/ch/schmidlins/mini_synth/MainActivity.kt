@@ -576,6 +576,7 @@ class MainActivity : AppCompatActivity() {
             showDemoToast("Triggering the freshly sampled sound from Pad 0!")
             
             // Trigger sampled pad
+            Toast.makeText(this@MainActivity, "Demo: Triggering sampled pad with Reverb swell", Toast.LENGTH_SHORT).show()
             synthManager.setReverbMix(0.1f)
             synthManager.padNoteOn(0, 1.0f)
             for (i in 0..10) {
