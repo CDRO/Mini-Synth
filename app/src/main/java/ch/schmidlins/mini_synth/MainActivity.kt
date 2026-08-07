@@ -569,6 +569,17 @@ class MainActivity : AppCompatActivity() {
                     delay(150)
                 }
                 
+                // Show Aftertouch
+                showDemoToast("Aftertouch: Simulating pressure for expressive volume swells.")
+                synthManager.setAftertouchTarget(1) // Volume
+                synthManager.padNoteOn(1, 0.4f)
+                for (i in 0..10) {
+                    if (!isDemoPlaying) break
+                    synthManager.setAftertouch(62, 0.4f + (i * 0.06f)) // Pad 1 is note 62
+                    delay(200)
+                }
+                synthManager.padNoteOff(1)
+                
                 if (!isDemoPlaying) return@launch
 
                 // Stage 2: Multi-Bank Sampling
@@ -591,6 +602,17 @@ class MainActivity : AppCompatActivity() {
                     delay(500)
                 }
 
+                // Show Aftertouch
+                showDemoToast("Aftertouch: Simulating pressure for expressive volume swells.")
+                synthManager.setAftertouchTarget(1) // Volume
+                synthManager.padNoteOn(1, 0.4f)
+                for (i in 0..10) {
+                    if (!isDemoPlaying) break
+                    synthManager.setAftertouch(62, 0.4f + (i * 0.06f)) // Pad 1 is note 62
+                    delay(200)
+                }
+                synthManager.padNoteOff(1)
+                
                 if (!isDemoPlaying) return@launch
 
                 delay(1000)
@@ -624,6 +646,17 @@ class MainActivity : AppCompatActivity() {
                     delay(300)
                 }
                 synthManager.padNoteOff(0)
+                
+                // Show Aftertouch
+                showDemoToast("Aftertouch: Simulating pressure for expressive volume swells.")
+                synthManager.setAftertouchTarget(1) // Volume
+                synthManager.padNoteOn(1, 0.4f)
+                for (i in 0..10) {
+                    if (!isDemoPlaying) break
+                    synthManager.setAftertouch(62, 0.4f + (i * 0.06f)) // Pad 1 is note 62
+                    delay(200)
+                }
+                synthManager.padNoteOff(1)
                 
                 if (!isDemoPlaying) return@launch
                 
