@@ -193,14 +193,14 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
 
     // Adaptive Buffer Management Check
     mFramesSinceLastStabilityCheck += numFrames;
-    if (mFramesSinceLastStabilityCheck >= 24000) { // Check every 0.5s for faster response
-        mFramesSinceLastStabilityCheck = 0;
+    if (mFramesSinceLastStabilityCheck >= 24000) { // Check every 0.5s
         int32_t currentXRuns = getXRunCount();
+        int32_t currentSize = mStream->getBufferSizeInFrames();
+        int32_t burstSize = mStream->getFramesPerBurst();
+
         if (currentXRuns > mLastXRunCount) {
             int32_t diff = currentXRuns - mLastXRunCount;
-            // Underrun occurred! Increase buffer size proportional to xRun delta
-            int32_t currentSize = mStream->getBufferSizeInFrames();
-            int32_t burstSize = mStream->getFramesPerBurst();
+            // Underrun occurred! Increase buffer size.
             int32_t increase = burstSize * (diff > 1 ? 2 : 1);
             int32_t newSize = std::min(currentSize + increase, mStream->getBufferCapacityInFrames());
 
@@ -209,6 +209,15 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
                 __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Increased to %d due to %d new xRuns", newSize, diff);
             }
             mLastXRunCount = currentXRuns;
+            mFramesSinceLastStabilityCheck = 0; // Reset counter on instability
+        } else if (mFramesSinceLastStabilityCheck >= 240000) { // Stable for 5 seconds
+            mFramesSinceLastStabilityCheck = 0;
+            // Try to decrease buffer size to minimize latency
+            int32_t newSize = std::max(burstSize * 2, currentSize - burstSize);
+            if (newSize < currentSize) {
+                mStream->setBufferSizeInFrames(newSize);
+                __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Decreased to %d after stable period", newSize);
+            }
         }
     }
 
