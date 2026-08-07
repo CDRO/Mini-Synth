@@ -579,15 +579,41 @@ class MainActivity : AppCompatActivity() {
             updateWorkspaceVisibility(binding.appBarMain.contentMain)
             
             delay(1000)
-            showDemoToast("Triggering the freshly sampled sound from Pad 0!")
+            showDemoToast("Stage 3: Performance Stage. Using pads and built-in effects.")
             
-            // Trigger sampled pad
-            Toast.makeText(this@MainActivity, "Demo: Triggering sampled pad with Reverb swell", Toast.LENGTH_SHORT).show()
+            // Trigger sampled pad rhythmically with FX swell
+            showDemoToast("Triggering the freshly sampled sound with Reverb swell!")
+            
+            val content = binding.appBarMain.contentMain
             synthManager.setReverbMix(0.1f)
+            runOnUiThread { content.seekReverbMix.progress = 10 }
+            
+            // Rhythmic triggering of Pad 0
+            for (i in 0..7) {
+                if (!isDemoPlaying) break
+                synthManager.padNoteOn(0, 1.0f)
+                
+                // Gradually increase Reverb Mix
+                val mix = 0.1f + (i * 0.12f)
+                synthManager.setReverbMix(mix)
+                runOnUiThread { content.seekReverbMix.progress = (mix * 100).toInt() }
+                
+                delay(300)
+                synthManager.padNoteOff(0)
+                delay(200)
+                
+                if (i == 3) showDemoToast("Notice the spatial depth increasing...")
+            }
+            
+            if (!isDemoPlaying) return@launch
+            
+            // One final long swell
             synthManager.padNoteOn(0, 1.0f)
+            showDemoToast("Final spatial wash...")
             for (i in 0..10) {
-                if (i == 5) showDemoToast("Modulating Reverb Wet Mix during playback.")
-                synthManager.setReverbMix(0.1f + (i * 0.05f))
+                val mix = 0.8f - (i * 0.05f) // Fade out reverb
+                synthManager.setReverbMix(mix)
+                runOnUiThread { content.seekReverbMix.progress = (mix * 100).toInt() }
                 delay(200)
             }
             synthManager.padNoteOff(0)
