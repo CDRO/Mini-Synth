@@ -73,6 +73,14 @@ public:
 
     void renderPatternToFile(const std::string& path);
 
+    // Buffer Status
+    int32_t getXRunCount();
+    int32_t getBufferSize();
+    int32_t getFramesPerBurst();
+    void setAutoLatencyEnabled(bool enabled) { mAutoLatencyEnabled.store(enabled); }
+    bool isAutoLatencyEnabled() const { return mAutoLatencyEnabled.load(); }
+    void checkAndApplyBufferSize();
+
     // External MIDI
     void processExternalMidi(const uint8_t* data, int32_t length);
 
@@ -168,6 +176,11 @@ private:
 
     int mRestartRetryCount = 0;
     std::chrono::steady_clock::time_point mLastRestartTime;
+
+    int32_t mLastXRunCount = 0;
+    int32_t mFramesSinceLastStabilityCheck = 0;
+    std::atomic<int32_t> mRequestedBufferSize{0};
+    std::atomic<bool> mAutoLatencyEnabled{true};
 
     void recordingLoop(const std::string& path);
     void updateMetronomeParams();

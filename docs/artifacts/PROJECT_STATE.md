@@ -35,6 +35,12 @@ Merging context from initial feature implementation and workspace refinements.
 ### [NEXT] Milestone 27: Adaptive Buffer Management
 - **Objective**: Dynamically adjust Oboe buffer size based on CPU load and underrun counts.
 
+### [NEXT] Milestone 28: Integrated Demo & Automated Sampling (Enhanced)
+- **Objective**: Complete automated showreel demonstrating all app features with zero-touch sampling.
+- **Key Features**:
+    - Scripted "Feature Tour" (FX, Sequencer, MIDI).
+    - Multi-bank automated sampling demonstration.
+
 ## Quality Assurance Status
 - **Unit Tests**: 16 local JVM tests passing (Robolectric).
 - **Workflow**: GitHub-integrated milestone tracking and 10-issue review loop.

@@ -35,7 +35,7 @@ float Delay::process(float input) {
     float readIdx = static_cast<float>(mWriteIndex) - mCurrentDelaySamples;
     while (readIdx < 0) readIdx += static_cast<float>(mBuffer.size());
 
-    size_t idx1 = static_cast<size_t>(readIdx);
+    auto idx1 = static_cast<size_t>(readIdx);
     size_t idx2 = (idx1 + 1) % mBuffer.size();
     float frac = readIdx - static_cast<float>(idx1);
 

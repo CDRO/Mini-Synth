@@ -175,6 +175,34 @@
                 android:layout_height="14dp"
                 android:background="@android:color/darker_gray" />
 
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tv_latency_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Buffer: -- (0)"
+                android:textColor="@color/dim_grey"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="4dp"
+                android:layout_height="match_parent" />
+
+            <ToggleButton
+                android:id="@+id/toggle_auto_latency"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="48dp"
+                android:layout_height="32dp"
+                android:textOff="AUTO"
+                android:textOn="AUTO"
+                android:checked="true"
+                android:textColor="@color/acid_green"
+                android:textSize="8sp" />
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

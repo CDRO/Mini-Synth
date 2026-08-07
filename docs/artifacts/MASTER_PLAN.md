@@ -111,6 +111,13 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 - **Buffer Scaling**: Dynamically adjust Oboe's `bufferSize` based on xRun counts.
 - **Latency Balancing**: Minimize latency while preventing crackling under load.
 
+## Milestone 28: Integrated Demo & Automated Sampling (Enhanced) [TODO]
+
+### [Logic] [UX]
+- **Automated Tour**: Programmatic sequence covering Oscillators, Filters, FX, and Sequencer.
+- **Self-Sampling**: Demonstrate automated note-to-pad sampling logic.
+- **Discovery Mode**: Integrated help overlays triggered by the demo script.
+
 ---
 
 ## Future Features & Roadmap

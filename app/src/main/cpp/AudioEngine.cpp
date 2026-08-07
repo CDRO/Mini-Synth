@@ -191,6 +191,36 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
 
     mMidiSequencer.process(numFrames, mSamplesPerBeat, mVoiceManager);
 
+    // Adaptive Buffer Management Check
+    if (mAutoLatencyEnabled.load()) {
+        mFramesSinceLastStabilityCheck += numFrames;
+        if (mFramesSinceLastStabilityCheck >= 48000) { // Check every 1s
+            int32_t currentXRuns = getXRunCount();
+            int32_t currentSize = mStream->getBufferSizeInFrames();
+            int32_t burstSize = mStream->getFramesPerBurst();
+
+            if (currentXRuns > mLastXRunCount) {
+                int32_t diff = currentXRuns - mLastXRunCount;
+                int32_t increase = burstSize * (diff > 2 ? 4 : 2);
+                int32_t newSize = std::min(currentSize + increase, mStream->getBufferCapacityInFrames());
+
+                if (newSize > currentSize) {
+                    mRequestedBufferSize.store(newSize);
+                    __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Requesting increase to %d", newSize);
+                    mFramesSinceLastStabilityCheck = -96000;
+                }
+                mLastXRunCount = currentXRuns;
+            } else if (mFramesSinceLastStabilityCheck >= 1440000) {
+                mFramesSinceLastStabilityCheck = 0;
+                int32_t newSize = std::max(burstSize * 2, currentSize - burstSize);
+                if (newSize < currentSize) {
+                    mRequestedBufferSize.store(newSize);
+                    __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Requesting decrease to %d", newSize);
+                }
+            }
+        }
+    }
+
     for (int i = 0; i < numFrames; ++i) {
         float sample = mVoiceManager.nextSample();
 
@@ -470,4 +500,28 @@ void AudioEngine::startAutomatedSampling(int padIndex, float durationSeconds) {
     int32_t sampleRate = mStream ? mStream->getSampleRate() : 48000;
     mAutoSampleRemaining = static_cast<int32_t>(durationSeconds * static_cast<float>(sampleRate));
     startPadSampling(padIndex);
+}
+
+int32_t AudioEngine::getXRunCount() {
+    if (!mStream) return 0;
+    auto result = mStream->getXRunCount();
+    return result.value_or(0);
+}
+
+int32_t AudioEngine::getBufferSize() {
+    if (!mStream) return 0;
+    return mStream->getBufferSizeInFrames();
+}
+
+int32_t AudioEngine::getFramesPerBurst() {
+    if (!mStream) return 192; // Default
+    return mStream->getFramesPerBurst();
+}
+
+void AudioEngine::checkAndApplyBufferSize() {
+    int32_t requested = mRequestedBufferSize.exchange(0);
+    if (requested > 0 && mStream) {
+        mStream->setBufferSizeInFrames(requested);
+        __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Applied new size %d", requested);
+    }
 }

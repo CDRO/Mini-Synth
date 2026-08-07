@@ -65,12 +65,17 @@ class MainActivity : AppCompatActivity() {
     private var bankIndex = 0
     private var stepPageIndex = 0
     private var numSteps = 16
+    private var statusPollCounter = 0
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private val beatPoller = object : Runnable {
         override fun run() {
             if (synthManager.isBeatStarted()) {
                 flashBeat()
             }
+            if (statusPollCounter % 30 == 0) {
+                updateLatencyStatus()
+            }
+            statusPollCounter++
             if (isPollingEnabled) {
                 mainHandler.postDelayed(this, 16)
             }
@@ -323,6 +328,10 @@ class MainActivity : AppCompatActivity() {
         setupEffects(content)
         setupWorkspaceRefinement(content)
         setupPatternManagement(content)
+        
+        content.toggleAutoLatency.setOnCheckedChangeListener { _, isChecked ->
+            synthManager.setAutoLatencyEnabled(isChecked)
+        }
         
         content.btnProjects.setOnClickListener {
             if (isHelpMode) {
@@ -1100,6 +1109,13 @@ class MainActivity : AppCompatActivity() {
         val content = binding.appBarMain.contentMain
         synthManager.setBpm(bpm)
         content.tvBpmValue!!.text = bpm.toInt().toString()
+    }
+
+    private fun updateLatencyStatus() {
+        synthManager.checkAndApplyBufferSize()
+        val bufferSize = synthManager.getBufferSize()
+        val xRuns = synthManager.getXRunCount()
+        binding.appBarMain.contentMain.tvLatencyStatus.text = "Buffer: $bufferSize ($xRuns)"
     }
 
     private fun flashBeat() {
