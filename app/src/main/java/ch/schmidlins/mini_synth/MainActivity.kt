@@ -890,6 +890,7 @@ class MainActivity : AppCompatActivity() {
             if (isHelpMode) { showHelp("Enable Real-time Recording. If the sequencer is playing, your keyboard performance will be recorded into the loop."); return@setOnCheckedChangeListener }
             isSequencerRecordMode = isChecked
             synthManager.setSequencerRecording(isChecked)
+            if (isChecked) content.toggleStepRec.isChecked = false
         }
 
         content.toggleInputQuantize!!.setOnCheckedChangeListener { _, isChecked ->
@@ -907,6 +908,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnCheckedChangeListener 
             }
             isStepRecordMode = isChecked
+            if (isChecked) content.toggleSequencerRec.isChecked = false
             content.btnStepRest!!.visibility = if (isChecked) View.VISIBLE else View.GONE
             content.btnStepBack!!.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
