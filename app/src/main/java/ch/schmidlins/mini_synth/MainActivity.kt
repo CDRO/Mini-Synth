@@ -1104,6 +1104,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateLatencyStatus() {
+        synthManager.checkAndApplyBufferSize()
         val bufferSize = synthManager.getBufferSize()
         val xRuns = synthManager.getXRunCount()
         binding.appBarMain.contentMain.tvLatencyStatus.text = "Buffer: $bufferSize ($xRuns)"

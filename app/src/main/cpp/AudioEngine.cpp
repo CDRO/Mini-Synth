@@ -206,8 +206,8 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
             int32_t newSize = std::min(currentSize + increase, mStream->getBufferCapacityInFrames());
 
             if (newSize > currentSize) {
-                mStream->setBufferSizeInFrames(newSize);
-                __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Increased to %d due to %d new xRuns", newSize, diff);
+                mRequestedBufferSize.store(newSize);
+                __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Requesting increase to %d", newSize);
                 mFramesSinceLastStabilityCheck = -96000; // 2s Cooldown after increase (increased from 1s)
             }
             mLastXRunCount = currentXRuns;
@@ -217,8 +217,8 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
             // Conservative decrease: only by 1 burst
             int32_t newSize = std::max(burstSize * 2, currentSize - burstSize);
             if (newSize < currentSize) {
-                mStream->setBufferSizeInFrames(newSize);
-                __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Decreased to %d after long stable period", newSize);
+                mRequestedBufferSize.store(newSize);
+                __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Requesting decrease to %d", newSize);
             }
         }
     }
@@ -518,4 +518,12 @@ int32_t AudioEngine::getBufferSize() {
 int32_t AudioEngine::getFramesPerBurst() {
     if (!mStream) return 192; // Default
     return mStream->getFramesPerBurst();
+}
+
+void AudioEngine::checkAndApplyBufferSize() {
+    int32_t requested = mRequestedBufferSize.exchange(0);
+    if (requested > 0 && mStream) {
+        mStream->setBufferSizeInFrames(requested);
+        __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Applied new size %d", requested);
+    }
 }

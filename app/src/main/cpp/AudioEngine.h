@@ -77,6 +77,7 @@ public:
     int32_t getXRunCount();
     int32_t getBufferSize();
     int32_t getFramesPerBurst();
+    void checkAndApplyBufferSize();
 
     // External MIDI
     void processExternalMidi(const uint8_t* data, int32_t length);
@@ -176,6 +177,7 @@ private:
 
     int32_t mLastXRunCount = 0;
     int32_t mFramesSinceLastStabilityCheck = 0;
+    std::atomic<int32_t> mRequestedBufferSize{0};
 
     void recordingLoop(const std::string& path);
     void updateMetronomeParams();
