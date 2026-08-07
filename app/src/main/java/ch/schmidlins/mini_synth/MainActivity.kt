@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
             if (synthManager.isBeatStarted()) {
                 flashBeat()
             }
+            updateLatencyStatus()
             if (isPollingEnabled) {
                 mainHandler.postDelayed(this, 16)
             }
@@ -1100,6 +1101,12 @@ class MainActivity : AppCompatActivity() {
         val content = binding.appBarMain.contentMain
         synthManager.setBpm(bpm)
         content.tvBpmValue!!.text = bpm.toInt().toString()
+    }
+
+    private fun updateLatencyStatus() {
+        val bufferSize = synthManager.getBufferSize()
+        val xRuns = synthManager.getXRunCount()
+        binding.appBarMain.contentMain.tvLatencyStatus.text = "Buffer: $bufferSize ($xRuns)"
     }
 
     private fun flashBeat() {

@@ -175,6 +175,19 @@
                 android:layout_height="14dp"
                 android:background="@android:color/darker_gray" />
 
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tv_latency_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Buffer: -- (0)"
+                android:textColor="@color/dim_grey"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
