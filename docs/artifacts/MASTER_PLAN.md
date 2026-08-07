@@ -120,12 +120,20 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 29: Keyboard Sample Creation [TODO]
+## Milestone 29: Keyboard Sample Creation [DONE]
 
 ### [Logic] [Sequencing]
 - **Melody Recording**: Step-by-step entry for keyboard performance.
 - **Quantization**: Alignment of notes to specified grid (1/16, 1/8, etc.).
 - **Looping**: Persistent playback of recorded melody loops.
+
+---
+
+## Milestone 30: Pad Holding & Expressive Gestures [TODO]
+
+### [Logic] [Performance]
+- **Sustain Gestures**: Swipe between pads to maintain note duration.
+- **Modulation**: Integration of vertical/horizontal gestures for real-time pad expressive control.
 
 ---
 

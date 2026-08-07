@@ -35,12 +35,13 @@ Merging context from initial feature implementation and workspace refinements.
 
 ### [DONE] Milestone 28: Integrated Demo & Automated Sampling (Enhanced).
 
-### [NEXT] Milestone 29: Keyboard Sample Creation (Step Sequencer)
-- **Objective**: Implement step-by-step melody recording for the keyboard.
+### [DONE] Milestone 29: Keyboard Sample Creation (Step Sequencer).
+
+### [NEXT] Milestone 30: Pad Holding & Expressive Gestures
+- **Objective**: Implement swipe-to-hold and gesture-based modulation for performance pads.
 - **Key Features**:
-    - Select step duration (1/16 to 1/1).
-    - Programmatic note entry via UI.
-    - Loop playback of recorded sequences.
+    - Swipe from pad to pad to sustain notes.
+    - Pressure/Modulation integration for pads.
 
 ## Quality Assurance Status
 - **Unit Tests**: 16 local JVM tests passing (Robolectric).
