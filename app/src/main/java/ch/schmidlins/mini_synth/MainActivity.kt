@@ -506,50 +506,46 @@ class MainActivity : AppCompatActivity() {
             // Discovery explanation
             Toast.makeText(this@MainActivity, "Demo: Initializing synth patch...", Toast.LENGTH_SHORT).show()
             
-            // Reset for demo
+            // Stage 1: Synthesis Stage
+            showDemoToast("Stage 1: Synthesis. Exploring the Oscillators.")
+            
+            // Set a rich Sawtooth patch
             synthManager.setWaveform(2) // Saw
-            synthManager.setAttack(0.02f)
+            synthManager.setAttack(0.05f)
             synthManager.setDecay(0.2f)
-            synthManager.setSustain(0.5f)
-            synthManager.setRelease(0.5f)
-            synthManager.setFilterCutoff(1500f)
-            synthManager.setFilterResonance(0.3f)
+            synthManager.setSustain(0.6f)
+            synthManager.setRelease(0.4f)
+            synthManager.setFilterCutoff(800f)
+            synthManager.setFilterResonance(0.4f)
             
-            // FX Setup
-            synthManager.setDelayTime(0.4f)
-            synthManager.setDelayFeedback(0.6f)
-            synthManager.setDelayMix(0.3f)
-            synthManager.setReverbSize(0.7f)
-            synthManager.setReverbMix(0.2f)
-            
-            delay(1000)
-            showDemoToast("Oscillators support SINE, SQUARE, SAW, and TRIANGLE waves.")
-            delay(2000)
-            showDemoToast("Now playing melody with built-in Delay + Reverb effects.")
-
-            val notes = listOf(60, 63, 67, 72, 67, 63)
+            val notes = listOf(60, 63, 67, 72, 70, 67, 63, 60)
             for (i in notes.indices) {
                 if (!isDemoPlaying) break
-                synthManager.noteOn(notes[i], 0.8f)
+                val note = notes[i]
+                synthManager.noteOn(note, 0.8f)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, true)
                 
-                // Automate Cutoff and LFO Depth during melody
-                synthManager.setFilterCutoff(500f + (i * 300f))
-                if (i == 2) showDemoToast("Resonant Filter Cutoff is being automated...")
-                if (i > 3) {
-                    if (i == 4) showDemoToast("LFO is now modulating the Pitch (Vibrato).")
+                // Automate Cutoff and LFO
+                if (i == 2) showDemoToast("Opening the Resonant Filter...")
+                synthManager.setFilterCutoff(800f + (i * 400f))
+                
+                if (i == 4) {
+                    showDemoToast("Adding Vibrato via LFO.")
                     synthManager.setLfoTarget(0) // Pitch
-                    synthManager.setLfoRate(6.0f)
-                    synthManager.setLfoDepth(0.3f)
+                    synthManager.setLfoRate(5.5f)
+                    synthManager.setLfoDepth(0.4f)
                 }
                 
-                delay(400)
-                synthManager.noteOff(notes[i])
+                delay(500)
+                synthManager.noteOff(note)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, false)
                 delay(100)
             }
             
             if (!isDemoPlaying) return@launch
             
-            showDemoToast("Automated Sampling: Recording 2 seconds of the current sound to Pad 0.")
+            // Stage 2: Sampling Stage
+            showDemoToast("Stage 2: Automated Sampling. Recording to Pad 0.")
             synthManager.startAutomatedSampling(0, 2.0f)
             binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, true)
             
