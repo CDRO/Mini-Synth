@@ -49,19 +49,23 @@ class GestureTest {
         
         val down = MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, startX, startY, 0)
         view.dispatchTouchEvent(down)
+        down.recycle()
         
         // Slide Right 50% of key width -> should be +1 semitone
         val moveRight = MotionEvent.obtain(0L, 100L, MotionEvent.ACTION_MOVE, startX + (keyWidth / 2f), startY, 0)
         view.dispatchTouchEvent(moveRight)
         assertEquals("Horizontal slide should trigger Pitch Bend", 1.0f, receivedPb, 0.1f)
+        moveRight.recycle()
         
         // Slide Up 50% of view height -> should be 0.5 modulation
         val moveUp = MotionEvent.obtain(0L, 200L, MotionEvent.ACTION_MOVE, startX, startY - 250f, 0)
         view.dispatchTouchEvent(moveUp)
         assertTrue("Vertical slide should trigger Modulation", receivedMod > 0.4f)
+        moveUp.recycle()
         
         val up = MotionEvent.obtain(0L, 300L, MotionEvent.ACTION_UP, startX, startY - 250f, 0)
         view.dispatchTouchEvent(up)
+        up.recycle()
         
         // Should reset on release
         assertEquals(0.0f, receivedPb, 0.001f)
@@ -107,12 +111,16 @@ class GestureTest {
         }
 
         // Far Left (below key 0)
-        view.dispatchTouchEvent(MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, -10f, 250f, 0))
+        val eventLeft = MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, -10f, 250f, 0)
+        view.dispatchTouchEvent(eventLeft)
         assertEquals(-1, lastNoteOn)
+        eventLeft.recycle()
 
         // Far Right (above key 7)
-        view.dispatchTouchEvent(MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, 1010f, 250f, 0))
+        val eventRight = MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, 1010f, 250f, 0)
+        view.dispatchTouchEvent(eventRight)
         assertEquals(-1, lastNoteOn)
+        eventRight.recycle()
     }
 
     @Test
