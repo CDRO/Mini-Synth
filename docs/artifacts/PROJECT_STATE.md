@@ -33,11 +33,14 @@ Merging context from initial feature implementation and workspace refinements.
 ### [DONE] Milestone 26: Professional Demo Experience & Automated Sampling.
 ### [DONE] Milestone 27: Adaptive Buffer Management.
 
-### [NEXT] Milestone 28: Integrated Demo & Automated Sampling (Enhanced)
-- **Objective**: Complete automated showreel demonstrating all app features with zero-touch sampling.
+### [DONE] Milestone 28: Integrated Demo & Automated Sampling (Enhanced).
+
+### [NEXT] Milestone 29: Keyboard Sample Creation (Step Sequencer)
+- **Objective**: Implement step-by-step melody recording for the keyboard.
 - **Key Features**:
-    - Scripted "Feature Tour" (FX, Sequencer, MIDI).
-    - Multi-bank automated sampling demonstration.
+    - Select step duration (1/16 to 1/1).
+    - Programmatic note entry via UI.
+    - Loop playback of recorded sequences.
 
 ## Quality Assurance Status
 - **Unit Tests**: 16 local JVM tests passing (Robolectric).

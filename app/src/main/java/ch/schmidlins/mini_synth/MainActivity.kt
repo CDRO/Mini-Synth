@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private var isMockPlay = false
     private var isMetronomeEnabled = false
     private var isSequencerRecordMode = false
+    private var isStepRecordMode = false
     private var isPadSamplingMode = false
     private var isPadMode = false
     private var isZenMode = false
@@ -141,7 +142,10 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    if (isSequencerRecordMode) {
+                    if (isStepRecordMode) {
+                        synthManager.stepRecordNote(midi)
+                        updateSequencerToggles(content)
+                    } else if (isSequencerRecordMode) {
                         if (synthManager.isSequencerPlaying()) {
                             synthManager.handleRealTimeNoteOn(midi)
                         } else {
@@ -886,6 +890,7 @@ class MainActivity : AppCompatActivity() {
             if (isHelpMode) { showHelp("Enable Real-time Recording. If the sequencer is playing, your keyboard performance will be recorded into the loop."); return@setOnCheckedChangeListener }
             isSequencerRecordMode = isChecked
             synthManager.setSequencerRecording(isChecked)
+            if (isChecked) content.toggleStepRec.isChecked = false
         }
 
         content.toggleInputQuantize!!.setOnCheckedChangeListener { _, isChecked ->
@@ -895,6 +900,27 @@ class MainActivity : AppCompatActivity() {
         content.togglePadSampling!!.setOnCheckedChangeListener { _, isChecked ->
             if (isHelpMode) { showHelp("Enable Pad Sampling. While active, touching a pad will record the current engine output into that pad."); return@setOnCheckedChangeListener }
             isPadSamplingMode = isChecked
+        }
+        content.toggleStepRec!!.setOnCheckedChangeListener { _, isChecked ->
+            if (isHelpMode) { 
+                showHelp("Step Recording: Each key you press will be recorded to the next sequencer step. Use REST to skip a step and BACK to undo.")
+                content.toggleStepRec!!.isChecked = false
+                return@setOnCheckedChangeListener 
+            }
+            isStepRecordMode = isChecked
+            if (isChecked) content.toggleSequencerRec.isChecked = false
+            content.btnStepRest!!.visibility = if (isChecked) View.VISIBLE else View.GONE
+            content.btnStepBack!!.visibility = if (isChecked) View.VISIBLE else View.GONE
+        }
+        content.btnStepRest!!.setOnClickListener {
+            if (isHelpMode) { showHelp("Skip the current step without adding a note (Rest)."); return@setOnClickListener }
+            synthManager.stepRecordRest()
+            updateSequencerToggles(content)
+        }
+        content.btnStepBack!!.setOnClickListener {
+            if (isHelpMode) { showHelp("Go back to the previous step and clear it."); return@setOnClickListener }
+            synthManager.stepRecordBack()
+            updateSequencerToggles(content)
         }
         content.btnSequencerClear!!.setOnClickListener {
             if (isHelpMode) { showHelp("Clear all notes from the sequencer."); return@setOnClickListener }
@@ -984,7 +1010,7 @@ class MainActivity : AppCompatActivity() {
         sequencerPoller = object : Runnable {
             private var lastStep = -1
             override fun run() {
-                if (synthManager.isSequencerPlaying()) {
+                if (synthManager.isSequencerPlaying() || isStepRecordMode) {
                     val currentStep = synthManager.getSequencerCurrentStep()
                     if (currentStep != lastStep) {
                         updateSequencerUI(content, currentStep, lastStep)
@@ -1048,7 +1074,12 @@ class MainActivity : AppCompatActivity() {
             val toggle = content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[currentSubStep])
             val activeNotes = synthManager.getSequencerActiveNotes(current)
             val isMulti = (activeNotes?.size ?: 0) > 1
-            toggle?.setBackgroundColor(ContextCompat.getColor(this, if (isMulti) R.color.electric_blue else R.color.acid_green))
+            
+            val colorRes = if (isStepRecordMode) R.color.vibrant_red 
+                           else if (isMulti) R.color.electric_blue 
+                           else R.color.acid_green
+            
+            toggle?.setBackgroundColor(ContextCompat.getColor(this, colorRes))
         }
         
         for (note in 60..72) if (synthManager.isSequencerNoteActive(current, note)) synthView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, true)

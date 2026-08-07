@@ -1028,6 +1028,34 @@
                             android:layout_height="match_parent" />
 
                         <Button
+                            android:id="@+id/btn_step_rest"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="REST"
+                            android:visibility="gone"
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
+                        <Button
+                            android:id="@+id/btn_step_back"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="BACK"
+                            android:visibility="gone"
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
+                        <Button
                             android:id="@+id/btn_sequencer_export"
                             style="?attr/materialButtonOutlinedStyle"
                             android:layout_width="wrap_content"
@@ -1047,6 +1075,20 @@
                             android:layout_height="36dp"
                             android:textOff="SAMPLING OFF"
                             android:textOn="SAMPLING ON"
+                            android:textColor="@color/acid_green"
+                            android:textSize="10sp" />
+
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
+                        <ToggleButton
+                            android:id="@+id/toggle_step_rec"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:textOff="STEP OFF"
+                            android:textOn="STEP ON"
                             android:textColor="@color/acid_green"
                             android:textSize="10sp" />
                     </LinearLayout>

@@ -1,0 +1,21 @@
+# Tasks: Milestone 29 - Keyboard Sample Creation
+
+- `[ ]` Setup Step Recording Infrastructure
+    - `[x]` Create GitHub Milestone & Issue (#120).
+    - `[x]` Create branch `feature/m29-keyboard-sampling`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline.
+- `[ ]` Review & Repair Loop (1-10)
+    - `[ ]` 1/10: Implement `MidiSequencer::recordStep`.
+    - `[ ]` 2/10: Add JNI bridge for step recording.
+    - `[ ]` 3/10: Add "Step Rec" UI toggle.
+    - `[ ]` 4/10: Integrate Step Rec with Keyboard listener.
+    - `[ ]` 5/10: Add visual feedback for 'active' recording step.
+    - `[ ]` 6/10: Support 'Rest' (Skip) in step recording.
+    - `[ ]` 7/10: Implement step deletion/undo.
+    - `[ ]` 8/10: Refine auto-increment logic (multi-note support).
+    - `[ ]` 9/10: Regression test real-time overdub vs step rec.
+    - `[ ]` 10/10: Final polish and documentation.
+- `[ ]` Finalize
+    - `[ ]` Build and Test.
+    - `[ ]` Squash and Merge.

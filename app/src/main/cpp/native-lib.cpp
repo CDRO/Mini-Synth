@@ -513,3 +513,21 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setAutoLatencyEnabled(JNIEnv *
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setAutoLatencyEnabled(enabled == JNI_TRUE);
 }
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordNote(JNIEnv *env, jobject thiz, jint note) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->stepRecordNote(note);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordRest(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->stepRecordRest();
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordBack(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->stepRecordBack();
+}
