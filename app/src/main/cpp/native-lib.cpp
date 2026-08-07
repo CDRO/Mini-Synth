@@ -494,3 +494,10 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_getBufferSize(JNIEnv *env, job
     if (engine) return engine->getBufferSize();
     return 0;
 }
+
+extern "C" JNIEXPORT jint JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_getFramesPerBurst(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) return engine->getFramesPerBurst();
+    return 0;
+}

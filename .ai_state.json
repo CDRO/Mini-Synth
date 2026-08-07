@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "27_Adaptive_Buffer_Management",
     "current_step": "Review Loop",
-    "loop_iteration": 5,
-    "last_action_completed": "Review loop 5/10: Optimized buffer adjustment frequency and damping.",
-    "next_immediate_action": "Review loop 6/10: Add xRun logging to JNI for UI observability."
+    "loop_iteration": 6,
+    "last_action_completed": "Review loop 6/10: Exposed xRun and buffer status to JNI.",
+    "next_immediate_action": "Review loop 7/10: Ensure thread safety during buffer re-sizing."
   }
 }

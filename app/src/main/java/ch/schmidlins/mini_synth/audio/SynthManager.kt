@@ -122,6 +122,7 @@ class SynthManager {
     // Buffer Status
     external fun getXRunCount(): Int
     external fun getBufferSize(): Int
+    external fun getFramesPerBurst(): Int
 
     // Effects
     external fun setDelayTime(seconds: Float)
