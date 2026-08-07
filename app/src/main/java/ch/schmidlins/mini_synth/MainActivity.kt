@@ -901,7 +901,11 @@ class MainActivity : AppCompatActivity() {
             isPadSamplingMode = isChecked
         }
         content.toggleStepRec!!.setOnCheckedChangeListener { _, isChecked ->
-            if (isHelpMode) { showHelp("Enable Step Recording. Press keys to build a melody step-by-step."); return@setOnCheckedChangeListener }
+            if (isHelpMode) { 
+                showHelp("Step Recording: Each key you press will be recorded to the next sequencer step. Use REST to skip a step and BACK to undo.")
+                content.toggleStepRec!!.isChecked = false
+                return@setOnCheckedChangeListener 
+            }
             isStepRecordMode = isChecked
             content.btnStepRest!!.visibility = if (isChecked) View.VISIBLE else View.GONE
             content.btnStepBack!!.visibility = if (isChecked) View.VISIBLE else View.GONE
