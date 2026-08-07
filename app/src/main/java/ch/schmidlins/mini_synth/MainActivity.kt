@@ -571,33 +571,27 @@ class MainActivity : AppCompatActivity() {
                 
                 if (!isDemoPlaying) return@launch
 
-                // Stage 2: Sampling Stage
+                // Stage 2: Multi-Bank Sampling
                 delay(1000)
-                showDemoToast("Stage 2: Instant Resampling. Capturing this polyphonic chord to a performance pad.")
-                delay(2500)
-
-                synthManager.startAutomatedSampling(0, 3.0f) 
-                
-                showDemoToast("Resampling a rich Minor 9th chord...")
-                val chord = listOf(60, 63, 67, 70, 74)
-                for (note in chord) {
-                    synthManager.noteOn(note, 0.7f)
-                    binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, true)
-                }
-                
+                showDemoToast("Stage 2: Multi-Bank Resampling. Capturing 4 different sounds to P0-P3.")
                 delay(2000)
-                for (note in chord) {
-                    synthManager.noteOff(note)
-                    binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, false)
+
+                val demoPitches = listOf(60, 64, 67, 72)
+                for (i in 0..3) {
+                    if (!isDemoPlaying) break
+                    showDemoToast("Sampling sound $i to Pad $i...")
+                    synthManager.setWaveform(i % 4)
+                    synthManager.startAutomatedSampling(i, 1.5f)
+                    
+                    synthManager.noteOn(demoPitches[i], 0.8f)
+                    binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(demoPitches[i], KeyboardPadView.Backlight.RECORD, true)
+                    delay(1200)
+                    synthManager.noteOff(demoPitches[i])
+                    binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(demoPitches[i], KeyboardPadView.Backlight.RECORD, false)
+                    delay(500)
                 }
-                
-                delay(1500) // sampling tail
-                
-                // Save the automated sample to file for consistency and future persistence
-                val autoSampleFile = File(filesDir, getSampleFileName(0))
-                synthManager.savePadSample(0, autoSampleFile.absolutePath)
-                padSamplePaths[0] = autoSampleFile.absolutePath
-                android.util.Log.d("Demo", "Auto-sample saved to: ${autoSampleFile.absolutePath}")
+
+                if (!isDemoPlaying) return@launch
 
                 delay(1000)
                 showDemoToast("Automated Workspace Transition: Switching to Pad Mode.")
