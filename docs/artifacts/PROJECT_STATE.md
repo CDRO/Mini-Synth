@@ -31,9 +31,7 @@ Merging context from initial feature implementation and workspace refinements.
 ### [DONE] Milestone 24: Polyphonic Aftertouch Simulation.
 ### [DONE] Milestone 25: FFT Frequency Visualization.
 ### [DONE] Milestone 26: Professional Demo Experience & Automated Sampling.
-
-### [NEXT] Milestone 27: Adaptive Buffer Management
-- **Objective**: Dynamically adjust Oboe buffer size based on CPU load and underrun counts.
+### [DONE] Milestone 27: Adaptive Buffer Management.
 
 ### [NEXT] Milestone 28: Integrated Demo & Automated Sampling (Enhanced)
 - **Objective**: Complete automated showreel demonstrating all app features with zero-touch sampling.

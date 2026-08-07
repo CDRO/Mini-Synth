@@ -105,7 +105,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 27: Adaptive Buffer Management [TODO]
+## Milestone 27: Adaptive Buffer Management [DONE]
 
 ### [Logic] [Performance]
 - **Buffer Scaling**: Dynamically adjust Oboe's `bufferSize` based on xRun counts.

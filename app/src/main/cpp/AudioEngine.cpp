@@ -505,7 +505,7 @@ void AudioEngine::startAutomatedSampling(int padIndex, float durationSeconds) {
 int32_t AudioEngine::getXRunCount() {
     if (!mStream) return 0;
     auto result = mStream->getXRunCount();
-    return result.value_or(0);
+    return (result == oboe::Result::OK) ? result.value() : 0;
 }
 
 int32_t AudioEngine::getBufferSize() {

@@ -7,10 +7,14 @@
 
 # Strict Workflow Execution
 You are executing a 10-step iterative review process. Do not skip steps.
-1. Create a GitHub issue using `gh issue create`. Use the label `enhancement`.
-2. Create a local git branch and an associated Pull Request using `gh pr create`.
-3. Build the project using `.\gradlew.bat assembleDebug` to verify baseline status.
-4. Execute the "Review & Repair Loop" exactly 10 times.
+1. Create a GitHub milestone using `gh api repos/:owner/:repo/milestones -f title="Milestone Name"` if it doesn't already exist.
+2. Create a GitHub issue using `gh issue create`. Use the label `enhancement` and associate it with the milestone.
+3. Create a local git branch and an associated Pull Request using `gh pr create`. Assign the PR to the created milestone.
+4. Build the project using `.\gradlew.bat assembleDebug` to verify baseline status.
+5. Execute the "Review & Repair Loop" exactly 10 times.
+6. Merge the PR using `gh pr merge --squash`.
+7. Close the associated GitHub issue using `gh issue close #ISSUE_NUMBER`.
+8. Close the GitHub milestone using `gh api -X PATCH repos/:owner/:repo/milestones/:milestone_number -f state=closed`.
 
 # The Review & Repair Loop Rules
 For each iteration (1 through 10):

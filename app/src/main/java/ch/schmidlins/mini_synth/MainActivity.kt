@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
     private var isHelpMode = false
     private var isDemoPlaying = false
     private var demoJob: kotlinx.coroutines.Job? = null
+    private var demoToast: Toast? = null
     var isPollingEnabled = true // Exposed for tests
     private val padLinks = mutableMapOf<Int, MutableSet<Int>>() // Source pad -> Set of linked pads
     private val padTriggerModes = mutableMapOf<Int, Boolean>() // Pad index -> isOneShot
@@ -467,7 +468,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 isDemoPlaying = true
                 content.btnDemoMode.text = "STOP"
-                playDemoSong()
+                runIntegratedDemo()
             }
         }
 
@@ -513,12 +514,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun playDemoSong() {
+    private fun runIntegratedDemo() {
         demoJob?.cancel()
         demoJob = lifecycleScope.launch {
             try {
+                isDemoPlaying = true
+                runOnUiThread { binding.appBarMain.contentMain.btnDemoMode.text = "STOP" }
+                
                 // Discovery explanation
-                Toast.makeText(this@MainActivity, "Demo: Initializing synth patch...", Toast.LENGTH_SHORT).show()
+                showDemoToast("Demo: Initializing synth patch...")
                 
                 // Stage 1: Synthesis Stage
                 showDemoToast("Stage 1: Dynamic Synthesis. Exploring Sawtooth waveforms and Resonant Filters.")
@@ -550,7 +554,14 @@ class MainActivity : AppCompatActivity() {
                     
                     // Automate Cutoff and LFO
                     if (i == 2) showDemoToast("Opening the 2-pole Resonant Low-Pass Filter...")
-                    synthManager.setFilterCutoff(800f + (i * 400f))
+                    
+                    // Smooth filter sweep within the note
+                    lifecycleScope.launch {
+                        for (s in 0..10) {
+                            synthManager.setFilterCutoff(800f + (i * 200f) + (s * 100f))
+                            delay(40)
+                        }
+                    }
                     
                     if (i == 4) {
                         showDemoToast("Modulating Pitch via LFO (Vibrato).")
@@ -565,88 +576,102 @@ class MainActivity : AppCompatActivity() {
                     delay(150)
                 }
                 
+                // Show Aftertouch
+                showDemoToast("Aftertouch: Simulating pressure for expressive volume swells.")
+                synthManager.setAftertouchTarget(1) // Volume
+                synthManager.padNoteOn(1, 0.4f)
+                for (i in 0..10) {
+                    if (!isDemoPlaying) break
+                    synthManager.setAftertouch(62, 0.4f + (i * 0.06f)) // Pad 1 is note 62
+                    delay(200)
+                }
+                synthManager.padNoteOff(1)
+                
                 if (!isDemoPlaying) return@launch
 
-                // Stage 2: Sampling Stage
+                // Stage 2: Multi-Bank Sampling
                 delay(1000)
-                showDemoToast("Stage 2: Instant Resampling. Capturing this polyphonic chord to a performance pad.")
-                delay(2500)
-
-                synthManager.startAutomatedSampling(0, 3.0f) 
-                
-                showDemoToast("Resampling a rich Minor 9th chord...")
-                val chord = listOf(60, 63, 67, 70, 74)
-                for (note in chord) {
-                    synthManager.noteOn(note, 0.7f)
-                    binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, true)
-                }
-                
+                showDemoToast("Stage 2: Multi-Bank Resampling. Capturing 4 different sounds to P0-P3.")
                 delay(2000)
-                for (note in chord) {
-                    synthManager.noteOff(note)
-                    binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, false)
+
+                val demoPitches = listOf(60, 64, 67, 72)
+                for (i in 0..3) {
+                    if (!isDemoPlaying) break
+                    showDemoToast("Sampling sound $i to Pad $i...")
+                    synthManager.setWaveform(i % 4)
+                    synthManager.startAutomatedSampling(i, 1.5f)
+                    
+                    synthManager.noteOn(demoPitches[i], 0.8f)
+                    binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(demoPitches[i], KeyboardPadView.Backlight.RECORD, true)
+                    delay(1200)
+                    synthManager.noteOff(demoPitches[i])
+                    binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(demoPitches[i], KeyboardPadView.Backlight.RECORD, false)
+                    delay(500)
                 }
+
+                // Show Aftertouch
+                showDemoToast("Aftertouch: Simulating pressure for expressive volume swells.")
+                synthManager.setAftertouchTarget(1) // Volume
+                synthManager.padNoteOn(1, 0.4f)
+                for (i in 0..10) {
+                    if (!isDemoPlaying) break
+                    synthManager.setAftertouch(62, 0.4f + (i * 0.06f)) // Pad 1 is note 62
+                    delay(200)
+                }
+                synthManager.padNoteOff(1)
                 
-                delay(1500) // sampling tail
-                
-                // Save the automated sample to file for consistency and future persistence
-                val autoSampleFile = File(filesDir, getSampleFileName(0))
-                synthManager.savePadSample(0, autoSampleFile.absolutePath)
-                padSamplePaths[0] = autoSampleFile.absolutePath
-                android.util.Log.d("Demo", "Auto-sample saved to: ${autoSampleFile.absolutePath}")
+                if (!isDemoPlaying) return@launch
 
                 delay(1000)
                 showDemoToast("Automated Workspace Transition: Switching to Pad Mode.")
-                delay(1500)
                 
-                // Automated UI transition
-                isPadMode = true
-                binding.appBarMain.contentMain.btnModeToggle.text = "Keys"
-                binding.appBarMain.contentMain.keyboardPadView.setMode(KeyboardPadView.Mode.PAD_GRID)
-                updateWorkspaceVisibility(binding.appBarMain.contentMain)
+                runOnUiThread {
+                    val root = binding.appBarMain.contentMain.root as androidx.constraintlayout.widget.ConstraintLayout
+                    TransitionManager.beginDelayedTransition(root)
+                    isPadMode = true
+                    binding.appBarMain.contentMain.btnModeToggle.text = "Keys"
+                    binding.appBarMain.contentMain.keyboardPadView.setMode(KeyboardPadView.Mode.PAD_GRID)
+                    updateWorkspaceVisibility(binding.appBarMain.contentMain)
+                }
+                delay(2000)
                 
-                delay(1000)
-                showDemoToast("Stage 3: Performance Stage. Using pads and built-in effects.")
-                
-                // Trigger sampled pad rhythmically with FX swell
-                showDemoToast("Triggering the freshly sampled sound with Reverb swell!")
+                // Stage 3: Performance Stage. Using pads and built-in effects.
+                showDemoToast("Stage 3: Performance. Exploring LFO modulation and expressive Filter sweeps.")
                 
                 val content = binding.appBarMain.contentMain
-                synthManager.setReverbMix(0.1f)
-                runOnUiThread { content.seekReverbMix.progress = 10 }
                 
-                // Rhythmic triggering of Pad 0
-                for (i in 0..7) {
-                    if (!isDemoPlaying) break
-                    synthManager.padNoteOn(0, 1.0f)
-                    binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true) // Pad 0 is mapped to 60 internally
-                    
-                    val mix = 0.1f + (i * 0.12f)
-                    synthManager.setReverbMix(mix)
-                    runOnUiThread { content.seekReverbMix.progress = (mix * 100).toInt() }
-                    
-                    delay(300)
-                    synthManager.padNoteOff(0)
-                    binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
-                    delay(200)
-                    
-                    if (i == 3) showDemoToast("Notice the spatial depth increasing...")
-                }
+                // Show LFO
+                showDemoToast("LFO: Automatically modulating Filter Cutoff.")
+                synthManager.setLfoTarget(2) // Filter
+                synthManager.setLfoRate(2.5f)
+                synthManager.setLfoDepth(0.8f)
                 
-                if (!isDemoPlaying) return@launch
-
-                // One final long swell
                 synthManager.padNoteOn(0, 1.0f)
-                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true)
-                showDemoToast("Final spatial wash...")
                 for (i in 0..10) {
                     if (!isDemoPlaying) break
-                    val mix = 0.8f - (i * 0.05f) 
-                    synthManager.setReverbMix(mix)
-                    runOnUiThread { content.seekReverbMix.progress = (mix * 100).toInt() }
-                    delay(200)
+                    synthManager.setLfoRate(2.5f + (i * 0.5f))
+                    delay(300)
                 }
                 synthManager.padNoteOff(0)
+                
+                // Show Aftertouch
+                showDemoToast("Aftertouch: Simulating pressure for expressive volume swells.")
+                synthManager.setAftertouchTarget(1) // Volume
+                synthManager.padNoteOn(1, 0.4f)
+                for (i in 0..10) {
+                    if (!isDemoPlaying) break
+                    synthManager.setAftertouch(62, 0.4f + (i * 0.06f)) // Pad 1 is note 62
+                    delay(200)
+                }
+                synthManager.padNoteOff(1)
+                
+                if (!isDemoPlaying) return@launch
+                
+                showDemoToast("Final spatial wash with high-density Reverb.")
+                synthManager.setReverbMix(0.8f)
+                synthManager.padNoteOn(3, 1.0f)
+                delay(2000)
+                synthManager.padNoteOff(3)
                 binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
                 
                 delay(1000)
@@ -657,14 +682,22 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     binding.appBarMain.contentMain.btnDemoMode.text = "DEMO"
                     resetEngineState()
+                    // Revert UI to default mode
+                    isPadMode = false
+                    binding.appBarMain.contentMain.btnModeToggle.text = "Pads"
+                    binding.appBarMain.contentMain.keyboardPadView.setMode(KeyboardPadView.Mode.KEYBOARD)
+                    updateWorkspaceVisibility(binding.appBarMain.contentMain)
                 }
+                showDemoToast("Demo Complete. You can now use all these features manually!")
             }
         }
     }
 
     private fun showDemoToast(message: String) {
         runOnUiThread {
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            demoToast?.cancel()
+            demoToast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+            demoToast?.show()
         }
     }
 

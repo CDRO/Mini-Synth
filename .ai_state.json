@@ -9,10 +9,10 @@
     "milestones_folder_path": "docs/artifacts/milestones"
   },
   "current_state": {
-    "active_milestone_file": "27_Adaptive_Buffer_Management",
+    "active_milestone_file": "28_Integrated_Demo_Sampling",
     "current_step": "Review Loop",
     "loop_iteration": 10,
-    "last_action_completed": "Completed all review loops for Milestone 27.",
-    "next_immediate_action": "Merge and move to Milestone 28."
+    "last_action_completed": "Completed all review loops for Milestone 28.",
+    "next_immediate_action": "Merge and finalize."
   }
 }
