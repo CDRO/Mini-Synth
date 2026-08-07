@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private var isMockPlay = false
     private var isMetronomeEnabled = false
     private var isSequencerRecordMode = false
+    private var isStepRecordMode = false
     private var isPadSamplingMode = false
     private var isPadMode = false
     private var isZenMode = false
@@ -141,7 +142,10 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    if (isSequencerRecordMode) {
+                    if (isStepRecordMode) {
+                        synthManager.stepRecordNote(midi)
+                        updateSequencerToggles(content)
+                    } else if (isSequencerRecordMode) {
                         if (synthManager.isSequencerPlaying()) {
                             synthManager.handleRealTimeNoteOn(midi)
                         } else {
@@ -895,6 +899,10 @@ class MainActivity : AppCompatActivity() {
         content.togglePadSampling!!.setOnCheckedChangeListener { _, isChecked ->
             if (isHelpMode) { showHelp("Enable Pad Sampling. While active, touching a pad will record the current engine output into that pad."); return@setOnCheckedChangeListener }
             isPadSamplingMode = isChecked
+        }
+        content.toggleStepRec!!.setOnCheckedChangeListener { _, isChecked ->
+            if (isHelpMode) { showHelp("Enable Step Recording. Press keys to build a melody step-by-step."); return@setOnCheckedChangeListener }
+            isStepRecordMode = isChecked
         }
         content.btnSequencerClear!!.setOnClickListener {
             if (isHelpMode) { showHelp("Clear all notes from the sequencer."); return@setOnClickListener }
