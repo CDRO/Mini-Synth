@@ -565,22 +565,21 @@ class MainActivity : AppCompatActivity() {
             delay(2500)
 
             synthManager.startAutomatedSampling(0, 3.0f) 
-            binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, true)
             
             showDemoToast("Resampling a rich Minor 9th chord...")
             val chord = listOf(60, 63, 67, 70, 74)
-            for (note in chord) synthManager.noteOn(note, 0.7f)
+            for (note in chord) {
+                synthManager.noteOn(note, 0.7f)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, true)
+            }
             
             delay(2000)
-            for (note in chord) synthManager.noteOff(note)
+            for (note in chord) {
+                synthManager.noteOff(note)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, false)
+            }
             
             delay(1500) // sampling tail
-            
-            val autoSampleFile = File(filesDir, getSampleFileName(0))
-            synthManager.savePadSample(0, autoSampleFile.absolutePath)
-            padSamplePaths[0] = autoSampleFile.absolutePath
-            
-            binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, false)
             
             delay(1000)
             showDemoToast("Automated Workspace Transition: Switching to Pad Mode.")
@@ -606,6 +605,7 @@ class MainActivity : AppCompatActivity() {
             for (i in 0..7) {
                 if (!isDemoPlaying) break
                 synthManager.padNoteOn(0, 1.0f)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true) // Pad 0 is mapped to 60 internally
                 
                 // Gradually increase Reverb Mix
                 val mix = 0.1f + (i * 0.12f)
@@ -614,6 +614,7 @@ class MainActivity : AppCompatActivity() {
                 
                 delay(300)
                 synthManager.padNoteOff(0)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
                 delay(200)
                 
                 if (i == 3) showDemoToast("Notice the spatial depth increasing...")
@@ -623,6 +624,7 @@ class MainActivity : AppCompatActivity() {
             
             // One final long swell
             synthManager.padNoteOn(0, 1.0f)
+            binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true)
             showDemoToast("Final spatial wash...")
             for (i in 0..10) {
                 val mix = 0.8f - (i * 0.05f) // Fade out reverb
@@ -631,6 +633,7 @@ class MainActivity : AppCompatActivity() {
                 delay(200)
             }
             synthManager.padNoteOff(0)
+            binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
             
             delay(1000)
             isDemoPlaying = false
