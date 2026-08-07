@@ -148,6 +148,8 @@ class SynthManager {
     external fun handleRealTimeNoteOn(note: Int)
     external fun handleRealTimeNoteOff(note: Int)
     external fun clearSequencer()
+    external fun stepRecordNote(note: Int)
+    external fun stepRecordRest()
     external fun setSequencerStepDuration(division: Float)
     external fun setInputQuantize(enabled: Boolean)
     external fun setOverdub(enabled: Boolean)

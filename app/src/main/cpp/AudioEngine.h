@@ -109,6 +109,8 @@ public:
     void handleRealTimeNoteOn(int note) { mMidiSequencer.handleRealTimeNoteOn(note); }
     void handleRealTimeNoteOff(int note) { mMidiSequencer.handleRealTimeNoteOff(note); }
     void clearSequencer() { mMidiSequencer.clear(); }
+    void stepRecordNote(int note) { mMidiSequencer.stepRecordNote(note); }
+    void stepRecordRest() { mMidiSequencer.stepRecordRest(); }
     void setSequencerStepDuration(float division) { mMidiSequencer.setStepDuration(division); }
     void setSequencerNumSteps(int steps) { mMidiSequencer.setNumSteps(steps); }
     void setInputQuantize(bool enabled) { mMidiSequencer.setInputQuantize(enabled); }
