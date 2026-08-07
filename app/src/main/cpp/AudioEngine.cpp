@@ -201,16 +201,16 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
         if (currentXRuns > mLastXRunCount) {
             int32_t diff = currentXRuns - mLastXRunCount;
             // Underrun occurred! Increase buffer size.
-            int32_t increase = burstSize * (diff > 1 ? 2 : 1);
+            int32_t increase = burstSize * (diff > 2 ? 2 : 1); // Damping: don't double jump for 1-2 xruns
             int32_t newSize = std::min(currentSize + increase, mStream->getBufferCapacityInFrames());
 
-            if (newSize != currentSize) {
+            if (newSize > currentSize) {
                 mStream->setBufferSizeInFrames(newSize);
                 __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Increased to %d due to %d new xRuns", newSize, diff);
+                mFramesSinceLastStabilityCheck = -48000; // 1s Cooldown after increase
             }
             mLastXRunCount = currentXRuns;
-            mFramesSinceLastStabilityCheck = 0; // Reset counter on instability
-        } else if (mFramesSinceLastStabilityCheck >= 240000) { // Stable for 5 seconds
+        } else if (mFramesSinceLastStabilityCheck >= 480000) { // Stable for 10 seconds (increased from 5)
             mFramesSinceLastStabilityCheck = 0;
             // Try to decrease buffer size to minimize latency
             int32_t newSize = std::max(burstSize * 2, currentSize - burstSize);
