@@ -30,13 +30,7 @@ Merging context from initial feature implementation and workspace refinements.
 ### [DONE] Milestone 23: MIDI Loop Recording.
 ### [DONE] Milestone 24: Polyphonic Aftertouch Simulation.
 ### [DONE] Milestone 25: FFT Frequency Visualization.
-
-### [NEXT] Milestone 26: Professional Demo Experience & Automated Sampling
-- **Objective**: Implement a high-quality automated demonstration and sampling workflow.
-- **Key Features**:
-    - Multi-stage synth demonstration.
-    - Automated engine-to-pad sampling.
-    - Real-time educational feedback.
+### [DONE] Milestone 26: Professional Demo Experience & Automated Sampling.
 
 ### [NEXT] Milestone 27: Adaptive Buffer Management
 - **Objective**: Dynamically adjust Oboe buffer size based on CPU load and underrun counts.
