@@ -5,17 +5,17 @@
     - `[x]` Create branch `feature/m27-adaptive-buffer`.
     - `[ ]` Create Pull Request.
     - `[ ]` Build baseline.
-- `[/]` Review & Repair Loop (1-10)
+- `[x]` Review & Repair Loop (1-10)
     - `[x]` 1/10: Add xRun tracking and JNI status bridges.
-    - `[ ]` 2/10: Implement dynamic buffer size increase on xRun.
-    - `[ ]` 3/10: Implement stable-period buffer size recovery.
-    - `[ ]` 4/10: Add Latency UI indicator to main workspace.
-    - `[ ]` 5/10: Optimize buffer adjustment frequency (damping).
-    - `[ ]` 6/10: Ensure thread safety during buffer re-sizing.
-    - `[ ]` 7/10: Add 'Auto-Latency' toggle to UI.
-    - `[ ]` 8/10: Refine status polling for minimal overhead.
-    - `[ ]` 9/10: Regression test FX stability during buffer change.
-    - `[ ]` 10/10: Final polish and documentation.
+    - `[x]` 2/10: Implement dynamic buffer size increase on xRun.
+    - `[x]` 3/10: Implement stable-period buffer size recovery.
+    - `[x]` 4/10: Add Latency UI indicator to main workspace.
+    - `[x]` 5/10: Optimize buffer adjustment frequency (damping).
+    - `[x]` 6/10: Ensure thread safety during buffer re-sizing.
+    - `[x]` 7/10: Add 'Auto-Latency' toggle to UI.
+    - `[x]` 8/10: Refine status polling for minimal overhead.
+    - `[x]` 9/10: Regression test FX stability during buffer change.
+    - `[x]` 10/10: Final polish and documentation.
 - `[ ]` Finalize
     - `[ ]` Build and Test.
     - `[ ]` Squash and Merge.
