@@ -191,6 +191,27 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
 
     mMidiSequencer.process(numFrames, mSamplesPerBeat, mVoiceManager);
 
+    // Adaptive Buffer Management Check
+    mFramesSinceLastStabilityCheck += numFrames;
+    if (mFramesSinceLastStabilityCheck >= 24000) { // Check every 0.5s for faster response
+        mFramesSinceLastStabilityCheck = 0;
+        int32_t currentXRuns = getXRunCount();
+        if (currentXRuns > mLastXRunCount) {
+            int32_t diff = currentXRuns - mLastXRunCount;
+            // Underrun occurred! Increase buffer size proportional to xRun delta
+            int32_t currentSize = mStream->getBufferSizeInFrames();
+            int32_t burstSize = mStream->getFramesPerBurst();
+            int32_t increase = burstSize * (diff > 1 ? 2 : 1);
+            int32_t newSize = std::min(currentSize + increase, mStream->getBufferCapacityInFrames());
+
+            if (newSize != currentSize) {
+                mStream->setBufferSizeInFrames(newSize);
+                __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Increased to %d due to %d new xRuns", newSize, diff);
+            }
+            mLastXRunCount = currentXRuns;
+        }
+    }
+
     for (int i = 0; i < numFrames; ++i) {
         float sample = mVoiceManager.nextSample();
 

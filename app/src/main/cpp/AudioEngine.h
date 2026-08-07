@@ -174,6 +174,9 @@ private:
     int mRestartRetryCount = 0;
     std::chrono::steady_clock::time_point mLastRestartTime;
 
+    int32_t mLastXRunCount = 0;
+    int32_t mFramesSinceLastStabilityCheck = 0;
+
     void recordingLoop(const std::string& path);
     void updateMetronomeParams();
     float getMetronomeSample();

@@ -5,8 +5,8 @@
     - `[x]` Create branch `feature/m27-adaptive-buffer`.
     - `[ ]` Create Pull Request.
     - `[ ]` Build baseline.
-- `[ ]` Review & Repair Loop (1-10)
-    - `[ ]` 1/10: Add xRun tracking and JNI status bridges.
+- `[/]` Review & Repair Loop (1-10)
+    - `[x]` 1/10: Add xRun tracking and JNI status bridges.
     - `[ ]` 2/10: Implement dynamic buffer size increase on xRun.
     - `[ ]` 3/10: Implement stable-period buffer size recovery.
     - `[ ]` 4/10: Add Latency UI indicator to main workspace.
