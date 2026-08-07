@@ -176,4 +176,29 @@ class GestureTest {
         view.dispatchTouchEvent(MotionEvent.obtain(0L, 100L, MotionEvent.ACTION_DOWN, 990f, 490f, 0))
         assertEquals(75, lastPadNote)
     }
+
+    @Test
+    fun testModeSwitchingCleanup() {
+        var notesOffCalled = 0
+        view.listener = object : KeyboardPadView.OnNoteEventListener {
+            override fun onNoteOn(midi: Int, velocity: Float) {}
+            override fun onNoteOff(midi: Int) { notesOffCalled++ }
+            override fun onGridTouchStart(midi: Int) {}
+            override fun onGridTouchEnd() {}
+            override fun onPadLongPress(padIndex: Int) {}
+            override fun onGesture(pitchBend: Float, modulation: Float) {}
+            override fun onAftertouch(midi: Int, amount: Float) {}
+        }
+
+        // Hold a note
+        view.dispatchTouchEvent(MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, 50f, 250f, 0))
+        // Slide up to hold
+        view.dispatchTouchEvent(MotionEvent.obtain(0L, 100L, MotionEvent.ACTION_UP, 50f, 10f, 0))
+        
+        // Switch mode should clear held notes
+        view.setMode(KeyboardPadView.Mode.PAD_GRID)
+        // NoteOff should have been called (once for the touch release, but wait - if held, it stays active)
+        // clearHeldNotes is called in setMode
+        assertTrue("NoteOff should have been triggered during mode switch", notesOffCalled > 0)
+    }
 }
