@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "26_Professional_Demo_Experience",
     "current_step": "Review Loop",
-    "loop_iteration": 7,
-    "last_action_completed": "Review loop 7/10: Added visual backlights for automated note triggers.",
-    "next_immediate_action": "Review loop 8/10: Validate sample file persistence after auto-sampling."
+    "loop_iteration": 8,
+    "last_action_completed": "Review loop 8/10: Validated sample file persistence after auto-sampling.",
+    "next_immediate_action": "Review loop 9/10: Add robustness to demo interruption (Demo Job cancellation)."
   }
 }
