@@ -65,13 +65,17 @@ class MainActivity : AppCompatActivity() {
     private var bankIndex = 0
     private var stepPageIndex = 0
     private var numSteps = 16
+    private var statusPollCounter = 0
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     private val beatPoller = object : Runnable {
         override fun run() {
             if (synthManager.isBeatStarted()) {
                 flashBeat()
             }
-            updateLatencyStatus()
+            if (statusPollCounter % 30 == 0) {
+                updateLatencyStatus()
+            }
+            statusPollCounter++
             if (isPollingEnabled) {
                 mainHandler.postDelayed(this, 16)
             }
