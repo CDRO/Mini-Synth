@@ -647,6 +647,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetEngineState() {
+        // Reset Synth Parameters
+        synthManager.setWaveform(0) // Sine
         synthManager.setAttack(0.1f)
         synthManager.setDecay(0.1f)
         synthManager.setSustain(0.8f)
@@ -659,8 +661,20 @@ class MainActivity : AppCompatActivity() {
         synthManager.setPitchBend(0f)
         synthManager.setModulation(0f)
         
+        // Reset UI State
+        isPadMode = false
         val content = binding.appBarMain.contentMain
+        content.btnModeToggle.text = "Pads"
+        content.keyboardPadView.setMode(KeyboardPadView.Mode.KEYBOARD)
         content.keyboardPadView.clearHeldNotes()
+        
+        // Clear all backlights
+        for (note in 0..127) {
+            content.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, false)
+            content.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.RECORD, false)
+        }
+        
+        updateWorkspaceVisibility(content)
         updateLabels(content)
     }
 

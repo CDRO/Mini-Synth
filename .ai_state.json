@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "26_Professional_Demo_Experience",
     "current_step": "Review Loop",
-    "loop_iteration": 4,
-    "last_action_completed": "Review loop 4/10: Optimized educational Toasts for better timing.",
-    "next_immediate_action": "Review loop 5/10: Fix UI mode sync bugs during auto-transitions."
+    "loop_iteration": 5,
+    "last_action_completed": "Review loop 5/10: Fixed UI mode sync and disabled manual toggle during Demo.",
+    "next_immediate_action": "Review loop 6/10: Ensure clean engine state reset on demo stop/finish."
   }
 }
