@@ -14,13 +14,18 @@ import org.robolectric.annotation.Config
 @Config(sdk = [33], shadows = [ShadowSynthManager::class])
 class GestureTest {
 
-    @Test
-    fun testKeyboardGestures() {
+    private lateinit var view: KeyboardPadView
+
+    @org.junit.Before
+    fun setup() {
         val context = RuntimeEnvironment.getApplication()
-        val view = KeyboardPadView(context)
+        view = KeyboardPadView(context)
         view.measure(1000, 500)
         view.layout(0, 0, 1000, 500)
-        
+    }
+
+    @Test
+    fun testKeyboardGestures() {
         var receivedPb = 0.0f
         var receivedMod = 0.0f
         
@@ -65,11 +70,6 @@ class GestureTest {
 
     @Test
     fun testAftertouchTrigger() {
-        val context = RuntimeEnvironment.getApplication()
-        val view = KeyboardPadView(context)
-        view.measure(1000, 500)
-        view.layout(0, 0, 1000, 500)
-
         var lastAftertouchMidi = -1
         var lastAftertouchAmount = 0.0f
 
