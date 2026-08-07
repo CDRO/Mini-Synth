@@ -114,4 +114,41 @@ class GestureTest {
         view.dispatchTouchEvent(MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, 1010f, 250f, 0))
         assertEquals(-1, lastNoteOn)
     }
+
+    @Test
+    fun testMultiTouchTracking() {
+        val notesOn = mutableSetOf<Int>()
+        view.listener = object : KeyboardPadView.OnNoteEventListener {
+            override fun onNoteOn(midi: Int, velocity: Float) { notesOn.add(midi) }
+            override fun onNoteOff(midi: Int) { notesOn.remove(midi) }
+            override fun onGridTouchStart(midi: Int) {}
+            override fun onGridTouchEnd() {}
+            override fun onPadLongPress(padIndex: Int) {}
+            override fun onGesture(pitchBend: Float, modulation: Float) {}
+            override fun onAftertouch(midi: Int, amount: Float) {}
+        }
+
+        // First pointer down
+        val down1 = MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, 50f, 250f, 0)
+        view.dispatchTouchEvent(down1)
+        assertTrue("Note 60 should be on", notesOn.contains(60))
+
+        // Second pointer down
+        val pointerCoords = arrayOf(
+            MotionEvent.PointerProperties().apply { id = 0 },
+            MotionEvent.PointerProperties().apply { id = 1 }
+        )
+        val pointerCoordsValues = arrayOf(
+            MotionEvent.PointerCoords().apply { x = 50f; y = 250f },
+            MotionEvent.PointerCoords().apply { x = 150f; y = 250f }
+        )
+
+        val down2 = MotionEvent.obtain(0L, 100L, 
+            MotionEvent.ACTION_POINTER_DOWN or (1 shl MotionEvent.ACTION_POINTER_INDEX_SHIFT),
+            2, pointerCoords, pointerCoordsValues, 0, 0, 1.0f, 1.0f, 0, 0, 0, 0)
+        
+        view.dispatchTouchEvent(down2)
+        assertTrue("Note 62 should also be on", notesOn.contains(62))
+        assertEquals(2, notesOn.size)
+    }
 }
