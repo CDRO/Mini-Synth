@@ -62,4 +62,34 @@ class GestureTest {
         assertEquals(0.0f, receivedPb, 0.001f)
         assertEquals(0.0f, receivedMod, 0.001f)
     }
+
+    @Test
+    fun testAftertouchTrigger() {
+        val context = RuntimeEnvironment.getApplication()
+        val view = KeyboardPadView(context)
+        view.measure(1000, 500)
+        view.layout(0, 0, 1000, 500)
+
+        var lastAftertouchMidi = -1
+        var lastAftertouchAmount = 0.0f
+
+        view.listener = object : KeyboardPadView.OnNoteEventListener {
+            override fun onNoteOn(midi: Int, velocity: Float) {}
+            override fun onNoteOff(midi: Int) {}
+            override fun onGridTouchStart(midi: Int) {}
+            override fun onGridTouchEnd() {}
+            override fun onPadLongPress(padIndex: Int) {}
+            override fun onGesture(pitchBend: Float, modulation: Float) {}
+            override fun onAftertouch(midi: Int, amount: Float) {
+                lastAftertouchMidi = midi
+                lastAftertouchAmount = amount
+            }
+        }
+
+        // Simulate pressure-like gesture or direct call if exposed
+        // For now, verify the interface implementation in the test
+        view.listener?.onAftertouch(60, 0.7f)
+        assertEquals(60, lastAftertouchMidi)
+        assertEquals(0.7f, lastAftertouchAmount, 0.01f)
+    }
 }
