@@ -111,6 +111,7 @@ public:
     void clearSequencer() { mMidiSequencer.clear(); }
     void stepRecordNote(int note) { mMidiSequencer.stepRecordNote(note); }
     void stepRecordRest() { mMidiSequencer.stepRecordRest(); }
+    void stepRecordBack() { mMidiSequencer.stepRecordBack(); }
     void setSequencerStepDuration(float division) { mMidiSequencer.setStepDuration(division); }
     void setSequencerNumSteps(int steps) { mMidiSequencer.setNumSteps(steps); }
     void setInputQuantize(bool enabled) { mMidiSequencer.setInputQuantize(enabled); }
