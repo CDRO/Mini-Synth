@@ -554,7 +554,14 @@ class MainActivity : AppCompatActivity() {
                     
                     // Automate Cutoff and LFO
                     if (i == 2) showDemoToast("Opening the 2-pole Resonant Low-Pass Filter...")
-                    synthManager.setFilterCutoff(800f + (i * 400f))
+                    
+                    // Smooth filter sweep within the note
+                    lifecycleScope.launch {
+                        for (s in 0..10) {
+                            synthManager.setFilterCutoff(800f + (i * 200f) + (s * 100f))
+                            delay(40)
+                        }
+                    }
                     
                     if (i == 4) {
                         showDemoToast("Modulating Pitch via LFO (Vibrato).")
