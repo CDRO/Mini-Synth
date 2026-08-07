@@ -509,7 +509,7 @@ class MainActivity : AppCompatActivity() {
             // Stage 1: Synthesis Stage
             showDemoToast("Stage 1: Synthesis. Exploring the Oscillators.")
             
-            // Set a rich Sawtooth patch
+            // Reset for demo
             synthManager.setWaveform(2) // Saw
             synthManager.setAttack(0.05f)
             synthManager.setDecay(0.2f)
@@ -518,6 +518,17 @@ class MainActivity : AppCompatActivity() {
             synthManager.setFilterCutoff(800f)
             synthManager.setFilterResonance(0.4f)
             
+            // FX Setup
+            synthManager.setDelayTime(0.4f)
+            synthManager.setDelayFeedback(0.6f)
+            synthManager.setDelayMix(0.3f)
+            synthManager.setReverbSize(0.7f)
+            synthManager.setReverbMix(0.0f)
+            
+            delay(500)
+            showDemoToast("Stage 1: Dynamic Synthesis. Exploring Sawtooth waveforms and Resonant Filters.")
+            delay(2000)
+
             val notes = listOf(60, 63, 67, 72, 70, 67, 63, 60)
             for (i in notes.indices) {
                 if (!isDemoPlaying) break
@@ -526,51 +537,50 @@ class MainActivity : AppCompatActivity() {
                 binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, true)
                 
                 // Automate Cutoff and LFO
-                if (i == 2) showDemoToast("Opening the Resonant Filter...")
+                if (i == 2) showDemoToast("Opening the 2-pole Resonant Low-Pass Filter...")
                 synthManager.setFilterCutoff(800f + (i * 400f))
                 
                 if (i == 4) {
-                    showDemoToast("Adding Vibrato via LFO.")
+                    showDemoToast("Modulating Pitch via LFO (Vibrato).")
                     synthManager.setLfoTarget(0) // Pitch
-                    synthManager.setLfoRate(5.5f)
-                    synthManager.setLfoDepth(0.4f)
+                    synthManager.setLfoRate(6.0f)
+                    synthManager.setLfoDepth(0.5f)
                 }
                 
-                delay(500)
+                delay(600)
                 synthManager.noteOff(note)
                 binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, false)
-                delay(100)
+                delay(150)
             }
             
             if (!isDemoPlaying) return@launch
             
             // Stage 2: Sampling Stage
-            showDemoToast("Stage 2: Automated Sampling. Capturing sound to Pad 0.")
-            synthManager.startAutomatedSampling(0, 3.0f) // 3 seconds for richer sample
-            
-            // Visual indicator: Flash the RECORD backlight on the first key to show sampling activity
+            delay(1000)
+            showDemoToast("Stage 2: Instant Resampling. Capturing this polyphonic chord to a performance pad.")
+            delay(2500)
+
+            synthManager.startAutomatedSampling(0, 3.0f) 
             binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, true)
             
-            // Play a lush polyphonic chord
-            showDemoToast("Sampling a lush Minor 9th chord...")
-            val chord = listOf(60, 63, 67, 70, 74) // Added 74 (D) for Minor 9th
+            showDemoToast("Resampling a rich Minor 9th chord...")
+            val chord = listOf(60, 63, 67, 70, 74)
             for (note in chord) synthManager.noteOn(note, 0.7f)
             
             delay(2000)
-            
-            // Release chord while still sampling tail
             for (note in chord) synthManager.noteOff(note)
             
-            delay(1500) // Finish sampling tail
+            delay(1500) // sampling tail
             
-            // Save the automated sample to file for consistency and future persistence
             val autoSampleFile = File(filesDir, getSampleFileName(0))
             synthManager.savePadSample(0, autoSampleFile.absolutePath)
             padSamplePaths[0] = autoSampleFile.absolutePath
             
             binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, false)
             
-            showDemoToast("Automated transition to Pad Mode.")
+            delay(1000)
+            showDemoToast("Automated Workspace Transition: Switching to Pad Mode.")
+            delay(1500)
             
             // Automated UI transition
             isPadMode = true
