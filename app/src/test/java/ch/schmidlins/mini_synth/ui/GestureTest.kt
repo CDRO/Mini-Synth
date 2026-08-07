@@ -92,4 +92,26 @@ class GestureTest {
         assertEquals(60, lastAftertouchMidi)
         assertEquals(0.7f, lastAftertouchAmount, 0.01f)
     }
+
+    @Test
+    fun testKeyboardBoundaries() {
+        var lastNoteOn = -1
+        view.listener = object : KeyboardPadView.OnNoteEventListener {
+            override fun onNoteOn(midi: Int, velocity: Float) { lastNoteOn = midi }
+            override fun onNoteOff(midi: Int) {}
+            override fun onGridTouchStart(midi: Int) {}
+            override fun onGridTouchEnd() {}
+            override fun onPadLongPress(padIndex: Int) {}
+            override fun onGesture(pitchBend: Float, modulation: Float) {}
+            override fun onAftertouch(midi: Int, amount: Float) {}
+        }
+
+        // Far Left (below key 0)
+        view.dispatchTouchEvent(MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, -10f, 250f, 0))
+        assertEquals(-1, lastNoteOn)
+
+        // Far Right (above key 7)
+        view.dispatchTouchEvent(MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, 1010f, 250f, 0))
+        assertEquals(-1, lastNoteOn)
+    }
 }
