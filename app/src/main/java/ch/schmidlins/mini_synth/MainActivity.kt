@@ -206,6 +206,10 @@ class MainActivity : AppCompatActivity() {
         
         // Mode toggle
         content.btnModeToggle.setOnClickListener {
+            if (isDemoPlaying) {
+                Toast.makeText(this, "Mode toggle disabled during Demo.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             if (isHelpMode) {
                 showHelp("Switch between a 13-key keyboard and a grid of customizable pads.")
                 return@setOnClickListener
