@@ -581,6 +581,12 @@ class MainActivity : AppCompatActivity() {
             
             delay(1500) // sampling tail
             
+            // Save the automated sample to file for consistency and future persistence
+            val autoSampleFile = File(filesDir, getSampleFileName(0))
+            synthManager.savePadSample(0, autoSampleFile.absolutePath)
+            padSamplePaths[0] = autoSampleFile.absolutePath
+            android.util.Log.d("Demo", "Auto-sample saved to: ${autoSampleFile.absolutePath}")
+
             delay(1000)
             showDemoToast("Automated Workspace Transition: Switching to Pad Mode.")
             delay(1500)
