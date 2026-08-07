@@ -209,4 +209,43 @@ class GestureTest {
         // clearHeldNotes is called in setMode
         assertTrue("NoteOff should have been triggered during mode switch", notesOffCalled > 0)
     }
+
+    @Test
+    fun testKeyboardMultiHold() {
+        val notesOn = mutableSetOf<Int>()
+        view.listener = object : KeyboardPadView.OnNoteEventListener {
+            override fun onNoteOn(midi: Int, velocity: Float) { notesOn.add(midi) }
+            override fun onNoteOff(midi: Int) { notesOn.remove(midi) }
+            override fun onGridTouchStart(midi: Int) {}
+            override fun onGridTouchEnd() {}
+            override fun onPadLongPress(padIndex: Int) {}
+            override fun onGesture(pitchBend: Float, modulation: Float) {}
+            override fun onAftertouch(midi: Int, amount: Float) {}
+        }
+
+        // Down on Key 0
+        val down = MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, 50f, 250f, 0)
+        view.dispatchTouchEvent(down)
+        assertTrue(notesOn.contains(60))
+
+        // Slide up and Release
+        val up = MotionEvent.obtain(0L, 100L, MotionEvent.ACTION_UP, 50f, 10f, 0)
+        view.dispatchTouchEvent(up)
+        
+        // Should STILL be ON because of hold gesture
+        assertTrue("Note should be HELD after sliding up", notesOn.contains(60))
+
+        // Down again on Key 0 should keep it on
+        view.dispatchTouchEvent(MotionEvent.obtain(0L, 200L, MotionEvent.ACTION_DOWN, 50f, 250f, 0))
+        assertTrue(notesOn.contains(60))
+
+        // Slide DOWN and Release should UNHOLD
+        val up2 = MotionEvent.obtain(0L, 300L, MotionEvent.ACTION_UP, 50f, 490f, 0)
+        view.dispatchTouchEvent(up2)
+        assertTrue("Note should be RELEASED after sliding down", !notesOn.contains(60))
+        
+        down.recycle()
+        up.recycle()
+        up2.recycle()
+    }
 }
