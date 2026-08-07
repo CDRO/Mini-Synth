@@ -603,48 +603,32 @@ class MainActivity : AppCompatActivity() {
                 binding.appBarMain.contentMain.keyboardPadView.setMode(KeyboardPadView.Mode.PAD_GRID)
                 updateWorkspaceVisibility(binding.appBarMain.contentMain)
                 
-                delay(1000)
-                showDemoToast("Stage 3: Performance Stage. Using pads and built-in effects.")
-                
-                // Trigger sampled pad rhythmically with FX swell
-                showDemoToast("Triggering the freshly sampled sound with Reverb swell!")
+                // Stage 3: Performance Stage. Using pads and built-in effects.
+                showDemoToast("Stage 3: Performance. Exploring LFO modulation and expressive Filter sweeps.")
                 
                 val content = binding.appBarMain.contentMain
-                synthManager.setReverbMix(0.1f)
-                runOnUiThread { content.seekReverbMix.progress = 10 }
                 
-                // Rhythmic triggering of Pad 0
-                for (i in 0..7) {
-                    if (!isDemoPlaying) break
-                    synthManager.padNoteOn(0, 1.0f)
-                    binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true) // Pad 0 is mapped to 60 internally
-                    
-                    val mix = 0.1f + (i * 0.12f)
-                    synthManager.setReverbMix(mix)
-                    runOnUiThread { content.seekReverbMix.progress = (mix * 100).toInt() }
-                    
-                    delay(300)
-                    synthManager.padNoteOff(0)
-                    binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
-                    delay(200)
-                    
-                    if (i == 3) showDemoToast("Notice the spatial depth increasing...")
-                }
+                // Show LFO
+                showDemoToast("LFO: Automatically modulating Filter Cutoff.")
+                synthManager.setLfoTarget(2) // Filter
+                synthManager.setLfoRate(2.5f)
+                synthManager.setLfoDepth(0.8f)
                 
-                if (!isDemoPlaying) return@launch
-
-                // One final long swell
                 synthManager.padNoteOn(0, 1.0f)
-                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true)
-                showDemoToast("Final spatial wash...")
                 for (i in 0..10) {
                     if (!isDemoPlaying) break
-                    val mix = 0.8f - (i * 0.05f) 
-                    synthManager.setReverbMix(mix)
-                    runOnUiThread { content.seekReverbMix.progress = (mix * 100).toInt() }
-                    delay(200)
+                    synthManager.setLfoRate(2.5f + (i * 0.5f))
+                    delay(300)
                 }
                 synthManager.padNoteOff(0)
+                
+                if (!isDemoPlaying) return@launch
+                
+                showDemoToast("Final spatial wash with high-density Reverb.")
+                synthManager.setReverbMix(0.8f)
+                synthManager.padNoteOn(3, 1.0f)
+                delay(2000)
+                synthManager.padNoteOff(3)
                 binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
                 
                 delay(1000)
