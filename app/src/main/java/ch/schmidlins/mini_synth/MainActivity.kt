@@ -904,10 +904,16 @@ class MainActivity : AppCompatActivity() {
             if (isHelpMode) { showHelp("Enable Step Recording. Press keys to build a melody step-by-step."); return@setOnCheckedChangeListener }
             isStepRecordMode = isChecked
             content.btnStepRest!!.visibility = if (isChecked) View.VISIBLE else View.GONE
+            content.btnStepBack!!.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
         content.btnStepRest!!.setOnClickListener {
             if (isHelpMode) { showHelp("Skip the current step without adding a note (Rest)."); return@setOnClickListener }
             synthManager.stepRecordRest()
+            updateSequencerToggles(content)
+        }
+        content.btnStepBack!!.setOnClickListener {
+            if (isHelpMode) { showHelp("Go back to the previous step and clear it."); return@setOnClickListener }
+            synthManager.stepRecordBack()
             updateSequencerToggles(content)
         }
         content.btnSequencerClear!!.setOnClickListener {

@@ -186,3 +186,13 @@ void MidiSequencer::releaseStep(int step, VoiceManager& voiceManager) {
         }
     }
 }
+
+void MidiSequencer::stepRecordBack() {
+    int step = mCurrentStep.load();
+    int totalSteps = mNumSteps.load();
+    int prevStep = (step - 1 + totalSteps) % totalSteps;
+
+    mGrid[prevStep][0].store(0);
+    mGrid[prevStep][1].store(0);
+    mCurrentStep.store(prevStep);
+}

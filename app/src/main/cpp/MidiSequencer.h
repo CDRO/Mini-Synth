@@ -37,6 +37,7 @@ public:
     int recordNote(int note);
     void stepRecordNote(int note);
     void stepRecordRest();
+    void stepRecordBack();
     void handleRealTimeNoteOn(int note);
     void handleRealTimeNoteOff(int note);
     void process(int32_t numFrames, int32_t samplesPerBeat, VoiceManager& voiceManager);
