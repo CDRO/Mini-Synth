@@ -1,0 +1,21 @@
+# Tasks: Milestone 27 - Adaptive Buffer Management
+
+- `[ ]` Setup Infrastructure
+    - `[x]` Create GitHub Milestone & Issue (#116).
+    - `[x]` Create branch `feature/m27-adaptive-buffer`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline.
+- `[ ]` Review & Repair Loop (1-10)
+    - `[ ]` 1/10: Add xRun tracking and JNI status bridges.
+    - `[ ]` 2/10: Implement dynamic buffer size increase on xRun.
+    - `[ ]` 3/10: Implement stable-period buffer size recovery.
+    - `[ ]` 4/10: Add Latency UI indicator to main workspace.
+    - `[ ]` 5/10: Optimize buffer adjustment frequency (damping).
+    - `[ ]` 6/10: Ensure thread safety during buffer re-sizing.
+    - `[ ]` 7/10: Add 'Auto-Latency' toggle to UI.
+    - `[ ]` 8/10: Refine status polling for minimal overhead.
+    - `[ ]` 9/10: Regression test FX stability during buffer change.
+    - `[ ]` 10/10: Final polish and documentation.
+- `[ ]` Finalize
+    - `[ ]` Build and Test.
+    - `[ ]` Squash and Merge.
