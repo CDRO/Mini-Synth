@@ -598,10 +598,13 @@ class MainActivity : AppCompatActivity() {
                 delay(1500)
                 
                 // Automated UI transition
-                isPadMode = true
-                binding.appBarMain.contentMain.btnModeToggle.text = "Keys"
-                binding.appBarMain.contentMain.keyboardPadView.setMode(KeyboardPadView.Mode.PAD_GRID)
-                updateWorkspaceVisibility(binding.appBarMain.contentMain)
+                runOnUiThread {
+                    isPadMode = true
+                    binding.appBarMain.contentMain.btnModeToggle.text = "Keys"
+                    binding.appBarMain.contentMain.keyboardPadView.setMode(KeyboardPadView.Mode.PAD_GRID)
+                    updateWorkspaceVisibility(binding.appBarMain.contentMain)
+                }
+                delay(1500)
                 
                 // Stage 3: Performance Stage. Using pads and built-in effects.
                 showDemoToast("Stage 3: Performance. Exploring LFO modulation and expressive Filter sweeps.")
