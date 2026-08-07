@@ -34,6 +34,7 @@ class GestureTest {
                 receivedPb = pitchBend
                 receivedMod = modulation
             }
+            override fun onAftertouch(midi: Int, amount: Float) {}
         }
 
         // Touch Center of key 0
