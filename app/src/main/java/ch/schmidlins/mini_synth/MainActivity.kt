@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
     private var isHelpMode = false
     private var isDemoPlaying = false
     private var demoJob: kotlinx.coroutines.Job? = null
+    private var demoToast: Toast? = null
     var isPollingEnabled = true // Exposed for tests
     private val padLinks = mutableMapOf<Int, MutableSet<Int>>() // Source pad -> Set of linked pads
     private val padTriggerModes = mutableMapOf<Int, Boolean>() // Pad index -> isOneShot
@@ -467,7 +468,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 isDemoPlaying = true
                 content.btnDemoMode.text = "STOP"
-                playDemoSong()
+                runIntegratedDemo()
             }
         }
 
@@ -513,12 +514,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun playDemoSong() {
+    private fun runIntegratedDemo() {
         demoJob?.cancel()
         demoJob = lifecycleScope.launch {
             try {
+                isDemoPlaying = true
+                runOnUiThread { binding.appBarMain.contentMain.btnDemoMode.text = "STOP" }
+                
                 // Discovery explanation
-                Toast.makeText(this@MainActivity, "Demo: Initializing synth patch...", Toast.LENGTH_SHORT).show()
+                showDemoToast("Demo: Initializing synth patch...")
                 
                 // Stage 1: Synthesis Stage
                 showDemoToast("Stage 1: Dynamic Synthesis. Exploring Sawtooth waveforms and Resonant Filters.")
