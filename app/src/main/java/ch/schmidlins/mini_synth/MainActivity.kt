@@ -624,16 +624,16 @@ class MainActivity : AppCompatActivity() {
 
                 delay(1000)
                 showDemoToast("Automated Workspace Transition: Switching to Pad Mode.")
-                delay(1500)
                 
-                // Automated UI transition
                 runOnUiThread {
+                    val root = binding.appBarMain.contentMain.root as androidx.constraintlayout.widget.ConstraintLayout
+                    TransitionManager.beginDelayedTransition(root)
                     isPadMode = true
                     binding.appBarMain.contentMain.btnModeToggle.text = "Keys"
                     binding.appBarMain.contentMain.keyboardPadView.setMode(KeyboardPadView.Mode.PAD_GRID)
                     updateWorkspaceVisibility(binding.appBarMain.contentMain)
                 }
-                delay(1500)
+                delay(2000)
                 
                 // Stage 3: Performance Stage. Using pads and built-in effects.
                 showDemoToast("Stage 3: Performance. Exploring LFO modulation and expressive Filter sweeps.")

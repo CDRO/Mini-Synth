@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "28_Integrated_Demo_Sampling",
     "current_step": "Review Loop",
-    "loop_iteration": 6,
-    "last_action_completed": "Review loop 6/10: Added scripted parameter modulation (Filter sweeps) to demo.",
-    "next_immediate_action": "Review loop 7/10: Ensure UI mode transitions (Keys/Pads) are animated."
+    "loop_iteration": 7,
+    "last_action_completed": "Review loop 7/10: Optimized animated UI transitions in demo script.",
+    "next_immediate_action": "Review loop 8/10: Refine demo-stop and engine cleanup logic."
   }
 }
