@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "28_Integrated_Demo_Sampling",
     "current_step": "Review Loop",
-    "loop_iteration": 8,
-    "last_action_completed": "Review loop 8/10: Refined demo-stop and engine cleanup logic.",
-    "next_immediate_action": "Review loop 9/10: Refine toast messaging for 'Tele-prompter' effect."
+    "loop_iteration": 9,
+    "last_action_completed": "Review loop 9/10: Refined toast messaging for 'Tele-prompter' effect.",
+    "next_immediate_action": "Review loop 10/10: Final polish and documentation."
   }
 }

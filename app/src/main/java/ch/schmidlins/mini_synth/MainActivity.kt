@@ -695,7 +695,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun showDemoToast(message: String) {
         runOnUiThread {
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            demoToast?.cancel()
+            demoToast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+            demoToast?.show()
         }
     }
 
