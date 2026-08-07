@@ -192,33 +192,31 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
     mMidiSequencer.process(numFrames, mSamplesPerBeat, mVoiceManager);
 
     // Adaptive Buffer Management Check
-    mFramesSinceLastStabilityCheck += numFrames;
-    if (mFramesSinceLastStabilityCheck >= 48000) { // Check every 1s (increased from 0.5s)
-        int32_t currentXRuns = getXRunCount();
-        int32_t currentSize = mStream->getBufferSizeInFrames();
-        int32_t burstSize = mStream->getFramesPerBurst();
+    if (mAutoLatencyEnabled.load()) {
+        mFramesSinceLastStabilityCheck += numFrames;
+        if (mFramesSinceLastStabilityCheck >= 48000) { // Check every 1s
+            int32_t currentXRuns = getXRunCount();
+            int32_t currentSize = mStream->getBufferSizeInFrames();
+            int32_t burstSize = mStream->getFramesPerBurst();
 
-        if (currentXRuns > mLastXRunCount) {
-            int32_t diff = currentXRuns - mLastXRunCount;
-            // Underrun occurred! Increase buffer size.
-            // Aggressive increase: 2 bursts for 1-2 xruns, 4 bursts for more.
-            int32_t increase = burstSize * (diff > 2 ? 4 : 2);
-            int32_t newSize = std::min(currentSize + increase, mStream->getBufferCapacityInFrames());
+            if (currentXRuns > mLastXRunCount) {
+                int32_t diff = currentXRuns - mLastXRunCount;
+                int32_t increase = burstSize * (diff > 2 ? 4 : 2);
+                int32_t newSize = std::min(currentSize + increase, mStream->getBufferCapacityInFrames());
 
-            if (newSize > currentSize) {
-                mRequestedBufferSize.store(newSize);
-                __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Requesting increase to %d", newSize);
-                mFramesSinceLastStabilityCheck = -96000; // 2s Cooldown after increase (increased from 1s)
-            }
-            mLastXRunCount = currentXRuns;
-        } else if (mFramesSinceLastStabilityCheck >= 1440000) { // Stable for 30 seconds (increased from 10s)
-            mFramesSinceLastStabilityCheck = 0;
-            // Try to decrease buffer size to minimize latency
-            // Conservative decrease: only by 1 burst
-            int32_t newSize = std::max(burstSize * 2, currentSize - burstSize);
-            if (newSize < currentSize) {
-                mRequestedBufferSize.store(newSize);
-                __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Requesting decrease to %d", newSize);
+                if (newSize > currentSize) {
+                    mRequestedBufferSize.store(newSize);
+                    __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Requesting increase to %d", newSize);
+                    mFramesSinceLastStabilityCheck = -96000;
+                }
+                mLastXRunCount = currentXRuns;
+            } else if (mFramesSinceLastStabilityCheck >= 1440000) {
+                mFramesSinceLastStabilityCheck = 0;
+                int32_t newSize = std::max(burstSize * 2, currentSize - burstSize);
+                if (newSize < currentSize) {
+                    mRequestedBufferSize.store(newSize);
+                    __android_log_print(ANDROID_LOG_INFO, TAG, "Adaptive Buffer: Requesting decrease to %d", newSize);
+                }
             }
         }
     }

@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "27_Adaptive_Buffer_Management",
     "current_step": "Review Loop",
-    "loop_iteration": 7,
-    "last_action_completed": "Review loop 7/10: Ensured thread safety by moving buffer resize out of audio callback.",
-    "next_immediate_action": "Review loop 8/10: Add 'Auto-Latency' toggle to UI."
+    "loop_iteration": 8,
+    "last_action_completed": "Review loop 8/10: Added 'Auto-Latency' toggle to UI.",
+    "next_immediate_action": "Review loop 9/10: Refine status polling for minimal overhead."
   }
 }

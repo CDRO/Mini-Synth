@@ -188,6 +188,21 @@
                 android:textSize="9sp"
                 android:textStyle="bold" />
 
+            <Space
+                android:layout_width="4dp"
+                android:layout_height="match_parent" />
+
+            <ToggleButton
+                android:id="@+id/toggle_auto_latency"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="48dp"
+                android:layout_height="32dp"
+                android:textOff="AUTO"
+                android:textOn="AUTO"
+                android:checked="true"
+                android:textColor="@color/acid_green"
+                android:textSize="8sp" />
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -325,6 +325,10 @@ class MainActivity : AppCompatActivity() {
         setupWorkspaceRefinement(content)
         setupPatternManagement(content)
         
+        content.toggleAutoLatency.setOnCheckedChangeListener { _, isChecked ->
+            synthManager.setAutoLatencyEnabled(isChecked)
+        }
+        
         content.btnProjects.setOnClickListener {
             if (isHelpMode) {
                 showHelp("Project Browser: Manage your music projects (Save, Load, Create).")

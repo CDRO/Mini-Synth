@@ -507,3 +507,9 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_checkAndApplyBufferSize(JNIEnv
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->checkAndApplyBufferSize();
 }
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setAutoLatencyEnabled(JNIEnv *env, jobject thiz, jboolean enabled) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setAutoLatencyEnabled(enabled == JNI_TRUE);
+}
