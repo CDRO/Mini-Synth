@@ -545,22 +545,24 @@ class MainActivity : AppCompatActivity() {
             if (!isDemoPlaying) return@launch
             
             // Stage 2: Sampling Stage
-            showDemoToast("Stage 2: Automated Sampling. Recording to Pad 0.")
-            synthManager.startAutomatedSampling(0, 2.0f)
+            showDemoToast("Stage 2: Automated Sampling. Capturing sound to Pad 0.")
+            synthManager.startAutomatedSampling(0, 3.0f) // 3 seconds for richer sample
             binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, true)
             
-            // Play a big chord to sample
-            synthManager.noteOn(60, 0.9f)
-            synthManager.noteOn(64, 0.9f)
-            synthManager.noteOn(67, 0.9f)
-            delay(1500)
-            synthManager.noteOff(60)
-            synthManager.noteOff(64)
-            synthManager.noteOff(67)
-            delay(600) // let it finish sampling
+            // Play a lush polyphonic chord
+            showDemoToast("Sampling a lush Minor 7th chord...")
+            val chord = listOf(60, 63, 67, 70)
+            for (note in chord) synthManager.noteOn(note, 0.7f)
+            
+            delay(2000)
+            
+            // Release chord while still sampling tail
+            for (note in chord) synthManager.noteOff(note)
+            
+            delay(1500) // Finish sampling tail
             binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, false)
             
-            showDemoToast("Switching to Pad Mode automatically.")
+            showDemoToast("Automated transition to Pad Mode.")
             
             // Automated UI transition
             isPadMode = true
