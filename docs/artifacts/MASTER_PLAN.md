@@ -100,6 +100,22 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 ## Milestone 21: Automated Demo & Sampling [DONE]
 ## Milestone 23: MIDI Loop Recording [DONE]
 ## Milestone 24: Polyphonic Aftertouch Simulation [DONE]
+## Milestone 25: FFT Frequency Visualization [DONE]
+
+---
+
+## Milestone 26: Professional Demo Experience & Automated Sampling [TODO]
+
+### [Logic] [Demo]
+- **Scripted Sequence**: Pre-programmed performance highlighting all synth modules.
+- **Automated Sampling**: Native engine-to-pad recording workflow.
+- **Educational UI**: Real-time explanations (Toasts/Overlays) of what is happening.
+
+## Milestone 27: Adaptive Buffer Management [TODO]
+
+### [Logic] [Performance]
+- **Buffer Scaling**: Dynamically adjust Oboe's `bufferSize` based on xRun counts.
+- **Latency Balancing**: Minimize latency while preventing crackling under load.
 
 ---
 

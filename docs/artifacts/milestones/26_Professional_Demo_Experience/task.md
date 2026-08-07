@@ -1,0 +1,21 @@
+# Tasks: Milestone 26 - Professional Demo Experience
+
+- `[ ]` Setup Demo Infrastructure
+    - `[x]` Create GitHub Milestone & Issue (#114).
+    - `[x]` Create branch `feature/m26-professional-demo`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline.
+- `[ ]` Review & Repair Loop (1-10)
+    - `[ ]` 1/10: Establish Stage 1 (Synthesis) melody and automation.
+    - `[ ]` 2/10: Refine Stage 2 (Automated Sampling) logic and indicators.
+    - `[ ]` 3/10: Implement Stage 3 (Pad Performance) with FX swell.
+    - `[ ]` 4/10: Optimize educational Toasts for better timing.
+    - `[ ]` 5/10: Fix UI mode sync bugs during auto-transitions.
+    - `[ ]` 6/10: Ensure clean engine state reset on demo stop/finish.
+    - `[ ]` 7/10: Add visual backlights for automated note triggers.
+    - `[ ]` 8/10: Validate sample file persistence after auto-sampling.
+    - `[ ]` 9/10: Add robustness to demo interruption (Demo Job cancellation).
+    - `[ ]` 10/10: Final polish and walkthrough documentation.
+- `[ ]` Finalize
+    - `[ ]` Build and Test.
+    - `[ ]` Squash and Merge.
