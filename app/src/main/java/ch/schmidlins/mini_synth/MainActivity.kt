@@ -682,7 +682,13 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     binding.appBarMain.contentMain.btnDemoMode.text = "DEMO"
                     resetEngineState()
+                    // Revert UI to default mode
+                    isPadMode = false
+                    binding.appBarMain.contentMain.btnModeToggle.text = "Pads"
+                    binding.appBarMain.contentMain.keyboardPadView.setMode(KeyboardPadView.Mode.KEYBOARD)
+                    updateWorkspaceVisibility(binding.appBarMain.contentMain)
                 }
+                showDemoToast("Demo Complete. You can now use all these features manually!")
             }
         }
     }
