@@ -151,4 +151,29 @@ class GestureTest {
         assertTrue("Note 62 should also be on", notesOn.contains(62))
         assertEquals(2, notesOn.size)
     }
+
+    @Test
+    fun testPadGridTouch() {
+        view.setMode(KeyboardPadView.Mode.PAD_GRID)
+        view.setGridDimensions(4, 4)
+        
+        var lastPadNote = -1
+        view.listener = object : KeyboardPadView.OnNoteEventListener {
+            override fun onNoteOn(midi: Int, velocity: Float) { lastPadNote = midi }
+            override fun onNoteOff(midi: Int) {}
+            override fun onGridTouchStart(midi: Int) {}
+            override fun onGridTouchEnd() {}
+            override fun onPadLongPress(padIndex: Int) {}
+            override fun onGesture(pitchBend: Float, modulation: Float) {}
+            override fun onAftertouch(midi: Int, amount: Float) {}
+        }
+
+        // Touch Pad 0 (Top Left) -> should be MIDI 60
+        view.dispatchTouchEvent(MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, 10f, 10f, 0))
+        assertEquals(60, lastPadNote)
+
+        // Touch Pad 15 (Bottom Right) -> should be MIDI 75
+        view.dispatchTouchEvent(MotionEvent.obtain(0L, 100L, MotionEvent.ACTION_DOWN, 990f, 490f, 0))
+        assertEquals(75, lastPadNote)
+    }
 }
