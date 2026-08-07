@@ -992,7 +992,7 @@ class MainActivity : AppCompatActivity() {
         sequencerPoller = object : Runnable {
             private var lastStep = -1
             override fun run() {
-                if (synthManager.isSequencerPlaying()) {
+                if (synthManager.isSequencerPlaying() || isStepRecordMode) {
                     val currentStep = synthManager.getSequencerCurrentStep()
                     if (currentStep != lastStep) {
                         updateSequencerUI(content, currentStep, lastStep)
@@ -1056,7 +1056,12 @@ class MainActivity : AppCompatActivity() {
             val toggle = content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[currentSubStep])
             val activeNotes = synthManager.getSequencerActiveNotes(current)
             val isMulti = (activeNotes?.size ?: 0) > 1
-            toggle?.setBackgroundColor(ContextCompat.getColor(this, if (isMulti) R.color.electric_blue else R.color.acid_green))
+            
+            val colorRes = if (isStepRecordMode) R.color.vibrant_red 
+                           else if (isMulti) R.color.electric_blue 
+                           else R.color.acid_green
+            
+            toggle?.setBackgroundColor(ContextCompat.getColor(this, colorRes))
         }
         
         for (note in 60..72) if (synthManager.isSequencerNoteActive(current, note)) synthView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, true)
