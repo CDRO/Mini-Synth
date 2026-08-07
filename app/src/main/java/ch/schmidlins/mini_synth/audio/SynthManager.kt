@@ -119,6 +119,10 @@ class SynthManager {
     /** Check if a beat boundary was just crossed (used for UI flash). */
     external fun isBeatStarted(): Boolean
 
+    // Buffer Status
+    external fun getXRunCount(): Int
+    external fun getBufferSize(): Int
+
     // Effects
     external fun setDelayTime(seconds: Float)
     external fun setDelayFeedback(feedback: Float)

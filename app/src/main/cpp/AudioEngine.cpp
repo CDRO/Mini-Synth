@@ -471,3 +471,19 @@ void AudioEngine::startAutomatedSampling(int padIndex, float durationSeconds) {
     mAutoSampleRemaining = static_cast<int32_t>(durationSeconds * static_cast<float>(sampleRate));
     startPadSampling(padIndex);
 }
+
+int32_t AudioEngine::getXRunCount() {
+    if (!mStream) return 0;
+    auto result = mStream->getXRunCount();
+    return result.value_or(0);
+}
+
+int32_t AudioEngine::getBufferSize() {
+    if (!mStream) return 0;
+    return mStream->getBufferSizeInFrames();
+}
+
+int32_t AudioEngine::getFramesPerBurst() {
+    if (!mStream) return 192; // Default
+    return mStream->getFramesPerBurst();
+}

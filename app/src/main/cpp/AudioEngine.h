@@ -73,6 +73,11 @@ public:
 
     void renderPatternToFile(const std::string& path);
 
+    // Buffer Status
+    int32_t getXRunCount();
+    int32_t getBufferSize();
+    int32_t getFramesPerBurst();
+
     // External MIDI
     void processExternalMidi(const uint8_t* data, int32_t length);
 

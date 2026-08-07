@@ -9,10 +9,10 @@
     "milestones_folder_path": "docs/artifacts/milestones"
   },
   "current_state": {
-    "active_milestone_file": "26_Professional_Demo_Experience",
+    "active_milestone_file": "27_Adaptive_Buffer_Management",
     "current_step": "Review Loop",
-    "loop_iteration": 8,
-    "last_action_completed": "Review loop 8/10: Validated sample file persistence after auto-sampling.",
-    "next_immediate_action": "Review loop 9/10: Add robustness to demo interruption (Demo Job cancellation)."
+    "loop_iteration": 1,
+    "last_action_completed": "Review loop 1/10: Added xRun tracking and JNI status bridges.",
+    "next_immediate_action": "Review loop 2/10: Implement dynamic buffer size increase on xRun."
   }
 }
