@@ -547,11 +547,13 @@ class MainActivity : AppCompatActivity() {
             // Stage 2: Sampling Stage
             showDemoToast("Stage 2: Automated Sampling. Capturing sound to Pad 0.")
             synthManager.startAutomatedSampling(0, 3.0f) // 3 seconds for richer sample
+            
+            // Visual indicator: Flash the RECORD backlight on the first key to show sampling activity
             binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, true)
             
             // Play a lush polyphonic chord
-            showDemoToast("Sampling a lush Minor 7th chord...")
-            val chord = listOf(60, 63, 67, 70)
+            showDemoToast("Sampling a lush Minor 9th chord...")
+            val chord = listOf(60, 63, 67, 70, 74) // Added 74 (D) for Minor 9th
             for (note in chord) synthManager.noteOn(note, 0.7f)
             
             delay(2000)
@@ -560,6 +562,12 @@ class MainActivity : AppCompatActivity() {
             for (note in chord) synthManager.noteOff(note)
             
             delay(1500) // Finish sampling tail
+            
+            // Save the automated sample to file for consistency and future persistence
+            val autoSampleFile = File(filesDir, getSampleFileName(0))
+            synthManager.savePadSample(0, autoSampleFile.absolutePath)
+            padSamplePaths[0] = autoSampleFile.absolutePath
+            
             binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.RECORD, false)
             
             showDemoToast("Automated transition to Pad Mode.")
