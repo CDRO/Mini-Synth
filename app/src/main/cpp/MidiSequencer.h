@@ -35,6 +35,8 @@ public:
     void setNumSteps(int steps) { if (steps > 0 && steps <= MAX_STEPS) mNumSteps.store(steps); }
     int getNumSteps() const { return mNumSteps.load(); }
     int recordNote(int note);
+    void stepRecordNote(int note);
+    void stepRecordRest();
     void handleRealTimeNoteOn(int note);
     void handleRealTimeNoteOff(int note);
     void process(int32_t numFrames, int32_t samplesPerBeat, VoiceManager& voiceManager);

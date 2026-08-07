@@ -57,6 +57,12 @@ void MidiSequencer::setStepDuration(float division) {
 
 int MidiSequencer::recordNote(int note) {
     if (note < 0 || note >= NUM_NOTES) return mCurrentStep.load();
+    stepRecordNote(note);
+    return mCurrentStep.load();
+}
+
+void MidiSequencer::stepRecordNote(int note) {
+    if (note < 0 || note >= NUM_NOTES) return;
     int step = mCurrentStep.load();
     int totalSteps = mNumSteps.load();
 
@@ -64,12 +70,13 @@ int MidiSequencer::recordNote(int note) {
     mGrid[step][1].store(0);
     setNote(step, note, true);
 
-    int nextStep = step;
-    if (!mIsPlaying.load()) {
-        nextStep = (step + 1) % totalSteps;
-        mCurrentStep.store(nextStep);
-    }
-    return nextStep;
+    mCurrentStep.store((step + 1) % totalSteps);
+}
+
+void MidiSequencer::stepRecordRest() {
+    int step = mCurrentStep.load();
+    int totalSteps = mNumSteps.load();
+    mCurrentStep.store((step + 1) % totalSteps);
 }
 
 void MidiSequencer::handleRealTimeNoteOn(int note) {
