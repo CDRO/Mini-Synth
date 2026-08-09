@@ -141,23 +141,30 @@ class GestureTest {
         view.dispatchTouchEvent(down1)
         assertTrue("Note 60 should be on", notesOn.contains(60))
 
-        // Second pointer down
-        val pointerCoords = arrayOf(
+        // Second pointer down (ACTION_MOVE then ACTION_POINTER_DOWN)
+        val pointerProperties = arrayOf(
             MotionEvent.PointerProperties().apply { id = 0 },
             MotionEvent.PointerProperties().apply { id = 1 }
         )
-        val pointerCoordsValues = arrayOf(
+        val pointerCoords = arrayOf(
             MotionEvent.PointerCoords().apply { x = 50f; y = 250f },
-            MotionEvent.PointerCoords().apply { x = 150f; y = 250f }
+            MotionEvent.PointerCoords().apply { x = 200f; y = 250f }
         )
+
+        val move = MotionEvent.obtain(0L, 50L, MotionEvent.ACTION_MOVE, 
+            2, pointerProperties, pointerCoords, 0, 0, 1.0f, 1.0f, 0, 0, 0, 0)
+        view.dispatchTouchEvent(move)
+        move.recycle()
 
         val down2 = MotionEvent.obtain(0L, 100L, 
             MotionEvent.ACTION_POINTER_DOWN or (1 shl MotionEvent.ACTION_POINTER_INDEX_SHIFT),
-            2, pointerCoords, pointerCoordsValues, 0, 0, 1.0f, 1.0f, 0, 0, 0, 0)
+            2, pointerProperties, pointerCoords, 0, 0, 1.0f, 1.0f, 0, 0, 0, 0)
         
         view.dispatchTouchEvent(down2)
         assertTrue("Note 62 should also be on", notesOn.contains(62))
         assertEquals(2, notesOn.size)
+        down2.recycle()
+        down1.recycle()
     }
 
     @Test
@@ -229,7 +236,7 @@ class GestureTest {
         assertTrue(notesOn.contains(60))
 
         // Slide up and Release
-        val up = MotionEvent.obtain(0L, 100L, MotionEvent.ACTION_UP, 50f, 10f, 0)
+        val up = MotionEvent.obtain(0L, 100L, MotionEvent.ACTION_UP, 50f, -50f, 0)
         view.dispatchTouchEvent(up)
         
         // Should STILL be ON because of hold gesture

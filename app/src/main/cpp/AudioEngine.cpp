@@ -418,6 +418,19 @@ void AudioEngine::onErrorAfterClose(oboe::AudioStream *oboeStream, oboe::Result 
 }
 
 float AudioEngine::renderSampleForTest() {
+    // Drain MIDI queue for testing
+    MidiEvent event;
+    while (mMidiQueue.pop(event)) {
+        uint8_t status = event.status & 0xF0;
+        uint8_t note = event.data1;
+        uint8_t velocity = event.data2;
+        if (status == 0x90 && velocity > 0) {
+            mVoiceManager.noteOn(note, velocity / 127.0f);
+        } else if (status == 0x80 || (status == 0x90 && velocity == 0)) {
+            mVoiceManager.noteOff(note);
+        }
+    }
+
     float sample = mVoiceManager.nextSample();
     if (mMetronomeEnabled) {
         sample += getMetronomeSample();
