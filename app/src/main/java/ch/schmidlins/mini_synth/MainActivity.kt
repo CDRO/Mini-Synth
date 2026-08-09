@@ -487,6 +487,11 @@ class MainActivity : AppCompatActivity() {
             content.sidebarBrowser.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
 
+        content.toggleConfig.setOnCheckedChangeListener { _, isChecked ->
+            if (isHelpMode) { showHelp("Config Toggle: Hides all parameter sliders to maximize space for performance pads."); return@setOnCheckedChangeListener }
+            content.configWorkspace.visibility = if (isChecked) View.VISIBLE else View.GONE
+        }
+
         content.togglePadsFullscreen.setOnCheckedChangeListener { _, isChecked ->
             isFullscreenPads = isChecked
             content.keyboardPadView.clearHeldNotes() // Fixes #41
