@@ -37,12 +37,9 @@ Merging context from initial feature implementation and workspace refinements.
 
 ### [DONE] Milestone 29: Keyboard Sample Creation (Step Sequencer).
 
-### [NEXT] Milestone 30: Pad Holding & Expressive Gestures
-- **Objective**: Implement swipe-to-hold and gesture-based modulation for performance pads.
-- **Key Features**:
-    - Swipe from pad to pad to sustain notes.
-    - Pressure/Modulation integration for pads.
+### [DONE] Milestone 30: Pad Holding & Expressive Gestures.
 
 ## Quality Assurance Status
-- **Unit Tests**: 16 local JVM tests passing (Robolectric).
+- **Unit Tests**: 25 local JVM tests passing (Robolectric).
+- **Android Tests**: 23 connected tests passing.
 - **Workflow**: GitHub-integrated milestone tracking and 10-issue review loop.
