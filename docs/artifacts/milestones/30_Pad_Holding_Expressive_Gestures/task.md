@@ -1,0 +1,22 @@
+# Tasks: Milestone 30 - Pad Holding & Expressive Gestures
+
+- `[ ]` Setup Infrastructure
+    - `[x]` Create GitHub Milestone & Issue (#126).
+    - `[x]` Create branch `feature/m30-pad-gestures`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline.
+- `[ ]` Review & Repair Loop (1-10)
+    - `[ ]` 1/10: Enable Aftertouch for PAD_GRID mode.
+    - `[ ]` 2/10: Implement swipe-up to hold for individual pads.
+    - `[ ]` 3/10: Add visual 'Hold' indicator for pads.
+    - `[ ]` 4/10: Implement swipe-down to release held pads.
+    - `[ ]` 5/10: Refine gesture collision (hold vs swipe-to-trigger-next).
+    - `[ ]` 6/10: Support multi-note hold in pad grid.
+    - `[ ]` 7/10: Implement pitch-bend horizontal gesture for pads.
+    - `[ ]` 8/10: Add toggle for 'Pad Gestures' in UI customization.
+    - `[ ]` 9/10: Regression test JNI sample playback with gestures.
+    - `[ ]` 10/10: Final polish and documentation.
+- `[ ]` Finalize
+    - `[ ]` Run full test suite.
+    - `[ ]` Squash and Merge.
+    - `[ ]` Close Issue & Milestone.
