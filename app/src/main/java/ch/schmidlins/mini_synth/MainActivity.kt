@@ -503,6 +503,43 @@ class MainActivity : AppCompatActivity() {
             updateWorkspaceVisibility(content)
         }
 
+        content.btnRowsUp.setOnClickListener {
+            if (isHelpMode) { showHelp("Add a row of pads to the grid."); return@setOnClickListener }
+            val current = content.keyboardPadView.gridRows
+            if (current < 16) {
+                content.keyboardPadView.gridRows = current + 1
+                content.tvRowsValue.text = (current + 1).toString()
+                content.keyboardPadView.requestLayout()
+            }
+        }
+        content.btnRowsDown.setOnClickListener {
+            if (isHelpMode) { showHelp("Remove a row of pads."); return@setOnClickListener }
+            val current = content.keyboardPadView.gridRows
+            if (current > 1) {
+                content.keyboardPadView.gridRows = current - 1
+                content.tvRowsValue.text = (current - 1).toString()
+                content.keyboardPadView.requestLayout()
+            }
+        }
+        content.btnColsUp.setOnClickListener {
+            if (isHelpMode) { showHelp("Add a column of pads."); return@setOnClickListener }
+            val current = content.keyboardPadView.gridColumns
+            if (current < 16) {
+                content.keyboardPadView.gridColumns = current + 1
+                content.tvColsValue.text = (current + 1).toString()
+                content.keyboardPadView.requestLayout()
+            }
+        }
+        content.btnColsDown.setOnClickListener {
+            if (isHelpMode) { showHelp("Remove a column of pads."); return@setOnClickListener }
+            val current = content.keyboardPadView.gridColumns
+            if (current > 1) {
+                content.keyboardPadView.gridColumns = current - 1
+                content.tvColsValue.text = (current - 1).toString()
+                content.keyboardPadView.requestLayout()
+            }
+        }
+
         val samples = arrayOf("Kick 808", "Snare 909", "Hat Closed", "Hat Open", "Clap", "Rim")
         for (i in samples.indices) {
             val tv = android.widget.TextView(this).apply {
