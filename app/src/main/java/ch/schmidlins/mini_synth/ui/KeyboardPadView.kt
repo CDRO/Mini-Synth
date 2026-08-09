@@ -266,7 +266,7 @@ class KeyboardPadView @JvmOverloads constructor(
                 gesturePads.remove(pId)?.forEach { m ->
                     if (!pointerToNote.values.contains(m)) {
                         updateNoteState(m, Backlight.TOUCH.bit, false)
-                        val triggerIndex = if (mode == Mode.PAD_GRID) padOffset + (m - baseNote) else m
+                        val triggerIndex = if (mode == Mode.PAD_GRID) baseNote + padOffset + (m - baseNote) else m
                         listener?.onNoteOff(triggerIndex)
                     }
                 }
@@ -316,7 +316,7 @@ class KeyboardPadView @JvmOverloads constructor(
                             if (mode == Mode.PAD_GRID) {
                                 pointerToNote[pid] = newMidi
                                 updateNoteState(newMidi, Backlight.TOUCH.bit, true)
-                                val triggerIndex = padOffset + (newMidi - baseNote)
+                                val triggerIndex = baseNote + padOffset + (newMidi - baseNote)
                                 listener?.onNoteOn(triggerIndex, 0.8f)
                                 
                                 val list = gesturePads.getOrPut(pid) { mutableListOf() }
@@ -343,7 +343,7 @@ class KeyboardPadView @JvmOverloads constructor(
         pointerToNote[pointerId] = midi
         updateNoteState(midi, Backlight.TOUCH.bit, true)
         
-        val triggerIndex = if (mode == Mode.PAD_GRID) padOffset + (midi - baseNote) else midi
+        val triggerIndex = if (mode == Mode.PAD_GRID) baseNote + padOffset + (midi - baseNote) else midi
         listener?.onNoteOn(triggerIndex, 0.8f)
         
         if (isFirstTouch && mode == Mode.PAD_GRID) {
@@ -356,7 +356,7 @@ class KeyboardPadView @JvmOverloads constructor(
         pointerToNote.remove(pointerId)?.let { midi ->
             if (!pointerToNote.values.contains(midi) && !heldMidiNotes.contains(midi)) {
                 updateNoteState(midi, Backlight.TOUCH.bit, false)
-                val triggerIndex = if (mode == Mode.PAD_GRID) padOffset + (midi - baseNote) else midi
+                val triggerIndex = if (mode == Mode.PAD_GRID) baseNote + padOffset + (midi - baseNote) else midi
                 listener?.onNoteOff(triggerIndex)
             }
         }
