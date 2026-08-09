@@ -539,6 +539,24 @@ class MainActivity : AppCompatActivity() {
                 content.keyboardPadView.requestLayout()
             }
         }
+        content.btnBankUp.setOnClickListener {
+            if (isHelpMode) { showHelp("Switch to the next bank of 16 pads."); return@setOnClickListener }
+            val currentOffset = content.keyboardPadView.getPadOffset()
+            if (currentOffset < 240) {
+                val next = currentOffset + 16
+                content.keyboardPadView.setPadOffset(next)
+                content.tvBankValue.text = (next / 16 + 1).toString()
+            }
+        }
+        content.btnBankDown.setOnClickListener {
+            if (isHelpMode) { showHelp("Switch to the previous bank of pads."); return@setOnClickListener }
+            val currentOffset = content.keyboardPadView.getPadOffset()
+            if (currentOffset >= 16) {
+                val next = currentOffset - 16
+                content.keyboardPadView.setPadOffset(next)
+                content.tvBankValue.text = (next / 16 + 1).toString()
+            }
+        }
 
         val samples = arrayOf("Kick 808", "Snare 909", "Hat Closed", "Hat Open", "Clap", "Rim")
         for (i in samples.indices) {
