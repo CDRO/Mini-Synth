@@ -129,11 +129,20 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 30: Pad Holding & Expressive Gestures [TODO]
+## Milestone 30: Pad Holding & Expressive Gestures [DONE]
 
 ### [Logic] [Performance]
 - **Sustain Gestures**: Swipe between pads to maintain note duration.
 - **Modulation**: Integration of vertical/horizontal gestures for real-time pad expressive control.
+
+---
+
+## Milestone 31: Dynamic Grid & Pad Customization [TODO]
+
+### [UI] [Pad Customization]
+- **Config Visibility**: Option to hide parameter controls to maximize pad space.
+- **Dynamic Grid**: Default 4x4, expandable to 4x8 or 4x16.
+- **Color Configuration**: Per-pad color assignment for organization and visual feedback.
 
 ---
 
