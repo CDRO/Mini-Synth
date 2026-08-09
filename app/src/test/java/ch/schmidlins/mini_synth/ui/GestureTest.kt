@@ -255,4 +255,125 @@ class GestureTest {
         up.recycle()
         up2.recycle()
     }
+
+    @Test
+    fun testPadHold() {
+        view.setMode(KeyboardPadView.Mode.PAD_GRID)
+        val notesOn = mutableSetOf<Int>()
+        view.listener = object : KeyboardPadView.OnNoteEventListener {
+            override fun onNoteOn(midi: Int, velocity: Float) { notesOn.add(midi) }
+            override fun onNoteOff(midi: Int) { notesOn.remove(midi) }
+            override fun onGridTouchStart(midi: Int) {}
+            override fun onGridTouchEnd() {}
+            override fun onPadLongPress(padIndex: Int) {}
+            override fun onGesture(pitchBend: Float, modulation: Float) {}
+            override fun onAftertouch(midi: Int, amount: Float) {}
+        }
+
+        // Down on Pad 0 (Midi 60)
+        val down = MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, 10f, 10f, 0)
+        view.dispatchTouchEvent(down)
+        assertTrue(notesOn.contains(60))
+
+        // Slide UP and Release
+        val up = MotionEvent.obtain(0L, 100L, MotionEvent.ACTION_UP, 10f, -300f, 0)
+        view.dispatchTouchEvent(up)
+        
+        assertTrue("Pad should be HELD after sliding up", notesOn.contains(60))
+        
+        // Slide DOWN and Release should UNHOLD
+        val downAgain = MotionEvent.obtain(0L, 200L, MotionEvent.ACTION_DOWN, 10f, -100f, 0)
+        view.dispatchTouchEvent(downAgain)
+        val up2 = MotionEvent.obtain(0L, 300L, MotionEvent.ACTION_UP, 10f, 400f, 0)
+        view.dispatchTouchEvent(up2)
+        
+        assertTrue("Pad should be RELEASED after sliding down", !notesOn.contains(60))
+        
+        down.recycle()
+        up.recycle()
+        downAgain.recycle()
+        up2.recycle()
+    }
+
+    @Test
+    fun testMultiPadHold() {
+        view.setMode(KeyboardPadView.Mode.PAD_GRID)
+        val notesOn = mutableSetOf<Int>()
+        view.listener = object : KeyboardPadView.OnNoteEventListener {
+            override fun onNoteOn(midi: Int, velocity: Float) { notesOn.add(midi) }
+            override fun onNoteOff(midi: Int) { notesOn.remove(midi) }
+            override fun onGridTouchStart(midi: Int) {}
+            override fun onGridTouchEnd() {}
+            override fun onPadLongPress(padIndex: Int) {}
+            override fun onGesture(pitchBend: Float, modulation: Float) {}
+            override fun onAftertouch(midi: Int, amount: Float) {}
+        }
+
+        // Pointer 1 down on Pad 0, slide up to hold
+        val down1 = MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, 10f, 10f, 0)
+        view.dispatchTouchEvent(down1)
+        val up1 = MotionEvent.obtain(0L, 100L, MotionEvent.ACTION_UP, 10f, -300f, 0)
+        view.dispatchTouchEvent(up1)
+        assertTrue(notesOn.contains(60))
+
+        // Pointer 2 down on Pad 1, slide up to hold
+        val down2 = MotionEvent.obtain(0L, 200L, MotionEvent.ACTION_DOWN, 260f, 10f, 0)
+        view.dispatchTouchEvent(down2)
+        val up2 = MotionEvent.obtain(0L, 300L, MotionEvent.ACTION_UP, 260f, -300f, 0)
+        view.dispatchTouchEvent(up2)
+        assertTrue(notesOn.contains(61))
+        
+        assertEquals("Both pads should be held", 2, notesOn.size)
+        
+        down1.recycle()
+        up1.recycle()
+        down2.recycle()
+        up2.recycle()
+    }
+
+    @Test
+    fun testPadGestures() {
+        view.setMode(KeyboardPadView.Mode.PAD_GRID)
+        var receivedPb = 0.0f
+        var receivedAt = 0.0f
+        var receivedAtMidi = -1
+        
+        view.listener = object : KeyboardPadView.OnNoteEventListener {
+            override fun onNoteOn(midi: Int, velocity: Float) {}
+            override fun onNoteOff(midi: Int) {}
+            override fun onGridTouchStart(midi: Int) {}
+            override fun onGridTouchEnd() {}
+            override fun onPadLongPress(padIndex: Int) {}
+            override fun onGesture(pitchBend: Float, modulation: Float) {
+                receivedPb = pitchBend
+            }
+            override fun onAftertouch(midi: Int, amount: Float) {
+                receivedAtMidi = midi
+                receivedAt = amount
+            }
+        }
+
+        // Down on Pad 0
+        val down = MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, 10f, 250f, 0)
+        view.dispatchTouchEvent(down)
+        
+        // Slide Right (within same pad or across)
+        val move = MotionEvent.obtain(0L, 100L, MotionEvent.ACTION_MOVE, 260f, 250f, 0)
+        view.dispatchTouchEvent(move)
+        
+        // padWidth = 1000/4 = 250. deltaX = 250. pb = (250/250)*2 = 2.0
+        assertEquals("Pad horizontal slide should trigger Pitch Bend", 2.0f, receivedPb, 0.1f)
+        
+        // Slide UP for aftertouch
+        val moveUp = MotionEvent.obtain(0L, 200L, MotionEvent.ACTION_MOVE, 260f, 50f, 0)
+        view.dispatchTouchEvent(moveUp)
+        
+        // y = 50. height = 500. atAmount = (1.0 - 50/500) = 0.9
+        assertEquals(0.9f, receivedAt, 0.05f)
+        assertTrue(receivedAtMidi >= 60)
+        
+        down.recycle()
+        move.recycle()
+        moveUp.recycle()
+    }
 }

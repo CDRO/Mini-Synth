@@ -73,8 +73,7 @@ class KeyboardPadView @JvmOverloads constructor(
     
     fun setMode(newMode: Mode) {
         if (mode != newMode) {
-            heldMidiNotes.clear()
-            noteStates.clear()
+            clearHeldNotes()
         }
         mode = newMode
         invalidate()
@@ -216,8 +215,10 @@ class KeyboardPadView @JvmOverloads constructor(
         
         if (isHeld) {
             canvas.drawRect(backlightRect, backlightHoldPaint)
-            // Draw 'H' in the bottom right of the key
-            canvas.drawText("H", rect.right - 12f, rect.bottom - 12f, holdTextPaint)
+            // Draw 'H' in the bottom right
+            val textSize = if (mode == Mode.PAD_GRID) 20f else 32f
+            holdTextPaint.textSize = textSize
+            canvas.drawText("H", rect.right - (textSize/2f), rect.bottom - (textSize/2f), holdTextPaint)
         }
     }
 
@@ -253,9 +254,10 @@ class KeyboardPadView @JvmOverloads constructor(
                 val currentY = event.getY(actionIndex)
                 val midi = pointerToNote[pId]
                 
-                if (midi != null && mode == Mode.KEYBOARD) {
+                if (midi != null) {
                     val deltaY = startY - currentY // Positive if sliding UP
-                    if (deltaY > height * 0.5f) {
+                    // Threshold for holding: sliding up significantly
+                    if (deltaY > height * 0.4f) {
                         heldMidiNotes.add(midi)
                     } else if (deltaY < -height * 0.2f && heldMidiNotes.contains(midi)) {
                         heldMidiNotes.remove(midi)
@@ -264,7 +266,7 @@ class KeyboardPadView @JvmOverloads constructor(
                 
                 // Release all pads triggered during this swipe
                 gesturePads.remove(pId)?.forEach { m ->
-                    if (!pointerToNote.values.contains(m)) {
+                    if (!pointerToNote.values.contains(m) && !heldMidiNotes.contains(m)) {
                         updateNoteState(m, Backlight.TOUCH.bit, false)
                         val triggerIndex = if (mode == Mode.PAD_GRID) baseNote + padOffset + (m - baseNote) else m
                         listener?.onNoteOff(triggerIndex)
@@ -273,11 +275,11 @@ class KeyboardPadView @JvmOverloads constructor(
 
                 noteOff(pId)
                 
-            // Reset gesture on release
-            lastPb = 0.0f
-            listener?.onGesture(0.0f, 0.0f)
-            invalidate()
-        }
+                // Reset gesture on release
+                lastPb = 0.0f
+                listener?.onGesture(0.0f, 0.0f)
+                invalidate()
+            }
             MotionEvent.ACTION_MOVE -> {
                 for (i in 0 until event.pointerCount) {
                     val pid = event.getPointerId(i)
@@ -290,46 +292,51 @@ class KeyboardPadView @JvmOverloads constructor(
                     val startY = pointerStartPositionsY[pid] ?: currentY
                     
                     val keyWidth = width / 8f
+                    val padWidth = width / gridColumns.toFloat()
                     val deltaX = currentX - startX
                     val deltaY = startY - currentY
                     
-                    val pb = (deltaX / keyWidth) * 2.0f
+                    val pb = (deltaX / (if (mode == Mode.PAD_GRID) padWidth else keyWidth)) * 2.0f
                     val mod = (deltaY / height).coerceIn(0f, 1f)
                     
-                    if (mode == Mode.KEYBOARD && oldMidi != -1) {
+                    if (oldMidi != -1) {
                         lastPb = pb
                         listener?.onGesture(pb, mod)
                         
                         // Per-pointer aftertouch based on Y position within the view height (0 at bottom, 1 at top)
                         val atAmount = (1.0f - (currentY / height)).coerceIn(0f, 1f)
                         pointerAftertouch[pid] = atAmount
-                        listener?.onAftertouch(oldMidi, atAmount)
+                        
+                        // Use triggerIndex for aftertouch
+                        val triggerIndex = if (mode == Mode.PAD_GRID) baseNote + padOffset + (oldMidi - baseNote) else oldMidi
+                        listener?.onAftertouch(triggerIndex, atAmount)
                         
                         invalidate()
-                    } else {
-                        val newMidi = getMidiAt(currentX, currentY)
-                        if (newMidi != oldMidi && newMidi != -1) {
-                            longPressRunnables.remove(pid)?.let { handler.removeCallbacks(it) }
+                    }
+
+                    val newMidi = getMidiAt(currentX, currentY)
+                    
+                    if (newMidi != oldMidi && newMidi != -1) {
+                        longPressRunnables.remove(pid)?.let { handler.removeCallbacks(it) }
+                        
+                        // In Pad Mode, swiping into a new pad keeps the old one ACTIVE 
+                        // (forming a group for the duration of the touch)
+                        if (mode == Mode.PAD_GRID) {
+                            pointerToNote[pid] = newMidi
+                            updateNoteState(newMidi, Backlight.TOUCH.bit, true)
+                            val triggerIndex = baseNote + padOffset + (newMidi - baseNote)
+                            listener?.onNoteOn(triggerIndex, 0.8f)
                             
-                            // In Pad Mode, swiping into a new pad keeps the old one ACTIVE 
-                            // (forming a group for the duration of the touch)
-                            if (mode == Mode.PAD_GRID) {
-                                pointerToNote[pid] = newMidi
-                                updateNoteState(newMidi, Backlight.TOUCH.bit, true)
-                                val triggerIndex = baseNote + padOffset + (newMidi - baseNote)
-                                listener?.onNoteOn(triggerIndex, 0.8f)
-                                
-                                val list = gesturePads.getOrPut(pid) { mutableListOf() }
-                                if (list.lastOrNull() != newMidi) {
-                                    list.add(newMidi)
-                                }
-                                invalidate()
-                            } else {
-                                noteOff(pid)
-                                noteOn(pid, newMidi)
-                                pointerStartPositionsX[pid] = currentX
-                                pointerStartPositionsY[pid] = currentY
+                            val list = gesturePads.getOrPut(pid) { mutableListOf() }
+                            if (list.lastOrNull() != newMidi) {
+                                list.add(newMidi)
                             }
+                            invalidate()
+                        } else {
+                            noteOff(pid)
+                            noteOn(pid, newMidi)
+                            pointerStartPositionsX[pid] = currentX
+                            pointerStartPositionsY[pid] = currentY
                         }
                     }
                 }
