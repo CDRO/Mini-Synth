@@ -117,11 +117,19 @@ class MainActivity : AppCompatActivity() {
             override fun onNoteOn(midi: Int, velocity: Float) {
                 if (isPadMode) {
                     if (mappingSampleId != null) {
-                        val sampleName = arrayOf("Kick 808", "Snare 909", "Hat Closed", "Hat Open", "Clap", "Rim")[mappingSampleId!!]
+                        val sampleNames = arrayOf(
+                            getString(R.string.sample_kick_808),
+                            getString(R.string.sample_snare_909),
+                            getString(R.string.sample_hat_closed),
+                            getString(R.string.sample_hat_open),
+                            getString(R.string.sample_clap),
+                            getString(R.string.sample_rim)
+                        )
+                        val sampleName = sampleNames[mappingSampleId!!]
                         synthManager.loadFactorySample(midi - 60, mappingSampleId!!)
                         padMappings[midi - 60] = sampleName
                         mappingSampleId = null
-                        content.tvMappingStatus.text = "Sample mapped!"
+                        content.tvMappingStatus.text = getString(R.string.toast_sample_mapped)
                         content.sidebarBrowser.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.surface_dark))
                         updateMappingList(content)
                     } else if (isPadSamplingMode) {
@@ -217,7 +225,7 @@ class MainActivity : AppCompatActivity() {
         // Mode toggle
         content.btnModeToggle.setOnClickListener {
             if (isDemoPlaying) {
-                Toast.makeText(this, "Mode toggle disabled during Demo.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.toast_mode_toggle_disabled), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (isHelpMode) {
@@ -225,13 +233,13 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             if (isPadMode) {
-                content.btnModeToggle.text = "Pads"
+                content.btnModeToggle.text = getString(R.string.btn_mode_pads)
                 isPadMode = false
                 isFullscreenPads = false
                 content.togglePadsFullscreen.isChecked = false
                 mappingSampleId = null
             } else {
-                content.btnModeToggle.text = "Keys"
+                content.btnModeToggle.text = getString(R.string.btn_mode_keys)
                 isPadMode = true
             }
             synthView.setMode(if (isPadMode) KeyboardPadView.Mode.PAD_GRID else KeyboardPadView.Mode.KEYBOARD)
@@ -246,7 +254,7 @@ class MainActivity : AppCompatActivity() {
             }
             isPoly = !isPoly
             synthManager.setPolyphonic(isPoly)
-            content.btnPolyToggle!!.text = if (isPoly) "Poly: ON" else "Poly: OFF"
+            content.btnPolyToggle!!.text = if (isPoly) getString(R.string.btn_poly_on) else getString(R.string.btn_poly_off)
         }
 
         // Mock Rec/Play
@@ -498,7 +506,14 @@ class MainActivity : AppCompatActivity() {
             updateWorkspaceVisibility(content)
         }
 
-        val samples = arrayOf("Kick 808", "Snare 909", "Hat Closed", "Hat Open", "Clap", "Rim")
+        val samples = arrayOf(
+            getString(R.string.sample_kick_808),
+            getString(R.string.sample_snare_909),
+            getString(R.string.sample_hat_closed),
+            getString(R.string.sample_hat_open),
+            getString(R.string.sample_clap),
+            getString(R.string.sample_rim)
+        )
         for (i in samples.indices) {
             val tv = android.widget.TextView(this).apply {
                 text = samples[i]
@@ -508,7 +523,7 @@ class MainActivity : AppCompatActivity() {
                 setOnClickListener {
                     if (isHelpMode) { showHelp(getString(R.string.help_sample_item_format, samples[i])); return@setOnClickListener }
                     mappingSampleId = i
-                    content.tvMappingStatus.text = "Mapping: ${samples[i]}..."
+                    content.tvMappingStatus.text = getString(R.string.label_mapping_format, samples[i])
                     content.sidebarBrowser.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.border_dim))
                     setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.acid_green))
                     postDelayed({ setBackgroundColor(android.graphics.Color.TRANSPARENT) }, 200)
@@ -523,13 +538,13 @@ class MainActivity : AppCompatActivity() {
         demoJob = lifecycleScope.launch {
             try {
                 isDemoPlaying = true
-                runOnUiThread { binding.appBarMain.contentMain.topHeader.btnDemoMode.text = "STOP" }
+                runOnUiThread { binding.appBarMain.contentMain.topHeader.btnDemoMode.text = getString(R.string.header_stop) }
                 
                 // Discovery explanation
-                showDemoToast("Demo: Initializing synth patch...")
+                showDemoToast(getString(R.string.demo_initializing))
                 
                 // Stage 1: Synthesis Stage
-                showDemoToast("Stage 1: Dynamic Synthesis. Exploring Sawtooth waveforms and Resonant Filters.")
+                showDemoToast(getString(R.string.demo_stage_1))
                 
                 // Set a rich Sawtooth patch
                 synthManager.setWaveform(2) // Saw
@@ -557,7 +572,7 @@ class MainActivity : AppCompatActivity() {
                     binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.PLAY, true)
                     
                     // Automate Cutoff and LFO
-                    if (i == 2) showDemoToast("Opening the 2-pole Resonant Low-Pass Filter...")
+                    if (i == 2) showDemoToast(getString(R.string.demo_opening_filter))
                     
                     // Smooth filter sweep within the note
                     lifecycleScope.launch {
@@ -568,7 +583,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     
                     if (i == 4) {
-                        showDemoToast("Modulating Pitch via LFO (Vibrato).")
+                        showDemoToast(getString(R.string.demo_modulating_pitch))
                         synthManager.setLfoTarget(0) // Pitch
                         synthManager.setLfoRate(6.0f)
                         synthManager.setLfoDepth(0.5f)
@@ -581,7 +596,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 
                 // Show Aftertouch
-                showDemoToast("Aftertouch: Simulating pressure for expressive volume swells.")
+                showDemoToast(getString(R.string.demo_aftertouch_expressive))
                 synthManager.setAftertouchTarget(1) // Volume
                 synthManager.padNoteOn(1, 0.4f)
                 for (i in 0..10) {
@@ -595,13 +610,13 @@ class MainActivity : AppCompatActivity() {
 
                 // Stage 2: Multi-Bank Sampling
                 delay(1000)
-                showDemoToast("Stage 2: Multi-Bank Resampling. Capturing 4 different sounds to P0-P3.")
+                showDemoToast(getString(R.string.demo_stage_2))
                 delay(2000)
 
                 val demoPitches = listOf(60, 64, 67, 72)
                 for (i in 0..3) {
                     if (!isDemoPlaying) break
-                    showDemoToast("Sampling sound $i to Pad $i...")
+                    showDemoToast(getString(R.string.demo_sampling_pad_format, i, i))
                     synthManager.setWaveform(i % 4)
                     synthManager.startAutomatedSampling(i, 1.5f)
                     
@@ -614,7 +629,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 // Show Aftertouch
-                showDemoToast("Aftertouch: Simulating pressure for expressive volume swells.")
+                showDemoToast(getString(R.string.demo_aftertouch_expressive))
                 synthManager.setAftertouchTarget(1) // Volume
                 synthManager.padNoteOn(1, 0.4f)
                 for (i in 0..10) {
@@ -627,25 +642,25 @@ class MainActivity : AppCompatActivity() {
                 if (!isDemoPlaying) return@launch
 
                 delay(1000)
-                showDemoToast("Automated Workspace Transition: Switching to Pad Mode.")
+                showDemoToast(getString(R.string.demo_workspace_transition))
                 
                 runOnUiThread {
                     val root = binding.appBarMain.contentMain.root as androidx.constraintlayout.widget.ConstraintLayout
                     TransitionManager.beginDelayedTransition(root)
                     isPadMode = true
-                    binding.appBarMain.contentMain.btnModeToggle.text = "Keys"
+                    binding.appBarMain.contentMain.btnModeToggle.text = getString(R.string.btn_mode_keys)
                     binding.appBarMain.contentMain.keyboardPadView.setMode(KeyboardPadView.Mode.PAD_GRID)
                     updateWorkspaceVisibility(binding.appBarMain.contentMain)
                 }
                 delay(2000)
                 
                 // Stage 3: Performance Stage. Using pads and built-in effects.
-                showDemoToast("Stage 3: Performance. Exploring LFO modulation and expressive Filter sweeps.")
+                showDemoToast(getString(R.string.demo_stage_3))
                 
                 val content = binding.appBarMain.contentMain
                 
                 // Show LFO
-                showDemoToast("LFO: Automatically modulating Filter Cutoff.")
+                showDemoToast(getString(R.string.demo_lfo_modulating))
                 synthManager.setLfoTarget(2) // Filter
                 synthManager.setLfoRate(2.5f)
                 synthManager.setLfoDepth(0.8f)
@@ -659,7 +674,7 @@ class MainActivity : AppCompatActivity() {
                 synthManager.padNoteOff(0)
                 
                 // Show Aftertouch
-                showDemoToast("Aftertouch: Simulating pressure for expressive volume swells.")
+                showDemoToast(getString(R.string.demo_aftertouch_expressive))
                 synthManager.setAftertouchTarget(1) // Volume
                 synthManager.padNoteOn(1, 0.4f)
                 for (i in 0..10) {
@@ -671,7 +686,7 @@ class MainActivity : AppCompatActivity() {
                 
                 if (!isDemoPlaying) return@launch
                 
-                showDemoToast("Final spatial wash with high-density Reverb.")
+                showDemoToast(getString(R.string.demo_spatial_wash))
                 synthManager.setReverbMix(0.8f)
                 synthManager.padNoteOn(3, 1.0f)
                 delay(2000)
@@ -679,20 +694,20 @@ class MainActivity : AppCompatActivity() {
                 binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
                 
                 delay(1000)
-                showDemoToast("Demo Complete. You can now use all these features manually!")
+                showDemoToast(getString(R.string.demo_complete))
 
             } finally {
                 isDemoPlaying = false
                 runOnUiThread {
-                    binding.appBarMain.contentMain.topHeader.btnDemoMode.text = "DEMO"
+                    binding.appBarMain.contentMain.topHeader.btnDemoMode.text = getString(R.string.header_demo)
                     resetEngineState()
                     // Revert UI to default mode
                     isPadMode = false
-                    binding.appBarMain.contentMain.btnModeToggle.text = "Pads"
+                    binding.appBarMain.contentMain.btnModeToggle.text = getString(R.string.btn_mode_pads)
                     binding.appBarMain.contentMain.keyboardPadView.setMode(KeyboardPadView.Mode.KEYBOARD)
                     updateWorkspaceVisibility(binding.appBarMain.contentMain)
                 }
-                showDemoToast("Demo Complete. You can now use all these features manually!")
+                showDemoToast(getString(R.string.demo_complete))
             }
         }
     }
@@ -723,7 +738,7 @@ class MainActivity : AppCompatActivity() {
         // Reset UI State
         isPadMode = false
         val content = binding.appBarMain.contentMain
-        content.btnModeToggle.text = "Pads"
+        content.btnModeToggle.text = getString(R.string.btn_mode_pads)
         content.keyboardPadView.setMode(KeyboardPadView.Mode.KEYBOARD)
         content.keyboardPadView.clearHeldNotes()
         
@@ -798,7 +813,14 @@ class MainActivity : AppCompatActivity() {
     private fun showPadColorPicker(padIndex: Int) {
         val padView = binding.appBarMain.contentMain.keyboardPadView!!
         
-        val colors = arrayOf("No Color", "Acid Green", "Electric Blue", "Vibrant Red", "Off-White", "Dim Grey")
+        val colors = arrayOf(
+            getString(R.string.color_none),
+            getString(R.string.color_acid_green),
+            getString(R.string.color_electric_blue),
+            getString(R.string.color_vibrant_red),
+            getString(R.string.color_off_white),
+            getString(R.string.color_dim_grey)
+        )
         val colorValues = intArrayOf(
             0,
             ContextCompat.getColor(this, R.color.acid_green),
@@ -814,7 +836,7 @@ class MainActivity : AppCompatActivity() {
         }
         
         val loopCheck = android.widget.CheckBox(this).apply {
-            text = "Loop Sample"
+            text = getString(R.string.label_pad_loop)
             setOnCheckedChangeListener { _, isChecked ->
                 synthManager.setPadLooping(padIndex, isChecked)
             }
@@ -822,7 +844,7 @@ class MainActivity : AppCompatActivity() {
         layout.addView(loopCheck)
 
         val triggerCheck = android.widget.CheckBox(this).apply {
-            text = "One-Shot (Trigger Mode)"
+            text = getString(R.string.label_pad_trigger_mode)
             isChecked = padTriggerModes[padIndex] ?: false
             setOnCheckedChangeListener { _, isChecked ->
                 padTriggerModes[padIndex] = isChecked
@@ -831,20 +853,20 @@ class MainActivity : AppCompatActivity() {
         layout.addView(triggerCheck)
 
         val linkLabel = android.widget.TextView(this).apply {
-            text = "Link to Pad (Index):"
+            text = getString(R.string.label_pad_link)
             setPadding(0, 20, 0, 8)
         }
         layout.addView(linkLabel)
 
         val linkInput = android.widget.EditText(this).apply {
-            hint = "e.g. 1"
+            hint = getString(R.string.label_link_hint)
             inputType = android.text.InputType.TYPE_CLASS_NUMBER
             setText(padLinks[padIndex]?.joinToString(",") ?: "")
         }
         layout.addView(linkInput)
 
         val colorLabel = android.widget.TextView(this).apply {
-            text = "Pad Color:"
+            text = getString(R.string.label_pad_color)
             setPadding(0, 20, 0, 8)
         }
         layout.addView(colorLabel)
@@ -861,7 +883,7 @@ class MainActivity : AppCompatActivity() {
         layout.addView(colorSpinner)
 
         AlertDialog.Builder(this)
-            .setTitle("Pad $padIndex Configuration")
+            .setTitle(getString(R.string.dialog_pad_config_title_format, padIndex))
             .setView(layout)
             .setPositiveButton("OK") { _, _ ->
                 val input = linkInput.text.toString()
@@ -872,9 +894,9 @@ class MainActivity : AppCompatActivity() {
                     padLinks.remove(padIndex)
                 }
             }
-            .setNeutralButton("Sound Source") { _, _ ->
-                val options = arrayOf("Use Oscillator", "Use Recorded Sample")
-                AlertDialog.Builder(this).setTitle("Select Source").setItems(options) { _, _ -> }.show()
+            .setNeutralButton(getString(R.string.btn_sound_source)) { _, _ ->
+                val options = arrayOf(getString(R.string.label_source_osc), getString(R.string.label_source_sample))
+                AlertDialog.Builder(this).setTitle(getString(R.string.dialog_select_source_title)).setItems(options) { _, _ -> }.show()
             }
             .show()
     }
@@ -923,7 +945,13 @@ class MainActivity : AppCompatActivity() {
             synthManager.clearSequencer()
             for (id in stepButtonIds) content.root.findViewById<android.widget.ToggleButton>(id)?.isChecked = false
         }
-        val durations = arrayOf("1/16", "1/8", "1/4", "1/2", "1/1")
+        val durations = arrayOf(
+            getString(R.string.step_duration_1_16),
+            getString(R.string.step_duration_1_8),
+            getString(R.string.step_duration_1_4),
+            getString(R.string.step_duration_1_2),
+            getString(R.string.step_duration_1_1)
+        )
         val divisions = floatArrayOf(0.25f, 0.5f, 1.0f, 2.0f, 4.0f)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, durations)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -936,7 +964,12 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
         
-        val lengths = arrayOf("8 steps", "16 steps", "32 steps", "64 steps")
+        val lengths = arrayOf(
+            getString(R.string.spinner_step_count_8),
+            getString(R.string.spinner_step_count_16),
+            getString(R.string.spinner_step_count_32),
+            getString(R.string.spinner_step_count_64)
+        )
         val lengthValues = intArrayOf(8, 16, 32, 64)
         val lengthAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, lengths)
         lengthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -1009,7 +1042,7 @@ class MainActivity : AppCompatActivity() {
             }
             startActivity(android.content.Intent.createChooser(intent, getString(R.string.dialog_share_pattern)))
         } catch (e: Exception) {
-            Toast.makeText(this, "Export failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.toast_export_failed, e.message ?: "Unknown error"), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -1163,8 +1196,8 @@ class MainActivity : AppCompatActivity() {
         content.btnSavePreset!!.setOnClickListener {
             if (isHelpMode) { showHelp(getString(R.string.help_save_preset)); return@setOnClickListener }
             val input = EditText(this)
-            input.hint = "Preset Name"
-            AlertDialog.Builder(this).setTitle("Save Preset").setView(input).setPositiveButton("Save") { _, _ ->
+            input.hint = getString(R.string.dialog_preset_name_hint) // Wait, I need to add this
+            AlertDialog.Builder(this).setTitle(getString(R.string.dialog_save_preset_title)).setView(input).setPositiveButton(getString(R.string.btn_preset_save)) { _, _ ->
                 val name = input.text.toString().trim()
                 if (name.isNotEmpty()) checkAndSavePreset(name)
             }.setNegativeButton("Cancel", null).show()
@@ -1173,10 +1206,10 @@ class MainActivity : AppCompatActivity() {
             if (isHelpMode) { showHelp(getString(R.string.help_load_preset)); return@setOnClickListener }
             lifecycleScope.launch {
                 val presets = presetRepository.presets.first()
-                if (presets.isEmpty()) AlertDialog.Builder(this@MainActivity).setMessage("No presets saved yet.").setPositiveButton("OK", null).show()
+                if (presets.isEmpty()) AlertDialog.Builder(this@MainActivity).setMessage(getString(R.string.toast_no_presets)).setPositiveButton("OK", null).show()
                 else {
                     val names = presets.map { it.name }.toTypedArray()
-                    AlertDialog.Builder(this@MainActivity).setTitle("Load Preset").setItems(names) { _, which -> applyPreset(presets[which]) }
+                    AlertDialog.Builder(this@MainActivity).setTitle(getString(R.string.dialog_load_preset_title)).setItems(names) { _, which -> applyPreset(presets[which]) }
                         .setNeutralButton("Delete") { _, _ -> showDeleteDialog(presets) }
                         .setNegativeButton("Cancel", null).show()
                 }
@@ -1439,7 +1472,12 @@ class MainActivity : AppCompatActivity() {
         }
         content.seekLfoRate!!.setOnSeekBarChangeListener(listener)
         content.seekLfoDepth!!.setOnSeekBarChangeListener(listener)
-        val waveAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf("Sine", "Square", "Saw", "Triangle"))
+        val waveAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf(
+            getString(R.string.lfo_wave_sine),
+            getString(R.string.lfo_wave_square),
+            getString(R.string.lfo_wave_saw),
+            getString(R.string.lfo_wave_triangle)
+        ))
         waveAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         content.spinnerLfoWaveform!!.adapter = waveAdapter
         content.spinnerLfoWaveform!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -1449,7 +1487,11 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-        val targetAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf("Pitch", "Volume", "Filter"))
+        val targetAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf(
+            getString(R.string.lfo_target_pitch),
+            getString(R.string.lfo_target_volume),
+            getString(R.string.lfo_target_filter)
+        ))
         targetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         content.spinnerLfoTarget!!.adapter = targetAdapter
         content.spinnerLfoTarget!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -1498,7 +1540,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshUiFromEngine() {
         // TODO: Implement full UI refresh from engine state
-        Toast.makeText(this, "Project Loaded", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.toast_project_loaded), Toast.LENGTH_SHORT).show()
     }
 
     override fun onStart() {

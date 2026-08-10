@@ -38,7 +38,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SAMPLE BROWSER"
+                android:text="@string/title_sample_browser"
                 android:textColor="@color/acid_green"
                 android:textStyle="bold"
                 android:textSize="12sp"
@@ -64,7 +64,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="FACTORY"
+                        android:text="@string/label_factory"
                         android:textColor="@color/dim_grey"
                         android:textSize="9sp"
                         android:paddingBottom="4dp" />
@@ -78,7 +78,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="PAD MAP"
+                        android:text="@string/label_pad_map"
                         android:textColor="@color/dim_grey"
                         android:textSize="9sp"
                         android:paddingTop="12dp"
@@ -96,7 +96,7 @@
                 android:id="@+id/tv_mapping_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select a sample..."
+                android:text="@string/label_select_sample"
                 android:textColor="@color/off_white"
                 android:textSize="9sp"
                 android:paddingTop="8dp"
@@ -129,7 +129,7 @@
                         android:id="@+id/btn_mode_toggle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pads" />
+                        android:text="@string/btn_mode_pads" />
 
                     <Space
                         android:layout_width="8dp"
@@ -139,7 +139,7 @@
                         android:id="@+id/btn_poly_toggle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Poly: ON" />
+                        android:text="@string/btn_poly_on" />
 
                     <Space
                         android:layout_width="8dp"
@@ -148,7 +148,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Oct:"
+                        android:text="@string/label_octave"
                         android:textColor="@color/off_white"
                         android:textSize="12sp" />
 
@@ -187,8 +187,8 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/button_height_standard"
-                        android:textOff="ZEN OFF"
-                        android:textOn="ZEN ON"
+                        android:textOff="@string/btn_zen_off"
+                        android:textOn="@string/btn_zen_on"
                         android:textColor="@color/electric_blue"
                         android:textSize="12sp"
                         android:background="@drawable/selector_toggle_bg" />
@@ -198,8 +198,8 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/button_height_standard"
-                        android:textOff="BRW OFF"
-                        android:textOn="BRW ON"
+                        android:textOff="@string/btn_brw_off"
+                        android:textOn="@string/btn_brw_on"
                         android:textColor="@color/electric_blue"
                         android:textSize="12sp"
                         android:background="@drawable/selector_toggle_bg" />
@@ -213,7 +213,7 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
-                        android:text="PROJ"
+                        android:text="@string/btn_projects"
                         android:textColor="@color/acid_green"
                         android:textSize="12sp" />
 
@@ -236,7 +236,7 @@
                             android:id="@+id/btn_save_preset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Save" />
+                            android:text="@string/btn_preset_save" />
 
                         <Space
                             android:layout_width="8dp"
@@ -246,7 +246,7 @@
                             android:id="@+id/btn_load_preset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Load" />
+                            android:text="@string/btn_preset_load" />
 
                         <Space
                             android:layout_width="8dp"
@@ -257,7 +257,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha="0.5"
-                            android:text="REC"
+                            android:text="@string/btn_mock_rec"
                             android:textColor="@color/vibrant_red" />
 
                         <Button
@@ -265,7 +265,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha="0.5"
-                            android:text="PLAY"
+                            android:text="@string/btn_mock_play"
                             android:textColor="@color/electric_blue" />
                     </LinearLayout>
 
@@ -280,7 +280,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Wav:"
+                            android:text="@string/label_wave"
                             android:textColor="@color/off_white"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
@@ -299,7 +299,7 @@
                                 android:layout_width="48dp"
                                 android:layout_height="40dp"
                                 android:padding="0dp"
-                                android:text="SINE"
+                                android:text="@string/btn_wave_sine"
                                 android:textSize="9sp" />
 
                             <Button
@@ -308,7 +308,7 @@
                                 android:layout_width="48dp"
                                 android:layout_height="40dp"
                                 android:padding="0dp"
-                                android:text="SQR"
+                                android:text="@string/btn_wave_square"
                                 android:textSize="9sp" />
 
                             <Button
@@ -317,7 +317,7 @@
                                 android:layout_width="48dp"
                                 android:layout_height="40dp"
                                 android:padding="0dp"
-                                android:text="SAW"
+                                android:text="@string/btn_wave_saw"
                                 android:textSize="9sp" />
 
                             <Button
@@ -326,7 +326,7 @@
                                 android:layout_width="48dp"
                                 android:layout_height="40dp"
                                 android:padding="0dp"
-                                android:text="TRI"
+                                android:text="@string/btn_wave_triangle"
                                 android:textSize="9sp" />
 
                         </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -364,7 +364,7 @@
                         <TextView
                             android:layout_width="20dp"
                             android:layout_height="wrap_content"
-                            android:text="A"
+                            android:text="@string/label_attack"
                             android:textColor="@color/off_white" />
 
                         <SeekBar
@@ -387,7 +387,7 @@
                         <TextView
                             android:layout_width="20dp"
                             android:layout_height="wrap_content"
-                            android:text="D"
+                            android:text="@string/label_decay"
                             android:textColor="@color/off_white" />
 
                         <SeekBar
@@ -410,7 +410,7 @@
                         <TextView
                             android:layout_width="20dp"
                             android:layout_height="wrap_content"
-                            android:text="S"
+                            android:text="@string/label_sustain"
                             android:textColor="@color/off_white" />
 
                         <SeekBar
@@ -433,7 +433,7 @@
                         <TextView
                             android:layout_width="20dp"
                             android:layout_height="wrap_content"
-                            android:text="R"
+                            android:text="@string/label_release"
                             android:textColor="@color/off_white" />
 
                         <SeekBar
@@ -465,7 +465,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="LFO Rate"
+                            android:text="@string/label_lfo_rate"
                             android:textColor="@color/off_white"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
@@ -491,7 +491,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Depth"
+                            android:text="@string/label_lfo_depth"
                             android:textColor="@color/off_white"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
@@ -525,7 +525,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="LFO Wave:"
+                            android:text="@string/label_lfo_wave"
                             android:textColor="@color/off_white"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
@@ -542,7 +542,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Target:"
+                            android:text="@string/label_lfo_target"
                             android:textColor="@color/off_white"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
@@ -559,7 +559,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="AT Target:"
+                            android:text="@string/label_at_target"
                             android:textColor="@color/off_white"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
@@ -581,7 +581,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Cutoff"
+                            android:text="@string/label_filter_cutoff"
                             android:textColor="@color/off_white"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
@@ -607,7 +607,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Res"
+                            android:text="@string/label_filter_res"
                             android:textColor="@color/off_white"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
@@ -646,7 +646,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="BUILT-IN EFFECTS"
+                        android:text="@string/title_effects"
                         android:textColor="@color/acid_green"
                         android:textStyle="bold"
                         android:textSize="12sp" />
@@ -661,7 +661,7 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="Dly T"
+                            android:text="@string/label_delay_time"
                             android:textColor="@color/off_white"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
@@ -677,7 +677,7 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="Dly F"
+                            android:text="@string/label_delay_feedback"
                             android:textColor="@color/off_white"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
@@ -693,7 +693,7 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="Dly M"
+                            android:text="@string/label_delay_mix"
                             android:textColor="@color/off_white"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
@@ -717,7 +717,7 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="Rev S"
+                            android:text="@string/label_reverb_size"
                             android:textColor="@color/off_white"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
@@ -733,7 +733,7 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="Rev D"
+                            android:text="@string/label_reverb_damping"
                             android:textColor="@color/off_white"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
@@ -749,7 +749,7 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="Rev M"
+                            android:text="@string/label_reverb_mix"
                             android:textColor="@color/off_white"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
@@ -1196,8 +1196,8 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/button_height_standard"
         android:layout_margin="@dimen/spacing_medium"
-        android:textOff="PLAY MODE: OFF"
-        android:textOn="PLAY MODE: ON"
+        android:textOff="@string/btn_play_mode_off"
+        android:textOn="@string/btn_play_mode_on"
         android:textColor="@color/acid_green"
         android:textSize="12sp"
         android:visibility="gone"
