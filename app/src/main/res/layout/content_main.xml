@@ -185,7 +185,7 @@
                 android:layout_height="wrap_content"
                 android:text="Buffer: -- (0)"
                 android:textColor="@color/dim_grey"
-                android:textSize="9sp"
+                android:textSize="11sp"
                 android:textStyle="bold" />
 
             <Space
@@ -195,13 +195,13 @@
             <ToggleButton
                 android:id="@+id/toggle_auto_latency"
                 style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="48dp"
-                android:layout_height="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
                 android:textOff="AUTO"
                 android:textOn="AUTO"
                 android:checked="true"
                 android:textColor="@color/acid_green"
-                android:textSize="8sp" />
+                android:textSize="11sp" />
 
         </LinearLayout>
 
@@ -297,7 +297,11 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fadeScrollbars="false"
+            android:scrollbarStyle="outsideOverlay"
+            android:paddingBottom="16dp"
+            android:clipToPadding="false">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -335,13 +339,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Oct:"
-                        android:textColor="@color/off_white" />
+                        android:textColor="@color/off_white"
+                        android:textSize="12sp" />
 
                     <Button
                         android:id="@+id/btn_octave_down"
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
-                        android:text="-" />
+                        android:text="-"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_octave_value"
@@ -349,13 +355,16 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="8dp"
                         android:text="0"
-                        android:textColor="@color/off_white" />
+                        android:textColor="@color/off_white"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                     <Button
                         android:id="@+id/btn_octave_up"
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
-                        android:text="+" />
+                        android:text="+"
+                        android:textSize="12sp" />
 
                     <Space
                         android:layout_width="16dp"
@@ -519,19 +528,20 @@
                             android:id="@+id/tv_master_vol_val"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:minWidth="30dp"
+                            android:minWidth="36dp"
                             android:text="80%"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <SeekBar
                             android:id="@+id/seek_master_vol"
-                            android:layout_width="80dp"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:max="100"
                             android:progress="80" />
                     </LinearLayout>
-
+...
                     <LinearLayout
                         android:id="@+id/adsr_bar"
                         android:layout_width="match_parent"
@@ -540,7 +550,7 @@
                         android:padding="8dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
                             android:text="A"
                             android:textColor="@color/off_white" />
@@ -555,15 +565,14 @@
 
                         <TextView
                             android:id="@+id/tv_attack_val"
-                            android:layout_width="wrap_content"
+                            android:layout_width="36dp"
                             android:layout_height="wrap_content"
-                            android:minWidth="40dp"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
                             android:text="D"
                             android:textColor="@color/off_white" />
@@ -578,15 +587,14 @@
 
                         <TextView
                             android:id="@+id/tv_decay_val"
-                            android:layout_width="wrap_content"
+                            android:layout_width="36dp"
                             android:layout_height="wrap_content"
-                            android:minWidth="40dp"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
                             android:text="S"
                             android:textColor="@color/off_white" />
@@ -601,15 +609,14 @@
 
                         <TextView
                             android:id="@+id/tv_sustain_val"
-                            android:layout_width="wrap_content"
+                            android:layout_width="36dp"
                             android:layout_height="wrap_content"
-                            android:minWidth="40dp"
                             android:text="0.8"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
                             android:text="R"
                             android:textColor="@color/off_white" />
@@ -624,12 +631,11 @@
 
                         <TextView
                             android:id="@+id/tv_release_val"
-                            android:layout_width="wrap_content"
+                            android:layout_width="36dp"
                             android:layout_height="wrap_content"
-                            android:minWidth="40dp"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                     </LinearLayout>
 
@@ -662,7 +668,7 @@
                             android:minWidth="40dp"
                             android:text="1.0Hz"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -686,7 +692,7 @@
                             android:minWidth="40dp"
                             android:text="0.0"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                     </LinearLayout>
 
@@ -771,7 +777,7 @@
                             android:minWidth="60dp"
                             android:text="1000Hz"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -795,7 +801,7 @@
                             android:minWidth="40dp"
                             android:text="0.20"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -951,146 +957,110 @@
                             android:textSize="12sp" />
 
                         <Button
-                            android:id="@+id/btn_save_pattern"
+                            android:id="@+id/btn_sequencer_options"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:text="SAVE"
-                            android:textColor="@color/off_white"
-                            android:textSize="10sp" />
-
-                        <Button
-                            android:id="@+id/btn_load_pattern"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:text="LOAD"
-                            android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:padding="0dp"
+                            android:text="⋮"
+                            android:textColor="@color/acid_green"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
                         <Space
-                            android:layout_width="8dp"
+                            android:layout_width="4dp"
                             android:layout_height="match_parent" />
 
                         <Button
                             android:id="@+id/btn_sequencer_play"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:text="PLAY"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:padding="0dp"
+                            android:text="▶"
                             android:textColor="@color/electric_blue"
-                            android:textSize="10sp" />
+                            android:textSize="14sp" />
 
                         <Space
-                            android:layout_width="8dp"
+                            android:layout_width="4dp"
                             android:layout_height="match_parent" />
 
                         <ToggleButton
                             android:id="@+id/toggle_sequencer_rec"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:textOff="REC OFF"
-                            android:textOn="REC ON"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:padding="0dp"
+                            android:textOff="●"
+                            android:textOn="●"
                             android:textColor="@color/vibrant_red"
-                            android:textSize="10sp" />
+                            android:textSize="14sp" />
 
                         <Space
-                            android:layout_width="8dp"
-                            android:layout_height="match_parent" />
-
-                        <ToggleButton
-                            android:id="@+id/toggle_input_quantize"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
-                            android:textOff="IQ"
-                            android:textOn="IQ"
-                            android:textColor="@color/acid_green"
-                            android:textSize="10sp"
-                            android:checked="true" />
-
-                        <Space
-                            android:layout_width="8dp"
+                            android:layout_width="4dp"
                             android:layout_height="match_parent" />
 
                         <Button
                             android:id="@+id/btn_sequencer_clear"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:padding="0dp"
                             android:text="CLR"
                             android:textColor="@color/vibrant_red"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <Space
-                            android:layout_width="8dp"
-                            android:layout_height="match_parent" />
-
-                        <Button
-                            android:id="@+id/btn_step_rest"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:text="REST"
-                            android:visibility="gone"
-                            android:textColor="@color/off_white"
-                            android:textSize="10sp" />
-
-                        <Space
-                            android:layout_width="8dp"
-                            android:layout_height="match_parent" />
-
-                        <Button
-                            android:id="@+id/btn_step_back"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:text="BACK"
-                            android:visibility="gone"
-                            android:textColor="@color/off_white"
-                            android:textSize="10sp" />
-
-                        <Space
-                            android:layout_width="8dp"
-                            android:layout_height="match_parent" />
-
-                        <Button
-                            android:id="@+id/btn_sequencer_export"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:text="EXP"
-                            android:textColor="@color/acid_green"
-                            android:textSize="10sp" />
-
-                        <Space
-                            android:layout_width="8dp"
+                            android:layout_width="4dp"
                             android:layout_height="match_parent" />
 
                         <ToggleButton
                             android:id="@+id/toggle_pad_sampling"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:textOff="SAMPLING OFF"
-                            android:textOn="SAMPLING ON"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:padding="0dp"
+                            android:textOff="SMP"
+                            android:textOn="SMP"
                             android:textColor="@color/acid_green"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <Space
-                            android:layout_width="8dp"
+                            android:layout_width="4dp"
                             android:layout_height="match_parent" />
 
                         <ToggleButton
                             android:id="@+id/toggle_step_rec"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:textOff="STEP OFF"
-                            android:textOn="STEP ON"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:padding="0dp"
+                            android:textOff="STP"
+                            android:textOn="STP"
                             android:textColor="@color/acid_green"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
+
+                        <Button
+                            android:id="@+id/btn_step_rest"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:padding="0dp"
+                            android:text="RST"
+                            android:visibility="gone"
+                            android:textColor="@color/off_white"
+                            android:textSize="11sp" />
+
+                        <Button
+                            android:id="@+id/btn_step_back"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:padding="0dp"
+                            android:text="BCK"
+                            android:visibility="gone"
+                            android:textColor="@color/off_white"
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -1109,8 +1079,9 @@
                         <Button
                             android:id="@+id/btn_step_page_prev"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:padding="0dp"
                             android:text="&lt;"
                             android:textColor="@color/acid_green" />
 
@@ -1126,8 +1097,9 @@
                         <Button
                             android:id="@+id/btn_step_page_next"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:padding="0dp"
                             android:text="&gt;"
                             android:textColor="@color/acid_green" />
 
@@ -1210,115 +1182,129 @@
                         android:textStyle="bold"
                         android:textSize="12sp" />
 
-                    <LinearLayout
+                    <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:columnCount="2"
+                        android:rowCount="2"
                         android:layout_marginTop="4dp">
 
-                        <TextView
+                        <!-- Cols / Rows Row -->
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Cols: "
-                            android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
 
-                        <Button
-                            android:id="@+id/btn_cols_down"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
-                            android:text="-"
-                            android:textColor="@color/acid_green" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Grid:"
+                                android:textColor="@color/off_white"
+                                android:textSize="10sp" />
 
-                        <TextView
-                            android:id="@+id/tv_cols_value"
+                            <Button
+                                android:id="@+id/btn_cols_down"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:padding="0dp"
+                                android:text="C-"
+                                android:textColor="@color/acid_green"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/tv_cols_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingHorizontal="4dp"
+                                android:text="4"
+                                android:textColor="@color/off_white" />
+
+                            <Button
+                                android:id="@+id/btn_cols_up"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:padding="0dp"
+                                android:text="C+"
+                                android:textColor="@color/acid_green"
+                                android:textSize="10sp" />
+
+                            <Space
+                                android:layout_width="8dp"
+                                android:layout_height="match_parent" />
+
+                            <Button
+                                android:id="@+id/btn_rows_down"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:padding="0dp"
+                                android:text="R-"
+                                android:textColor="@color/acid_green"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/tv_rows_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingHorizontal="4dp"
+                                android:text="4"
+                                android:textColor="@color/off_white" />
+
+                            <Button
+                                android:id="@+id/btn_rows_up"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:padding="0dp"
+                                android:text="R+"
+                                android:textColor="@color/acid_green"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <!-- Bank Control -->
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingHorizontal="8dp"
-                            android:text="4"
-                            android:textColor="@color/off_white" />
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="end">
 
-                        <Button
-                            android:id="@+id/btn_cols_up"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
-                            android:text="+"
-                            android:textColor="@color/acid_green" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="BANK:"
+                                android:textColor="@color/acid_green"
+                                android:textStyle="bold"
+                                android:textSize="10sp" />
 
-                        <Space
-                            android:layout_width="16dp"
-                            android:layout_height="match_parent" />
+                            <Button
+                                android:id="@+id/btn_bank_down"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="40dp"
+                                android:layout_height="36dp"
+                                android:text="&lt;"
+                                android:textColor="@color/acid_green" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Rows: "
-                            android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            <TextView
+                                android:id="@+id/tv_bank_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingHorizontal="8dp"
+                                android:text="1"
+                                android:textColor="@color/off_white" />
 
-                        <Button
-                            android:id="@+id/btn_rows_down"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
-                            android:text="-"
-                            android:textColor="@color/acid_green" />
-
-                        <TextView
-                            android:id="@+id/tv_rows_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="8dp"
-                            android:text="4"
-                            android:textColor="@color/off_white" />
-
-                        <Button
-                            android:id="@+id/btn_rows_up"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
-                            android:text="+"
-                            android:textColor="@color/acid_green" />
-
-                        <Space
-                            android:layout_width="16dp"
-                            android:layout_height="match_parent" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Bank: "
-                            android:textColor="@color/acid_green"
-                            android:textStyle="bold"
-                            android:textSize="10sp" />
-
-                        <Button
-                            android:id="@+id/btn_bank_down"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
-                            android:text="&lt;"
-                            android:textColor="@color/acid_green" />
-
-                        <TextView
-                            android:id="@+id/tv_bank_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="8dp"
-                            android:text="1"
-                            android:textColor="@color/off_white" />
-
-                        <Button
-                            android:id="@+id/btn_bank_up"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
-                            android:text="&gt;"
-                            android:textColor="@color/acid_green" />
-
-                    </LinearLayout>
+                            <Button
+                                android:id="@+id/btn_bank_up"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="40dp"
+                                android:layout_height="36dp"
+                                android:text="&gt;"
+                                android:textColor="@color/acid_green" />
+                        </LinearLayout>
+                    </GridLayout>
 
                 </LinearLayout>
 

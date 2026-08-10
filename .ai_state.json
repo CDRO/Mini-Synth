@@ -9,10 +9,10 @@
     "milestones_folder_path": "docs/artifacts/milestones"
   },
   "current_state": {
-    "active_milestone_file": "Native_Build_Fix_Step_Record_Back",
-    "current_step": "Finalization",
-    "loop_iteration": 10,
-    "last_action_completed": "Restored build stability and verified full test suite passing.",
-    "next_immediate_action": "Merge fix/native-step-record-back and proceed to Milestone 28."
+    "active_milestone_file": "31_Panel_Reorganization",
+    "current_step": "Review Loop",
+    "loop_iteration": 9,
+    "last_action_completed": "Review loop 9/10: Refined Help overlays to match the redesigned UI hierarchy.",
+    "next_immediate_action": "Review loop 10/10: Final polish and documentation."
   }
 }

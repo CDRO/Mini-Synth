@@ -129,11 +129,31 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 30: Pad Holding & Expressive Gestures [TODO]
+## Milestone 30: Pad Holding & Expressive Gestures [DONE]
 
 ### [Logic] [Performance]
 - **Sustain Gestures**: Swipe between pads to maintain note duration.
 - **Modulation**: Integration of vertical/horizontal gestures for real-time pad expressive control.
+
+---
+
+## Milestone 31: Panel Reorganization & Hierarchy [TODO]
+
+### [UI] [Hierarchy]
+- **Overflow Menus**: Logical grouping of secondary sequencer actions to prevent horizontal clipping.
+- **Vertical Stacking**: Redesign of the Pad Customization section for better readability.
+
+## Milestone 32: Header Refinement & Engine Status [TODO]
+
+### [UI] [Header]
+- **Status Dashboard**: Unified MIDI and Latency display.
+- **Modularization**: Refactor header XML into reusable components using `include`.
+
+## Milestone 33: Design System & Accessibility [TODO]
+
+### [UI] [Standardization]
+- **Localization**: Zero hardcoded strings in layout files.
+- **Scaling**: Responsive text and container definitions to handle diverse aspect ratios.
 
 ---
 

@@ -24,10 +24,10 @@ class RecordingUiTest {
                 activity.isPollingEnabled = false
                 val recToggle = activity.findViewById<ToggleButton>(R.id.toggle_sequencer_rec)
                 
-                assertEquals("REC OFF", recToggle.text.toString())
+                assertEquals("●", recToggle.text.toString())
                 recToggle.performClick()
                 ShadowLooper.idleMainLooper()
-                assertEquals("REC ON", recToggle.text.toString())
+                assertEquals("●", recToggle.text.toString())
             }
         }
     }
