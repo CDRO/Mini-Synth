@@ -183,7 +183,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/status_bar_height"
             android:layout_marginTop="@dimen/spacing_small"
-            android:background="@color/surface_bright"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingHorizontal="4dp">
