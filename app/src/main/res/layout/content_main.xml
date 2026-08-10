@@ -29,7 +29,7 @@
             android:layout_width="160dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="8dp"
+            android:padding="@dimen/spacing_medium"
             android:background="@color/surface_dark"
             android:visibility="gone">
 
@@ -121,7 +121,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="8dp">
+                    android:padding="@dimen/spacing_medium">
 
                     <Button
                         android:id="@+id/btn_mode_toggle"
@@ -228,7 +228,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:padding="@dimen/spacing_medium">
 
                         <Button
                             android:id="@+id/btn_save_preset"
@@ -273,7 +273,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:padding="@dimen/spacing_medium">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -355,7 +355,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:padding="@dimen/spacing_medium">
 
                         <TextView
                             android:layout_width="20dp"
@@ -452,7 +452,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:padding="@dimen/spacing_medium">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -508,7 +508,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:padding="@dimen/spacing_medium">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -561,7 +561,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:padding="@dimen/spacing_medium">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -620,8 +620,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="8dp"
-                    android:layout_marginTop="8dp"
+                    android:padding="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     android:background="@color/matte_grey">
 
                     <TextView
@@ -745,8 +745,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="8dp"
-                    android:layout_marginTop="8dp"
+                    android:padding="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     android:background="@color/matte_grey">
 
                     <LinearLayout
@@ -767,8 +767,8 @@
                         <Button
                             android:id="@+id/btn_sequencer_options"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:text="⋮"
                             android:textColor="@color/acid_green"
@@ -782,8 +782,8 @@
                         <Button
                             android:id="@+id/btn_sequencer_play"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:text="▶"
                             android:textColor="@color/electric_blue"
@@ -796,8 +796,8 @@
                         <ToggleButton
                             android:id="@+id/toggle_sequencer_rec"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:textOff="●"
                             android:textOn="●"
@@ -811,8 +811,8 @@
                         <Button
                             android:id="@+id/btn_sequencer_clear"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:text="@string/sequencer_clear_short"
                             android:textColor="@color/vibrant_red"
@@ -825,8 +825,8 @@
                         <ToggleButton
                             android:id="@+id/toggle_pad_sampling"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:textOff="@string/sequencer_sampling_off"
                             android:textOn="@string/sequencer_sampling_on"
@@ -840,8 +840,8 @@
                         <ToggleButton
                             android:id="@+id/toggle_step_rec"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:textOff="@string/sequencer_step_off"
                             android:textOn="@string/sequencer_step_on"
@@ -851,8 +851,8 @@
                         <Button
                             android:id="@+id/btn_step_rest"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:text="@string/sequencer_rest_short"
                             android:visibility="gone"
@@ -862,8 +862,8 @@
                         <Button
                             android:id="@+id/btn_step_back"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:text="@string/sequencer_back_short"
                             android:visibility="gone"
@@ -887,8 +887,8 @@
                         <Button
                             android:id="@+id/btn_step_page_prev"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:text="&lt;"
                             android:textColor="@color/acid_green" />
@@ -905,8 +905,8 @@
                         <Button
                             android:id="@+id/btn_step_page_next"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:text="&gt;"
                             android:textColor="@color/acid_green" />
@@ -948,7 +948,7 @@
                         android:id="@+id/sequencer_step_grid"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/spacing_medium"
                         android:columnCount="8"
                         android:rowCount="2">
 
@@ -978,8 +978,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="8dp"
-                    android:layout_marginTop="8dp"
+                    android:padding="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     android:background="@color/matte_grey">
 
                     <TextView

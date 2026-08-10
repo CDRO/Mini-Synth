@@ -10,7 +10,7 @@
     - `[x]` 2/10: Extract Sequencer and Pad strings to `strings.xml`.
     - `[x]` 3/10: Extract MainActivity toast/dialog strings.
     - `[x]` 4/10: Standardize text size to 12sp minimum.
-    - `[ ]` 5/10: Implement dimension resources for margins/padding.
+    - `[x]` 5/10: Implement dimension resources for margins/padding.
     - `[ ]` 6/10: Refine ConstraintLayout for ultra-wide displays.
     - `[ ]` 7/10: Add ContentDescriptions for accessibility.
     - `[ ]` 8/10: Fix inconsistent button colors (Zen mode / Active states).
