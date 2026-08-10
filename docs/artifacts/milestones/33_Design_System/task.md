@@ -9,7 +9,7 @@
     - `[x]` 1/10: Extract Header strings to `strings.xml`.
     - `[x]` 2/10: Extract Sequencer and Pad strings to `strings.xml`.
     - `[x]` 3/10: Extract MainActivity toast/dialog strings.
-    - `[ ]` 4/10: Standardize text size to 12sp minimum.
+    - `[x]` 4/10: Standardize text size to 12sp minimum.
     - `[ ]` 5/10: Implement dimension resources for margins/padding.
     - `[ ]` 6/10: Refine ConstraintLayout for ultra-wide displays.
     - `[ ]` 7/10: Add ContentDescriptions for accessibility.

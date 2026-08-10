@@ -39,7 +39,7 @@
                 android:text="SAMPLE BROWSER"
                 android:textColor="@color/acid_green"
                 android:textStyle="bold"
-                android:textSize="11sp"
+                android:textSize="12sp"
                 android:paddingBottom="8dp"
                 android:gravity="center" />
 
@@ -186,7 +186,7 @@
                         android:textOff="ZEN OFF"
                         android:textOn="ZEN ON"
                         android:textColor="@color/electric_blue"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                     <Space
                         android:layout_width="8dp"
@@ -200,7 +200,7 @@
                         android:textOff="BRW OFF"
                         android:textOn="BRW ON"
                         android:textColor="@color/electric_blue"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                     <Space
                         android:layout_width="8dp"
@@ -213,7 +213,7 @@
                         android:layout_height="36dp"
                         android:text="PROJ"
                         android:textColor="@color/acid_green"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -339,7 +339,7 @@
                             android:minWidth="36dp"
                             android:text="80%"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
                         <SeekBar
                             android:id="@+id/seek_master_vol"
@@ -377,7 +377,7 @@
                             android:layout_height="wrap_content"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:layout_width="20dp"
@@ -399,7 +399,7 @@
                             android:layout_height="wrap_content"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:layout_width="20dp"
@@ -421,7 +421,7 @@
                             android:layout_height="wrap_content"
                             android:text="0.8"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:layout_width="20dp"
@@ -443,7 +443,7 @@
                             android:layout_height="wrap_content"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -476,7 +476,7 @@
                             android:minWidth="40dp"
                             android:text="1.0Hz"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -500,7 +500,7 @@
                             android:minWidth="40dp"
                             android:text="0.0"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -585,7 +585,7 @@
                             android:minWidth="60dp"
                             android:text="1000Hz"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -609,7 +609,7 @@
                             android:minWidth="40dp"
                             android:text="0.20"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -644,7 +644,7 @@
                             android:layout_height="wrap_content"
                             android:text="Dly T"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
                         <SeekBar
                             android:id="@+id/seek_delay_time"
@@ -659,7 +659,7 @@
                             android:layout_height="wrap_content"
                             android:text="Dly F"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
                         <SeekBar
                             android:id="@+id/seek_delay_feedback"
@@ -674,7 +674,7 @@
                             android:layout_height="wrap_content"
                             android:text="Dly M"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
                         <SeekBar
                             android:id="@+id/seek_delay_mix"
@@ -697,7 +697,7 @@
                             android:layout_height="wrap_content"
                             android:text="Rev S"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
                         <SeekBar
                             android:id="@+id/seek_reverb_size"
@@ -712,7 +712,7 @@
                             android:layout_height="wrap_content"
                             android:text="Rev D"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
                         <SeekBar
                             android:id="@+id/seek_reverb_damping"
@@ -727,7 +727,7 @@
                             android:layout_height="wrap_content"
                             android:text="Rev M"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
                         <SeekBar
                             android:id="@+id/seek_reverb_mix"
@@ -816,7 +816,7 @@
                             android:padding="0dp"
                             android:text="@string/sequencer_clear_short"
                             android:textColor="@color/vibrant_red"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
                         <Space
                             android:layout_width="4dp"
@@ -831,7 +831,7 @@
                             android:textOff="@string/sequencer_sampling_off"
                             android:textOn="@string/sequencer_sampling_on"
                             android:textColor="@color/acid_green"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
                         <Space
                             android:layout_width="4dp"
@@ -846,7 +846,7 @@
                             android:textOff="@string/sequencer_step_off"
                             android:textOn="@string/sequencer_step_on"
                             android:textColor="@color/acid_green"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
                         <Button
                             android:id="@+id/btn_step_rest"
@@ -857,7 +857,7 @@
                             android:text="@string/sequencer_rest_short"
                             android:visibility="gone"
                             android:textColor="@color/off_white"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
                         <Button
                             android:id="@+id/btn_step_back"
@@ -868,7 +868,7 @@
                             android:text="@string/sequencer_back_short"
                             android:visibility="gone"
                             android:textColor="@color/off_white"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -882,7 +882,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/sequencer_page_label"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
                         <Button
                             android:id="@+id/btn_step_page_prev"
@@ -900,7 +900,7 @@
                             android:paddingHorizontal="8dp"
                             android:text="1 / 1"
                             android:textColor="@color/off_white"
-                            android:textSize="11sp" />
+                            android:textSize="12sp" />
 
                         <Button
                             android:id="@+id/btn_step_page_next"
@@ -920,7 +920,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/sequencer_step_size_label"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
                         <Spinner
                             android:id="@+id/spinner_step_duration"
@@ -936,7 +936,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/sequencer_loop_label"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
                         <Spinner
                             android:id="@+id/spinner_loop_length"
@@ -1009,7 +1009,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/pads_grid_label"
                                 android:textColor="@color/off_white"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                             <Button
                                 android:id="@+id/btn_cols_down"
@@ -1019,7 +1019,7 @@
                                 android:padding="0dp"
                                 android:text="C-"
                                 android:textColor="@color/acid_green"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                             <TextView
                                 android:id="@+id/tv_cols_value"
@@ -1037,7 +1037,7 @@
                                 android:padding="0dp"
                                 android:text="C+"
                                 android:textColor="@color/acid_green"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                             <Space
                                 android:layout_width="8dp"
@@ -1051,7 +1051,7 @@
                                 android:padding="0dp"
                                 android:text="R-"
                                 android:textColor="@color/acid_green"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                             <TextView
                                 android:id="@+id/tv_rows_value"
@@ -1069,7 +1069,7 @@
                                 android:padding="0dp"
                                 android:text="R+"
                                 android:textColor="@color/acid_green"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
 
                         <!-- Bank Control -->
@@ -1086,7 +1086,7 @@
                                 android:text="@string/pads_bank_label"
                                 android:textColor="@color/acid_green"
                                 android:textStyle="bold"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                             <Button
                                 android:id="@+id/btn_bank_down"
@@ -1151,7 +1151,7 @@
         android:textOff="PLAY MODE: OFF"
         android:textOn="PLAY MODE: ON"
         android:textColor="@color/acid_green"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

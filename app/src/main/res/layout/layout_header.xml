@@ -32,7 +32,7 @@
             android:padding="0dp"
             android:text="@string/header_metronome"
             android:textColor="@color/acid_green"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +73,7 @@
             android:padding="0dp"
             android:text="-5"
             android:textColor="@color/acid_green"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/btn_metronome_toggle"
             app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +88,7 @@
             android:padding="0dp"
             android:text="-1"
             android:textColor="@color/acid_green"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
             app:layout_constraintStart_toEndOf="@id/btn_bpm_down"
@@ -102,7 +102,7 @@
             android:padding="0dp"
             android:text="+1"
             android:textColor="@color/acid_green"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
             app:layout_constraintStart_toEndOf="@id/btn_bpm_down_fine"
@@ -116,7 +116,7 @@
             android:padding="0dp"
             android:text="+5"
             android:textColor="@color/acid_green"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
             app:layout_constraintStart_toEndOf="@id/btn_bpm_up_fine"
@@ -166,7 +166,7 @@
                 android:padding="0dp"
                 android:text="@string/header_demo"
                 android:textColor="@color/electric_blue"
-                android:textSize="11sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <!-- Bottom Row: Engine Status -->
@@ -197,7 +197,7 @@
                 android:layout_weight="1"
                 android:text="BUF: --"
                 android:textColor="@color/acid_green"
-                android:textSize="11sp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <ToggleButton
@@ -210,7 +210,7 @@
                 android:textOff="@string/header_manual"
                 android:textOn="@string/header_auto"
                 android:textColor="@color/acid_green"
-                android:textSize="11sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
     </LinearLayout>
