@@ -39,11 +39,7 @@ Merging context from initial feature implementation and workspace refinements.
 
 ### [DONE] Milestone 30: Pad Holding & Expressive Gestures.
 
-### [NEXT] Milestone 31: Panel Reorganization & Hierarchy
-- **Objective**: Restore visibility to clipped controls by introducing logical grouping.
-- **Key Features**:
-    - Sequencer Options overflow menu.
-    - Grouped Pad Customization controls.
+### [DONE] Milestone 31: Panel Reorganization & Hierarchy.
 
 ### [NEXT] Milestone 32: Header Refinement & Engine Status
 - **Objective**: Clean up the top bar and improve information density.

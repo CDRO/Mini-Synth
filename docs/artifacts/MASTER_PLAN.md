@@ -137,7 +137,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 31: Panel Reorganization & Hierarchy [TODO]
+## Milestone 31: Panel Reorganization & Hierarchy [DONE]
 
 ### [UI] [Hierarchy]
 - **Overflow Menus**: Logical grouping of secondary sequencer actions to prevent horizontal clipping.

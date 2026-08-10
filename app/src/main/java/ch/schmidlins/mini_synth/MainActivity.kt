@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         midiDeviceManager = MidiDeviceManager(this, synthManager).apply {
             onStatusChanged = { connected ->
                 runOnUiThread {
-                    binding.appBarMain.contentMain.midiStatusIndicator.setBackgroundColor(
+                    binding.appBarMain.contentMain.topHeader.midiStatusIndicator.setBackgroundColor(
                         if (connected) ContextCompat.getColor(this@MainActivity, R.color.acid_green)
                         else android.graphics.Color.DKGRAY
                     )
@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
 
         val content = binding.appBarMain.contentMain
         val synthView = content.keyboardPadView!!
-        content.visualizerView!!.setSynthManager(synthManager)
+        content.topHeader.visualizerView.setSynthManager(synthManager)
         
         // Listener
         synthView.listener = object : KeyboardPadView.OnNoteEventListener {
@@ -334,7 +334,7 @@ class MainActivity : AppCompatActivity() {
         setupWorkspaceRefinement(content)
         setupPatternManagement(content)
         
-        content.toggleAutoLatency.setOnCheckedChangeListener { _, isChecked ->
+        content.topHeader.toggleAutoLatency.setOnCheckedChangeListener { _, isChecked ->
             synthManager.setAutoLatencyEnabled(isChecked)
         }
         
@@ -456,22 +456,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupWorkspaceRefinement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
-        content.btnHelpMode.setOnClickListener {
+        content.topHeader.btnHelpMode.setOnClickListener {
             isHelpMode = !isHelpMode
-            content.btnHelpMode.alpha = if (isHelpMode) 1.0f else 0.5f
+            content.topHeader.btnHelpMode.alpha = if (isHelpMode) 1.0f else 0.5f
             updateWorkspaceVisibility(content)
             if (isHelpMode) Toast.makeText(this, "Discovery Mode Active. Click any control for info.", Toast.LENGTH_LONG).show()
         }
 
-        content.btnDemoMode.setOnClickListener {
+        content.topHeader.btnDemoMode.setOnClickListener {
             if (isDemoPlaying) {
                 isDemoPlaying = false
                 demoJob?.cancel()
                 resetEngineState()
-                content.btnDemoMode.text = "DEMO"
+                content.topHeader.btnDemoMode.text = "DEMO"
             } else {
                 isDemoPlaying = true
-                content.btnDemoMode.text = "STOP"
+                content.topHeader.btnDemoMode.text = "STOP"
                 runIntegratedDemo()
             }
         }
@@ -523,7 +523,7 @@ class MainActivity : AppCompatActivity() {
         demoJob = lifecycleScope.launch {
             try {
                 isDemoPlaying = true
-                runOnUiThread { binding.appBarMain.contentMain.btnDemoMode.text = "STOP" }
+                runOnUiThread { binding.appBarMain.contentMain.topHeader.btnDemoMode.text = "STOP" }
                 
                 // Discovery explanation
                 showDemoToast("Demo: Initializing synth patch...")
@@ -684,7 +684,7 @@ class MainActivity : AppCompatActivity() {
             } finally {
                 isDemoPlaying = false
                 runOnUiThread {
-                    binding.appBarMain.contentMain.btnDemoMode.text = "DEMO"
+                    binding.appBarMain.contentMain.topHeader.btnDemoMode.text = "DEMO"
                     resetEngineState()
                     // Revert UI to default mode
                     isPadMode = false
@@ -1127,34 +1127,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupMetronome(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
-        content.btnMetronomeToggle!!.setOnClickListener {
+        content.topHeader.btnMetronomeToggle.setOnClickListener {
             if (isHelpMode) { showHelp("Toggle the Metronome. Heard as a click synced to the BPM."); return@setOnClickListener }
             isMetronomeEnabled = !isMetronomeEnabled
             synthManager.setMetronomeEnabled(isMetronomeEnabled)
-            content.btnMetronomeToggle!!.text = if (isMetronomeEnabled) "MET: ON" else "MET: OFF"
+            content.topHeader.btnMetronomeToggle.text = if (isMetronomeEnabled) "ON" else "OFF"
         }
-        content.btnBpmDown!!.setOnClickListener { if (bpm >= 45) { bpm -= 5; updateBpm() } }
-        content.btnBpmDownFine!!.setOnClickListener { if (bpm >= 41) { bpm -= 1; updateBpm() } }
-        content.btnBpmUpFine!!.setOnClickListener { if (bpm <= 239) { bpm += 1; updateBpm() } }
-        content.btnBpmUp!!.setOnClickListener { if (bpm <= 235) { bpm += 5; updateBpm() } }
+        content.topHeader.btnBpmDown.setOnClickListener { if (bpm >= 45) { bpm -= 5; updateBpm() } }
+        content.topHeader.btnBpmDownFine.setOnClickListener { if (bpm >= 41) { bpm -= 1; updateBpm() } }
+        content.topHeader.btnBpmUpFine.setOnClickListener { if (bpm <= 239) { bpm += 1; updateBpm() } }
+        content.topHeader.btnBpmUp.setOnClickListener { if (bpm <= 235) { bpm += 5; updateBpm() } }
         updateBpm()
     }
 
     private fun updateBpm() {
         val content = binding.appBarMain.contentMain
         synthManager.setBpm(bpm)
-        content.tvBpmValue!!.text = bpm.toInt().toString()
+        content.topHeader.tvBpmValue.text = String.format(Locale.getDefault(), "BPM: %d", bpm.toInt())
     }
 
     private fun updateLatencyStatus() {
         synthManager.checkAndApplyBufferSize()
         val bufferSize = synthManager.getBufferSize()
         val xRuns = synthManager.getXRunCount()
-        binding.appBarMain.contentMain.tvLatencyStatus.text = "Buffer: $bufferSize ($xRuns)"
+        binding.appBarMain.contentMain.topHeader.tvLatencyStatus.text = String.format(Locale.getDefault(), "BUF: %d (%d)", bufferSize, xRuns)
     }
 
     private fun flashBeat() {
-        val indicator = binding.appBarMain.contentMain.beatIndicator!!
+        val indicator = binding.appBarMain.contentMain.topHeader.beatIndicator
         indicator.setBackgroundColor(ContextCompat.getColor(this, R.color.acid_green))
         mainHandler.postDelayed({ indicator.setBackgroundColor(android.graphics.Color.DKGRAY) }, 100)
     }

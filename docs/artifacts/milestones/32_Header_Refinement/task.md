@@ -1,0 +1,21 @@
+# Tasks: Milestone 32 - Header Refinement & Engine Status
+
+- `[ ]` Setup Header Infrastructure
+    - `[x]` Create GitHub Milestone & Issue (#132).
+    - `[x]` Create branch `feature/m32-header-refine`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline.
+- `[ ]` Review & Repair Loop (1-10)
+    - `[x]` 1/10: Merge MIDI indicator and Latency text into "Engine Status" bar.
+    - `[x]` 2/10: Standardize Help and Demo button sizes and alignment.
+    - `[x]` 3/10: Optimize Metronome container layout.
+    - `[x]` 4/10: Refactor Header XML into modular components.
+    - `[ ]` 5/10: Fix alignment issues in the Visualizer center-point.
+    - `[ ]` 6/10: Implement better feedback for Auto-Latency toggle.
+    - `[ ]` 7/10: Standardize header text styles and colors.
+    - `[ ]` 8/10: Regression test header visibility in Fullscreen mode.
+    - `[ ]` 9/10: Improve information density for BPM display.
+    - `[ ]` 10/10: Final polish and documentation.
+- `[ ]` Finalize
+    - `[ ]` Build and Test.
+    - `[ ]` Squash and Merge.

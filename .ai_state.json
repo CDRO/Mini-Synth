@@ -9,10 +9,10 @@
     "milestones_folder_path": "docs/artifacts/milestones"
   },
   "current_state": {
-    "active_milestone_file": "31_Panel_Reorganization",
+    "active_milestone_file": "32_Header_Refinement",
     "current_step": "Review Loop",
-    "loop_iteration": 9,
-    "last_action_completed": "Review loop 9/10: Refined Help overlays to match the redesigned UI hierarchy.",
-    "next_immediate_action": "Review loop 10/10: Final polish and documentation."
+    "loop_iteration": 8,
+    "last_action_completed": "Review loop 8/10: Verified header visibility in Fullscreen mode via unit tests.",
+    "next_immediate_action": "Review loop 9/10: Improve information density for BPM display."
   }
 }
