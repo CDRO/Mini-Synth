@@ -143,7 +143,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 - **Overflow Menus**: Logical grouping of secondary sequencer actions to prevent horizontal clipping.
 - **Vertical Stacking**: Redesign of the Pad Customization section for better readability.
 
-## Milestone 32: Header Refinement & Engine Status [TODO]
+## Milestone 32: Header Refinement & Engine Status [DONE]
 
 ### [UI] [Header]
 - **Status Dashboard**: Unified MIDI and Latency display.

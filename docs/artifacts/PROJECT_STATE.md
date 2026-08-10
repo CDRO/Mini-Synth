@@ -41,11 +41,7 @@ Merging context from initial feature implementation and workspace refinements.
 
 ### [DONE] Milestone 31: Panel Reorganization & Hierarchy.
 
-### [NEXT] Milestone 32: Header Refinement & Engine Status
-- **Objective**: Clean up the top bar and improve information density.
-- **Key Features**:
-    - Unified "Engine Status" component (MIDI/Latency).
-    - Prominent Demo trigger re-positioning.
+### [DONE] Milestone 32: Header Refinement & Engine Status.
 
 ### [NEXT] Milestone 33: Design System & Accessibility
 - **Objective**: Final polish, resource extraction, and scaling stability.
