@@ -149,7 +149,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 - **Status Dashboard**: Unified MIDI and Latency display.
 - **Modularization**: Refactor header XML into reusable components using `include`.
 
-## Milestone 33: Design System & Accessibility [TODO]
+## Milestone 33: Design System & Accessibility [DONE]
 
 ### [UI] [Standardization]
 - **Localization**: Zero hardcoded strings in layout files.
