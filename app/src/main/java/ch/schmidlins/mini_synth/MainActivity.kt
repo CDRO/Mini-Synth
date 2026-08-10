@@ -884,7 +884,7 @@ class MainActivity : AppCompatActivity() {
             if (isHelpMode) { showHelp("Start or stop the 16-step MIDI sequencer."); return@setOnClickListener }
             val playing = !synthManager.isSequencerPlaying()
             synthManager.setSequencerPlaying(playing)
-            content.btnSequencerPlay!!.text = if (playing) "STOP" else "PLAY"
+            content.btnSequencerPlay!!.text = if (playing) "■" else "▶"
         }
         content.toggleSequencerRec!!.setOnCheckedChangeListener { _, isChecked ->
             if (isHelpMode) { showHelp("Enable Real-time Recording. If the sequencer is playing, your keyboard performance will be recorded into the loop."); return@setOnCheckedChangeListener }

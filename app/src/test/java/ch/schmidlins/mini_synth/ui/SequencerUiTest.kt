@@ -38,10 +38,10 @@ class SequencerUiTest {
                 activity.isPollingEnabled = false
                 val btnPlay = activity.findViewById<Button>(R.id.btn_sequencer_play)
                 
-                assertEquals("PLAY", btnPlay.text.toString())
+                assertEquals("▶", btnPlay.text.toString())
                 btnPlay.performClick()
                 ShadowLooper.idleMainLooper()
-                assertEquals("STOP", btnPlay.text.toString())
+                assertEquals("■", btnPlay.text.toString())
             }
         }
     }
