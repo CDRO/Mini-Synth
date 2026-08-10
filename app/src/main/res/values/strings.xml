@@ -34,4 +34,25 @@
     <string name="header_help">&#063;</string>
     <string name="generic_on">ON</string>
     <string name="generic_off">OFF</string>
+
+    <!-- Sequencer Strings -->
+    <string name="sequencer_title">SEQUENCER</string>
+    <string name="sequencer_save">SAVE</string>
+    <string name="sequencer_load">LOAD</string>
+    <string name="sequencer_clear">CLR</string>
+    <string name="sequencer_rest">RST</string>
+    <string name="sequencer_back">BCK</string>
+    <string name="sequencer_export">EXP</string>
+    <string name="sequencer_sampling_off">SMP OFF</string>
+    <string name="sequencer_sampling_on">SMP ON</string>
+    <string name="sequencer_step_off">STP OFF</string>
+    <string name="sequencer_step_on">STP ON</string>
+    <string name="sequencer_page_label">Page: </string>
+    <string name="sequencer_step_size_label">Step Size: </string>
+    <string name="sequencer_loop_label">Loop: </string>
+
+    <!-- Pad Customization Strings -->
+    <string name="pads_title">PAD CUSTOMIZATION</string>
+    <string name="pads_grid_label">Grid:</string>
+    <string name="pads_bank_label">BANK:</string>
 </resources>

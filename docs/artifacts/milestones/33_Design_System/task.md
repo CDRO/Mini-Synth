@@ -7,7 +7,7 @@
     - `[ ]` Build baseline.
 - `[ ]` Review & Repair Loop (1-10)
     - `[x]` 1/10: Extract Header strings to `strings.xml`.
-    - `[ ]` 2/10: Extract Sequencer and Pad strings to `strings.xml`.
+    - `[x]` 2/10: Extract Sequencer and Pad strings to `strings.xml`.
     - `[ ]` 3/10: Extract MainActivity toast/dialog strings.
     - `[ ]` 4/10: Standardize text size to 12sp minimum.
     - `[ ]` 5/10: Implement dimension resources for margins/padding.

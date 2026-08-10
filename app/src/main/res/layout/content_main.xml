@@ -759,7 +759,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="SEQUENCER"
+                            android:text="@string/sequencer_title"
                             android:textColor="@color/acid_green"
                             android:textStyle="bold"
                             android:textSize="12sp" />
@@ -814,7 +814,7 @@
                             android:layout_width="44dp"
                             android:layout_height="44dp"
                             android:padding="0dp"
-                            android:text="CLR"
+                            android:text="@string/sequencer_clear"
                             android:textColor="@color/vibrant_red"
                             android:textSize="11sp" />
 
@@ -828,8 +828,8 @@
                             android:layout_width="44dp"
                             android:layout_height="44dp"
                             android:padding="0dp"
-                            android:textOff="SMP"
-                            android:textOn="SMP"
+                            android:textOff="@string/sequencer_sampling_off"
+                            android:textOn="@string/sequencer_sampling_on"
                             android:textColor="@color/acid_green"
                             android:textSize="11sp" />
 
@@ -843,8 +843,8 @@
                             android:layout_width="44dp"
                             android:layout_height="44dp"
                             android:padding="0dp"
-                            android:textOff="STP"
-                            android:textOn="STP"
+                            android:textOff="@string/sequencer_step_off"
+                            android:textOn="@string/sequencer_step_on"
                             android:textColor="@color/acid_green"
                             android:textSize="11sp" />
 
@@ -854,7 +854,7 @@
                             android:layout_width="44dp"
                             android:layout_height="44dp"
                             android:padding="0dp"
-                            android:text="RST"
+                            android:text="@string/sequencer_rest"
                             android:visibility="gone"
                             android:textColor="@color/off_white"
                             android:textSize="11sp" />
@@ -865,7 +865,7 @@
                             android:layout_width="44dp"
                             android:layout_height="44dp"
                             android:padding="0dp"
-                            android:text="BCK"
+                            android:text="@string/sequencer_back"
                             android:visibility="gone"
                             android:textColor="@color/off_white"
                             android:textSize="11sp" />
@@ -880,7 +880,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Page: "
+                            android:text="@string/sequencer_page_label"
                             android:textColor="@color/off_white"
                             android:textSize="10sp" />
 
@@ -918,7 +918,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Step Size: "
+                            android:text="@string/sequencer_step_size_label"
                             android:textColor="@color/off_white"
                             android:textSize="10sp" />
 
@@ -934,7 +934,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Loop: "
+                            android:text="@string/sequencer_loop_label"
                             android:textColor="@color/off_white"
                             android:textSize="10sp" />
 
@@ -985,7 +985,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="PAD CUSTOMIZATION"
+                        android:text="@string/pads_title"
                         android:textColor="@color/acid_green"
                         android:textStyle="bold"
                         android:textSize="12sp" />
@@ -1007,7 +1007,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Grid:"
+                                android:text="@string/pads_grid_label"
                                 android:textColor="@color/off_white"
                                 android:textSize="10sp" />
 
@@ -1083,7 +1083,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="BANK:"
+                                android:text="@string/pads_bank_label"
                                 android:textColor="@color/acid_green"
                                 android:textStyle="bold"
                                 android:textSize="10sp" />
