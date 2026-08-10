@@ -1,0 +1,21 @@
+# Tasks: Milestone 35 - Performance Visualization & FFT Polish
+
+- `[ ]` Setup Visualization Infrastructure
+    - `[ ]` Create GitHub Milestone & Issue.
+    - `[ ]` Create branch `feature/m35-fft-polish`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline.
+- `[ ]` Review & Repair Loop (1-10)
+    - `[ ]` 1/10: Increase FFT resolution and density in VisualizerView.
+    - `[ ]` 2/10: Implement peak-hold markers (caps).
+    - `[ ]` 3/10: Add frequency grid lines (log-scale).
+    - `[ ]` 4/10: Add frequency labels (100Hz, 1kHz, 10kHz).
+    - `[ ]` 5/10: Optimize FFT bar drawing with cached paths.
+    - `[ ]` 6/10: Refine smoothing and drop-speed constants.
+    - `[ ]` 7/10: Standardize visualizer colors and gradients.
+    - `[ ]` 8/10: Add toggle for Waveform vs. Spectrum (or both).
+    - `[ ]` 9/10: Verify performance overhead on mobile.
+    - `[ ]` 10/10: Final polish and documentation.
+- `[ ]` Finalize
+    - `[ ]` Build and Test.
+    - `[ ]` Squash and Merge.
