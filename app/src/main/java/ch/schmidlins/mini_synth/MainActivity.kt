@@ -740,28 +740,28 @@ class MainActivity : AppCompatActivity() {
     private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         val synthView = content.keyboardPadView!!
         content.btnColsDown!!.setOnClickListener {
-            if (isHelpMode) { showHelp("Decrease the number of columns in the pad grid."); return@setOnClickListener }
+            if (isHelpMode) { showHelp("Pad Grid: Decrease the number of columns (vertical dividers)."); return@setOnClickListener }
             if (synthView.gridColumns > 1) {
                 synthView.setGridDimensions(synthView.gridColumns - 1, synthView.gridRows)
                 content.tvColsValue!!.text = synthView.gridColumns.toString()
             }
         }
         content.btnColsUp!!.setOnClickListener {
-            if (isHelpMode) { showHelp("Increase the number of columns in the pad grid."); return@setOnClickListener }
+            if (isHelpMode) { showHelp("Pad Grid: Increase the number of columns (vertical dividers)."); return@setOnClickListener }
             if (synthView.gridColumns < 16) {
                 synthView.setGridDimensions(synthView.gridColumns + 1, synthView.gridRows)
                 content.tvColsValue!!.text = synthView.gridColumns.toString()
             }
         }
         content.btnRowsDown!!.setOnClickListener {
-            if (isHelpMode) { showHelp("Decrease the number of rows in the pad grid."); return@setOnClickListener }
+            if (isHelpMode) { showHelp("Pad Grid: Decrease the number of rows (horizontal dividers)."); return@setOnClickListener }
             if (synthView.gridRows > 1) {
                 synthView.setGridDimensions(synthView.gridColumns, synthView.gridRows - 1)
                 content.tvRowsValue!!.text = synthView.gridRows.toString()
             }
         }
         content.btnRowsUp!!.setOnClickListener {
-            if (isHelpMode) { showHelp("Increase the number of rows in the pad grid."); return@setOnClickListener }
+            if (isHelpMode) { showHelp("Pad Grid: Increase the number of rows (horizontal dividers)."); return@setOnClickListener }
             if (synthView.gridRows < 16) {
                 synthView.setGridDimensions(synthView.gridColumns, synthView.gridRows + 1)
                 content.tvRowsValue!!.text = synthView.gridRows.toString()
