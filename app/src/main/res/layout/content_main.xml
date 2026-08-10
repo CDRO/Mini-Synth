@@ -157,7 +157,8 @@
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
                         android:text="-"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:contentDescription="@string/desc_octave_down" />
 
                     <TextView
                         android:id="@+id/tv_octave_value"
@@ -174,7 +175,8 @@
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
                         android:text="+"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:contentDescription="@string/desc_octave_up" />
 
                     <Space
                         android:layout_width="16dp"
@@ -788,6 +790,7 @@
                             android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:text="▶"
+                            android:contentDescription="@string/desc_sequencer_play"
                             android:textColor="@color/electric_blue"
                             android:textSize="14sp" />
 
@@ -803,6 +806,7 @@
                             android:padding="0dp"
                             android:textOff="●"
                             android:textOn="●"
+                            android:contentDescription="@string/desc_sequencer_rec"
                             android:textColor="@color/vibrant_red"
                             android:textSize="14sp" />
 
@@ -817,6 +821,7 @@
                             android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:text="@string/sequencer_clear_short"
+                            android:contentDescription="@string/desc_sequencer_clear"
                             android:textColor="@color/vibrant_red"
                             android:textSize="12sp" />
 

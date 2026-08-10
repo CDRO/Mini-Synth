@@ -12,7 +12,7 @@
     - `[x]` 4/10: Standardize text size to 12sp minimum.
     - `[x]` 5/10: Implement dimension resources for margins/padding.
     - `[x]` 6/10: Refine ConstraintLayout for ultra-wide displays.
-    - `[ ]` 7/10: Add ContentDescriptions for accessibility.
+    - `[x]` 7/10: Add ContentDescriptions for accessibility.
     - `[ ]` 8/10: Fix inconsistent button colors (Zen mode / Active states).
     - `[ ]` 9/10: Optimize resource usage (unused assets/colors).
     - `[ ]` 10/10: Final polish and documentation.

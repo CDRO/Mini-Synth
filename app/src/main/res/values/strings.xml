@@ -108,4 +108,21 @@
     <string name="dialog_exporting">Exporting&#8230;</string>
     <string name="dialog_share_pattern">Share Pattern</string>
     <string name="sequencer_iq_label">Input Quantize</string>
+
+    <!-- Accessibility Descriptions -->
+    <string name="desc_visualizer">Real-time audio waveform visualizer</string>
+    <string name="desc_metronome_toggle">Toggle metronome on or off</string>
+    <string name="desc_bpm_down">Decrease tempo by 5 beats per minute</string>
+    <string name="desc_bpm_down_fine">Decrease tempo by 1 beat per minute</string>
+    <string name="desc_bpm_up_fine">Increase tempo by 1 beat per minute</string>
+    <string name="desc_bpm_up">Increase tempo by 5 beats per minute</string>
+    <string name="desc_help_mode">Toggle discovery help mode</string>
+    <string name="desc_demo_mode">Start or stop automated feature demonstration</string>
+    <string name="desc_auto_latency">Toggle between automatic and manual buffer management</string>
+    <string name="desc_keyboard_pad_view">Interactive keyboard and performance pad area</string>
+    <string name="desc_sequencer_play">Start or stop sequencer playback</string>
+    <string name="desc_sequencer_rec">Toggle real-time sequencer recording</string>
+    <string name="desc_sequencer_clear">Delete all notes in the current sequence</string>
+    <string name="desc_octave_down">Shift keyboard range down one octave</string>
+    <string name="desc_octave_up">Shift keyboard range up one octave</string>
 </resources>
