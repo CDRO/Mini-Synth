@@ -1143,14 +1143,14 @@ class MainActivity : AppCompatActivity() {
     private fun updateBpm() {
         val content = binding.appBarMain.contentMain
         synthManager.setBpm(bpm)
-        content.topHeader.tvBpmValue.text = bpm.toInt().toString()
+        content.topHeader.tvBpmValue.text = String.format(Locale.getDefault(), "BPM: %d", bpm.toInt())
     }
 
     private fun updateLatencyStatus() {
         synthManager.checkAndApplyBufferSize()
         val bufferSize = synthManager.getBufferSize()
         val xRuns = synthManager.getXRunCount()
-        binding.appBarMain.contentMain.topHeader.tvLatencyStatus.text = "Buffer: $bufferSize ($xRuns)"
+        binding.appBarMain.contentMain.topHeader.tvLatencyStatus.text = String.format(Locale.getDefault(), "BUF: %d (%d)", bufferSize, xRuns)
     }
 
     private fun flashBeat() {
