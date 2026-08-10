@@ -185,7 +185,7 @@
                 android:layout_height="wrap_content"
                 android:text="Buffer: -- (0)"
                 android:textColor="@color/dim_grey"
-                android:textSize="9sp"
+                android:textSize="11sp"
                 android:textStyle="bold" />
 
             <Space
@@ -195,13 +195,13 @@
             <ToggleButton
                 android:id="@+id/toggle_auto_latency"
                 style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="48dp"
-                android:layout_height="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
                 android:textOff="AUTO"
                 android:textOn="AUTO"
                 android:checked="true"
                 android:textColor="@color/acid_green"
-                android:textSize="8sp" />
+                android:textSize="11sp" />
 
         </LinearLayout>
 
@@ -522,7 +522,7 @@
                             android:minWidth="30dp"
                             android:text="80%"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <SeekBar
                             android:id="@+id/seek_master_vol"
@@ -560,7 +560,7 @@
                             android:minWidth="40dp"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -583,7 +583,7 @@
                             android:minWidth="40dp"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -606,7 +606,7 @@
                             android:minWidth="40dp"
                             android:text="0.8"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -629,7 +629,7 @@
                             android:minWidth="40dp"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                     </LinearLayout>
 
@@ -662,7 +662,7 @@
                             android:minWidth="40dp"
                             android:text="1.0Hz"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -686,7 +686,7 @@
                             android:minWidth="40dp"
                             android:text="0.0"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                     </LinearLayout>
 
@@ -771,7 +771,7 @@
                             android:minWidth="60dp"
                             android:text="1000Hz"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -795,7 +795,7 @@
                             android:minWidth="40dp"
                             android:text="0.20"
                             android:textColor="@color/dim_grey"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -1002,7 +1002,7 @@
                             android:padding="0dp"
                             android:text="CLR"
                             android:textColor="@color/vibrant_red"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <Space
                             android:layout_width="4dp"
@@ -1017,7 +1017,7 @@
                             android:textOff="SMP"
                             android:textOn="SMP"
                             android:textColor="@color/acid_green"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <Space
                             android:layout_width="4dp"
@@ -1032,7 +1032,7 @@
                             android:textOff="STP"
                             android:textOn="STP"
                             android:textColor="@color/acid_green"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <Button
                             android:id="@+id/btn_step_rest"
@@ -1043,7 +1043,7 @@
                             android:text="RST"
                             android:visibility="gone"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
 
                         <Button
                             android:id="@+id/btn_step_back"
@@ -1054,7 +1054,7 @@
                             android:text="BCK"
                             android:visibility="gone"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <LinearLayout
