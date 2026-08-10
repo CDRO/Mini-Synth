@@ -6,10 +6,10 @@
     - `[ ]` Create Pull Request.
     - `[ ]` Build baseline.
 - `[ ]` Review & Repair Loop (1-10)
-    - `[ ]` 1/10: Merge MIDI indicator and Latency text into "Engine Status" bar.
-    - `[ ]` 2/10: Standardize Help and Demo button sizes and alignment.
-    - `[ ]` 3/10: Optimize Metronome container layout.
-    - `[ ]` 4/10: Refactor Header XML into modular components.
+    - `[x]` 1/10: Merge MIDI indicator and Latency text into "Engine Status" bar.
+    - `[x]` 2/10: Standardize Help and Demo button sizes and alignment.
+    - `[x]` 3/10: Optimize Metronome container layout.
+    - `[x]` 4/10: Refactor Header XML into modular components.
     - `[ ]` 5/10: Fix alignment issues in the Visualizer center-point.
     - `[ ]` 6/10: Implement better feedback for Auto-Latency toggle.
     - `[ ]` 7/10: Standardize header text styles and colors.
