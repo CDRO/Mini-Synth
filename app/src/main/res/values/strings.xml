@@ -1,25 +1,216 @@
 <resources>
     <string name="app_name">Mini-Synth</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
-    <string name="menu_transform">Transform</string>
-    <string name="menu_reflow">Reflow</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_settings">Settings</string>
+    <!-- Header Strings -->
+    <string name="header_metronome">MET</string>
+    <string name="header_bpm_format">BPM: %d</string>
+    <string name="header_demo">DEMO</string>
+    <string name="header_stop">STOP</string>
+    <string name="header_latency_format">BUF: %1$d (%2$d)</string>
+    <string name="header_auto">AUTO</string>
+    <string name="header_manual">MAN</string>
+    <string name="header_help">&#063;</string>
+    <string name="generic_on">ON</string>
+    <string name="generic_off">OFF</string>
 
-    <string name="lorem_ipsum_title">Lorem Ipsum"</string>
-    <string name="lorem_ipsum">Lorem Ipsum is simply placeholder text of the printing and
-        typesetting industry. Lorem Ipsum has been the industry\'s standard placeholder text ever
-        since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-        type specimen book"
-    </string>
-    <string name="fab_content_description">Represents a view to invoke an action</string>
-    <string name="image_view_item_transform_content_description">Represents an image view in the
-        item
-    </string>
+    <!-- Sequencer Strings -->
+    <string name="sequencer_title">SEQUENCER</string>
+    <string name="sequencer_save_short">SAVE</string>
+    <string name="sequencer_save_long">Save Pattern</string>
+    <string name="sequencer_load_short">LOAD</string>
+    <string name="sequencer_load_long">Load Pattern</string>
+    <string name="sequencer_clear_short">CLR</string>
+    <string name="sequencer_clear_long">Clear Sequence</string>
+    <string name="sequencer_rest_short">RST</string>
+    <string name="sequencer_rest_long">Insert Rest</string>
+    <string name="sequencer_back_short">BCK</string>
+    <string name="sequencer_back_long">Undo Step</string>
+    <string name="sequencer_export_short">EXP</string>
+    <string name="sequencer_export_long">Export Sequence</string>
+    <string name="sequencer_sampling_off">SMP OFF</string>
+    <string name="sequencer_sampling_on">SMP ON</string>
+    <string name="sequencer_step_off">STP OFF</string>
+    <string name="sequencer_step_on">STP ON</string>
+    <string name="sequencer_page_label">Page: </string>
+    <string name="sequencer_step_size_label">Step Size: </string>
+    <string name="sequencer_loop_label">Loop: </string>
+
+    <!-- Pad Customization Strings -->
+    <string name="pads_title">PAD CUSTOMIZATION</string>
+    <string name="pads_grid_label">Grid:</string>
+    <string name="pads_bank_label">BANK:</string>
+
+    <!-- Help Strings -->
+    <string name="help_mode_toggle">Switch between a 13-key keyboard and a grid of customizable pads.</string>
+    <string name="help_polyphony">Toggle Polyphony. ON allows playing multiple notes. OFF limits to one note (Monophonic).</string>
+    <string name="help_record_session">Record your session directly to an MP3 file on your device.</string>
+    <string name="help_mock_play">Toggle test playback state (Visual only in mock mode).</string>
+    <string name="help_waveform_sine">Select the base oscillator waveform: Sine, Square, Saw, or Triangle.</string>
+    <string name="help_octave_down">Shift the keyboard range down by one octave.</string>
+    <string name="help_octave_up">Shift the keyboard range up by one octave.</string>
+    <string name="help_master_volume">Adjust the overall output volume of the synthesizer.</string>
+    <string name="help_projects">Project Browser: Manage your music projects (Save, Load, Create).</string>
+    <string name="help_zen_mode">Zen Mode hides the complex parameter controls to focus on the performance area.</string>
+    <string name="help_browser_toggle">Toggle the Sample Browser to load factory or recorded sounds onto pads.</string>
+    <string name="help_sample_item_format">Sample: %s. Click to enter mapping mode, then touch a pad to assign.</string>
+    <string name="help_cols_down">Pad Grid: Decrease the number of columns (vertical dividers).</string>
+    <string name="help_cols_up">Pad Grid: Increase the number of columns (vertical dividers).</string>
+    <string name="help_rows_down">Pad Grid: Decrease the number of rows (horizontal dividers).</string>
+    <string name="help_rows_up">Pad Grid: Increase the number of rows (horizontal dividers).</string>
+    <string name="help_bank_prev">Switch to the previous bank of pads.</string>
+    <string name="help_bank_next">Switch to the next bank of pads.</string>
+    <string name="help_sequencer_play">Start or stop the 16-step MIDI sequencer.</string>
+    <string name="help_sequencer_rec">Enable Real-time Recording. If the sequencer is playing, your keyboard performance will be recorded into the loop.</string>
+    <string name="help_pad_sampling">Enable Pad Sampling. While active, touching a pad will record the current engine output into that pad.</string>
+    <string name="help_step_rec">Step Recording: Each key you press will be recorded to the next sequencer step. Use REST to skip a step and BACK to undo.</string>
+    <string name="help_step_rest">Skip the current step without adding a note (Rest).</string>
+    <string name="help_step_back">Go back to the previous step and clear it.</string>
+    <string name="help_sequencer_clear">Clear all notes from the sequencer.</string>
+    <string name="help_step_toggle_format">Toggle note at step %d.</string>
+    <string name="help_metronome">Toggle the Metronome. Heard as a click synced to the BPM.</string>
+    <string name="help_save_preset">Save the current synthesizer parameters (OSC, ADSR, LFO, Filter) as a named preset.</string>
+    <string name="help_load_preset">Load a previously saved synthesizer preset.</string>
+    <string name="help_sequencer_options">Sequencer Options: Access SAVE, LOAD, EXP, and Quantize settings.</string>
+    <string name="help_lfo_rate">LFO Rate: Speed of the oscillation (0.1Hz to 20Hz). Scale also affects LFO Depth.</string>
+    <string name="help_lfo_depth">LFO Depth: Intensity of the modulation effect.</string>
+    <string name="help_filter_cutoff">Cutoff: Frequency above which sounds are attenuated. Resonance adds a boost at the cutoff point.</string>
+    <string name="help_filter_res">Resonance: Emphasizes frequencies near the cutoff point for a "squeaky" or "wet" sound.</string>
+
+    <!-- Toasts and Dialogs -->
+    <string name="toast_discovery_active">Discovery Mode Active. Click any control for info.</string>
+    <string name="toast_no_patterns">No patterns saved.</string>
+    <string name="dialog_save_pattern_title">Save Pattern</string>
+    <string name="dialog_pattern_name_hint">Pattern Name</string>
+    <string name="dialog_load_pattern_title">Load Pattern</string>
+    <string name="dialog_delete_pattern_title">Delete Pattern</string>
+    <string name="dialog_exporting">Exporting&#8230;</string>
+    <string name="dialog_share_pattern">Share Pattern</string>
+    <string name="sequencer_iq_label">Input Quantize</string>
+
+    <!-- Accessibility Descriptions -->
+    <string name="desc_visualizer">Real-time audio waveform visualizer</string>
+    <string name="desc_metronome_toggle">Toggle metronome on or off</string>
+    <string name="desc_bpm_down">Decrease tempo by 5 beats per minute</string>
+    <string name="desc_bpm_down_fine">Decrease tempo by 1 beat per minute</string>
+    <string name="desc_bpm_up_fine">Increase tempo by 1 beat per minute</string>
+    <string name="desc_bpm_up">Increase tempo by 5 beats per minute</string>
+    <string name="desc_help_mode">Toggle discovery help mode</string>
+    <string name="desc_demo_mode">Start or stop automated feature demonstration</string>
+    <string name="desc_auto_latency">Toggle between automatic and manual buffer management</string>
+    <string name="desc_keyboard_pad_view">Interactive keyboard and performance pad area</string>
+    <string name="desc_sequencer_play">Start or stop sequencer playback</string>
+    <string name="desc_sequencer_rec">Toggle real-time sequencer recording</string>
+    <string name="desc_sequencer_clear">Delete all notes in the current sequence</string>
+    <string name="desc_octave_down">Shift keyboard range down one octave</string>
+    <string name="desc_octave_up">Shift keyboard range up one octave</string>
+
+    <!-- UI Labels and Buttons -->
+    <string name="btn_mode_pads">Pads</string>
+    <string name="btn_mode_keys">Keys</string>
+    <string name="btn_poly_on">Poly: ON</string>
+    <string name="btn_poly_off">Poly: OFF</string>
+    <string name="label_octave">Oct:</string>
+    <string name="btn_zen_on">ZEN ON</string>
+    <string name="btn_zen_off">ZEN OFF</string>
+    <string name="btn_brw_on">BRW ON</string>
+    <string name="btn_brw_off">BRW OFF</string>
+    <string name="btn_projects">PROJ</string>
+    <string name="btn_preset_save">Save</string>
+    <string name="btn_preset_load">Load</string>
+    <string name="btn_mock_rec">REC</string>
+    <string name="btn_mock_play">PLAY</string>
+    <string name="btn_wave_sine">SINE</string>
+    <string name="btn_wave_square">SQR</string>
+    <string name="btn_wave_saw">SAW</string>
+    <string name="btn_wave_triangle">TRI</string>
+    <string name="label_attack">A</string>
+    <string name="label_decay">D</string>
+    <string name="label_sustain">S</string>
+    <string name="label_release">R</string>
+    <string name="label_lfo_rate">LFO Rate</string>
+    <string name="label_lfo_depth">Depth</string>
+    <string name="label_lfo_wave">LFO Wave:</string>
+    <string name="label_lfo_target">Target:</string>
+    <string name="label_at_target">AT Target:</string>
+    <string name="label_filter_cutoff">Cutoff</string>
+    <string name="label_filter_res">Res</string>
+    <string name="title_effects">BUILT-IN EFFECTS</string>
+    <string name="label_delay_time">Dly T</string>
+    <string name="label_delay_feedback">Dly F</string>
+    <string name="label_delay_mix">Dly M</string>
+    <string name="label_reverb_size">Rev S</string>
+    <string name="label_reverb_damping">Rev D</string>
+    <string name="label_reverb_mix">Rev M</string>
+    <string name="title_sample_browser">SAMPLE BROWSER</string>
+    <string name="label_factory">FACTORY</string>
+    <string name="label_pad_map">PAD MAP</string>
+    <string name="label_select_sample">Select a sample&#8230;</string>
+    <string name="label_wave">Wav:</string>
+
+    <string name="spinner_step_count_8">8 steps</string>
+    <string name="spinner_step_count_16">16 steps</string>
+    <string name="spinner_step_count_32">32 steps</string>
+    <string name="spinner_step_count_64">64 steps</string>
+
+    <string name="sample_kick_808">Kick 808</string>
+    <string name="sample_snare_909">Snare 909</string>
+    <string name="sample_hat_closed">Hat Closed</string>
+    <string name="sample_hat_open">Hat Open</string>
+    <string name="sample_clap">Clap</string>
+    <string name="sample_rim">Rim</string>
+
+    <string name="label_pad_loop">Loop Sample</string>
+    <string name="label_pad_trigger_mode">One-Shot (Trigger Mode)</string>
+    <string name="label_pad_link">Link to Pad (Index):</string>
+    <string name="label_pad_color">Pad Color:</string>
+    <string name="dialog_pad_config_title_format">Pad %d Configuration</string>
+    <string name="btn_sound_source">Sound Source</string>
+    <string name="label_source_osc">Use Oscillator</string>
+    <string name="label_source_sample">Use Recorded Sample</string>
+    <string name="dialog_select_source_title">Select Source</string>
+
+    <!-- Demo Strings -->
+    <string name="demo_initializing">Demo: Initializing synth patch...</string>
+    <string name="demo_stage_1">Stage 1: Dynamic Synthesis. Exploring Sawtooth waveforms and Resonant Filters.</string>
+    <string name="demo_opening_filter">Opening the 2-pole Resonant Low-Pass Filter...</string>
+    <string name="demo_modulating_pitch">Modulating Pitch via LFO (Vibrato).</string>
+    <string name="demo_aftertouch_expressive">Aftertouch: Simulating pressure for expressive volume swells.</string>
+    <string name="demo_stage_2">Stage 2: Multi-Bank Resampling. Capturing 4 different sounds to P0-P3.</string>
+    <string name="demo_sampling_pad_format">Sampling sound %1$d to Pad %2$d...</string>
+    <string name="demo_workspace_transition">Automated Workspace Transition: Switching to Pad Mode.</string>
+    <string name="demo_stage_3">Stage 3: Performance. Exploring LFO modulation and expressive Filter sweeps.</string>
+    <string name="demo_lfo_modulating">LFO: Automatically modulating Filter Cutoff.</string>
+    <string name="demo_spatial_wash">Final spatial wash with high-density Reverb.</string>
+    <string name="demo_complete">Demo Complete. You can now use all these features manually!</string>
+
+    <string name="toast_mode_toggle_disabled">Mode toggle disabled during Demo.</string>
+    <string name="toast_sample_mapped">Sample mapped!</string>
+    <string name="toast_no_presets">No presets saved yet.</string>
+    <string name="dialog_save_preset_title">Save Preset</string>
+    <string name="dialog_load_preset_title">Load Preset</string>
+    <string name="dialog_preset_name_hint">Preset Name</string>
+    <string name="label_link_hint">e.g. 1</string>
+    <string name="label_mapping_format">Mapping: %s&#8230;</string>
+    <string name="toast_project_loaded">Project Loaded</string>
+    <string name="toast_export_failed">Export failed: %s</string>
+    <string name="btn_play_mode_on">PLAY MODE: ON</string>
+    <string name="btn_play_mode_off">PLAY MODE: OFF</string>
+    <string name="lfo_wave_sine">Sine</string>
+    <string name="lfo_wave_square">Square</string>
+    <string name="lfo_wave_saw">Saw</string>
+    <string name="lfo_wave_triangle">Triangle</string>
+    <string name="lfo_target_pitch">Pitch</string>
+    <string name="lfo_target_volume">Volume</string>
+    <string name="lfo_target_filter">Filter</string>
+    <string name="color_none">No Color</string>
+    <string name="color_acid_green">Acid Green</string>
+    <string name="color_electric_blue">Electric Blue</string>
+    <string name="color_vibrant_red">Vibrant Red</string>
+    <string name="color_off_white">Off-White</string>
+    <string name="color_dim_grey">Dim Grey</string>
+    <string name="step_duration_1_16">1/16</string>
+    <string name="step_duration_1_8">1/8</string>
+    <string name="step_duration_1_4">1/4</string>
+    <string name="step_duration_1_2">1/2</string>
+    <string name="step_duration_1_1">1/1</string>
 </resources>

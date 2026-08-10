@@ -8,12 +8,14 @@
     <include
         layout="@layout/layout_header"
         android:id="@+id/top_header"
-        android:layout_width="match_parent"
+        android:layout_width="match_constraint"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintHeight_percent="@dimen/header_height_percent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
         android:id="@+id/workspace_layout"
@@ -29,17 +31,17 @@
             android:layout_width="160dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="8dp"
+            android:padding="@dimen/spacing_medium"
             android:background="@color/surface_dark"
             android:visibility="gone">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SAMPLE BROWSER"
+                android:text="@string/title_sample_browser"
                 android:textColor="@color/acid_green"
                 android:textStyle="bold"
-                android:textSize="11sp"
+                android:textSize="12sp"
                 android:paddingBottom="8dp"
                 android:gravity="center" />
 
@@ -62,7 +64,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="FACTORY"
+                        android:text="@string/label_factory"
                         android:textColor="@color/dim_grey"
                         android:textSize="9sp"
                         android:paddingBottom="4dp" />
@@ -76,7 +78,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="PAD MAP"
+                        android:text="@string/label_pad_map"
                         android:textColor="@color/dim_grey"
                         android:textSize="9sp"
                         android:paddingTop="12dp"
@@ -94,7 +96,7 @@
                 android:id="@+id/tv_mapping_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select a sample..."
+                android:text="@string/label_select_sample"
                 android:textColor="@color/off_white"
                 android:textSize="9sp"
                 android:paddingTop="8dp"
@@ -121,13 +123,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="8dp">
+                    android:padding="@dimen/spacing_medium">
 
                     <Button
                         android:id="@+id/btn_mode_toggle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pads" />
+                        android:text="@string/btn_mode_pads" />
 
                     <Space
                         android:layout_width="8dp"
@@ -137,7 +139,7 @@
                         android:id="@+id/btn_poly_toggle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Poly: ON" />
+                        android:text="@string/btn_poly_on" />
 
                     <Space
                         android:layout_width="8dp"
@@ -146,7 +148,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Oct:"
+                        android:text="@string/label_octave"
                         android:textColor="@color/off_white"
                         android:textSize="12sp" />
 
@@ -155,7 +157,8 @@
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
                         android:text="-"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:contentDescription="@string/desc_octave_down" />
 
                     <TextView
                         android:id="@+id/tv_octave_value"
@@ -172,7 +175,8 @@
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
                         android:text="+"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:contentDescription="@string/desc_octave_up" />
 
                     <Space
                         android:layout_width="16dp"
@@ -182,25 +186,23 @@
                         android:id="@+id/toggle_zen_mode"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
-                        android:layout_height="36dp"
-                        android:textOff="ZEN OFF"
-                        android:textOn="ZEN ON"
+                        android:layout_height="@dimen/button_height_standard"
+                        android:textOff="@string/btn_zen_off"
+                        android:textOn="@string/btn_zen_on"
                         android:textColor="@color/electric_blue"
-                        android:textSize="10sp" />
-
-                    <Space
-                        android:layout_width="8dp"
-                        android:layout_height="match_parent" />
-
+                        android:textSize="12sp"
+                        android:background="@drawable/selector_toggle_bg" />
+...
                     <ToggleButton
                         android:id="@+id/toggle_browser"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
-                        android:layout_height="36dp"
-                        android:textOff="BRW OFF"
-                        android:textOn="BRW ON"
+                        android:layout_height="@dimen/button_height_standard"
+                        android:textOff="@string/btn_brw_off"
+                        android:textOn="@string/btn_brw_on"
                         android:textColor="@color/electric_blue"
-                        android:textSize="10sp" />
+                        android:textSize="12sp"
+                        android:background="@drawable/selector_toggle_bg" />
 
                     <Space
                         android:layout_width="8dp"
@@ -211,9 +213,9 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
-                        android:text="PROJ"
+                        android:text="@string/btn_projects"
                         android:textColor="@color/acid_green"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -228,13 +230,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:padding="@dimen/spacing_medium">
 
                         <Button
                             android:id="@+id/btn_save_preset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Save" />
+                            android:text="@string/btn_preset_save" />
 
                         <Space
                             android:layout_width="8dp"
@@ -244,7 +246,7 @@
                             android:id="@+id/btn_load_preset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Load" />
+                            android:text="@string/btn_preset_load" />
 
                         <Space
                             android:layout_width="8dp"
@@ -255,7 +257,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha="0.5"
-                            android:text="REC"
+                            android:text="@string/btn_mock_rec"
                             android:textColor="@color/vibrant_red" />
 
                         <Button
@@ -263,7 +265,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha="0.5"
-                            android:text="PLAY"
+                            android:text="@string/btn_mock_play"
                             android:textColor="@color/electric_blue" />
                     </LinearLayout>
 
@@ -273,14 +275,15 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:padding="@dimen/spacing_medium">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Wav:"
+                            android:text="@string/label_wave"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <com.google.android.material.button.MaterialButtonToggleGroup
                             android:id="@+id/toggle_waveform"
@@ -296,7 +299,7 @@
                                 android:layout_width="48dp"
                                 android:layout_height="40dp"
                                 android:padding="0dp"
-                                android:text="SINE"
+                                android:text="@string/btn_wave_sine"
                                 android:textSize="9sp" />
 
                             <Button
@@ -305,7 +308,7 @@
                                 android:layout_width="48dp"
                                 android:layout_height="40dp"
                                 android:padding="0dp"
-                                android:text="SQR"
+                                android:text="@string/btn_wave_square"
                                 android:textSize="9sp" />
 
                             <Button
@@ -314,7 +317,7 @@
                                 android:layout_width="48dp"
                                 android:layout_height="40dp"
                                 android:padding="0dp"
-                                android:text="SAW"
+                                android:text="@string/btn_wave_saw"
                                 android:textSize="9sp" />
 
                             <Button
@@ -323,7 +326,7 @@
                                 android:layout_width="48dp"
                                 android:layout_height="40dp"
                                 android:padding="0dp"
-                                android:text="TRI"
+                                android:text="@string/btn_wave_triangle"
                                 android:textSize="9sp" />
 
                         </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -339,7 +342,8 @@
                             android:minWidth="36dp"
                             android:text="80%"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <SeekBar
                             android:id="@+id/seek_master_vol"
@@ -355,12 +359,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:padding="@dimen/spacing_medium">
 
                         <TextView
                             android:layout_width="20dp"
                             android:layout_height="wrap_content"
-                            android:text="A"
+                            android:text="@string/label_attack"
                             android:textColor="@color/off_white" />
 
                         <SeekBar
@@ -377,12 +381,13 @@
                             android:layout_height="wrap_content"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <TextView
                             android:layout_width="20dp"
                             android:layout_height="wrap_content"
-                            android:text="D"
+                            android:text="@string/label_decay"
                             android:textColor="@color/off_white" />
 
                         <SeekBar
@@ -399,12 +404,13 @@
                             android:layout_height="wrap_content"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <TextView
                             android:layout_width="20dp"
                             android:layout_height="wrap_content"
-                            android:text="S"
+                            android:text="@string/label_sustain"
                             android:textColor="@color/off_white" />
 
                         <SeekBar
@@ -421,12 +427,13 @@
                             android:layout_height="wrap_content"
                             android:text="0.8"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <TextView
                             android:layout_width="20dp"
                             android:layout_height="wrap_content"
-                            android:text="R"
+                            android:text="@string/label_release"
                             android:textColor="@color/off_white" />
 
                         <SeekBar
@@ -443,7 +450,8 @@
                             android:layout_height="wrap_content"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                     </LinearLayout>
 
@@ -452,14 +460,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:padding="@dimen/spacing_medium">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="LFO Rate"
+                            android:text="@string/label_lfo_rate"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <SeekBar
                             android:id="@+id/seek_lfo_rate"
@@ -476,14 +485,16 @@
                             android:minWidth="40dp"
                             android:text="1.0Hz"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Depth"
+                            android:text="@string/label_lfo_depth"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <SeekBar
                             android:id="@+id/seek_lfo_depth"
@@ -500,7 +511,8 @@
                             android:minWidth="40dp"
                             android:text="0.0"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                     </LinearLayout>
 
@@ -508,14 +520,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:padding="@dimen/spacing_medium">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="LFO Wave:"
+                            android:text="@string/label_lfo_wave"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Spinner
                             android:id="@+id/spinner_lfo_waveform"
@@ -529,9 +542,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Target:"
+                            android:text="@string/label_lfo_target"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Spinner
                             android:id="@+id/spinner_lfo_target"
@@ -545,9 +559,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="AT Target:"
+                            android:text="@string/label_at_target"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Spinner
                             android:id="@+id/spinner_aftertouch_target"
@@ -561,14 +576,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:padding="@dimen/spacing_medium">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Cutoff"
+                            android:text="@string/label_filter_cutoff"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <SeekBar
                             android:id="@+id/seek_filter_cutoff"
@@ -585,14 +601,16 @@
                             android:minWidth="60dp"
                             android:text="1000Hz"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Res"
+                            android:text="@string/label_filter_res"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <SeekBar
                             android:id="@+id/seek_filter_res"
@@ -609,7 +627,8 @@
                             android:minWidth="40dp"
                             android:text="0.20"
                             android:textColor="@color/dim_grey"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -620,14 +639,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="8dp"
-                    android:layout_marginTop="8dp"
+                    android:padding="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     android:background="@color/matte_grey">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="BUILT-IN EFFECTS"
+                        android:text="@string/title_effects"
                         android:textColor="@color/acid_green"
                         android:textStyle="bold"
                         android:textSize="12sp" />
@@ -642,9 +661,10 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="Dly T"
+                            android:text="@string/label_delay_time"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <SeekBar
                             android:id="@+id/seek_delay_time"
@@ -657,9 +677,10 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="Dly F"
+                            android:text="@string/label_delay_feedback"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <SeekBar
                             android:id="@+id/seek_delay_feedback"
@@ -672,9 +693,10 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="Dly M"
+                            android:text="@string/label_delay_mix"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <SeekBar
                             android:id="@+id/seek_delay_mix"
@@ -695,9 +717,10 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="Rev S"
+                            android:text="@string/label_reverb_size"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <SeekBar
                             android:id="@+id/seek_reverb_size"
@@ -710,9 +733,10 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="Rev D"
+                            android:text="@string/label_reverb_damping"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <SeekBar
                             android:id="@+id/seek_reverb_damping"
@@ -725,9 +749,10 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="Rev M"
+                            android:text="@string/label_reverb_mix"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <SeekBar
                             android:id="@+id/seek_reverb_mix"
@@ -745,8 +770,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="8dp"
-                    android:layout_marginTop="8dp"
+                    android:padding="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     android:background="@color/matte_grey">
 
                     <LinearLayout
@@ -759,16 +784,17 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="SEQUENCER"
+                            android:text="@string/sequencer_title"
                             android:textColor="@color/acid_green"
                             android:textStyle="bold"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Button
                             android:id="@+id/btn_sequencer_options"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:text="⋮"
                             android:textColor="@color/acid_green"
@@ -782,12 +808,14 @@
                         <Button
                             android:id="@+id/btn_sequencer_play"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:text="▶"
+                            android:contentDescription="@string/desc_sequencer_play"
                             android:textColor="@color/electric_blue"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Space
                             android:layout_width="4dp"
@@ -796,13 +824,15 @@
                         <ToggleButton
                             android:id="@+id/toggle_sequencer_rec"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:textOff="●"
                             android:textOn="●"
+                            android:contentDescription="@string/desc_sequencer_rec"
                             android:textColor="@color/vibrant_red"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Space
                             android:layout_width="4dp"
@@ -811,12 +841,14 @@
                         <Button
                             android:id="@+id/btn_sequencer_clear"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
-                            android:text="CLR"
+                            android:text="@string/sequencer_clear_short"
+                            android:contentDescription="@string/desc_sequencer_clear"
                             android:textColor="@color/vibrant_red"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Space
                             android:layout_width="4dp"
@@ -825,13 +857,14 @@
                         <ToggleButton
                             android:id="@+id/toggle_pad_sampling"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
-                            android:textOff="SMP"
-                            android:textOn="SMP"
+                            android:textOff="@string/sequencer_sampling_off"
+                            android:textOn="@string/sequencer_sampling_on"
                             android:textColor="@color/acid_green"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Space
                             android:layout_width="4dp"
@@ -840,35 +873,38 @@
                         <ToggleButton
                             android:id="@+id/toggle_step_rec"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
-                            android:textOff="STP"
-                            android:textOn="STP"
+                            android:textOff="@string/sequencer_step_off"
+                            android:textOn="@string/sequencer_step_on"
                             android:textColor="@color/acid_green"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Button
                             android:id="@+id/btn_step_rest"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
-                            android:text="RST"
+                            android:text="@string/sequencer_rest_short"
                             android:visibility="gone"
                             android:textColor="@color/off_white"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Button
                             android:id="@+id/btn_step_back"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
-                            android:text="BCK"
+                            android:text="@string/sequencer_back_short"
                             android:visibility="gone"
                             android:textColor="@color/off_white"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -880,15 +916,16 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Page: "
+                            android:text="@string/sequencer_page_label"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Button
                             android:id="@+id/btn_step_page_prev"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:text="&lt;"
                             android:textColor="@color/acid_green" />
@@ -900,13 +937,14 @@
                             android:paddingHorizontal="8dp"
                             android:text="1 / 1"
                             android:textColor="@color/off_white"
-                            android:textSize="11sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Button
                             android:id="@+id/btn_step_page_next"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
                             android:text="&gt;"
                             android:textColor="@color/acid_green" />
@@ -918,9 +956,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Step Size: "
+                            android:text="@string/sequencer_step_size_label"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Spinner
                             android:id="@+id/spinner_step_duration"
@@ -934,9 +973,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Loop: "
+                            android:text="@string/sequencer_loop_label"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Spinner
                             android:id="@+id/spinner_loop_length"
@@ -948,7 +988,7 @@
                         android:id="@+id/sequencer_step_grid"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/spacing_medium"
                         android:columnCount="8"
                         android:rowCount="2">
 
@@ -978,14 +1018,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="8dp"
-                    android:layout_marginTop="8dp"
+                    android:padding="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/spacing_medium"
                     android:background="@color/matte_grey">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="PAD CUSTOMIZATION"
+                        android:text="@string/pads_title"
                         android:textColor="@color/acid_green"
                         android:textStyle="bold"
                         android:textSize="12sp" />
@@ -1007,9 +1047,10 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Grid:"
+                                android:text="@string/pads_grid_label"
                                 android:textColor="@color/off_white"
-                                android:textSize="10sp" />
+                                android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                             <Button
                                 android:id="@+id/btn_cols_down"
@@ -1019,7 +1060,8 @@
                                 android:padding="0dp"
                                 android:text="C-"
                                 android:textColor="@color/acid_green"
-                                android:textSize="10sp" />
+                                android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                             <TextView
                                 android:id="@+id/tv_cols_value"
@@ -1037,7 +1079,8 @@
                                 android:padding="0dp"
                                 android:text="C+"
                                 android:textColor="@color/acid_green"
-                                android:textSize="10sp" />
+                                android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                             <Space
                                 android:layout_width="8dp"
@@ -1051,7 +1094,8 @@
                                 android:padding="0dp"
                                 android:text="R-"
                                 android:textColor="@color/acid_green"
-                                android:textSize="10sp" />
+                                android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                             <TextView
                                 android:id="@+id/tv_rows_value"
@@ -1069,7 +1113,8 @@
                                 android:padding="0dp"
                                 android:text="R+"
                                 android:textColor="@color/acid_green"
-                                android:textSize="10sp" />
+                                android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
                         </LinearLayout>
 
                         <!-- Bank Control -->
@@ -1083,10 +1128,11 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="BANK:"
+                                android:text="@string/pads_bank_label"
                                 android:textColor="@color/acid_green"
                                 android:textStyle="bold"
-                                android:textSize="10sp" />
+                                android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                             <Button
                                 android:id="@+id/btn_bank_down"
@@ -1122,19 +1168,21 @@
 
     <ch.schmidlins.mini_synth.ui.KeyboardPadView
         android:id="@+id/keyboard_pad_view"
-        android:layout_width="match_parent"
+        android:layout_width="match_constraint"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintHeight_percent="@dimen/keyboard_height_percent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ToggleButton
         android:id="@+id/toggle_keyboard"
         style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="4dp"
+        android:layout_width="@dimen/button_height_standard"
+        android:layout_height="@dimen/button_height_standard"
+        android:layout_margin="@dimen/spacing_small"
         android:textOff="▼"
         android:textOn="▲"
         android:textColor="@color/acid_green"
@@ -1146,12 +1194,12 @@
         android:id="@+id/toggle_pads_fullscreen"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_margin="8dp"
-        android:textOff="PLAY MODE: OFF"
-        android:textOn="PLAY MODE: ON"
+        android:layout_height="@dimen/button_height_standard"
+        android:layout_margin="@dimen/spacing_medium"
+        android:textOff="@string/btn_play_mode_off"
+        android:textOn="@string/btn_play_mode_on"
         android:textColor="@color/acid_green"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
