@@ -43,11 +43,13 @@ Merging context from initial feature implementation and workspace refinements.
 
 ### [DONE] Milestone 32: Header Refinement & Engine Status.
 
-### [NEXT] Milestone 33: Design System & Accessibility
-- **Objective**: Final polish, resource extraction, and scaling stability.
+### [DONE] Milestone 33: Design System & Accessibility.
+
+### [NEXT] Milestone 34: Performance Visualization & FFT Polish
+- **Objective**: Refine real-time frequency analysis and visual feedback.
 - **Key Features**:
-    - Full `strings.xml` extraction.
-    - Standardized accessibility-compliant text sizing (min 12sp).
+    - High-density FFT visualization.
+    - Peak detection and frequency labeling.
 
 ## Quality Assurance Status
 - **Unit Tests**: 25 local JVM tests passing (Robolectric).

@@ -8,7 +8,7 @@
     <include
         layout="@layout/layout_header"
         android:id="@+id/top_header"
-        android:layout_width="match_constraint"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="@dimen/header_height_percent"
         app:layout_constraintTop_toTopOf="parent"
@@ -1168,7 +1168,7 @@
 
     <ch.schmidlins.mini_synth.ui.KeyboardPadView
         android:id="@+id/keyboard_pad_view"
-        android:layout_width="match_constraint"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="@dimen/keyboard_height_percent"
         app:layout_constraintBottom_toBottomOf="parent"
