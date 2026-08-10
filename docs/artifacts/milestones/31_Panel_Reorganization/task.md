@@ -1,0 +1,21 @@
+# Tasks: Milestone 31 - Panel Reorganization & Hierarchy
+
+- `[ ]` Setup Refinement Infrastructure
+    - `[x]` Create GitHub Milestone & Issue (#130).
+    - `[ ]` Create branch `feature/m31-ui-reorg`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline.
+- `[ ]` Review & Repair Loop (1-10)
+    - `[ ]` 1/10: Extract Sequencer "Options" into PopupMenu.
+    - `[ ]` 2/10: Compact Sequencer header and transport controls.
+    - `[ ]` 3/10: Redesign Pad Customization layout (vertical stack).
+    - `[ ]` 4/10: Standardize button widths and margins.
+    - `[ ]` 5/10: Increase minimum text size to 11sp.
+    - `[ ]` 6/10: Implement dynamic weighting for control bars.
+    - `[ ]` 7/10: Fix vertical clipping in Workspace ScrollView.
+    - `[ ]` 8/10: Regression test touch target sizes.
+    - `[ ]` 9/10: Refine "Help" overlays for new layout.
+    - `[ ]` 10/10: Final polish and documentation.
+- `[ ]` Finalize
+    - `[ ]` Build and Test.
+    - `[ ]` Squash and Merge.

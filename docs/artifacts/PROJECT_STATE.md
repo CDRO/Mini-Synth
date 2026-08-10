@@ -39,6 +39,24 @@ Merging context from initial feature implementation and workspace refinements.
 
 ### [DONE] Milestone 30: Pad Holding & Expressive Gestures.
 
+### [NEXT] Milestone 31: Panel Reorganization & Hierarchy
+- **Objective**: Restore visibility to clipped controls by introducing logical grouping.
+- **Key Features**:
+    - Sequencer Options overflow menu.
+    - Grouped Pad Customization controls.
+
+### [NEXT] Milestone 32: Header Refinement & Engine Status
+- **Objective**: Clean up the top bar and improve information density.
+- **Key Features**:
+    - Unified "Engine Status" component (MIDI/Latency).
+    - Prominent Demo trigger re-positioning.
+
+### [NEXT] Milestone 33: Design System & Accessibility
+- **Objective**: Final polish, resource extraction, and scaling stability.
+- **Key Features**:
+    - Full `strings.xml` extraction.
+    - Standardized accessibility-compliant text sizing (min 12sp).
+
 ## Quality Assurance Status
 - **Unit Tests**: 25 local JVM tests passing (Robolectric).
 - **Android Tests**: 23 connected tests passing.
