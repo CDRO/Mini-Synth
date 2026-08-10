@@ -6,7 +6,7 @@
     <string name="header_bpm_format">BPM: %d</string>
     <string name="header_demo">DEMO</string>
     <string name="header_stop">STOP</string>
-    <string name="header_latency_format">BUF: %1$d (%2$d)</string>
+    <string name="header_latency_format">LATENCY: %1$d (%2$d)</string>
     <string name="header_auto">AUTO</string>
     <string name="header_manual">MAN</string>
     <string name="header_help">&#063;</string>
@@ -71,6 +71,7 @@
     <string name="help_save_preset">Save the current synthesizer parameters (OSC, ADSR, LFO, Filter) as a named preset.</string>
     <string name="help_load_preset">Load a previously saved synthesizer preset.</string>
     <string name="help_sequencer_options">Sequencer Options: Access SAVE, LOAD, EXP, and Quantize settings.</string>
+    <string name="help_pad_config_toggle">Pad Edit Mode: When ON, touching a pad opens its configuration immediately. When OFF, you can sustain pad notes by holding them.</string>
     <string name="help_lfo_rate">LFO Rate: Speed of the oscillation (0.1Hz to 20Hz). Scale also affects LFO Depth.</string>
     <string name="help_lfo_depth">LFO Depth: Intensity of the modulation effect.</string>
     <string name="help_filter_cutoff">Cutoff: Frequency above which sounds are attenuated. Resonance adds a boost at the cutoff point.</string>

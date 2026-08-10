@@ -801,6 +801,15 @@ class MainActivity : AppCompatActivity() {
                 updateBank(content)
             }
         }
+
+        content.togglePadConfig!!.setOnCheckedChangeListener { _, isChecked ->
+            if (isHelpMode) {
+                showHelp(getString(R.string.help_pad_config_toggle))
+                content.togglePadConfig!!.isChecked = false
+                return@setOnCheckedChangeListener
+            }
+            synthView.isConfigMode = isChecked
+        }
     }
 
     private fun updateBank(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {

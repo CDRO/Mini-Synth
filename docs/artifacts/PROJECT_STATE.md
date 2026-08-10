@@ -45,14 +45,13 @@ Merging context from initial feature implementation and workspace refinements.
 
 ### [DONE] Milestone 33: Design System & Accessibility.
 
-### [NEXT] Milestone 34: Pad UX & Audio Stability Refinement
-- **Objective**: Resolve interaction conflicts in Pad mode and improve engine stability.
-- **Key Features**:
-    - "PAD CONFIG" toggle for sustained pad notes.
-    - Modularized Header visuals (Stealth aesthetic).
-    - Soft-clipping in native mixer to prevent distortion.
+### [DONE] Milestone 34: Pad UX & Audio Stability Refinement.
 
-### [TODO] Milestone 35: Performance Visualization & FFT Polish
+### [NEXT] Milestone 35: Performance Visualization & FFT Polish
+- **Objective**: Refine real-time frequency analysis and visual feedback.
+- **Key Features**:
+    - High-density FFT visualization.
+    - Peak detection and frequency labeling.
 
 ## Quality Assurance Status
 - **Unit Tests**: 25 local JVM tests passing (Robolectric).
