@@ -37,6 +37,7 @@ class KeyboardPadView @JvmOverloads constructor(
     var gridColumns = 4
     var gridRows = 4
     var listener: OnNoteEventListener? = null
+    var isConfigMode = false
     
     // UI state - Thread safe bitmask storage
     private val noteStates = ConcurrentHashMap<Int, Int>()
@@ -235,14 +236,20 @@ class KeyboardPadView @JvmOverloads constructor(
                 pointerStartPositionsY[pId] = y
                 val midi = getMidiAt(x, y)
                 if (midi != -1) {
-                    noteOn(pId, midi)
                     if (mode == Mode.PAD_GRID) {
-                        gesturePads.getOrPut(pId) { mutableListOf() }.add(midi)
-                        
                         val padIndex = midi - baseNote
-                        val runnable = Runnable { listener?.onPadLongPress(padIndex) }
-                        longPressRunnables[pId] = runnable
-                        handler.postDelayed(runnable, 500)
+                        if (isConfigMode) {
+                            listener?.onPadLongPress(padIndex)
+                        } else {
+                            noteOn(pId, midi)
+                            gesturePads.getOrPut(pId) { mutableListOf() }.add(midi)
+                            
+                            val runnable = Runnable { listener?.onPadLongPress(padIndex) }
+                            longPressRunnables[pId] = runnable
+                            handler.postDelayed(runnable, 500)
+                        }
+                    } else {
+                        noteOn(pId, midi)
                     }
                 }
             }

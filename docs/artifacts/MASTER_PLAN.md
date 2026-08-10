@@ -157,11 +157,19 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 34: Pad UX & Audio Stability Refinement [TODO]
+## Milestone 34: Pad UX & Audio Stability Refinement [DONE]
 
 ### [Logic] [Performance]
 - **Mixer Normalization**: Implement soft-clipping in the audio thread to handle polyphonic peaks.
 - **Config Mode**: Discrete toggle for pad configuration to allow long-press sustaining.
+
+---
+
+## Milestone 35: Performance Visualization & FFT Polish [TODO]
+
+### [UI] [Visualization]
+- **High-Resolution FFT**: Implement a log-scaled frequency analyzer for more accurate bass representation.
+- **Peak Tracking**: Visual markers for peak amplitudes across the frequency spectrum.
 
 ---
 
