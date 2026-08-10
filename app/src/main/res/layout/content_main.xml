@@ -339,13 +339,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Oct:"
-                        android:textColor="@color/off_white" />
+                        android:textColor="@color/off_white"
+                        android:textSize="12sp" />
 
                     <Button
                         android:id="@+id/btn_octave_down"
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
-                        android:text="-" />
+                        android:text="-"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_octave_value"
@@ -353,13 +355,16 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="8dp"
                         android:text="0"
-                        android:textColor="@color/off_white" />
+                        android:textColor="@color/off_white"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                     <Button
                         android:id="@+id/btn_octave_up"
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
-                        android:text="+" />
+                        android:text="+"
+                        android:textSize="12sp" />
 
                     <Space
                         android:layout_width="16dp"
