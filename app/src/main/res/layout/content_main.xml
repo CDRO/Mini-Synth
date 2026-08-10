@@ -8,12 +8,14 @@
     <include
         layout="@layout/layout_header"
         android:id="@+id/top_header"
-        android:layout_width="match_parent"
+        android:layout_width="match_constraint"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintHeight_percent="@dimen/header_height_percent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
         android:id="@+id/workspace_layout"
@@ -1122,19 +1124,21 @@
 
     <ch.schmidlins.mini_synth.ui.KeyboardPadView
         android:id="@+id/keyboard_pad_view"
-        android:layout_width="match_parent"
+        android:layout_width="match_constraint"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintHeight_percent="@dimen/keyboard_height_percent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ToggleButton
         android:id="@+id/toggle_keyboard"
         style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="4dp"
+        android:layout_width="@dimen/button_height_standard"
+        android:layout_height="@dimen/button_height_standard"
+        android:layout_margin="@dimen/spacing_small"
         android:textOff="▼"
         android:textOn="▲"
         android:textColor="@color/acid_green"
@@ -1146,8 +1150,8 @@
         android:id="@+id/toggle_pads_fullscreen"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_margin="8dp"
+        android:layout_height="@dimen/button_height_standard"
+        android:layout_margin="@dimen/spacing_medium"
         android:textOff="PLAY MODE: OFF"
         android:textOn="PLAY MODE: ON"
         android:textColor="@color/acid_green"
