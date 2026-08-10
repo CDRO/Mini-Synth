@@ -953,8 +953,8 @@
                         <Button
                             android:id="@+id/btn_sequencer_options"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
                             android:padding="0dp"
                             android:text="⋮"
                             android:textColor="@color/acid_green"
@@ -962,14 +962,14 @@
                             android:textStyle="bold" />
 
                         <Space
-                            android:layout_width="8dp"
+                            android:layout_width="4dp"
                             android:layout_height="match_parent" />
 
                         <Button
                             android:id="@+id/btn_sequencer_play"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="48dp"
-                            android:layout_height="36dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
                             android:padding="0dp"
                             android:text="▶"
                             android:textColor="@color/electric_blue"
@@ -982,8 +982,8 @@
                         <ToggleButton
                             android:id="@+id/toggle_sequencer_rec"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="48dp"
-                            android:layout_height="36dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
                             android:padding="0dp"
                             android:textOff="●"
                             android:textOn="●"
@@ -991,14 +991,14 @@
                             android:textSize="14sp" />
 
                         <Space
-                            android:layout_width="8dp"
+                            android:layout_width="4dp"
                             android:layout_height="match_parent" />
 
                         <Button
                             android:id="@+id/btn_sequencer_clear"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
                             android:padding="0dp"
                             android:text="CLR"
                             android:textColor="@color/vibrant_red"
@@ -1011,8 +1011,8 @@
                         <ToggleButton
                             android:id="@+id/toggle_pad_sampling"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="48dp"
-                            android:layout_height="36dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
                             android:padding="0dp"
                             android:textOff="SMP"
                             android:textOn="SMP"
@@ -1026,19 +1026,19 @@
                         <ToggleButton
                             android:id="@+id/toggle_step_rec"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="48dp"
-                            android:layout_height="36dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
                             android:padding="0dp"
-                            android:textOff="STEP"
-                            android:textOn="STEP"
+                            android:textOff="STP"
+                            android:textOn="STP"
                             android:textColor="@color/acid_green"
                             android:textSize="10sp" />
 
                         <Button
                             android:id="@+id/btn_step_rest"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
                             android:padding="0dp"
                             android:text="RST"
                             android:visibility="gone"
@@ -1048,8 +1048,8 @@
                         <Button
                             android:id="@+id/btn_step_back"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
                             android:padding="0dp"
                             android:text="BCK"
                             android:visibility="gone"
@@ -1073,8 +1073,9 @@
                         <Button
                             android:id="@+id/btn_step_page_prev"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:padding="0dp"
                             android:text="&lt;"
                             android:textColor="@color/acid_green" />
 
@@ -1090,8 +1091,9 @@
                         <Button
                             android:id="@+id/btn_step_page_next"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:padding="0dp"
                             android:text="&gt;"
                             android:textColor="@color/acid_green" />
 
