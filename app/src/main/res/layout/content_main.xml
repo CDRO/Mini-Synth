@@ -519,19 +519,20 @@
                             android:id="@+id/tv_master_vol_val"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:minWidth="30dp"
+                            android:minWidth="36dp"
                             android:text="80%"
                             android:textColor="@color/dim_grey"
                             android:textSize="11sp" />
 
                         <SeekBar
                             android:id="@+id/seek_master_vol"
-                            android:layout_width="80dp"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:max="100"
                             android:progress="80" />
                     </LinearLayout>
-
+...
                     <LinearLayout
                         android:id="@+id/adsr_bar"
                         android:layout_width="match_parent"
@@ -540,7 +541,7 @@
                         android:padding="8dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
                             android:text="A"
                             android:textColor="@color/off_white" />
@@ -555,15 +556,14 @@
 
                         <TextView
                             android:id="@+id/tv_attack_val"
-                            android:layout_width="wrap_content"
+                            android:layout_width="36dp"
                             android:layout_height="wrap_content"
-                            android:minWidth="40dp"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
                             android:textSize="11sp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
                             android:text="D"
                             android:textColor="@color/off_white" />
@@ -578,15 +578,14 @@
 
                         <TextView
                             android:id="@+id/tv_decay_val"
-                            android:layout_width="wrap_content"
+                            android:layout_width="36dp"
                             android:layout_height="wrap_content"
-                            android:minWidth="40dp"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
                             android:textSize="11sp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
                             android:text="S"
                             android:textColor="@color/off_white" />
@@ -601,15 +600,14 @@
 
                         <TextView
                             android:id="@+id/tv_sustain_val"
-                            android:layout_width="wrap_content"
+                            android:layout_width="36dp"
                             android:layout_height="wrap_content"
-                            android:minWidth="40dp"
                             android:text="0.8"
                             android:textColor="@color/dim_grey"
                             android:textSize="11sp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
                             android:text="R"
                             android:textColor="@color/off_white" />
@@ -624,9 +622,8 @@
 
                         <TextView
                             android:id="@+id/tv_release_val"
-                            android:layout_width="wrap_content"
+                            android:layout_width="36dp"
                             android:layout_height="wrap_content"
-                            android:minWidth="40dp"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
                             android:textSize="11sp" />
