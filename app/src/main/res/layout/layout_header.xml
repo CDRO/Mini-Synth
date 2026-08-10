@@ -219,7 +219,8 @@
                 android:textOn="@string/header_auto"
                 android:contentDescription="@string/desc_auto_latency"
                 android:textColor="@color/acid_green"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:background="@drawable/selector_toggle_bg" />
         </LinearLayout>
 
     </LinearLayout>

@@ -13,7 +13,7 @@
     - `[x]` 5/10: Implement dimension resources for margins/padding.
     - `[x]` 6/10: Refine ConstraintLayout for ultra-wide displays.
     - `[x]` 7/10: Add ContentDescriptions for accessibility.
-    - `[ ]` 8/10: Fix inconsistent button colors (Zen mode / Active states).
+    - `[x]` 8/10: Fix inconsistent button colors (Zen mode / Active states).
     - `[ ]` 9/10: Optimize resource usage (unused assets/colors).
     - `[ ]` 10/10: Final polish and documentation.
 - `[ ]` Finalize
