@@ -968,25 +968,27 @@
                         <Button
                             android:id="@+id/btn_sequencer_play"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
+                            android:layout_width="48dp"
                             android:layout_height="36dp"
-                            android:text="PLAY"
+                            android:padding="0dp"
+                            android:text="▶"
                             android:textColor="@color/electric_blue"
-                            android:textSize="10sp" />
+                            android:textSize="14sp" />
 
                         <Space
-                            android:layout_width="8dp"
+                            android:layout_width="4dp"
                             android:layout_height="match_parent" />
 
                         <ToggleButton
                             android:id="@+id/toggle_sequencer_rec"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
+                            android:layout_width="48dp"
                             android:layout_height="36dp"
-                            android:textOff="REC OFF"
-                            android:textOn="REC ON"
+                            android:padding="0dp"
+                            android:textOff="●"
+                            android:textOn="●"
                             android:textColor="@color/vibrant_red"
-                            android:textSize="10sp" />
+                            android:textSize="14sp" />
 
                         <Space
                             android:layout_width="8dp"
@@ -995,66 +997,63 @@
                         <Button
                             android:id="@+id/btn_sequencer_clear"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
+                            android:layout_width="40dp"
                             android:layout_height="36dp"
+                            android:padding="0dp"
                             android:text="CLR"
                             android:textColor="@color/vibrant_red"
                             android:textSize="10sp" />
 
                         <Space
-                            android:layout_width="8dp"
-                            android:layout_height="match_parent" />
-
-                        <Button
-                            android:id="@+id/btn_step_rest"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:text="REST"
-                            android:visibility="gone"
-                            android:textColor="@color/off_white"
-                            android:textSize="10sp" />
-
-                        <Space
-                            android:layout_width="8dp"
-                            android:layout_height="match_parent" />
-
-                        <Button
-                            android:id="@+id/btn_step_back"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:text="BACK"
-                            android:visibility="gone"
-                            android:textColor="@color/off_white"
-                            android:textSize="10sp" />
-
-                        <Space
-                            android:layout_width="8dp"
+                            android:layout_width="4dp"
                             android:layout_height="match_parent" />
 
                         <ToggleButton
                             android:id="@+id/toggle_pad_sampling"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
+                            android:layout_width="48dp"
                             android:layout_height="36dp"
-                            android:textOff="SAMPLING OFF"
-                            android:textOn="SAMPLING ON"
+                            android:padding="0dp"
+                            android:textOff="SMP"
+                            android:textOn="SMP"
                             android:textColor="@color/acid_green"
                             android:textSize="10sp" />
 
                         <Space
-                            android:layout_width="8dp"
+                            android:layout_width="4dp"
                             android:layout_height="match_parent" />
 
                         <ToggleButton
                             android:id="@+id/toggle_step_rec"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
+                            android:layout_width="48dp"
                             android:layout_height="36dp"
-                            android:textOff="STEP OFF"
-                            android:textOn="STEP ON"
+                            android:padding="0dp"
+                            android:textOff="STEP"
+                            android:textOn="STEP"
                             android:textColor="@color/acid_green"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/btn_step_rest"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
+                            android:padding="0dp"
+                            android:text="RST"
+                            android:visibility="gone"
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/btn_step_back"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
+                            android:padding="0dp"
+                            android:text="BCK"
+                            android:visibility="gone"
+                            android:textColor="@color/off_white"
                             android:textSize="10sp" />
                     </LinearLayout>
 
