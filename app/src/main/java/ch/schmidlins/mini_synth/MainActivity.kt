@@ -468,10 +468,10 @@ class MainActivity : AppCompatActivity() {
                 isDemoPlaying = false
                 demoJob?.cancel()
                 resetEngineState()
-                content.topHeader.btnDemoMode.text = "DEMO"
+                content.topHeader.btnDemoMode.text = getString(R.string.header_demo)
             } else {
                 isDemoPlaying = true
-                content.topHeader.btnDemoMode.text = "STOP"
+                content.topHeader.btnDemoMode.text = getString(R.string.header_stop)
                 runIntegratedDemo()
             }
         }
@@ -1131,7 +1131,7 @@ class MainActivity : AppCompatActivity() {
             if (isHelpMode) { showHelp("Toggle the Metronome. Heard as a click synced to the BPM."); return@setOnClickListener }
             isMetronomeEnabled = !isMetronomeEnabled
             synthManager.setMetronomeEnabled(isMetronomeEnabled)
-            content.topHeader.btnMetronomeToggle.text = if (isMetronomeEnabled) "ON" else "OFF"
+            content.topHeader.btnMetronomeToggle.text = if (isMetronomeEnabled) getString(R.string.generic_on) else getString(R.string.generic_off)
         }
         content.topHeader.btnBpmDown.setOnClickListener { if (bpm >= 45) { bpm -= 5; updateBpm() } }
         content.topHeader.btnBpmDownFine.setOnClickListener { if (bpm >= 41) { bpm -= 1; updateBpm() } }
@@ -1143,14 +1143,14 @@ class MainActivity : AppCompatActivity() {
     private fun updateBpm() {
         val content = binding.appBarMain.contentMain
         synthManager.setBpm(bpm)
-        content.topHeader.tvBpmValue.text = String.format(Locale.getDefault(), "BPM: %d", bpm.toInt())
+        content.topHeader.tvBpmValue.text = getString(R.string.header_bpm_format, bpm.toInt())
     }
 
     private fun updateLatencyStatus() {
         synthManager.checkAndApplyBufferSize()
         val bufferSize = synthManager.getBufferSize()
         val xRuns = synthManager.getXRunCount()
-        binding.appBarMain.contentMain.topHeader.tvLatencyStatus.text = String.format(Locale.getDefault(), "BUF: %d (%d)", bufferSize, xRuns)
+        binding.appBarMain.contentMain.topHeader.tvLatencyStatus.text = getString(R.string.header_latency_format, bufferSize, xRuns)
     }
 
     private fun flashBeat() {

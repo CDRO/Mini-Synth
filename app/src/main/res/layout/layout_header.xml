@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:padding="0dp"
-            android:text="MET"
+            android:text="@string/header_metronome"
             android:textColor="@color/acid_green"
             android:textSize="11sp"
             android:textStyle="bold"
@@ -148,7 +148,7 @@
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:padding="0dp"
-                android:text="?"
+                android:text="@string/header_help"
                 android:textColor="@color/acid_green"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -164,7 +164,7 @@
                 android:layout_height="44dp"
                 android:layout_weight="1"
                 android:padding="0dp"
-                android:text="DEMO"
+                android:text="@string/header_demo"
                 android:textColor="@color/electric_blue"
                 android:textSize="11sp" />
         </LinearLayout>
@@ -207,8 +207,8 @@
                 android:layout_height="32dp"
                 android:checked="true"
                 android:padding="0dp"
-                android:textOff="MAN"
-                android:textOn="AUTO"
+                android:textOff="@string/header_manual"
+                android:textOn="@string/header_auto"
                 android:textColor="@color/acid_green"
                 android:textSize="11sp" />
         </LinearLayout>

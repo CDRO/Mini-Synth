@@ -22,4 +22,16 @@
     <string name="image_view_item_transform_content_description">Represents an image view in the
         item
     </string>
+
+    <!-- Header Strings -->
+    <string name="header_metronome">MET</string>
+    <string name="header_bpm_format">BPM: %d</string>
+    <string name="header_demo">DEMO</string>
+    <string name="header_stop">STOP</string>
+    <string name="header_latency_format">BUF: %1$d (%2$d)</string>
+    <string name="header_auto">AUTO</string>
+    <string name="header_manual">MAN</string>
+    <string name="header_help">&#063;</string>
+    <string name="generic_on">ON</string>
+    <string name="generic_off">OFF</string>
 </resources>
