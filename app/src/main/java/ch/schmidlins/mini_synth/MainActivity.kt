@@ -893,10 +893,6 @@ class MainActivity : AppCompatActivity() {
             if (isChecked) content.toggleStepRec.isChecked = false
         }
 
-        content.toggleInputQuantize!!.setOnCheckedChangeListener { _, isChecked ->
-            if (isHelpMode) { showHelp("Toggle Input Quantization. When enabled, your performance snaps to the nearest 16th note."); return@setOnCheckedChangeListener }
-            synthManager.setInputQuantize(isChecked)
-        }
         content.togglePadSampling!!.setOnCheckedChangeListener { _, isChecked ->
             if (isHelpMode) { showHelp("Enable Pad Sampling. While active, touching a pad will record the current engine output into that pad."); return@setOnCheckedChangeListener }
             isPadSamplingMode = isChecked
@@ -926,31 +922,6 @@ class MainActivity : AppCompatActivity() {
             if (isHelpMode) { showHelp("Clear all notes from the sequencer."); return@setOnClickListener }
             synthManager.clearSequencer()
             for (id in stepButtonIds) content.root.findViewById<android.widget.ToggleButton>(id)?.isChecked = false
-        }
-
-        content.btnSequencerExport!!.setOnClickListener {
-            if (isHelpMode) { showHelp("Export the current pattern to a high-quality file and share it."); return@setOnClickListener }
-            
-            val dir = getExternalFilesDir(null) ?: filesDir
-            val file = java.io.File(dir, "pattern_export_${System.currentTimeMillis()}.wav")
-            
-            lifecycleScope.launch {
-                if (isFinishing || isDestroyed) return@launch
-                val progress = AlertDialog.Builder(this@MainActivity)
-                    .setMessage("Exporting...")
-                    .setCancelable(false)
-                    .show()
-                
-                try {
-                    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
-                        synthManager.renderPatternToFile(file.absolutePath)
-                    }
-                } finally {
-                    if (!isFinishing && !isDestroyed) progress.dismiss()
-                }
-                
-                if (!isFinishing && !isDestroyed) shareFile(file)
-            }
         }
         val durations = arrayOf("1/16", "1/8", "1/4", "1/2", "1/1")
         val divisions = floatArrayOf(0.25f, 0.5f, 1.0f, 2.0f, 4.0f)
@@ -1281,32 +1252,82 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupPatternManagement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
-        content.btnSavePattern!!.setOnClickListener {
-            if (isHelpMode) { showHelp("Save the current 16-step pattern."); return@setOnClickListener }
-            val input = EditText(this)
-            input.hint = "Pattern Name"
-            AlertDialog.Builder(this).setTitle("Save Pattern").setView(input).setPositiveButton("Save") { _, _ ->
-                val name = input.text.toString().trim()
-                if (name.isNotEmpty()) saveCurrentPattern(name)
-            }.setNegativeButton("Cancel", null).show()
+        content.btnSequencerOptions!!.setOnClickListener {
+            if (isHelpMode) { showHelp("Sequencer Options: Access SAVE, LOAD, EXP, and Quantize settings."); return@setOnClickListener }
+            showSequencerOptionsMenu(it)
         }
+    }
 
-        content.btnLoadPattern!!.setOnClickListener {
-            if (isHelpMode) { showHelp("Load a saved sequence pattern."); return@setOnClickListener }
-            lifecycleScope.launch {
-                val patterns = patternRepository.patterns.first()
-                if (patterns.isEmpty()) Toast.makeText(this@MainActivity, "No patterns saved.", Toast.LENGTH_SHORT).show()
-                else {
-                    val names = patterns.map { it.name }.toTypedArray()
-                    AlertDialog.Builder(this@MainActivity).setTitle("Load Pattern").setItems(names) { _, which ->
-                        applyPattern(patterns[which])
-                    }
-                    .setNeutralButton("Delete") { _, _ ->
-                        showDeletePatternDialog(patterns)
-                    }
-                    .show()
+    private fun showSequencerOptionsMenu(anchor: View) {
+        val popup = androidx.appcompat.widget.PopupMenu(this, anchor)
+        popup.menu.add("Save Pattern")
+        popup.menu.add("Load Pattern")
+        popup.menu.add("Export Sequence")
+        val iqItem = popup.menu.add("Input Quantize")
+        iqItem.isCheckable = true
+        iqItem.isChecked = true // Default state in native engine is true
+        
+        popup.setOnMenuItemClickListener { item ->
+            when (item.title) {
+                "Save Pattern" -> triggerSavePattern()
+                "Load Pattern" -> triggerLoadPattern()
+                "Export Sequence" -> triggerExportSequence()
+                "Input Quantize" -> {
+                    item.isChecked = !item.isChecked
+                    synthManager.setInputQuantize(item.isChecked)
                 }
             }
+            true
+        }
+        popup.show()
+    }
+
+    private fun triggerSavePattern() {
+        val input = EditText(this)
+        input.hint = "Pattern Name"
+        AlertDialog.Builder(this).setTitle("Save Pattern").setView(input).setPositiveButton("Save") { _, _ ->
+            val name = input.text.toString().trim()
+            if (name.isNotEmpty()) saveCurrentPattern(name)
+        }.setNegativeButton("Cancel", null).show()
+    }
+
+    private fun triggerLoadPattern() {
+        lifecycleScope.launch {
+            val patterns = patternRepository.patterns.first()
+            if (patterns.isEmpty()) Toast.makeText(this@MainActivity, "No patterns saved.", Toast.LENGTH_SHORT).show()
+            else {
+                val names = patterns.map { it.name }.toTypedArray()
+                AlertDialog.Builder(this@MainActivity).setTitle("Load Pattern").setItems(names) { _, which ->
+                    applyPattern(patterns[which])
+                }
+                .setNeutralButton("Delete") { _, _ ->
+                    showDeletePatternDialog(patterns)
+                }
+                .show()
+            }
+        }
+    }
+
+    private fun triggerExportSequence() {
+        val dir = getExternalFilesDir(null) ?: filesDir
+        val file = java.io.File(dir, "pattern_export_${System.currentTimeMillis()}.wav")
+        
+        lifecycleScope.launch {
+            if (isFinishing || isDestroyed) return@launch
+            val progress = AlertDialog.Builder(this@MainActivity)
+                .setMessage("Exporting...")
+                .setCancelable(false)
+                .show()
+            
+            try {
+                kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                    synthManager.renderPatternToFile(file.absolutePath)
+                }
+            } finally {
+                if (!isFinishing && !isDestroyed) progress.dismiss()
+            }
+            
+            if (!isFinishing && !isDestroyed) shareFile(file)
         }
     }
 

@@ -951,22 +951,15 @@
                             android:textSize="12sp" />
 
                         <Button
-                            android:id="@+id/btn_save_pattern"
+                            android:id="@+id/btn_sequencer_options"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
+                            android:layout_width="40dp"
                             android:layout_height="36dp"
-                            android:text="SAVE"
-                            android:textColor="@color/off_white"
-                            android:textSize="10sp" />
-
-                        <Button
-                            android:id="@+id/btn_load_pattern"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:text="LOAD"
-                            android:textColor="@color/off_white"
-                            android:textSize="10sp" />
+                            android:padding="0dp"
+                            android:text="⋮"
+                            android:textColor="@color/acid_green"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
                         <Space
                             android:layout_width="8dp"
@@ -994,21 +987,6 @@
                             android:textOn="REC ON"
                             android:textColor="@color/vibrant_red"
                             android:textSize="10sp" />
-
-                        <Space
-                            android:layout_width="8dp"
-                            android:layout_height="match_parent" />
-
-                        <ToggleButton
-                            android:id="@+id/toggle_input_quantize"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="40dp"
-                            android:layout_height="36dp"
-                            android:textOff="IQ"
-                            android:textOn="IQ"
-                            android:textColor="@color/acid_green"
-                            android:textSize="10sp"
-                            android:checked="true" />
 
                         <Space
                             android:layout_width="8dp"
@@ -1049,19 +1027,6 @@
                             android:text="BACK"
                             android:visibility="gone"
                             android:textColor="@color/off_white"
-                            android:textSize="10sp" />
-
-                        <Space
-                            android:layout_width="8dp"
-                            android:layout_height="match_parent" />
-
-                        <Button
-                            android:id="@+id/btn_sequencer_export"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:text="EXP"
-                            android:textColor="@color/acid_green"
                             android:textSize="10sp" />
 
                         <Space
