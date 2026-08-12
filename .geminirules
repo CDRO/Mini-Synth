@@ -13,9 +13,10 @@ You are executing a 10-step iterative review process. Do not skip steps.
 4. Build the project using `.\gradlew.bat assembleDebug` to verify baseline status.
 5. Execute the "Review & Repair Loop" exactly 10 times.
 6. Merge the PR using `gh pr merge --squash`.
-7. Close the associated GitHub issue using `gh issue close #ISSUE_NUMBER`.
-8. Close the GitHub milestone using `gh api -X PATCH repos/:owner/:repo/milestones/:milestone_number -f state=closed`.
-9. Run the full test suite using `.\gradlew.bat clean testDebugUnitTest` and `.\gradlew.bat connectedDebugAndroidTest` (if a device is available). Fix any regressions in a new fix branch following the same process if necessary. Proceed only when all tests pass.
+7. Delete the local branch using `git branch -D branch_name` and the remote branch using `git push origin --delete branch_name`.
+8. Close the associated GitHub issue using `gh issue close #ISSUE_NUMBER`.
+9. Close the GitHub milestone using `gh api -X PATCH repos/:owner/:repo/milestones/:milestone_number -f state=closed`.
+10. Run the full test suite using `.\gradlew.bat clean testDebugUnitTest` and `.\gradlew.bat connectedDebugAndroidTest` (if a device is available). Fix any regressions in a new fix branch following the same process if necessary. Proceed only when all tests pass.
 
 # The Review & Repair Loop Rules
 For each iteration (1 through 10):
