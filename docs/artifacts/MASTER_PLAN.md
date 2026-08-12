@@ -47,31 +47,32 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 1-35: Completed core features, effects, and visualization. [DONE]
+## Milestone 1-35: Completed core synthesis, effects, and initial UI. [DONE]
 
 ---
 
-## Milestone 36: UI Stability, Pad UX & Sequencer Repair [DONE]
-
-### [UI] [Stability]
-- **Layout Repair**: Fix clipping in the top-right header controls across diverse aspect ratios.
-- **Visual Restoration**: Re-align FFT color gradients to restore high-amplitude red alerts.
+## Milestone 36: Pad Configuration Refinement [TODO]
 
 ### [UI] [UX]
 - **Pad EDIT Mode**: Decouple pad configuration from musical performance via a dedicated toggle.
 - **Sustain Support**: Allow long-press note sustaining on pads without interrupting performance.
 
+## Milestone 37: UI Stability & Sequencer Repair [TODO]
+
+### [UI] [Stability]
+- **Layout Repair**: Fix clipping in the top-right header controls (BPM adjustment buttons).
+- **Sequencer Logic**: Fix recording functionality to ensure notes are correctly captured.
+
+## Milestone 38: Educational Demo & Sequencer Training [TODO]
+
 ### [Logic] [Training]
-- **Recording Fix**: Audit and repair the sequencer real-time recording path.
 - **Guided Onboarding**: Upgrade the integrated demo to include an auto-scrolling training sequence for loop management.
 
----
-
-## Milestone 37: Recording Export & Sample Sharing [TODO]
+## Milestone 39: Recording Export & Sample Sharing [TODO]
 
 ### [Logic] [Export]
-- **Offline Renderer**: Implement a dedicated path for non-real-time high-speed WAV/MP3 generation.
-- **Share Intent**: Deep integration with Android system sharing for exported files.
+- **Offline Renderer**: Implement high-speed WAV/MP3 generation.
+- **Share Intent**: Integration with Android system sharing.
 
 ---
 
