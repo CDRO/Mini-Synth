@@ -716,7 +716,46 @@ class MainActivity : AppCompatActivity() {
                 }
                 delay(2000)
                 
-                // Stage 3: Performance Stage. Using pads and built-in effects.
+                // Stage 3: Sequencer Masterclass
+                showDemoToast("Sequencer Masterclass: Automating loops...")
+                runOnUiThread {
+                    binding.appBarMain.contentMain.workspaceScroll.smoothScrollTo(0, binding.appBarMain.contentMain.sequencerSection.top)
+                }
+                delay(1000)
+                
+                showDemoToast("You can edit steps manually...")
+                for (i in 0..3) {
+                    if (!isDemoPlaying) break
+                    val step = i * 4
+                    runOnUiThread {
+                        val toggle = binding.appBarMain.contentMain.root.findViewById<android.widget.ToggleButton>(stepButtonIds[step])
+                        toggle?.performClick()
+                    }
+                    delay(400)
+                }
+                
+                delay(1000)
+                showDemoToast("...or record directly from the keyboard in REC mode.")
+                runOnUiThread {
+                    binding.appBarMain.contentMain.toggleSequencerRec.isChecked = true
+                    if (!synthManager.isSequencerPlaying()) {
+                        binding.appBarMain.contentMain.btnSequencerPlay.performClick()
+                    }
+                }
+                
+                val melody = listOf(60, 62, 64, 65)
+                for (note in melody) {
+                    if (!isDemoPlaying) break
+                    synthManager.noteOn(note, 0.8f)
+                    delay(300)
+                    synthManager.noteOff(note)
+                    delay(200)
+                }
+                
+                delay(2000)
+                runOnUiThread { binding.appBarMain.contentMain.toggleSequencerRec.isChecked = false }
+
+                // Stage 4: Performance Stage. Using pads and built-in effects.
                 showDemoToast(getString(R.string.demo_stage_3))
                 
                 val content = binding.appBarMain.contentMain
@@ -1129,6 +1168,11 @@ class MainActivity : AppCompatActivity() {
     private fun updateSequencerUI(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding, current: Int, last: Int) {
         val synthView = content.keyboardPadView!!
         
+        // Refresh toggles if we are recording to show new notes immediately
+        if (isSequencerRecordMode || isStepRecordMode) {
+            updateSequencerToggles(content)
+        }
+
         // Clear last visual highlight only if it was on the current page
         if (last != -1) {
             val lastPage = last / 16

@@ -252,20 +252,13 @@ class KeyboardPadView @JvmOverloads constructor(
                 pointerStartPositionsY[pId] = y
                 val midi = getMidiAt(x, y)
                 if (midi != -1) {
-                    if (mode == Mode.PAD_GRID) {
-                        val padIndex = midi - baseNote
-                        if (isConfigMode) {
-                            listener?.onPadLongPress(padIndex)
-                        } else {
-                            noteOn(pId, midi)
-                            gesturePads.getOrPut(pId) { mutableListOf() }.add(midi)
-                            
-                            val runnable = Runnable { listener?.onPadLongPress(padIndex) }
-                            longPressRunnables[pId] = runnable
-                            handler.postDelayed(runnable, 500)
-                        }
+                    if (mode == Mode.PAD_GRID && isConfigMode) {
+                        listener?.onPadLongPress(midi - baseNote)
                     } else {
                         noteOn(pId, midi)
+                        if (mode == Mode.PAD_GRID) {
+                            gesturePads.getOrPut(pId) { mutableListOf() }.add(midi)
+                        }
                     }
                 }
             }

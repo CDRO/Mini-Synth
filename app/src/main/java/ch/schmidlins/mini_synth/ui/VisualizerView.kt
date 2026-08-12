@@ -45,10 +45,15 @@ class VisualizerView @JvmOverloads constructor(
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         if (w > 0 && h > 0) {
+            val acidGreen = ContextCompat.getColor(context, R.color.acid_green)
+            val electricBlue = ContextCompat.getColor(context, R.color.electric_blue)
+            val vibrantRed = ContextCompat.getColor(context, R.color.vibrant_red)
+            
+            // Vertical gradient for bars, coverage for both split and full modes
             gradient = android.graphics.LinearGradient(
-                0f, h.toFloat(), 0f, h / 2f,
-                ContextCompat.getColor(context, R.color.acid_green),
-                ContextCompat.getColor(context, R.color.electric_blue),
+                0f, h.toFloat(), 0f, 0f,
+                intArrayOf(acidGreen, electricBlue, vibrantRed),
+                floatArrayOf(0f, 0.5f, 0.8f),
                 android.graphics.Shader.TileMode.CLAMP
             )
             barPaint.shader = gradient

@@ -105,6 +105,7 @@
         </LinearLayout>
 
         <ScrollView
+            android:id="@+id/workspace_scroll"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
@@ -1145,10 +1146,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="32dp"
                             android:layout_marginStart="8dp"
-                            android:textOff="EDIT"
-                            android:textOn="EDIT"
+                            android:textOff="EDIT OFF"
+                            android:textOn="EDIT ON"
                             android:textColor="@color/vibrant_red"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:background="@drawable/selector_toggle_bg" />
 
                         <!-- Bank Control -->
