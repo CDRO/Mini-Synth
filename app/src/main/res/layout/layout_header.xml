@@ -81,7 +81,8 @@
             app:layout_constraintTop_toBottomOf="@id/btn_metronome_toggle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_bpm_down_fine"
-            app:layout_constraintHorizontal_chainStyle="packed" />
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintHorizontal_chainStyle="spread" />
 
         <Button
             android:id="@+id/btn_bpm_down_fine"
@@ -96,7 +97,8 @@
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
             app:layout_constraintStart_toEndOf="@id/btn_bpm_down"
-            app:layout_constraintEnd_toStartOf="@id/btn_bpm_up_fine" />
+            app:layout_constraintEnd_toStartOf="@id/btn_bpm_up_fine"
+            app:layout_constraintHorizontal_weight="1" />
 
         <Button
             android:id="@+id/btn_bpm_up_fine"
@@ -111,7 +113,8 @@
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
             app:layout_constraintStart_toEndOf="@id/btn_bpm_down_fine"
-            app:layout_constraintEnd_toStartOf="@id/btn_bpm_up" />
+            app:layout_constraintEnd_toStartOf="@id/btn_bpm_up"
+            app:layout_constraintHorizontal_weight="1" />
 
         <Button
             android:id="@+id/btn_bpm_up"
@@ -126,7 +129,8 @@
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
             app:layout_constraintStart_toEndOf="@id/btn_bpm_up_fine"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
