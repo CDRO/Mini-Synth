@@ -495,6 +495,11 @@ class MainActivity : AppCompatActivity() {
             content.sidebarBrowser.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
 
+        content.toggleConfig.setOnCheckedChangeListener { _, isChecked ->
+            if (isHelpMode) { showHelp("Config Toggle: Hides all parameter sliders to maximize space for performance pads."); return@setOnCheckedChangeListener }
+            content.configWorkspace.visibility = if (isChecked) View.VISIBLE else View.GONE
+        }
+
         content.togglePadsFullscreen.setOnCheckedChangeListener { _, isChecked ->
             isFullscreenPads = isChecked
             content.keyboardPadView.clearHeldNotes() // Fixes #41
@@ -504,6 +509,61 @@ class MainActivity : AppCompatActivity() {
         content.toggleKeyboard.setOnCheckedChangeListener { _, isChecked ->
             isKeyboardHidden = isChecked
             updateWorkspaceVisibility(content)
+        }
+
+        content.btnRowsUp.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_rows_up)); return@setOnClickListener }
+            val current = content.keyboardPadView.gridRows
+            if (current < 16) {
+                content.keyboardPadView.gridRows = current + 1
+                content.tvRowsValue.text = (current + 1).toString()
+                content.keyboardPadView.requestLayout()
+            }
+        }
+        content.btnRowsDown.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_rows_down)); return@setOnClickListener }
+            val current = content.keyboardPadView.gridRows
+            if (current > 1) {
+                content.keyboardPadView.gridRows = current - 1
+                content.tvRowsValue.text = (current - 1).toString()
+                content.keyboardPadView.requestLayout()
+            }
+        }
+        content.btnColsUp.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_cols_up)); return@setOnClickListener }
+            val current = content.keyboardPadView.gridColumns
+            if (current < 16) {
+                content.keyboardPadView.gridColumns = current + 1
+                content.tvColsValue.text = (current + 1).toString()
+                content.keyboardPadView.requestLayout()
+            }
+        }
+        content.btnColsDown.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_cols_down)); return@setOnClickListener }
+            val current = content.keyboardPadView.gridColumns
+            if (current > 1) {
+                content.keyboardPadView.gridColumns = current - 1
+                content.tvColsValue.text = (current - 1).toString()
+                content.keyboardPadView.requestLayout()
+            }
+        }
+        content.btnBankUp.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_bank_next)); return@setOnClickListener }
+            val currentOffset = content.keyboardPadView.getPadOffset()
+            if (currentOffset < 240) {
+                val next = currentOffset + 16
+                content.keyboardPadView.setPadOffset(next)
+                content.tvBankValue.text = (next / 16 + 1).toString()
+            }
+        }
+        content.btnBankDown.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_bank_prev)); return@setOnClickListener }
+            val currentOffset = content.keyboardPadView.getPadOffset()
+            if (currentOffset >= 16) {
+                val next = currentOffset - 16
+                content.keyboardPadView.setPadOffset(next)
+                content.tvBankValue.text = (next / 16 + 1).toString()
+            }
         }
 
         val samples = arrayOf(

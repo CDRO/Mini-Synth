@@ -47,101 +47,18 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 1: Resonant Low-Pass Filter [DONE]
-
-### [Logic] [Filter]
-- **Type**: 2-pole Resonant Low-Pass Filter.
-- **Cutoff**: 20Hz to 20,000Hz (Exponential mapping).
-- **Resonance**: 0.0 to 1.0 (Q factor).
-- **Implementation**: Per-voice filtering in the audio thread.
-
-### [UI] [FilterControls]
-- **Sliders**: Cutoff Frequency and Resonance.
-- **Labels**: Show Hz and Q values.
+## Milestone 1-30: Core Synthesis, Effects, & Gestures [DONE]
 
 ---
 
-## Milestone 2: Preset Management [DONE]
+## Milestone 31: Dynamic Grid & Pad Customization [DONE]
 
-### [Logic] [Presets]
-- **Storage**: Jetpack DataStore with JSON serialization.
-- **Save**: Capture all current engine parameters (Osc, ADSR, LFO, LPF) and write to `presets.json`.
-- **Load**: Read JSON and batch-apply parameters to JNI engine.
-
----
-
-## Milestone 3: Visualization & Recording [DONE]
-
-### [Logic] [Recording & Viz]
-- **Audio Tap**: Implement a thread-safe capturing mechanism in `AudioEngine`.
-- **Recording**: Real-time PCM capture to a background thread.
-- **Encoding**: Integrate **LAME** (C) for high-quality MP3 encoding via NDK.
-- **Visualization**: Expose real-time PCM buffers for UI rendering.
-
-### [UI] [Visualizer]
-- **VisualizerView**: Real-time oscilloscope display above the keyboard.
+### [UI] [Pad Customization]
+- **Config Visibility**: Option to hide parameter controls to maximize pad space.
+- **Dynamic Grid**: Default 4x4, expandable to 4x8 or 4x16.
+- **Color Configuration**: Per-pad color assignment for organization and visual feedback.
 
 ---
-
-## Milestone 4: Metronome & BPM Control [DONE]
-
-### [Logic] [Metronome]
-- **Engine**: Sample-accurate native tick generation.
-- **BPM**: Dynamic control from 40 to 240 BPM.
-- **Visuals**: Synced beat indicator LED in the control bar.
-
----
-
-## Milestone 17: Native Unit Testing [DONE]
-## Milestone 18: Project & Set Management [DONE]
-## Milestone 19: MIDI Device Support [DONE]
-
-## Milestone 20: Built-in Effects [DONE]
-## Milestone 21: Automated Demo & Sampling [DONE]
-## Milestone 23: MIDI Loop Recording [DONE]
-## Milestone 24: Polyphonic Aftertouch Simulation [DONE]
-## Milestone 25: FFT Frequency Visualization [DONE]
-## Milestone 26: Professional Demo Experience & Automated Sampling [DONE]
-
----
-
-## Milestone 27: Adaptive Buffer Management [DONE]
-
-### [Logic] [Performance]
-- **Buffer Scaling**: Dynamically adjust Oboe's `bufferSize` based on xRun counts.
-- **Latency Balancing**: Minimize latency while preventing crackling under load.
-
-## Milestone 28: Integrated Demo & Automated Sampling (Enhanced) [DONE]
-
-### [Logic] [UX]
-- **Automated Tour**: Programmatic sequence covering Oscillators, Filters, FX, and Sequencer.
-- **Self-Sampling**: Demonstrate automated note-to-pad sampling logic.
-- **Discovery Mode**: Integrated help overlays triggered by the demo script.
-
----
-
-## Milestone 29: Keyboard Sample Creation [DONE]
-
-### [Logic] [Sequencing]
-- **Melody Recording**: Step-by-step entry for keyboard performance.
-- **Quantization**: Alignment of notes to specified grid (1/16, 1/8, etc.).
-- **Looping**: Persistent playback of recorded melody loops.
-
----
-
-## Milestone 30: Pad Holding & Expressive Gestures [DONE]
-
-### [Logic] [Performance]
-- **Sustain Gestures**: Swipe between pads to maintain note duration.
-- **Modulation**: Integration of vertical/horizontal gestures for real-time pad expressive control.
-
----
-
-## Milestone 31: Panel Reorganization & Hierarchy [DONE]
-
-### [UI] [Hierarchy]
-- **Overflow Menus**: Logical grouping of secondary sequencer actions to prevent horizontal clipping.
-- **Vertical Stacking**: Redesign of the Pad Customization section for better readability.
 
 ## Milestone 32: Header Refinement & Engine Status [DONE]
 
@@ -155,8 +72,6 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 - **Localization**: Zero hardcoded strings in layout files.
 - **Scaling**: Responsive text and container definitions to handle diverse aspect ratios.
 
----
-
 ## Milestone 34: Pad UX & Audio Stability Refinement [DONE]
 
 ### [Logic] [Performance]
@@ -165,7 +80,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 35: Performance Visualization & FFT Polish [TODO]
+## Milestone 35: Performance Visualization & FFT Polish [DONE]
 
 ### [UI] [Visualization]
 - **High-Resolution FFT**: Implement a log-scaled frequency analyzer for more accurate bass representation.
@@ -173,20 +88,24 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
+## Milestone 36: UI Stability & Visualizer Restoration [TODO]
+
+### [UI] [Stability]
+- **Layout Repair**: Fix clipping in the top-right header controls across diverse aspect ratios.
+- **Visual Restoration**: Re-align FFT color gradients to restore high-amplitude red alerts.
+
+## Milestone 37: Pad Configuration & Interaction [TODO]
+
+### [UI] [UX]
+- **Pad EDIT Mode**: Decouple pad configuration from musical performance via a dedicated toggle.
+- **Sustain Support**: Allow long-press note sustaining on pads without interrupting performance.
+
+## Milestone 38: Sequencer Logic & Educational Onboarding [TODO]
+
+### [Logic] [Training]
+- **Recording Fix**: Audit and repair the sequencer real-time recording path.
+- **Guided Onboarding**: Upgrade the integrated demo to include an auto-scrolling training sequence for loop management.
+
+---
+
 ## Future Features & Roadmap
-
-### [Feature] [Sampling & Sequencing]
-- **Keyboard Sample Creation**:
-    - Select step duration (1/16 to 1/1 notes).
-    - Step-by-step recording of melodies.
-    - Loop playback of recorded sequences.
-- **Pad Sampling**:
-    - Capture keyboard performance directly to a pad.
-    - **Pad Holding**: Swipe from one pad to another in sampling mode to define note duration (hold).
-- **Sample Mapping**:
-    - Additional column on the left of the pad grid for mapping external or recorded samples.
-
-### [UI] [Pad Customization]
-- **Dynamic Grid**: Default 4x4, expandable to 16 columns. Scrollable interface for large grids.
-- **Config Visibility**: Option to hide parameter controls to maximize pad space.
-- **Color Configuration**: Per-pad color assignment for organization and visual feedback.

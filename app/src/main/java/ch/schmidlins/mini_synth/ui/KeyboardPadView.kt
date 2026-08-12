@@ -77,7 +77,23 @@ class KeyboardPadView @JvmOverloads constructor(
             clearHeldNotes()
         }
         mode = newMode
+        requestLayout()
         invalidate()
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        if (mode == Mode.PAD_GRID) {
+            val w = MeasureSpec.getSize(widthMeasureSpec)
+            val hSize = MeasureSpec.getSize(heightMeasureSpec)
+            val hMode = MeasureSpec.getMode(heightMeasureSpec)
+            
+            // Fixed base height per pad row if in ScrollView, otherwise use available height
+            val rowHeight = if (hMode == MeasureSpec.UNSPECIFIED) 150 else hSize / gridRows
+            val totalHeight = rowHeight * gridRows
+            setMeasuredDimension(w, totalHeight)
+        } else {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -436,6 +452,7 @@ class KeyboardPadView @JvmOverloads constructor(
         padOffset = offset
         invalidate()
     }
+    fun getPadOffset() = padOffset
 
     fun clearHeldNotes() {
         heldMidiNotes.forEach { midi ->

@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_pad_view"
+        app:layout_constraintBottom_toTopOf="@id/keyboard_pad_scroll_view"
         app:layout_constraintTop_toBottomOf="@id/top_header">
 
         <!-- Sidebar Browser (Milestone 11/22) -->
@@ -217,10 +217,31 @@
                         android:textColor="@color/acid_green"
                         android:textSize="12sp" />
 
+                    <Space
+                        android:layout_width="8dp"
+                        android:layout_height="match_parent" />
+
+                    <ToggleButton
+                        android:id="@+id/toggle_config"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:textOff="CFG ON"
+                        android:textOn="CFG OFF"
+                        android:checked="true"
+                        android:textColor="@color/acid_green"
+                        android:textSize="10sp" />
+
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/parameter_container"
+                    android:id="@+id/config_workspace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/parameter_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -1176,19 +1197,27 @@
                 </LinearLayout>
 
             </LinearLayout>
-        </ScrollView>
+
+        </LinearLayout>
+    </ScrollView>
     </LinearLayout>
 
-    <ch.schmidlins.mini_synth.ui.KeyboardPadView
-        android:id="@+id/keyboard_pad_view"
-        android:layout_width="0dp"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/keyboard_pad_scroll_view"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintHeight_percent="@dimen/keyboard_height_percent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintVertical_bias="1.0">
+
+        <ch.schmidlins.mini_synth.ui.KeyboardPadView
+            android:id="@+id/keyboard_pad_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.core.widget.NestedScrollView>
 
     <ToggleButton
         android:id="@+id/toggle_keyboard"
@@ -1200,7 +1229,7 @@
         android:textOn="▲"
         android:textColor="@color/acid_green"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_pad_view"
+        app:layout_constraintBottom_toTopOf="@id/keyboard_pad_scroll_view"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ToggleButton
