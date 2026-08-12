@@ -717,25 +717,24 @@ class MainActivity : AppCompatActivity() {
                 delay(2000)
                 
                 // Stage 3: Sequencer Masterclass
-                showDemoToast("Sequencer Masterclass: Automating loops...")
+                showDemoToast("Sequencer Masterclass: Creating patterns...")
                 runOnUiThread {
                     binding.appBarMain.contentMain.workspaceScroll.smoothScrollTo(0, binding.appBarMain.contentMain.sequencerSection.top)
                 }
-                delay(1000)
+                delay(1500)
                 
-                showDemoToast("You can edit steps manually...")
-                for (i in 0..3) {
+                showDemoToast("Manual Edit: Toggle steps in the grid.")
+                for (i in listOf(0, 4, 8, 12)) {
                     if (!isDemoPlaying) break
-                    val step = i * 4
                     runOnUiThread {
-                        val toggle = binding.appBarMain.contentMain.root.findViewById<android.widget.ToggleButton>(stepButtonIds[step])
-                        toggle?.performClick()
+                        val toggle = binding.appBarMain.contentMain.root.findViewById<android.widget.ToggleButton>(stepButtonIds[i])
+                        toggle?.isChecked = true
                     }
-                    delay(400)
+                    delay(800)
                 }
                 
-                delay(1000)
-                showDemoToast("...or record directly from the keyboard in REC mode.")
+                delay(1500)
+                showDemoToast("Real-time Recording: Capture keyboard input.")
                 runOnUiThread {
                     binding.appBarMain.contentMain.toggleSequencerRec.isChecked = true
                     if (!synthManager.isSequencerPlaying()) {
@@ -743,16 +742,18 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 
-                val melody = listOf(60, 62, 64, 65)
+                val melody = listOf(67, 69, 70, 72)
                 for (note in melody) {
                     if (!isDemoPlaying) break
                     synthManager.noteOn(note, 0.8f)
-                    delay(300)
+                    runOnUiThread { binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.RECORD, true) }
+                    delay(500)
                     synthManager.noteOff(note)
-                    delay(200)
+                    runOnUiThread { binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.RECORD, false) }
+                    delay(300)
                 }
                 
-                delay(2000)
+                delay(3000)
                 runOnUiThread { binding.appBarMain.contentMain.toggleSequencerRec.isChecked = false }
 
                 // Stage 4: Performance Stage. Using pads and built-in effects.
@@ -905,7 +906,7 @@ class MainActivity : AppCompatActivity() {
 
         content.togglePadEdit!!.setOnCheckedChangeListener { _, isChecked ->
             if (isHelpMode) {
-                showHelp(getString(R.string.help_pad_config_toggle))
+                showHelp(getString(R.string.help_pad_edit_toggle))
                 content.togglePadEdit!!.isChecked = false
                 return@setOnCheckedChangeListener
             }

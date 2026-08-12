@@ -141,9 +141,7 @@ float VoiceManager::nextSample() {
     }
 
     if (activeCount > 0) {
-        // Soft-clipping using tanh to prevent harsh digital distortion
-        // mixedSample *= 0.5f; // Keep original scaling
-        mixedSample = std::tanh(mixedSample * 0.5f);
+        mixedSample *= 0.5f; // Headroom for polyphony
     }
 
     return mixedSample * currentVol;

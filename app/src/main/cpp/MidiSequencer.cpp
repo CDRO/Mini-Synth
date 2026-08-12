@@ -81,6 +81,11 @@ void MidiSequencer::stepRecordRest() {
 
 void MidiSequencer::handleRealTimeNoteOn(int note) {
     if (note < 0 || note >= NUM_NOTES) return;
+
+    int word = note / 64;
+    int bit = note % 64;
+    mActiveNoteTracking[word].fetch_or(1ULL << bit);
+
     if (!mIsPlaying.load() || !mIsRecording.load()) return;
 
     int current = mCurrentStep.load();
@@ -95,15 +100,7 @@ void MidiSequencer::handleRealTimeNoteOn(int note) {
         }
     }
 
-    if (!mIsOverdub.load()) {
-        mGrid[targetStep][0].store(0);
-        mGrid[targetStep][1].store(0);
-    }
     setNote(targetStep, note, true);
-
-    int word = note / 64;
-    int bit = note % 64;
-    mActiveNoteTracking[word].fetch_or(1ULL << bit);
 }
 
 void MidiSequencer::handleRealTimeNoteOff(int note) {

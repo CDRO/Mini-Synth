@@ -273,9 +273,12 @@ class KeyboardPadView @JvmOverloads constructor(
                 if (midi != null) {
                     val deltaY = startY - currentY // Positive if sliding UP
                     // Threshold for holding: sliding up significantly
-                    if (deltaY > height * 0.4f) {
+                    val holdThreshold = if (mode == Mode.PAD_GRID) 100f else height * 0.4f
+                    val unholdThreshold = if (mode == Mode.PAD_GRID) -50f else -height * 0.2f
+                    
+                    if (deltaY > holdThreshold) {
                         heldMidiNotes.add(midi)
-                    } else if (deltaY < -height * 0.2f && heldMidiNotes.contains(midi)) {
+                    } else if (deltaY < unholdThreshold && heldMidiNotes.contains(midi)) {
                         heldMidiNotes.remove(midi)
                     }
                 }
@@ -297,6 +300,7 @@ class KeyboardPadView @JvmOverloads constructor(
                 invalidate()
             }
             MotionEvent.ACTION_MOVE -> {
+                if (mode == Mode.PAD_GRID && isConfigMode) return true
                 for (i in 0 until event.pointerCount) {
                     val pid = event.getPointerId(i)
                     val currentX = event.getX(i)
