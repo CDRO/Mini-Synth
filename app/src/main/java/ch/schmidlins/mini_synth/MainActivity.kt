@@ -903,10 +903,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        content.togglePadConfig!!.setOnCheckedChangeListener { _, isChecked ->
+        content.togglePadEdit!!.setOnCheckedChangeListener { _, isChecked ->
             if (isHelpMode) {
                 showHelp(getString(R.string.help_pad_config_toggle))
-                content.togglePadConfig!!.isChecked = false
+                content.togglePadEdit!!.isChecked = false
                 return@setOnCheckedChangeListener
             }
             synthView.isConfigMode = isChecked
