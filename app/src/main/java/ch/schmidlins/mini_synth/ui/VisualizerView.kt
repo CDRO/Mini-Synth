@@ -49,12 +49,11 @@ class VisualizerView @JvmOverloads constructor(
             val electricBlue = ContextCompat.getColor(context, R.color.electric_blue)
             val vibrantRed = ContextCompat.getColor(context, R.color.vibrant_red)
             
-            // Vertical gradient for bars, coverage for both split and full modes
-            // Refined stops to bring back red at high amplitudes (above 70%)
+            // Vertical gradient for the spectrum bars (bottom half of view)
             gradient = android.graphics.LinearGradient(
-                0f, h.toFloat(), 0f, 0f,
+                0f, h.toFloat(), 0f, h / 2f,
                 intArrayOf(acidGreen, electricBlue, vibrantRed),
-                floatArrayOf(0f, 0.3f, 0.6f),
+                floatArrayOf(0f, 0.5f, 0.8f),
                 android.graphics.Shader.TileMode.CLAMP
             )
             barPaint.shader = gradient
