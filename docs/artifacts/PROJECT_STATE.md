@@ -27,14 +27,20 @@ Merging context from initial feature implementation and workspace refinements.
 ### [DONE] Milestone 34: Pad UX & Audio Stability Refinement.
 ### [DONE] Milestone 35: Performance Visualization & FFT Polish.
 
-### [NEXT] Milestone 36: UI Stability, Pad UX & Sequencer Repair
-- **Objective**: Repair critical layout regressions and broken features.
+### [NEXT] Milestone 36: UI Stability & Sequencer Repair
+- **Objective**: Fix header clipping, restore visualizer fidelity, and repair sequencer recording.
 - **Key Features**:
     - Layout weighting for header buttons.
-    - "PAD EDIT" mode for sustained notes.
-    - Repaired recording path and educational demo.
+    - Repaired recording path.
+    - Educational auto-scrolling demo.
 
-### [TODO] Milestone 37: Recording Export & Sample Sharing
+### [NEXT] Milestone 37: Pad Configuration & Interaction
+- **Objective**: Decouple pad configuration from musical performance.
+- **Key Features**:
+    - "PAD EDIT" mode toggle.
+    - Sustained notes for pads via long-press.
+
+### [NEXT] Milestone 38: Recording Export & Sample Sharing
 
 ## Quality Assurance Status
 - **Unit Tests**: 27 local JVM tests passing (Robolectric).
