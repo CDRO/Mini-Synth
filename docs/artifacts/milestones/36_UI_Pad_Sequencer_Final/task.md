@@ -1,0 +1,22 @@
+# Tasks: Milestone 36 - UI Stability, Pad UX & Sequencer Repair
+
+- `[ ]` Setup Refinement Infrastructure
+    - `[x]` Create GitHub Milestone & Issue (#147).
+    - `[x]` Create branch `feature/m36-polish-stability-v3`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline.
+- `[ ]` Review & Repair Loop (1-10)
+    - `[ ]` 1/10: Resolve Header clipping and background visuals.
+    - `[ ]` 2/10: Restore Red gradient to spectrum analyzer.
+    - `[ ]` 3/10: Implement "PAD EDIT" mode in UI and Custom View.
+    - `[ ]` 4/10: Enable pad sustain/hold in Play mode.
+    - `[ ]` 5/10: Fix sequencer real-time recording MIDI routing.
+    - `[ ]` 6/10: Implement auto-scroll to sequencer in integrated demo.
+    - `[ ]` 7/10: Add educational tutorial segment to demo.
+    - `[ ]` 8/10: Update help strings and standard accessibility.
+    - `[ ]` 9/10: Regression test touch targets and visibility.
+    - `[ ]` 10/10: Final polish and documentation.
+- `[ ]` Finalize
+    - `[ ]` Run full test suite.
+    - `[ ]` Squash and Merge.
+    - `[ ]` Cleanup local and remote branches.

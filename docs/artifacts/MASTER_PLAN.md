@@ -51,7 +51,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 36: UI Stability, Pad UX & Sequencer Repair [TODO]
+## Milestone 36: UI Stability, Pad UX & Sequencer Repair [DONE]
 
 ### [UI] [Stability]
 - **Layout Repair**: Fix clipping in the top-right header controls across diverse aspect ratios.

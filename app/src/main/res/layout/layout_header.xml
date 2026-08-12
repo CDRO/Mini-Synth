@@ -13,18 +13,19 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:contentDescription="@string/desc_visualizer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.5" />
+        app:layout_constraintEnd_toStartOf="@+id/metronome_container"
+        app:layout_constraintStart_toEndOf="@+id/support_container"
+        app:layout_constraintHorizontal_weight="2" />
 
-    <!-- Metronome Right 25% -->
+    <!-- Metronome Right 25% approx -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/metronome_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:padding="@dimen/spacing_small"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/visualizer_view">
+        app:layout_constraintStart_toEndOf="@id/visualizer_view"
+        app:layout_constraintHorizontal_weight="1.2">
 
         <Button
             android:id="@+id/btn_metronome_toggle"

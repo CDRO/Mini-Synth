@@ -27,14 +27,13 @@ Merging context from initial feature implementation and workspace refinements.
 ### [DONE] Milestone 34: Pad UX & Audio Stability Refinement.
 ### [DONE] Milestone 35: Performance Visualization & FFT Polish.
 
-### [NEXT] Milestone 36: UI Stability, Pad UX & Sequencer Repair
-- **Objective**: Repair critical layout regressions and broken features.
-- **Key Features**:
-    - Layout weighting for header buttons.
-    - "PAD EDIT" mode for sustained notes.
-    - Repaired recording path and educational demo.
+### [DONE] Milestone 36: UI Stability, Pad UX & Sequencer Repair.
 
-### [TODO] Milestone 37: Recording Export & Sample Sharing
+### [NEXT] Milestone 37: Recording Export & Sample Sharing
+- **Objective**: Implement high-speed offline rendering and system-wide sharing.
+- **Key Features**:
+    - High-speed WAV/MP3 rendering.
+    - Android Share Intent integration.
 
 ## Quality Assurance Status
 - **Unit Tests**: 27 local JVM tests passing (Robolectric).
