@@ -297,6 +297,7 @@ class KeyboardPadView @JvmOverloads constructor(
                 invalidate()
             }
             MotionEvent.ACTION_MOVE -> {
+                if (mode == Mode.PAD_GRID && isConfigMode) return true
                 for (i in 0 until event.pointerCount) {
                     val pid = event.getPointerId(i)
                     val currentX = event.getX(i)
