@@ -376,42 +376,4 @@ class GestureTest {
         move.recycle()
         moveUp.recycle()
     }
-
-    @Test
-    fun testPadConfigMode() {
-        view.setMode(KeyboardPadView.Mode.PAD_GRID)
-        var longPressCalled = false
-        var noteOnCalled = false
-        
-        view.listener = object : KeyboardPadView.OnNoteEventListener {
-            override fun onNoteOn(midi: Int, velocity: Float) { noteOnCalled = true }
-            override fun onNoteOff(midi: Int) {}
-            override fun onGridTouchStart(midi: Int) {}
-            override fun onGridTouchEnd() {}
-            override fun onPadLongPress(padIndex: Int) { longPressCalled = true }
-            override fun onGesture(pitchBend: Float, modulation: Float) {}
-            override fun onAftertouch(midi: Int, amount: Float) {}
-        }
-
-        // 1. Config Mode OFF (Play Mode)
-        view.isConfigMode = false
-        val down1 = MotionEvent.obtain(0L, 0L, MotionEvent.ACTION_DOWN, 10f, 10f, 0)
-        view.dispatchTouchEvent(down1)
-        
-        // Should trigger noteOn but NOT immediate longPress
-        assertTrue("Note should play when Config is OFF", noteOnCalled)
-        assertTrue("Config should NOT open immediately when OFF", !longPressCalled)
-        
-        // 2. Config Mode ON
-        noteOnCalled = false
-        view.isConfigMode = true
-        val down2 = MotionEvent.obtain(0L, 100L, MotionEvent.ACTION_DOWN, 10f, 10f, 0)
-        view.dispatchTouchEvent(down2)
-        
-        assertTrue("Config SHOULD open immediately when ON", longPressCalled)
-        assertTrue("Note should NOT play when Config is ON", !noteOnCalled)
-        
-        down1.recycle()
-        down2.recycle()
-    }
 }

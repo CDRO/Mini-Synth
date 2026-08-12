@@ -12,8 +12,4 @@
     <color name="surface_bright">#CCCCCC</color>
     <color name="surface_dark">#0A0A0A</color>
     <color name="border_dim">#333333</color>
-
-    <!-- State Colors -->
-    <color name="toggle_active_bg">#33C0FF00</color> <!-- 20% Alpha Acid Green -->
-    <color name="toggle_inactive_bg">#00000000</color>
 </resources>

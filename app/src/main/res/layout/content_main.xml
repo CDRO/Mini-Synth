@@ -5,24 +5,214 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        layout="@layout/layout_header"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_header"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/header_height_percent"
+        android:background="@color/surface_dark"
+        app:layout_constraintHeight_percent="0.2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintVertical_bias="0.0">
+
+        <!-- Visualizer Centered 50% -->
+        <ch.schmidlins.mini_synth.ui.VisualizerView
+            android:id="@+id/visualizer_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <!-- Metronome Right 25% -->
+        <LinearLayout
+            android:id="@+id/metronome_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/visualizer_view">
+
+            <!-- Compact Row: MET Toggle, Indicator, BPM Label -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_metronome_toggle"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1.2"
+                    android:padding="0dp"
+                    android:text="MET"
+                    android:textColor="@color/acid_green"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/beat_indicator"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/tv_bpm_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="120"
+                    android:textColor="@color/acid_green"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- High Contrast Adjustment Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+                <Button
+                    android:id="@+id/btn_bpm_down"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:text="-5"
+                    android:textColor="@color/acid_green"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_bpm_down_fine"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:text="-1"
+                    android:textColor="@color/acid_green"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_bpm_up_fine"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:text="+1"
+                    android:textColor="@color/acid_green"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_bpm_up"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:text="+5"
+                    android:textColor="@color/acid_green"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Left 25% for Support/Demo -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/visualizer_view">
+
+            <Button
+                android:id="@+id/btn_help_mode"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="0dp"
+                android:text="?"
+                android:textColor="@color/acid_green"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btn_demo_mode"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="DEMO"
+                android:textColor="@color/electric_blue"
+                android:textSize="10sp" />
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="match_parent" />
+
+            <View
+                android:id="@+id/midi_status_indicator"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@android:color/darker_gray" />
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tv_latency_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Buffer: -- (0)"
+                android:textColor="@color/dim_grey"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="4dp"
+                android:layout_height="match_parent" />
+
+            <ToggleButton
+                android:id="@+id/toggle_auto_latency"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="48dp"
+                android:layout_height="32dp"
+                android:textOff="AUTO"
+                android:textOn="AUTO"
+                android:checked="true"
+                android:textColor="@color/acid_green"
+                android:textSize="8sp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/workspace_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_pad_view"
+        app:layout_constraintBottom_toTopOf="@id/keyboard_pad_scroll_view"
         app:layout_constraintTop_toBottomOf="@id/top_header">
 
         <!-- Sidebar Browser (Milestone 11/22) -->
@@ -31,17 +221,17 @@
             android:layout_width="160dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="@dimen/spacing_medium"
+            android:padding="8dp"
             android:background="@color/surface_dark"
             android:visibility="gone">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/title_sample_browser"
+                android:text="SAMPLE BROWSER"
                 android:textColor="@color/acid_green"
                 android:textStyle="bold"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:paddingBottom="8dp"
                 android:gravity="center" />
 
@@ -64,7 +254,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/label_factory"
+                        android:text="FACTORY"
                         android:textColor="@color/dim_grey"
                         android:textSize="9sp"
                         android:paddingBottom="4dp" />
@@ -78,7 +268,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/label_pad_map"
+                        android:text="PAD MAP"
                         android:textColor="@color/dim_grey"
                         android:textSize="9sp"
                         android:paddingTop="12dp"
@@ -96,7 +286,7 @@
                 android:id="@+id/tv_mapping_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/label_select_sample"
+                android:text="Select a sample..."
                 android:textColor="@color/off_white"
                 android:textSize="9sp"
                 android:paddingTop="8dp"
@@ -107,11 +297,7 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:fadeScrollbars="false"
-            android:scrollbarStyle="outsideOverlay"
-            android:paddingBottom="16dp"
-            android:clipToPadding="false">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -123,13 +309,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="@dimen/spacing_medium">
+                    android:padding="8dp">
 
                     <Button
                         android:id="@+id/btn_mode_toggle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/btn_mode_pads" />
+                        android:text="Pads" />
 
                     <Space
                         android:layout_width="8dp"
@@ -139,7 +325,7 @@
                         android:id="@+id/btn_poly_toggle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/btn_poly_on" />
+                        android:text="Poly: ON" />
 
                     <Space
                         android:layout_width="8dp"
@@ -148,17 +334,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/label_octave"
-                        android:textColor="@color/off_white"
-                        android:textSize="12sp" />
+                        android:text="Oct:"
+                        android:textColor="@color/off_white" />
 
                     <Button
                         android:id="@+id/btn_octave_down"
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
-                        android:text="-"
-                        android:textSize="12sp"
-                        android:contentDescription="@string/desc_octave_down" />
+                        android:text="-" />
 
                     <TextView
                         android:id="@+id/tv_octave_value"
@@ -166,17 +349,13 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="8dp"
                         android:text="0"
-                        android:textColor="@color/off_white"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/off_white" />
 
                     <Button
                         android:id="@+id/btn_octave_up"
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
-                        android:text="+"
-                        android:textSize="12sp"
-                        android:contentDescription="@string/desc_octave_up" />
+                        android:text="+" />
 
                     <Space
                         android:layout_width="16dp"
@@ -186,23 +365,25 @@
                         android:id="@+id/toggle_zen_mode"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/button_height_standard"
-                        android:textOff="@string/btn_zen_off"
-                        android:textOn="@string/btn_zen_on"
+                        android:layout_height="36dp"
+                        android:textOff="ZEN OFF"
+                        android:textOn="ZEN ON"
                         android:textColor="@color/electric_blue"
-                        android:textSize="12sp"
-                        android:background="@drawable/selector_toggle_bg" />
-...
+                        android:textSize="10sp" />
+
+                    <Space
+                        android:layout_width="8dp"
+                        android:layout_height="match_parent" />
+
                     <ToggleButton
                         android:id="@+id/toggle_browser"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/button_height_standard"
-                        android:textOff="@string/btn_brw_off"
-                        android:textOn="@string/btn_brw_on"
+                        android:layout_height="36dp"
+                        android:textOff="BRW OFF"
+                        android:textOn="BRW ON"
                         android:textColor="@color/electric_blue"
-                        android:textSize="12sp"
-                        android:background="@drawable/selector_toggle_bg" />
+                        android:textSize="10sp" />
 
                     <Space
                         android:layout_width="8dp"
@@ -213,14 +394,35 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
-                        android:text="@string/btn_projects"
+                        android:text="PROJ"
                         android:textColor="@color/acid_green"
-                        android:textSize="12sp" />
+                        android:textSize="10sp" />
+
+                    <Space
+                        android:layout_width="8dp"
+                        android:layout_height="match_parent" />
+
+                    <ToggleButton
+                        android:id="@+id/toggle_config"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:textOff="CFG ON"
+                        android:textOn="CFG OFF"
+                        android:checked="true"
+                        android:textColor="@color/acid_green"
+                        android:textSize="10sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/parameter_container"
+                    android:id="@+id/config_workspace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/parameter_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -230,13 +432,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="@dimen/spacing_medium">
+                        android:padding="8dp">
 
                         <Button
                             android:id="@+id/btn_save_preset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/btn_preset_save" />
+                            android:text="Save" />
 
                         <Space
                             android:layout_width="8dp"
@@ -246,7 +448,7 @@
                             android:id="@+id/btn_load_preset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/btn_preset_load" />
+                            android:text="Load" />
 
                         <Space
                             android:layout_width="8dp"
@@ -257,7 +459,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha="0.5"
-                            android:text="@string/btn_mock_rec"
+                            android:text="REC"
                             android:textColor="@color/vibrant_red" />
 
                         <Button
@@ -265,7 +467,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha="0.5"
-                            android:text="@string/btn_mock_play"
+                            android:text="PLAY"
                             android:textColor="@color/electric_blue" />
                     </LinearLayout>
 
@@ -275,15 +477,14 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:padding="@dimen/spacing_medium">
+                        android:padding="8dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_wave"
+                            android:text="Wav:"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="12sp" />
 
                         <com.google.android.material.button.MaterialButtonToggleGroup
                             android:id="@+id/toggle_waveform"
@@ -299,7 +500,7 @@
                                 android:layout_width="48dp"
                                 android:layout_height="40dp"
                                 android:padding="0dp"
-                                android:text="@string/btn_wave_sine"
+                                android:text="SINE"
                                 android:textSize="9sp" />
 
                             <Button
@@ -308,7 +509,7 @@
                                 android:layout_width="48dp"
                                 android:layout_height="40dp"
                                 android:padding="0dp"
-                                android:text="@string/btn_wave_square"
+                                android:text="SQR"
                                 android:textSize="9sp" />
 
                             <Button
@@ -317,7 +518,7 @@
                                 android:layout_width="48dp"
                                 android:layout_height="40dp"
                                 android:padding="0dp"
-                                android:text="@string/btn_wave_saw"
+                                android:text="SAW"
                                 android:textSize="9sp" />
 
                             <Button
@@ -326,7 +527,7 @@
                                 android:layout_width="48dp"
                                 android:layout_height="40dp"
                                 android:padding="0dp"
-                                android:text="@string/btn_wave_triangle"
+                                android:text="TRI"
                                 android:textSize="9sp" />
 
                         </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -339,32 +540,30 @@
                             android:id="@+id/tv_master_vol_val"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:minWidth="36dp"
+                            android:minWidth="30dp"
                             android:text="80%"
                             android:textColor="@color/dim_grey"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <SeekBar
                             android:id="@+id/seek_master_vol"
-                            android:layout_width="0dp"
+                            android:layout_width="80dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:max="100"
                             android:progress="80" />
                     </LinearLayout>
-...
+
                     <LinearLayout
                         android:id="@+id/adsr_bar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="@dimen/spacing_medium">
+                        android:padding="8dp">
 
                         <TextView
-                            android:layout_width="20dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_attack"
+                            android:text="A"
                             android:textColor="@color/off_white" />
 
                         <SeekBar
@@ -377,17 +576,17 @@
 
                         <TextView
                             android:id="@+id/tv_attack_val"
-                            android:layout_width="36dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:minWidth="40dp"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <TextView
-                            android:layout_width="20dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_decay"
+                            android:text="D"
                             android:textColor="@color/off_white" />
 
                         <SeekBar
@@ -400,17 +599,17 @@
 
                         <TextView
                             android:id="@+id/tv_decay_val"
-                            android:layout_width="36dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:minWidth="40dp"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <TextView
-                            android:layout_width="20dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_sustain"
+                            android:text="S"
                             android:textColor="@color/off_white" />
 
                         <SeekBar
@@ -423,17 +622,17 @@
 
                         <TextView
                             android:id="@+id/tv_sustain_val"
-                            android:layout_width="36dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:minWidth="40dp"
                             android:text="0.8"
                             android:textColor="@color/dim_grey"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <TextView
-                            android:layout_width="20dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_release"
+                            android:text="R"
                             android:textColor="@color/off_white" />
 
                         <SeekBar
@@ -446,12 +645,12 @@
 
                         <TextView
                             android:id="@+id/tv_release_val"
-                            android:layout_width="36dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:minWidth="40dp"
                             android:text="0.1"
                             android:textColor="@color/dim_grey"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                     </LinearLayout>
 
@@ -460,15 +659,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="@dimen/spacing_medium">
+                        android:padding="8dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_lfo_rate"
+                            android:text="LFO Rate"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="12sp" />
 
                         <SeekBar
                             android:id="@+id/seek_lfo_rate"
@@ -485,16 +683,14 @@
                             android:minWidth="40dp"
                             android:text="1.0Hz"
                             android:textColor="@color/dim_grey"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_lfo_depth"
+                            android:text="Depth"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="12sp" />
 
                         <SeekBar
                             android:id="@+id/seek_lfo_depth"
@@ -511,8 +707,7 @@
                             android:minWidth="40dp"
                             android:text="0.0"
                             android:textColor="@color/dim_grey"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                     </LinearLayout>
 
@@ -520,15 +715,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="@dimen/spacing_medium">
+                        android:padding="8dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_lfo_wave"
+                            android:text="LFO Wave:"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="12sp" />
 
                         <Spinner
                             android:id="@+id/spinner_lfo_waveform"
@@ -542,10 +736,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_lfo_target"
+                            android:text="Target:"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="12sp" />
 
                         <Spinner
                             android:id="@+id/spinner_lfo_target"
@@ -559,10 +752,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_at_target"
+                            android:text="AT Target:"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="12sp" />
 
                         <Spinner
                             android:id="@+id/spinner_aftertouch_target"
@@ -576,15 +768,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="@dimen/spacing_medium">
+                        android:padding="8dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_filter_cutoff"
+                            android:text="Cutoff"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="12sp" />
 
                         <SeekBar
                             android:id="@+id/seek_filter_cutoff"
@@ -601,16 +792,14 @@
                             android:minWidth="60dp"
                             android:text="1000Hz"
                             android:textColor="@color/dim_grey"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_filter_res"
+                            android:text="Res"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="12sp" />
 
                         <SeekBar
                             android:id="@+id/seek_filter_res"
@@ -627,8 +816,7 @@
                             android:minWidth="40dp"
                             android:text="0.20"
                             android:textColor="@color/dim_grey"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -639,14 +827,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing_medium"
-                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:padding="8dp"
+                    android:layout_marginTop="8dp"
                     android:background="@color/matte_grey">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/title_effects"
+                        android:text="BUILT-IN EFFECTS"
                         android:textColor="@color/acid_green"
                         android:textStyle="bold"
                         android:textSize="12sp" />
@@ -661,10 +849,9 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_delay_time"
+                            android:text="Dly T"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <SeekBar
                             android:id="@+id/seek_delay_time"
@@ -677,10 +864,9 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_delay_feedback"
+                            android:text="Dly F"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <SeekBar
                             android:id="@+id/seek_delay_feedback"
@@ -693,10 +879,9 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_delay_mix"
+                            android:text="Dly M"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <SeekBar
                             android:id="@+id/seek_delay_mix"
@@ -717,10 +902,9 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_reverb_size"
+                            android:text="Rev S"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <SeekBar
                             android:id="@+id/seek_reverb_size"
@@ -733,10 +917,9 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_reverb_damping"
+                            android:text="Rev D"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <SeekBar
                             android:id="@+id/seek_reverb_damping"
@@ -749,10 +932,9 @@
                         <TextView
                             android:layout_width="40dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_reverb_mix"
+                            android:text="Rev M"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <SeekBar
                             android:id="@+id/seek_reverb_mix"
@@ -770,8 +952,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing_medium"
-                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:padding="8dp"
+                    android:layout_marginTop="8dp"
                     android:background="@color/matte_grey">
 
                     <LinearLayout
@@ -784,127 +966,152 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="@string/sequencer_title"
+                            android:text="SEQUENCER"
                             android:textColor="@color/acid_green"
                             android:textStyle="bold"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="12sp" />
 
                         <Button
-                            android:id="@+id/btn_sequencer_options"
+                            android:id="@+id/btn_save_pattern"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="@dimen/button_height_standard"
-                            android:layout_height="@dimen/button_height_standard"
-                            android:padding="0dp"
-                            android:text="⋮"
-                            android:textColor="@color/acid_green"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="SAVE"
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/btn_load_pattern"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="LOAD"
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
 
                         <Space
-                            android:layout_width="4dp"
+                            android:layout_width="8dp"
                             android:layout_height="match_parent" />
 
                         <Button
                             android:id="@+id/btn_sequencer_play"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="@dimen/button_height_standard"
-                            android:layout_height="@dimen/button_height_standard"
-                            android:padding="0dp"
-                            android:text="▶"
-                            android:contentDescription="@string/desc_sequencer_play"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="PLAY"
                             android:textColor="@color/electric_blue"
-                            android:textSize="14sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <Space
-                            android:layout_width="4dp"
+                            android:layout_width="8dp"
                             android:layout_height="match_parent" />
 
                         <ToggleButton
                             android:id="@+id/toggle_sequencer_rec"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="@dimen/button_height_standard"
-                            android:layout_height="@dimen/button_height_standard"
-                            android:padding="0dp"
-                            android:textOff="●"
-                            android:textOn="●"
-                            android:contentDescription="@string/desc_sequencer_rec"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:textOff="REC OFF"
+                            android:textOn="REC ON"
                             android:textColor="@color/vibrant_red"
-                            android:textSize="14sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <Space
-                            android:layout_width="4dp"
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
+                        <ToggleButton
+                            android:id="@+id/toggle_input_quantize"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
+                            android:textOff="IQ"
+                            android:textOn="IQ"
+                            android:textColor="@color/acid_green"
+                            android:textSize="10sp"
+                            android:checked="true" />
+
+                        <Space
+                            android:layout_width="8dp"
                             android:layout_height="match_parent" />
 
                         <Button
                             android:id="@+id/btn_sequencer_clear"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="@dimen/button_height_standard"
-                            android:layout_height="@dimen/button_height_standard"
-                            android:padding="0dp"
-                            android:text="@string/sequencer_clear_short"
-                            android:contentDescription="@string/desc_sequencer_clear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="CLR"
                             android:textColor="@color/vibrant_red"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <Space
-                            android:layout_width="4dp"
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
+                        <Button
+                            android:id="@+id/btn_step_rest"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="REST"
+                            android:visibility="gone"
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
+                        <Button
+                            android:id="@+id/btn_step_back"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="BACK"
+                            android:visibility="gone"
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
+
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
+                        <Button
+                            android:id="@+id/btn_sequencer_export"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="EXP"
+                            android:textColor="@color/acid_green"
+                            android:textSize="10sp" />
+
+                        <Space
+                            android:layout_width="8dp"
                             android:layout_height="match_parent" />
 
                         <ToggleButton
                             android:id="@+id/toggle_pad_sampling"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="@dimen/button_height_standard"
-                            android:layout_height="@dimen/button_height_standard"
-                            android:padding="0dp"
-                            android:textOff="@string/sequencer_sampling_off"
-                            android:textOn="@string/sequencer_sampling_on"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:textOff="SAMPLING OFF"
+                            android:textOn="SAMPLING ON"
                             android:textColor="@color/acid_green"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <Space
-                            android:layout_width="4dp"
+                            android:layout_width="8dp"
                             android:layout_height="match_parent" />
 
                         <ToggleButton
                             android:id="@+id/toggle_step_rec"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="@dimen/button_height_standard"
-                            android:layout_height="@dimen/button_height_standard"
-                            android:padding="0dp"
-                            android:textOff="@string/sequencer_step_off"
-                            android:textOn="@string/sequencer_step_on"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:textOff="STEP OFF"
+                            android:textOn="STEP ON"
                             android:textColor="@color/acid_green"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
-
-                        <Button
-                            android:id="@+id/btn_step_rest"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="@dimen/button_height_standard"
-                            android:layout_height="@dimen/button_height_standard"
-                            android:padding="0dp"
-                            android:text="@string/sequencer_rest_short"
-                            android:visibility="gone"
-                            android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
-
-                        <Button
-                            android:id="@+id/btn_step_back"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="@dimen/button_height_standard"
-                            android:layout_height="@dimen/button_height_standard"
-                            android:padding="0dp"
-                            android:text="@string/sequencer_back_short"
-                            android:visibility="gone"
-                            android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -916,17 +1123,15 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/sequencer_page_label"
+                            android:text="Page: "
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <Button
                             android:id="@+id/btn_step_page_prev"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="@dimen/button_height_standard"
-                            android:layout_height="@dimen/button_height_standard"
-                            android:padding="0dp"
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
                             android:text="&lt;"
                             android:textColor="@color/acid_green" />
 
@@ -937,15 +1142,13 @@
                             android:paddingHorizontal="8dp"
                             android:text="1 / 1"
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="11sp" />
 
                         <Button
                             android:id="@+id/btn_step_page_next"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="@dimen/button_height_standard"
-                            android:layout_height="@dimen/button_height_standard"
-                            android:padding="0dp"
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
                             android:text="&gt;"
                             android:textColor="@color/acid_green" />
 
@@ -956,10 +1159,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/sequencer_step_size_label"
+                            android:text="Step Size: "
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <Spinner
                             android:id="@+id/spinner_step_duration"
@@ -973,10 +1175,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/sequencer_loop_label"
+                            android:text="Loop: "
                             android:textColor="@color/off_white"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:textSize="10sp" />
 
                         <Spinner
                             android:id="@+id/spinner_loop_length"
@@ -988,7 +1189,7 @@
                         android:id="@+id/sequencer_step_grid"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:layout_marginTop="8dp"
                         android:columnCount="8"
                         android:rowCount="2">
 
@@ -1018,201 +1219,176 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing_medium"
-                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:padding="8dp"
+                    android:layout_marginTop="8dp"
                     android:background="@color/matte_grey">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/pads_title"
+                        android:text="PAD CUSTOMIZATION"
                         android:textColor="@color/acid_green"
                         android:textStyle="bold"
                         android:textSize="12sp" />
 
-                    <GridLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:columnCount="3"
-                        android:rowCount="2"
+                        android:orientation="horizontal"
                         android:layout_marginTop="4dp">
 
-                        <!-- Cols / Rows Row -->
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
+                            android:text="Cols: "
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/pads_grid_label"
-                                android:textColor="@color/off_white"
-                                android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
-
-                            <Button
-                                android:id="@+id/btn_cols_down"
-                                style="?attr/materialButtonOutlinedStyle"
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:padding="0dp"
-                                android:text="C-"
-                                android:textColor="@color/acid_green"
-                                android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
-
-                            <TextView
-                                android:id="@+id/tv_cols_value"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="4dp"
-                                android:text="4"
-                                android:textColor="@color/off_white" />
-
-                            <Button
-                                android:id="@+id/btn_cols_up"
-                                style="?attr/materialButtonOutlinedStyle"
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:padding="0dp"
-                                android:text="C+"
-                                android:textColor="@color/acid_green"
-                                android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
-
-                            <Space
-                                android:layout_width="8dp"
-                                android:layout_height="match_parent" />
-
-                            <Button
-                                android:id="@+id/btn_rows_down"
-                                style="?attr/materialButtonOutlinedStyle"
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:padding="0dp"
-                                android:text="R-"
-                                android:textColor="@color/acid_green"
-                                android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
-
-                            <TextView
-                                android:id="@+id/tv_rows_value"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="4dp"
-                                android:text="4"
-                                android:textColor="@color/off_white" />
-
-                            <Button
-                                android:id="@+id/btn_rows_up"
-                                style="?attr/materialButtonOutlinedStyle"
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:padding="0dp"
-                                android:text="R+"
-                                android:textColor="@color/acid_green"
-                                android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
-                        </LinearLayout>
-
-                        <!-- Config Mode -->
-                        <ToggleButton
-                            android:id="@+id/toggle_pad_config"
+                        <Button
+                            android:id="@+id/btn_cols_down"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="32dp"
-                            android:layout_marginStart="8dp"
-                            android:textOff="EDIT"
-                            android:textOn="EDIT"
-                            android:textColor="@color/vibrant_red"
-                            android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
+                            android:text="-"
+                            android:textColor="@color/acid_green" />
 
-                        <!-- Bank Control -->
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/tv_cols_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:layout_gravity="end">
+                            android:paddingHorizontal="8dp"
+                            android:text="4"
+                            android:textColor="@color/off_white" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/pads_bank_label"
-                                android:textColor="@color/acid_green"
-                                android:textStyle="bold"
-                                android:textSize="12sp"
-                            android:background="@drawable/selector_toggle_bg" />
+                        <Button
+                            android:id="@+id/btn_cols_up"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
+                            android:text="+"
+                            android:textColor="@color/acid_green" />
 
-                            <Button
-                                android:id="@+id/btn_bank_down"
-                                style="?attr/materialButtonOutlinedStyle"
-                                android:layout_width="40dp"
-                                android:layout_height="36dp"
-                                android:text="&lt;"
-                                android:textColor="@color/acid_green" />
+                        <Space
+                            android:layout_width="16dp"
+                            android:layout_height="match_parent" />
 
-                            <TextView
-                                android:id="@+id/tv_bank_value"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="8dp"
-                                android:text="1"
-                                android:textColor="@color/off_white" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rows: "
+                            android:textColor="@color/off_white"
+                            android:textSize="10sp" />
 
-                            <Button
-                                android:id="@+id/btn_bank_up"
-                                style="?attr/materialButtonOutlinedStyle"
-                                android:layout_width="40dp"
-                                android:layout_height="36dp"
-                                android:text="&gt;"
-                                android:textColor="@color/acid_green" />
-                        </LinearLayout>
-                    </GridLayout>
+                        <Button
+                            android:id="@+id/btn_rows_down"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
+                            android:text="-"
+                            android:textColor="@color/acid_green" />
+
+                        <TextView
+                            android:id="@+id/tv_rows_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="8dp"
+                            android:text="4"
+                            android:textColor="@color/off_white" />
+
+                        <Button
+                            android:id="@+id/btn_rows_up"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
+                            android:text="+"
+                            android:textColor="@color/acid_green" />
+
+                        <Space
+                            android:layout_width="16dp"
+                            android:layout_height="match_parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bank: "
+                            android:textColor="@color/acid_green"
+                            android:textStyle="bold"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/btn_bank_down"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
+                            android:text="&lt;"
+                            android:textColor="@color/acid_green" />
+
+                        <TextView
+                            android:id="@+id/tv_bank_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="8dp"
+                            android:text="1"
+                            android:textColor="@color/off_white" />
+
+                        <Button
+                            android:id="@+id/btn_bank_up"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="40dp"
+                            android:layout_height="36dp"
+                            android:text="&gt;"
+                            android:textColor="@color/acid_green" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
-        </ScrollView>
+
+        </LinearLayout>
+    </ScrollView>
     </LinearLayout>
 
-    <ch.schmidlins.mini_synth.ui.KeyboardPadView
-        android:id="@+id/keyboard_pad_view"
-        android:layout_width="0dp"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/keyboard_pad_scroll_view"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/keyboard_height_percent"
+        android:fillViewport="true"
+        app:layout_constraintHeight_percent="0.3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintVertical_bias="1.0">
+
+        <ch.schmidlins.mini_synth.ui.KeyboardPadView
+            android:id="@+id/keyboard_pad_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.core.widget.NestedScrollView>
 
     <ToggleButton
         android:id="@+id/toggle_keyboard"
         style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="@dimen/button_height_standard"
-        android:layout_height="@dimen/button_height_standard"
-        android:layout_margin="@dimen/spacing_small"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="4dp"
         android:textOff="▼"
         android:textOn="▲"
         android:textColor="@color/acid_green"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_pad_view"
+        app:layout_constraintBottom_toTopOf="@id/keyboard_pad_scroll_view"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ToggleButton
         android:id="@+id/toggle_pads_fullscreen"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/button_height_standard"
-        android:layout_margin="@dimen/spacing_medium"
-        android:textOff="@string/btn_play_mode_off"
-        android:textOn="@string/btn_play_mode_on"
+        android:layout_height="36dp"
+        android:layout_margin="8dp"
+        android:textOff="PLAY MODE: OFF"
+        android:textOn="PLAY MODE: ON"
         android:textColor="@color/acid_green"
-        android:textSize="12sp"
+        android:textSize="10sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

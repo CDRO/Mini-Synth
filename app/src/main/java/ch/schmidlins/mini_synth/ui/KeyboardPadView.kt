@@ -37,7 +37,6 @@ class KeyboardPadView @JvmOverloads constructor(
     var gridColumns = 4
     var gridRows = 4
     var listener: OnNoteEventListener? = null
-    var isConfigMode = false
     
     // UI state - Thread safe bitmask storage
     private val noteStates = ConcurrentHashMap<Int, Int>()
@@ -77,7 +76,23 @@ class KeyboardPadView @JvmOverloads constructor(
             clearHeldNotes()
         }
         mode = newMode
+        requestLayout()
         invalidate()
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        if (mode == Mode.PAD_GRID) {
+            val w = MeasureSpec.getSize(widthMeasureSpec)
+            val hSize = MeasureSpec.getSize(heightMeasureSpec)
+            val hMode = MeasureSpec.getMode(heightMeasureSpec)
+            
+            // Fixed base height per pad row if in ScrollView, otherwise use available height
+            val rowHeight = if (hMode == MeasureSpec.UNSPECIFIED) 150 else hSize / gridRows
+            val totalHeight = rowHeight * gridRows
+            setMeasuredDimension(w, totalHeight)
+        } else {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -236,20 +251,14 @@ class KeyboardPadView @JvmOverloads constructor(
                 pointerStartPositionsY[pId] = y
                 val midi = getMidiAt(x, y)
                 if (midi != -1) {
+                    noteOn(pId, midi)
                     if (mode == Mode.PAD_GRID) {
+                        gesturePads.getOrPut(pId) { mutableListOf() }.add(midi)
+                        
                         val padIndex = midi - baseNote
-                        if (isConfigMode) {
-                            listener?.onPadLongPress(padIndex)
-                        } else {
-                            noteOn(pId, midi)
-                            gesturePads.getOrPut(pId) { mutableListOf() }.add(midi)
-                            
-                            val runnable = Runnable { listener?.onPadLongPress(padIndex) }
-                            longPressRunnables[pId] = runnable
-                            handler.postDelayed(runnable, 500)
-                        }
-                    } else {
-                        noteOn(pId, midi)
+                        val runnable = Runnable { listener?.onPadLongPress(padIndex) }
+                        longPressRunnables[pId] = runnable
+                        handler.postDelayed(runnable, 500)
                     }
                 }
             }
@@ -436,6 +445,7 @@ class KeyboardPadView @JvmOverloads constructor(
         padOffset = offset
         invalidate()
     }
+    fun getPadOffset() = padOffset
 
     fun clearHeldNotes() {
         heldMidiNotes.forEach { midi ->

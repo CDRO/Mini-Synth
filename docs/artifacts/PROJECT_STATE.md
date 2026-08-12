@@ -38,22 +38,31 @@ Merging context from initial feature implementation and workspace refinements.
 ### [DONE] Milestone 29: Keyboard Sample Creation (Step Sequencer).
 
 ### [DONE] Milestone 30: Pad Holding & Expressive Gestures.
-
 ### [DONE] Milestone 31: Panel Reorganization & Hierarchy.
-
 ### [DONE] Milestone 32: Header Refinement & Engine Status.
-
 ### [DONE] Milestone 33: Design System & Accessibility.
-
 ### [DONE] Milestone 34: Pad UX & Audio Stability Refinement.
+### [DONE] Milestone 35: Performance Visualization & FFT Polish.
 
-### [NEXT] Milestone 35: Performance Visualization & FFT Polish
-- **Objective**: Refine real-time frequency analysis and visual feedback.
+### [NEXT] Milestone 36: Pad Configuration & Interaction Refinement
+- **Objective**: Fix pad sustaining and separate config from performance.
 - **Key Features**:
-    - High-density FFT visualization.
-    - Peak detection and frequency labeling.
+    - "EDIT" mode toggle for Pad grid.
+    - Long-press sustain support for pads.
+
+### [NEXT] Milestone 37: UI Stability & Visualizer Restoration
+- **Objective**: Fix header clipping and visual regressions.
+- **Key Features**:
+    - Layout weighting for header buttons.
+    - Restoration of red FFT peak gradients.
+
+### [NEXT] Milestone 38: Sequencer Interaction & Educational Demo
+- **Objective**: Fix sequencer recording and guide the user.
+- **Key Features**:
+    - Repaired recording path.
+    - Auto-scrolling educational demo.
 
 ## Quality Assurance Status
-- **Unit Tests**: 25 local JVM tests passing (Robolectric).
+- **Unit Tests**: 27 local JVM tests passing (Robolectric).
 - **Android Tests**: 23 connected tests passing.
 - **Workflow**: GitHub-integrated milestone tracking and 10-issue review loop.

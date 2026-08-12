@@ -6,16 +6,4 @@
     <dimen name="reflow_text_block_horizontal_gap">8dp</dimen>
     <dimen name="reflow_text_title_size">22sp</dimen>
     <dimen name="reflow_text_description_size">13sp</dimen>
-
-    <!-- Synth UI Spacing -->
-    <dimen name="spacing_tiny">2dp</dimen>
-    <dimen name="spacing_small">4dp</dimen>
-    <dimen name="spacing_medium">8dp</dimen>
-    <dimen name="spacing_large">16dp</dimen>
-
-    <!-- Synth UI Component Heights -->
-    <dimen name="button_height_standard">44dp</dimen>
-    <dimen name="status_bar_height">36dp</dimen>
-    <item name="header_height_percent" format="float" type="dimen">0.2</item>
-    <item name="keyboard_height_percent" format="float" type="dimen">0.3</item>
 </resources>

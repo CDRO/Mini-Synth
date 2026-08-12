@@ -1,9 +1,5 @@
 #include "VoiceManager.h"
 
-#include <cmath>
-
-#include <cmath>
-
 VoiceManager::VoiceManager() {
     setSampleRate(48000);
 }
@@ -141,15 +137,7 @@ float VoiceManager::nextSample() {
     }
 
     if (activeCount > 0) {
-        // Dynamic headroom and soft-clipping to prevent harsh digital distortion
-        mixedSample *= 0.4f; // 12dB headroom for better polyphonic sum
-        if (mixedSample > 1.0f) mixedSample = 1.0f;
-        else if (mixedSample < -1.0f) mixedSample = -1.0f;
-        else {
-            // Cubic soft-clipper for smoother saturation near peaks
-            // f(x) = 1.5x - 0.5x^3
-            mixedSample = 1.5f * mixedSample - 0.5f * (mixedSample * mixedSample * mixedSample);
-        }
+        mixedSample *= 0.5f; // Headroom for polyphony
     }
 
     return mixedSample * currentVol;

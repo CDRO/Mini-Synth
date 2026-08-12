@@ -137,11 +137,14 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 31: Panel Reorganization & Hierarchy [DONE]
+## Milestone 31: Dynamic Grid & Pad Customization [DONE]
 
-### [UI] [Hierarchy]
-- **Overflow Menus**: Logical grouping of secondary sequencer actions to prevent horizontal clipping.
-- **Vertical Stacking**: Redesign of the Pad Customization section for better readability.
+### [UI] [Pad Customization]
+- **Config Visibility**: Option to hide parameter controls to maximize pad space.
+- **Dynamic Grid**: Default 4x4, expandable to 4x8 or 4x16.
+- **Color Configuration**: Per-pad color assignment for organization and visual feedback.
+
+---
 
 ## Milestone 32: Header Refinement & Engine Status [DONE]
 
@@ -155,8 +158,6 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 - **Localization**: Zero hardcoded strings in layout files.
 - **Scaling**: Responsive text and container definitions to handle diverse aspect ratios.
 
----
-
 ## Milestone 34: Pad UX & Audio Stability Refinement [DONE]
 
 ### [Logic] [Performance]
@@ -165,11 +166,31 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 35: Performance Visualization & FFT Polish [TODO]
+## Milestone 35: Performance Visualization & FFT Polish [DONE]
 
 ### [UI] [Visualization]
 - **High-Resolution FFT**: Implement a log-scaled frequency analyzer for more accurate bass representation.
 - **Peak Tracking**: Visual markers for peak amplitudes across the frequency spectrum.
+
+---
+
+## Milestone 36: Pad Configuration & Interaction Refinement [TODO]
+
+### [UI] [UX]
+- **Pad EDIT Mode**: Decouple pad configuration from musical performance via a dedicated toggle.
+- **Sustain Support**: Allow long-press note sustaining on pads without interrupting performance.
+
+## Milestone 37: UI Stability & Visualizer Restoration [TODO]
+
+### [UI] [Stability]
+- **Layout Repair**: Fix clipping in the top-right header controls across diverse aspect ratios.
+- **Visual Restoration**: Re-align FFT color gradients to restore high-amplitude red alerts.
+
+## Milestone 38: Sequencer Interaction & Educational Demo [TODO]
+
+### [Logic] [Training]
+- **Recording Fix**: Audit and repair the sequencer real-time recording path.
+- **Guided Onboarding**: Upgrade the integrated demo to include an auto-scrolling training sequence for loop management.
 
 ---
 

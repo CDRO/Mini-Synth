@@ -32,11 +32,6 @@ class VisualizerView @JvmOverloads constructor(
         style = Paint.Style.FILL
     }
     private var gradient: android.graphics.LinearGradient? = null
-    private val dividerPaint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.border_dim)
-        strokeWidth = 2f
-        style = Paint.Style.STROKE
-    }
 
     fun setSynthManager(manager: SynthManager) {
         this.synthManager = manager
@@ -70,9 +65,6 @@ class VisualizerView @JvmOverloads constructor(
         path.reset()
         val centerY = height / 4f 
         val stepX = width.toFloat() / drawBuffer.size
-
-        // Horizontal divider between Waveform and Spectrum
-        canvas.drawLine(0f, height / 2f, width.toFloat(), height / 2f, dividerPaint)
 
         path.moveTo(0f, centerY)
         for (i in drawBuffer.indices) {
