@@ -906,7 +906,7 @@ class MainActivity : AppCompatActivity() {
 
         content.togglePadEdit!!.setOnCheckedChangeListener { _, isChecked ->
             if (isHelpMode) {
-                showHelp(getString(R.string.help_pad_config_toggle))
+                showHelp(getString(R.string.help_pad_edit_toggle))
                 content.togglePadEdit!!.isChecked = false
                 return@setOnCheckedChangeListener
             }
