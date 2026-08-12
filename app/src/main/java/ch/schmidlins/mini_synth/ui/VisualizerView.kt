@@ -54,7 +54,7 @@ class VisualizerView @JvmOverloads constructor(
             gradient = android.graphics.LinearGradient(
                 0f, h.toFloat(), 0f, 0f,
                 intArrayOf(acidGreen, electricBlue, vibrantRed),
-                floatArrayOf(0f, 0.4f, 0.7f),
+                floatArrayOf(0f, 0.3f, 0.6f),
                 android.graphics.Shader.TileMode.CLAMP
             )
             barPaint.shader = gradient
