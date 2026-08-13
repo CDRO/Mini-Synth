@@ -686,6 +686,16 @@ class MainActivity : AppCompatActivity() {
                 }
                 synthManager.padNoteOff(1)
                 
+                delay(1000)
+                showDemoToast("Spatial Panning: Sweeping across the stereo field.")
+                for (i in 0..10) {
+                    if (!isDemoPlaying) break
+                    val pan = (i - 5) / 5f
+                    synthManager.setPanning(pan)
+                    delay(300)
+                }
+                synthManager.setPanning(0f)
+                
                 delay(1500)
                 showDemoToast("Zen Mode: Hiding parameter controls to focus.")
                 runOnUiThread { 
@@ -738,6 +748,16 @@ class MainActivity : AppCompatActivity() {
                     delay(200)
                 }
                 synthManager.padNoteOff(1)
+                
+                delay(1000)
+                showDemoToast("Spatial Panning: Sweeping across the stereo field.")
+                for (i in 0..10) {
+                    if (!isDemoPlaying) break
+                    val pan = (i - 5) / 5f
+                    synthManager.setPanning(pan)
+                    delay(300)
+                }
+                synthManager.setPanning(0f)
                 
                 delay(1500)
                 showDemoToast("Zen Mode: Hiding parameter controls to focus.")
@@ -864,6 +884,16 @@ class MainActivity : AppCompatActivity() {
                     delay(200)
                 }
                 synthManager.padNoteOff(1)
+                
+                delay(1000)
+                showDemoToast("Spatial Panning: Sweeping across the stereo field.")
+                for (i in 0..10) {
+                    if (!isDemoPlaying) break
+                    val pan = (i - 5) / 5f
+                    synthManager.setPanning(pan)
+                    delay(300)
+                }
+                synthManager.setPanning(0f)
                 
                 delay(1500)
                 showDemoToast("Zen Mode: Hiding parameter controls to focus.")
