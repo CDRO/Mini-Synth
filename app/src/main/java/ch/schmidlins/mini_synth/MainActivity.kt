@@ -721,6 +721,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 delay(2000)
                 
+                // Reset sequencer for clean tutorial
+                synthManager.clearSequencer()
+                runOnUiThread { updateSequencerToggles(binding.appBarMain.contentMain) }
+                
                 // Stage 3: Sequencer Masterclass
                 showDemoToast(getString(R.string.demo_sequencer_masterclass))
                 
@@ -756,8 +760,10 @@ class MainActivity : AppCompatActivity() {
                         binding.appBarMain.contentMain.btnSequencerPlay.performClick()
                     }
                 }
+                delay(1000)
                 
-                val melody = listOf(67, 69, 70, 72)
+                showDemoToast("Recording: Playing a melodic sequence...")
+                val melody = listOf(60, 63, 67, 68, 67, 63, 60)
                 for (note in melody) {
                     if (!isDemoPlaying) break
                     synthManager.noteOn(note, 0.8f)
@@ -765,12 +771,12 @@ class MainActivity : AppCompatActivity() {
                         binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.RECORD, true)
                         updateSequencerToggles(binding.appBarMain.contentMain)
                     }
-                    delay(600)
+                    delay(400)
                     synthManager.noteOff(note)
                     runOnUiThread { 
                         binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.RECORD, false)
                     }
-                    delay(400)
+                    delay(200)
                 }
                 
                 delay(3000)
