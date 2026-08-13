@@ -3,17 +3,18 @@
 - `[ ]` Setup Refinement Infrastructure
     - `[x]` Create GitHub Milestone & Issue (#151).
     - `[x]` Create branch `feature/m36-polish-stability-v4`.
-    - `[ ]` Create Pull Request.
-    - `[ ]` Build baseline.
+    - `[x]` Create Pull Request (#152).
+    - `[x]` Build baseline.
 - `[ ]` Review & Repair Loop (1-10)
-    - `[x]` 1/10: Fix BPM button clipping in the header.
-    - `[x]` 2/10: Restore Red gradient stops in the visualizer spectrum.
-    - `[ ]` 3/10: Implement "PAD EDIT" mode in UI and Custom View.
-    - `[ ]` 5/10: Enable pad sustain/hold in performance mode.
-    - `[ ]` 6/10: Fix real-time sequencer recording UI refresh.
-    - `[ ]` 7/10: Implement auto-scroll to sequencer in integrated demo.
-    - `[ ]` 8/10: Add educational tutorial segment to demo.
-    - `[ ]` 9/10: Verify interaction model with unit tests.
+    - `[x]` 1/10: Fix BPM button clipping and Header weighting.
+    - `[x]` 2/10: Restore Red gradient stops and implement tanh soft-clipping.
+    - `[x]` 3/10: Implement "PAD EDIT" mode in UI and Custom View.
+    - `[x]` 4/10: Enable pad sustain/hold and refined hold thresholds.
+    - `[ ]` 5/10: Improve Sequencer recording path and UI feedback.
+    - `[ ]` 6/10: Implement auto-scroll to sequencer in integrated demo.
+    - `[ ]` 7/10: Add educational tutorial segment to demo.
+    - `[ ]` 8/10: Update help strings and standard accessibility.
+    - `[ ]` 9/10: Regression test touch targets and visibility.
     - `[ ]` 10/10: Final polish and documentation.
 - `[ ]` Finalize
     - `[ ]` Run full test suite.

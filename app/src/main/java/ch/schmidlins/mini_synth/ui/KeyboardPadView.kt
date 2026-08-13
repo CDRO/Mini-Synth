@@ -255,14 +255,12 @@ class KeyboardPadView @JvmOverloads constructor(
                     if (mode == Mode.PAD_GRID) {
                         val padIndex = midi - baseNote
                         if (isConfigMode) {
+                            // In Config mode, immediate trigger of the config dialog
                             listener?.onPadLongPress(padIndex)
                         } else {
+                            // In Play mode, standard note trigger with gesture support
                             noteOn(pId, midi)
                             gesturePads.getOrPut(pId) { mutableListOf() }.add(midi)
-                            
-                            val runnable = Runnable { listener?.onPadLongPress(padIndex) }
-                            longPressRunnables[pId] = runnable
-                            handler.postDelayed(runnable, 500)
                         }
                     } else {
                         noteOn(pId, midi)
@@ -280,9 +278,12 @@ class KeyboardPadView @JvmOverloads constructor(
                 if (midi != null) {
                     val deltaY = startY - currentY // Positive if sliding UP
                     // Threshold for holding: sliding up significantly
-                    if (deltaY > height * 0.4f) {
+                    val holdThreshold = if (mode == Mode.PAD_GRID) 100f else height * 0.4f
+                    val unholdThreshold = if (mode == Mode.PAD_GRID) -50f else -height * 0.2f
+                    
+                    if (deltaY > holdThreshold) {
                         heldMidiNotes.add(midi)
-                    } else if (deltaY < -height * 0.2f && heldMidiNotes.contains(midi)) {
+                    } else if (deltaY < unholdThreshold && heldMidiNotes.contains(midi)) {
                         heldMidiNotes.remove(midi)
                     }
                 }
