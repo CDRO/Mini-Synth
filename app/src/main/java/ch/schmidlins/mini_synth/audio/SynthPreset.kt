@@ -18,6 +18,8 @@ data class SynthPreset(
     val filterCutoff: Float = 1000.0f,
     val filterResonance: Float = 0.2f,
     val panning: Float = 0.0f,
+    val unisonCount: Int = 1,
+    val unisonDetune: Float = 0.0f,
     val sequencerStepDivision: Float = 0.25f,
     val padSamplePaths: Map<Int, String> = emptyMap(),
     val padPannings: Map<Int, Float> = emptyMap()

@@ -1560,6 +1560,8 @@ class MainActivity : AppCompatActivity() {
             filterCutoff = content.seekFilterCutoff!!.progress / 100f,
             filterResonance = content.seekFilterRes!!.progress / 100f,
             panning = (content.seekPanning!!.progress - 50) / 50f,
+            unisonCount = unisonCount,
+            unisonDetune = unisonDetune,
             sequencerStepDivision = when (content.spinnerStepDuration!!.selectedItemPosition) {
                 0 -> 0.25f; 1 -> 0.5f; 2 -> 1.0f; 3 -> 2.0f; 4 -> 4.0f; else -> 0.25f
             },
@@ -1586,6 +1588,14 @@ class MainActivity : AppCompatActivity() {
         content.seekFilterCutoff!!.progress = (preset.filterCutoff.coerceIn(0f, 1f) * 100).toInt()
         content.seekFilterRes!!.progress = (preset.filterResonance.coerceIn(0f, 1f) * 100).toInt()
         content.seekPanning!!.progress = (preset.panning.coerceIn(-1f, 1f) * 50 + 50).toInt()
+        
+        unisonCount = preset.unisonCount
+        unisonDetune = preset.unisonDetune
+        content.spinnerUnison.setSelection(when(unisonCount) { 2 -> 1; 4 -> 2; 8 -> 3; else -> 0 })
+        content.seekDetune.progress = unisonDetune.toInt()
+        content.tvDetuneVal.text = unisonDetune.toInt().toString()
+        synthManager.setUnison(unisonCount, unisonDetune, if (unisonCount > 1) 1.0f else 0.0f)
+
         val divIndex = when (preset.sequencerStepDivision) {
             0.25f -> 0; 0.5f -> 1; 1.0f -> 2; 2.0f -> 3; 4.0f -> 4; else -> 0
         }

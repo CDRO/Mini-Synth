@@ -32,6 +32,9 @@ bool ProjectManager::saveProject(const std::string& directory,
     j["engine"]["filterResonance"] = params.filterResonance;
     j["engine"]["isPolyphonic"] = params.isPolyphonic;
     j["engine"]["panning"] = params.panning;
+    j["engine"]["unisonCount"] = params.unisonCount;
+    j["engine"]["unisonDetune"] = params.unisonDetune;
+    j["engine"]["unisonSpread"] = params.unisonSpread;
 
     // Sequencer
     j["sequencer"]["stepDivision"] = sequencer.getStepDivision();
@@ -99,6 +102,15 @@ bool ProjectManager::loadProject(const std::string& directory,
     outParams.isPolyphonic = e["isPolyphonic"];
     if (e.contains("panning")) outParams.panning = e["panning"];
     else outParams.panning = 0.0f;
+
+    if (e.contains("unisonCount")) outParams.unisonCount = e["unisonCount"];
+    else outParams.unisonCount = 1;
+
+    if (e.contains("unisonDetune")) outParams.unisonDetune = e["unisonDetune"];
+    else outParams.unisonDetune = 0.0f;
+
+    if (e.contains("unisonSpread")) outParams.unisonSpread = e["unisonSpread"];
+    else outParams.unisonSpread = 0.0f;
 
     // Sequencer
     outSequencer.clear();
