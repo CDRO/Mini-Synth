@@ -1,18 +1,18 @@
-#include "Mp3Encoder.h"
+#include "WavEncoder.h"
 #include <android/log.h>
 #include <algorithm>
 
-#define TAG "SynthEngine_Mp3Encoder"
+#define TAG "SynthEngine_WavEncoder"
 
-Mp3Encoder::Mp3Encoder() {
+WavEncoder::WavEncoder() {
     mBuffer.resize(8192);
 }
 
-Mp3Encoder::~Mp3Encoder() {
+WavEncoder::~WavEncoder() {
     close();
 }
 
-bool Mp3Encoder::init(const std::string& path, int sampleRate, int channels, int bitRate) {
+bool WavEncoder::init(const std::string& path, int sampleRate, int channels, int bitRate) {
     mFile = fopen(path.c_str(), "wb");
     if (!mFile) return false;
 
@@ -30,7 +30,7 @@ bool Mp3Encoder::init(const std::string& path, int sampleRate, int channels, int
     return true;
 }
 
-void Mp3Encoder::encode(const float* samples, int numSamples) {
+void WavEncoder::encode(const float* samples, int numSamples) {
     if (!mFile) return;
 
     // Convert 32-bit Float to 16-bit PCM (Short) for maximum compatibility
@@ -43,12 +43,12 @@ void Mp3Encoder::encode(const float* samples, int numSamples) {
     fwrite(intBuffer.data(), sizeof(int16_t), numSamples, mFile);
 }
 
-void Mp3Encoder::flush() {
+void WavEncoder::flush() {
     if (!mFile) return;
     fflush(mFile);
 }
 
-void Mp3Encoder::close() {
+void WavEncoder::close() {
     if (mFile) {
         long fileSize = ftell(mFile);
 

@@ -1,9 +1,10 @@
-#ifndef MINI_SYNTH_MP3ENCODER_H
-#define MINI_SYNTH_MP3ENCODER_H
+#ifndef MINI_SYNTH_WAVENCODER_H
+#define MINI_SYNTH_WAVENCODER_H
 
 #include <string>
 #include <vector>
 #include <stdint.h>
+#include <stdio.h>
 
 struct WavHeader {
     char chunkId[4] = {'R', 'I', 'F', 'F'};
@@ -21,10 +22,10 @@ struct WavHeader {
     uint32_t subchunk2Size = 0;
 };
 
-class Mp3Encoder {
+class WavEncoder {
 public:
-    Mp3Encoder();
-    ~Mp3Encoder();
+    WavEncoder();
+    ~WavEncoder();
 
     bool init(const std::string& path, int sampleRate, int channels, int bitRate);
     void encode(const float* samples, int numSamples);
@@ -38,4 +39,4 @@ private:
     int mSampleRate = 48000;
 };
 
-#endif //MINI_SYNTH_MP3ENCODER_H
+#endif //MINI_SYNTH_WAVENCODER_H

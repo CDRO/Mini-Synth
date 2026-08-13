@@ -2,7 +2,7 @@
 #include <android/log.h>
 #include <fstream>
 #include <cstring>
-#include "Mp3Encoder.h"
+#include "WavEncoder.h"
 #include "ProjectManager.h"
 
 #define TAG "AudioEngine"
@@ -312,11 +312,11 @@ void AudioEngine::stopRecording() {
 }
 
 void AudioEngine::recordingLoop(const std::string& path) {
-    Mp3Encoder encoder;
+    WavEncoder encoder;
     int sampleRate = mStream ? mStream->getSampleRate() : 48000;
 
     if (!encoder.init(path, sampleRate, 1, 128)) {
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "Failed to initialize MP3 encoder for path: %s", path.c_str());
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "Failed to initialize WAV encoder for path: %s", path.c_str());
         mIsRecording = false;
         return;
     }
@@ -361,7 +361,7 @@ void AudioEngine::renderPatternToFile(const std::string& path) {
     renderVm.setSampleRate(sampleRate);
     renderVm.setParams(params);
 
-    Mp3Encoder encoder; // Note: This class actually renders WAV format
+    WavEncoder encoder;
     if (!encoder.init(path, sampleRate, 1, 192)) return;
 
     float stepDivision = mMidiSequencer.getStepDivision();
