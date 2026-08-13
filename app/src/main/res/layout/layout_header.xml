@@ -1,136 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/top_header"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/surface_dark">
 
-    <!-- Visualizer Centered 50% -->
-    <ch.schmidlins.mini_synth.ui.VisualizerView
-        android:id="@+id/visualizer_view"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/desc_visualizer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.5" />
-
-    <!-- Metronome Right 25% -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/metronome_container"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:padding="@dimen/spacing_small"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/visualizer_view">
-
-        <Button
-            android:id="@+id/btn_metronome_toggle"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_height_standard"
-            android:padding="0dp"
-            android:text="@string/header_metronome"
-            android:contentDescription="@string/desc_metronome_toggle"
-            android:textColor="@color/acid_green"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/beat_indicator"
-            app:layout_constraintHorizontal_weight="1.2" />
-
-        <View
-            android:id="@+id/beat_indicator"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="@dimen/spacing_small"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintTop_toTopOf="@id/btn_metronome_toggle"
-            app:layout_constraintBottom_toBottomOf="@id/btn_metronome_toggle"
-            app:layout_constraintStart_toEndOf="@id/btn_metronome_toggle"
-            app:layout_constraintEnd_toStartOf="@id/tv_bpm_value" />
-
-        <TextView
-            android:id="@+id/tv_bpm_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:text="BPM: 120"
-            android:textColor="@color/acid_green"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/btn_metronome_toggle"
-            app:layout_constraintBottom_toBottomOf="@id/btn_metronome_toggle"
-            app:layout_constraintStart_toEndOf="@id/beat_indicator"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- BPM Adjustment Row Pack -->
-        <Button
-            android:id="@+id/btn_bpm_down"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_height_standard"
-            android:padding="0dp"
-            android:text="-5"
-            android:contentDescription="@string/desc_bpm_down"
-            android:textColor="@color/acid_green"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/btn_metronome_toggle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_bpm_down_fine"
-            app:layout_constraintHorizontal_chainStyle="packed" />
-
-        <Button
-            android:id="@+id/btn_bpm_down_fine"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_height_standard"
-            android:padding="0dp"
-            android:text="-1"
-            android:contentDescription="@string/desc_bpm_down_fine"
-            android:textColor="@color/acid_green"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
-            app:layout_constraintStart_toEndOf="@id/btn_bpm_down"
-            app:layout_constraintEnd_toStartOf="@id/btn_bpm_up_fine" />
-
-        <Button
-            android:id="@+id/btn_bpm_up_fine"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_height_standard"
-            android:padding="0dp"
-            android:text="+1"
-            android:contentDescription="@string/desc_bpm_up_fine"
-            android:textColor="@color/acid_green"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
-            app:layout_constraintStart_toEndOf="@id/btn_bpm_down_fine"
-            app:layout_constraintEnd_toStartOf="@id/btn_bpm_up" />
-
-        <Button
-            android:id="@+id/btn_bpm_up"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_height_standard"
-            android:padding="0dp"
-            android:text="+5"
-            android:contentDescription="@string/desc_bpm_up"
-            android:textColor="@color/acid_green"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
-            app:layout_constraintStart_toEndOf="@id/btn_bpm_up_fine"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- Left 25% for Support/Demo -->
+    <!-- Left approx 28% -->
     <LinearLayout
         android:id="@+id/support_container"
         android:layout_width="0dp"
@@ -139,7 +16,8 @@
         android:orientation="vertical"
         android:padding="@dimen/spacing_small"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/visualizer_view">
+        app:layout_constraintEnd_toStartOf="@id/visualizer_view"
+        app:layout_constraintHorizontal_weight="1.2">
 
         <!-- Top Row: Help and Demo -->
         <LinearLayout
@@ -202,7 +80,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/header_latency_format"
+                android:text=""
+                tools:text="LATENCY: 512 (0)"
                 android:textColor="@color/acid_green"
                 android:textSize="11sp"
                 android:textStyle="bold" />
@@ -221,7 +100,135 @@
                 android:textSize="12sp"
                 android:background="@drawable/selector_toggle_bg" />
         </LinearLayout>
-
     </LinearLayout>
+
+    <!-- Visualizer Centered 44% approx -->
+    <ch.schmidlins.mini_synth.ui.VisualizerView
+        android:id="@+id/visualizer_view"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/desc_visualizer"
+        app:layout_constraintEnd_toStartOf="@+id/metronome_container"
+        app:layout_constraintStart_toEndOf="@+id/support_container"
+        app:layout_constraintHorizontal_weight="1.8" />
+
+    <!-- Metronome Right 28% approx -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/metronome_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/visualizer_view"
+        app:layout_constraintHorizontal_weight="1.3">
+
+        <Button
+            android:id="@+id/btn_metronome_toggle"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height_standard"
+            android:padding="0dp"
+            android:text="@string/header_metronome"
+            android:contentDescription="@string/desc_metronome_toggle"
+            android:textColor="@color/acid_green"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/beat_indicator"
+            app:layout_constraintHorizontal_weight="1.5" />
+
+        <View
+            android:id="@+id/beat_indicator"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toTopOf="@id/btn_metronome_toggle"
+            app:layout_constraintBottom_toBottomOf="@id/btn_metronome_toggle"
+            app:layout_constraintStart_toEndOf="@id/btn_metronome_toggle"
+            app:layout_constraintEnd_toStartOf="@id/tv_bpm_value" />
+
+        <TextView
+            android:id="@+id/tv_bpm_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="BPM: 120"
+            android:textColor="@color/acid_green"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/btn_metronome_toggle"
+            app:layout_constraintBottom_toBottomOf="@id/btn_metronome_toggle"
+            app:layout_constraintStart_toEndOf="@id/beat_indicator"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- BPM Adjustment Row Pack -->
+        <Button
+            android:id="@+id/btn_bpm_down"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height_standard"
+            android:padding="0dp"
+            android:text="-5"
+            android:contentDescription="@string/desc_bpm_down"
+            android:textColor="@color/acid_green"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/btn_metronome_toggle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_bpm_down_fine"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintHorizontal_chainStyle="spread" />
+
+        <Button
+            android:id="@+id/btn_bpm_down_fine"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height_standard"
+            android:padding="0dp"
+            android:text="-1"
+            android:contentDescription="@string/desc_bpm_down_fine"
+            android:textColor="@color/acid_green"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
+            app:layout_constraintStart_toEndOf="@id/btn_bpm_down"
+            app:layout_constraintEnd_toStartOf="@id/btn_bpm_up_fine"
+            app:layout_constraintHorizontal_weight="1" />
+
+        <Button
+            android:id="@+id/btn_bpm_up_fine"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height_standard"
+            android:padding="0dp"
+            android:text="+1"
+            android:contentDescription="@string/desc_bpm_up_fine"
+            android:textColor="@color/acid_green"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
+            app:layout_constraintStart_toEndOf="@id/btn_bpm_down_fine"
+            app:layout_constraintEnd_toStartOf="@id/btn_bpm_up"
+            app:layout_constraintHorizontal_weight="1" />
+
+        <Button
+            android:id="@+id/btn_bpm_up"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height_standard"
+            android:padding="0dp"
+            android:text="+5"
+            android:contentDescription="@string/desc_bpm_up"
+            android:textColor="@color/acid_green"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
+            app:layout_constraintStart_toEndOf="@id/btn_bpm_up_fine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -716,7 +716,57 @@ class MainActivity : AppCompatActivity() {
                 }
                 delay(2000)
                 
-                // Stage 3: Performance Stage. Using pads and built-in effects.
+                // Stage 3: Sequencer Masterclass
+                showDemoToast("Educational: Mastering the Sequencer")
+                
+                // Scroll to Sequencer
+                runOnUiThread {
+                    binding.appBarMain.contentMain.workspaceScroll.smoothScrollTo(0, binding.appBarMain.contentMain.sequencerSection.top)
+                }
+                delay(1500)
+                
+                showDemoToast("Step 1: Manual Editing. Toggle steps in the grid.")
+                for (i in listOf(0, 4, 8, 12)) {
+                    if (!isDemoPlaying) break
+                    runOnUiThread {
+                        val toggle = binding.appBarMain.contentMain.root.findViewById<android.widget.ToggleButton>(stepButtonIds[i])
+                        toggle?.isChecked = true
+                    }
+                    delay(800)
+                }
+                
+                delay(1500)
+                showDemoToast("Step 2: Real-time Recording. Capture your keyboard performance.")
+                runOnUiThread {
+                    binding.appBarMain.contentMain.toggleSequencerRec.isChecked = true
+                    if (!synthManager.isSequencerPlaying()) {
+                        binding.appBarMain.contentMain.btnSequencerPlay.performClick()
+                    }
+                }
+                
+                val melody = listOf(67, 69, 70, 72)
+                for (note in melody) {
+                    if (!isDemoPlaying) break
+                    synthManager.noteOn(note, 0.8f)
+                    runOnUiThread { 
+                        binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.RECORD, true)
+                        updateSequencerToggles(binding.appBarMain.contentMain)
+                    }
+                    delay(500)
+                    synthManager.noteOff(note)
+                    runOnUiThread { 
+                        binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.RECORD, false)
+                    }
+                    delay(300)
+                }
+                
+                delay(3000)
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.toggleSequencerRec.isChecked = false 
+                    showDemoToast("Recorded! The loop is now active.")
+                }
+
+                // Stage 4: Performance Stage. Using pads and built-in effects.
                 showDemoToast(getString(R.string.demo_stage_3))
                 
                 val content = binding.appBarMain.contentMain
@@ -864,10 +914,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        content.togglePadConfig!!.setOnCheckedChangeListener { _, isChecked ->
+        content.togglePadEdit!!.setOnCheckedChangeListener { _, isChecked ->
             if (isHelpMode) {
                 showHelp(getString(R.string.help_pad_config_toggle))
-                content.togglePadConfig!!.isChecked = false
+                content.togglePadEdit!!.isChecked = false
                 return@setOnCheckedChangeListener
             }
             synthView.isConfigMode = isChecked
@@ -1635,6 +1685,7 @@ class MainActivity : AppCompatActivity() {
         synthManager.setFilterCutoff(cutoffFreq)
         synthManager.setFilterResonance(content.seekFilterRes!!.progress / 100f)
         updateLabels(content)
+        updateLatencyStatus()
         val index = when (content.toggleWaveform!!.checkedButtonId) {
             R.id.btn_wave_sine -> 0; R.id.btn_wave_square -> 1; R.id.btn_wave_saw -> 2; R.id.btn_wave_triangle -> 3; else -> 0
         }

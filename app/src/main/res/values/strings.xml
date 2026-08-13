@@ -39,6 +39,8 @@
     <string name="pads_title">PAD CUSTOMIZATION</string>
     <string name="pads_grid_label">Grid:</string>
     <string name="pads_bank_label">BANK:</string>
+    <string name="btn_pad_edit_off">EDIT OFF</string>
+    <string name="btn_pad_edit_on">EDIT ON</string>
 
     <!-- Help Strings -->
     <string name="help_mode_toggle">Switch between a 13-key keyboard and a grid of customizable pads.</string>
