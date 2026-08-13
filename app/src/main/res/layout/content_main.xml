@@ -380,6 +380,44 @@
                             android:layout_height="match_parent" />
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="U:"
+                            android:textColor="@color/off_white"
+                            android:textSize="12sp" />
+
+                        <Spinner
+                            android:id="@+id/spinner_unison"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
+                        <TextView
+                            android:id="@+id/tv_detune_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="32dp"
+                            android:text="0"
+                            android:textColor="@color/dim_grey"
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
+
+                        <SeekBar
+                            android:id="@+id/seek_detune"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:max="100"
+                            android:progress="0" />
+
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
+                        <TextView
                             android:id="@+id/tv_pan_val"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

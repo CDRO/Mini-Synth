@@ -49,6 +49,8 @@ class MainActivity : AppCompatActivity() {
     private var isKeyboardHidden = false
     private var isHelpMode = false
     private var isDemoPlaying = false
+    private var unisonCount = 1
+    private var unisonDetune = 0f
     private var demoJob: kotlinx.coroutines.Job? = null
     private var demoToast: Toast? = null
     var isPollingEnabled = true // Exposed for tests
@@ -352,6 +354,7 @@ class MainActivity : AppCompatActivity() {
         setupPresets(content)
         setupMetronome(content)
         setupSequencer(content)
+        setupUnison(content)
         setupPadCustomization(content)
         setupBankManagement(content)
         setupEffects(content)
@@ -987,6 +990,31 @@ class MainActivity : AppCompatActivity() {
         content.toggleSequencerRec.isChecked = false
         content.toggleStepRec.isChecked = false
         content.btnSequencerPlay.text = "▶"
+    }
+
+    private fun setupUnison(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        val options = arrayOf("OFF", "2x", "4x", "8x")
+        val values = intArrayOf(1, 2, 4, 8)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, options)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        content.spinnerUnison.adapter = adapter
+        content.spinnerUnison.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                unisonCount = values[position]
+                synthManager.setUnison(unisonCount, unisonDetune, if (unisonCount > 1) 1.0f else 0.0f)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        content.seekDetune.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                unisonDetune = progress.toFloat() // 0 to 100 cents
+                content.tvDetuneVal.text = progress.toString()
+                synthManager.setUnison(unisonCount, unisonDetune, if (unisonCount > 1) 1.0f else 0.0f)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
     }
 
     private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -1851,6 +1879,7 @@ class MainActivity : AppCompatActivity() {
         synthManager.setOctaveShift(octaveShift)
         synthManager.setBpm(bpm)
         synthManager.setMetronomeEnabled(isMetronomeEnabled)
+        synthManager.setUnison(unisonCount, unisonDetune, if (unisonCount > 1) 1.0f else 0.0f)
         synthManager.setAttack((Math.pow(2000.0, content.seekAttack!!.progress / 100.0) / 1000.0).toFloat())
         synthManager.setDecay((Math.pow(2000.0, content.seekDecay!!.progress / 100.0) / 1000.0).toFloat())
         synthManager.setSustain(content.seekSustain!!.progress / 100f)
