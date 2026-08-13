@@ -865,9 +865,14 @@ class MainActivity : AppCompatActivity() {
         synthManager.setReverbMix(0f)
         synthManager.setPitchBend(0f)
         synthManager.setModulation(0f)
+        synthManager.clearSequencer()
+        synthManager.setSequencerPlaying(false)
+        synthManager.setSequencerRecording(false)
         
         // Reset UI State
         isPadMode = false
+        isSequencerRecordMode = false
+        isStepRecordMode = false
         val content = binding.appBarMain.contentMain
         content.btnModeToggle.text = getString(R.string.btn_mode_pads)
         content.keyboardPadView.setMode(KeyboardPadView.Mode.KEYBOARD)
@@ -881,6 +886,10 @@ class MainActivity : AppCompatActivity() {
         
         updateWorkspaceVisibility(content)
         updateLabels(content)
+        updateSequencerToggles(content)
+        content.toggleSequencerRec.isChecked = false
+        content.toggleStepRec.isChecked = false
+        content.btnSequencerPlay.text = "▶"
     }
 
     private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
