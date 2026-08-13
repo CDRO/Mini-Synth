@@ -39,6 +39,7 @@ public:
     void setRelease(float seconds) { mVoiceManager.setRelease(seconds); }
     void setMasterVolume(float volume) { mVoiceManager.setMasterVolume(volume); }
     void setPanning(float panning) { mVoiceManager.setPanning(panning); }
+    void setUnison(int count, float detune, float spread) { mVoiceManager.setUnison(count, detune, spread); }
     void setPadPanning(int padIndex, float panning);
     void setLfoDepth(float depth) { mVoiceManager.setLfoDepth(depth); }
     void setLfoWaveform(Waveform waveform) { mVoiceManager.setLfoWaveform(waveform); }

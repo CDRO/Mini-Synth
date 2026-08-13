@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "40_Unison_Layering",
     "current_step": "Review Loop",
-    "loop_iteration": 2,
-    "last_action_completed": "Review loop 2/10: Propagated Unison parameters in VoiceManager and updated EngineParams.",
-    "next_immediate_action": "Review loop 3/10: Implement stereo spreading for unison voices."
+    "loop_iteration": 3,
+    "last_action_completed": "Review loop 3/10: Implemented unison stereo spreading with a dedicated Spread parameter.",
+    "next_immediate_action": "Review loop 4/10: Expose Unison parameters to JNI."
   }
 }

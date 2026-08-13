@@ -80,6 +80,9 @@ class SynthManager {
     /** Set master panning (-1.0 to 1.0). */
     external fun setPanning(panning: Float)
 
+    /** Set Unison parameters. */
+    external fun setUnison(count: Int, detune: Float, spread: Float)
+
     /** Set per-pad panning (-1.0 to 1.0). */
     external fun setPadPanning(padIndex: Int, panning: Float)
 
