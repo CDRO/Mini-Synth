@@ -731,13 +731,21 @@ class MainActivity : AppCompatActivity() {
                 delay(2500)
                 
                 showDemoToast(getString(R.string.demo_sequencer_manual))
-                for (i in listOf(0, 4, 8, 12)) {
+                val stepsToToggle = listOf(0, 4, 8, 12)
+                for (step in stepsToToggle) {
                     if (!isDemoPlaying) break
                     runOnUiThread {
-                        val toggle = binding.appBarMain.contentMain.root.findViewById<android.widget.ToggleButton>(stepButtonIds[i])
+                        // Toggle base note (60)
+                        val toggle = binding.appBarMain.contentMain.root.findViewById<android.widget.ToggleButton>(stepButtonIds[step])
                         toggle?.isChecked = true
+                        // Visual feedback on keyboard for the note we just added to the step
+                        binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true)
                     }
-                    delay(1200)
+                    delay(800)
+                    runOnUiThread {
+                        binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
+                    }
+                    delay(400)
                 }
                 
                 delay(2000)

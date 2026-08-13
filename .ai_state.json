@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "38_Demo_Training",
     "current_step": "Review Loop",
-    "loop_iteration": 2,
-    "last_action_completed": "Review loop 2/10: Implemented auto-scrolling for all major stages of the integrated demo.",
-    "next_immediate_action": "Review loop 3/10: Add Manual Step Editing demo segment."
+    "loop_iteration": 3,
+    "last_action_completed": "Review loop 3/10: Refined the manual step editing demo segment with visual keyboard feedback.",
+    "next_immediate_action": "Review loop 4/10: Refine live keyboard recording demo segment."
   }
 }
