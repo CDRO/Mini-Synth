@@ -1158,16 +1158,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun shareFile(file: File) {
+        if (!file.exists()) {
+            Toast.makeText(this, "File not found for sharing.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         try {
-            val uri = androidx.core.content.FileProvider.getUriForFile(this, "${applicationContext.packageName}.fileprovider", file)
+            val authority = "${applicationContext.packageName}.fileprovider"
+            val uri = androidx.core.content.FileProvider.getUriForFile(this, authority, file)
+            
+            val mimeType = if (file.extension.equals("wav", ignoreCase = true)) "audio/wav" else "audio/mpeg"
+            
             val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
-                type = "audio/wav"
+                type = mimeType
                 putExtra(android.content.Intent.EXTRA_STREAM, uri)
                 addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
             startActivity(android.content.Intent.createChooser(intent, getString(R.string.dialog_share_pattern)))
         } catch (e: Exception) {
-            Toast.makeText(this, getString(R.string.toast_export_failed, e.message ?: "Unknown error"), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.toast_export_failed, e.message ?: "Sharing failed"), Toast.LENGTH_SHORT).show()
         }
     }
 
