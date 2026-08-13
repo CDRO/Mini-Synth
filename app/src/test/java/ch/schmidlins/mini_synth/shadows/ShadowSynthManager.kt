@@ -11,6 +11,8 @@ class ShadowSynthManager {
     val noteOffCalls = mutableListOf<Int>()
     val midiMessages = mutableListOf<ByteArray>()
     val renderPatternCalls = mutableListOf<String>()
+    val realTimeNoteOnCalls = mutableListOf<Int>()
+    val recordSequencerNoteCalls = mutableListOf<Int>()
 
     @Implementation fun startEngine() {}
     @Implementation fun stopEngine() {}
@@ -79,9 +81,14 @@ class ShadowSynthManager {
     @Implementation fun isSequencerNoteActive(step: Int, note: Int): Boolean = false
     @Implementation fun getSequencerActiveNotes(step: Int): IntArray? = intArrayOf()
     @Implementation fun isSequencerStepActive(step: Int): Boolean = false
-    @Implementation fun recordSequencerNote(note: Int): Int = 0
+    @Implementation fun recordSequencerNote(note: Int): Int {
+        recordSequencerNoteCalls.add(note)
+        return 0
+    }
     @Implementation fun setSequencerNumSteps(steps: Int) {}
-    @Implementation fun handleRealTimeNoteOn(note: Int) {}
+    @Implementation fun handleRealTimeNoteOn(note: Int) {
+        realTimeNoteOnCalls.add(note)
+    }
     @Implementation fun handleRealTimeNoteOff(note: Int) {}
     @Implementation fun clearSequencer() {}
     @Implementation fun stepRecordNote(note: Int) {}
