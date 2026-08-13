@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "40_Unison_Layering",
     "current_step": "Review Loop",
-    "loop_iteration": 6,
-    "last_action_completed": "Review loop 6/10: Updated SynthPreset and ProjectManager to persist Unison and Detune values.",
-    "next_immediate_action": "Review loop 7/10: Optimize oscillator sum normalization."
+    "loop_iteration": 7,
+    "last_action_completed": "Review loop 7/10: Optimized unison sum normalization by pre-calculating the compensation factor.",
+    "next_immediate_action": "Review loop 8/10: Test high polyphony + high unison CPU load."
   }
 }
