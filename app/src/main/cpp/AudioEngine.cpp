@@ -249,8 +249,7 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
         }
 
         mDelay.process(left, right, left, right);
-        left = mReverb.process(left);
-        right = mReverb.process(right);
+        mReverb.process(left, right, left, right);
 
         left = std::max(-1.0f, std::min(left, 1.0f));
         right = std::max(-1.0f, std::min(right, 1.0f));
