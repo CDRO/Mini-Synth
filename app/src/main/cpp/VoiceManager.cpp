@@ -32,10 +32,11 @@ void VoiceManager::setPolyphonic(bool isPolyphonic) {
     }
 }
 
-void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer) {
+void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer, float initialPan) {
     if (mIsPolyphonic) {
         int index = findVoiceByNote(midiNote);
         if (index != -1) {
+            mVoices[index].setPanning(initialPan);
             mVoices[index].trigger(midiNote, velocity, sampleBuffer);
             return;
         }
@@ -55,6 +56,7 @@ void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>
             mVoices[index].setFilterCutoff(mFilterCutoff);
             mVoices[index].setFilterResonance(mFilterResonance);
 
+            mVoices[index].setPanning(initialPan);
             mVoices[index].trigger(midiNote, velocity, sampleBuffer);
         }
     } else {
@@ -71,6 +73,7 @@ void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>
         mVoices[0].setFilterCutoff(mFilterCutoff);
         mVoices[0].setFilterResonance(mFilterResonance);
 
+        mVoices[0].setPanning(initialPan);
         mVoices[0].trigger(midiNote, velocity, sampleBuffer);
     }
 }
@@ -113,7 +116,8 @@ int VoiceManager::findVoiceByNote(int midiNote) {
 }
 
 void VoiceManager::nextSample(float& left, float& right) {
-    float mixedSample = 0.0f;
+    float mixedSampleL = 0.0f;
+    float mixedSampleR = 0.0f;
     int activeCount = 0;
 
     bool updateParams = mParamsChanged.exchange(false);
@@ -136,30 +140,26 @@ void VoiceManager::nextSample(float& left, float& right) {
                 mVoices[i].setModulation(mModulation);
             }
 
-            mixedSample += mVoices[i].nextSample();
+            float vL = 0, vR = 0;
+            mVoices[i].nextSample(vL, vR);
+            mixedSampleL += vL;
+            mixedSampleR += vR;
             activeCount++;
         }
     }
 
     if (activeCount > 0) {
-        // Dynamic headroom and soft-clipping to prevent harsh digital distortion
-        mixedSample *= 0.4f; // 12dB headroom for better polyphonic sum
-        if (mixedSample > 1.0f) mixedSample = 1.0f;
-        else if (mixedSample < -1.0f) mixedSample = -1.0f;
-        else {
-            // Cubic soft-clipper for smoother saturation near peaks
-            // f(x) = 1.5x - 0.5x^3
-            mixedSample = 1.5f * mixedSample - 0.5f * (mixedSample * mixedSample * mixedSample);
-        }
+        mixedSampleL *= 0.5f; // Headroom
+        mixedSampleR *= 0.5f;
     }
 
-    float outMono = mixedSample * currentVol;
+    // Master Panning (Offset global mix)
+    float angle = (currentPan + 1.0f) * (PI_F / 4.0f);
+    float masterL = cosf(angle);
+    float masterR = sinf(angle);
 
-    // Equal Power Panning
-    // pan in range [-1.0, 1.0]
-    float angle = (currentPan + 1.0f) * (PI_F / 4.0f); // 0 to PI/2
-    left = outMono * cosf(angle);
-    right = outMono * sinf(angle);
+    left = std::tanh(mixedSampleL * currentVol * masterL);
+    right = std::tanh(mixedSampleR * currentVol * masterR);
 }
 
 EngineParams VoiceManager::getParams() const {

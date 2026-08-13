@@ -34,7 +34,7 @@ public:
     void setWaveform(Waveform waveform);
     void setPolyphonic(bool isPolyphonic);
 
-    void noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer = nullptr);
+    void noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer = nullptr, float initialPan = 0.0f);
     void noteOff(int midiNote);
     void setPadLooping(int midiNote, bool looping);
 

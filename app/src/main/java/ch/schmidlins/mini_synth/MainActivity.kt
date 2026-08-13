@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
     private val padMappings = mutableMapOf<Int, String>() // Pad index -> Sample name
     private var mappingSampleId: Int? = null // if not null, we are in mapping mode
     private val padSamplePaths = mutableMapOf<Int, String>()
+    private val padPannings = mutableMapOf<Int, Float>()
     private val lastAftertouch = mutableMapOf<Int, Float>()
     
     companion object {
@@ -1096,6 +1097,27 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
         layout.addView(colorSpinner)
+
+        val panLabel = android.widget.TextView(this).apply {
+            text = "Pad Panning:"
+            setPadding(0, 20, 0, 8)
+        }
+        layout.addView(panLabel)
+
+        val panSeek = android.widget.SeekBar(this).apply {
+            max = 100
+            progress = ((padPannings[padIndex] ?: 0f) * 50 + 50).toInt()
+            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    val pan = (progress - 50) / 50f
+                    padPannings[padIndex] = pan
+                    synthManager.setPadPanning(padIndex, pan)
+                }
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            })
+        }
+        layout.addView(panSeek)
 
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.dialog_pad_config_title_format, padIndex))

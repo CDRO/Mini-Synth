@@ -9,6 +9,7 @@
 
 AudioEngine::AudioEngine() {
     updateMetronomeParams();
+    for (int i = 0; i < MAX_PADS; ++i) mPadPanning[i] = 0.0f;
 }
 
 AudioEngine::~AudioEngine() {
@@ -135,13 +136,20 @@ void AudioEngine::loadPadSample(int padIndex, const char* path) {
     file.close();
 }
 
+void AudioEngine::setPadPanning(int padIndex, float panning) {
+    if (padIndex >= 0 && padIndex < MAX_PADS) {
+        mPadPanning[padIndex] = panning;
+    }
+}
+
 void AudioEngine::padNoteOn(int padIndex, float velocity) {
     if (padIndex < 0 || padIndex >= MAX_PADS || padIndex == mSamplingPadIndex) return;
 
+    float panning = mPadPanning[padIndex];
     if (mPadBuffers[padIndex].empty()) {
-        mVoiceManager.noteOn(60 + padIndex, velocity);
+        mVoiceManager.noteOn(60 + padIndex, velocity, nullptr, panning);
     } else {
-        mVoiceManager.noteOn(60 + padIndex, velocity, &mPadBuffers[padIndex]);
+        mVoiceManager.noteOn(60 + padIndex, velocity, &mPadBuffers[padIndex], panning);
     }
 }
 
@@ -172,7 +180,7 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
         uint8_t velocity = event.data2;
 
         if (status == 0x90 && velocity > 0) {
-            mVoiceManager.noteOn(note, velocity / 127.0f);
+            mVoiceManager.noteOn(note, velocity / 127.0f, nullptr, 0.0f);
             if (mIsSequencerRecording.load()) mMidiSequencer.handleRealTimeNoteOn(note);
         } else if (status == 0x80 || (status == 0x90 && velocity == 0)) {
             mVoiceManager.noteOff(note);

@@ -50,8 +50,8 @@
     <string name="help_waveform_sine">Select the base oscillator waveform: Sine, Square, Saw, or Triangle.</string>
     <string name="help_octave_down">Shift the keyboard range down by one octave.</string>
     <string name="help_octave_up">Shift the keyboard range up by one octave.</string>
-    <string name="help_master_volume">Adjust the overall output volume of the synthesizer.</string>
-    <string name="help_projects">Project Browser: Manage your music projects (Save, Load, Create).</string>
+    <string name="help_master_volume">Adjust the overall output volume and master panning.</string>
+    <string name="help_projects">Project Browser: Manage your music projects (Save, Load, Create). Spatial data is persisted.</string>
     <string name="help_zen_mode">Zen Mode hides the complex parameter controls to focus on the performance area.</string>
     <string name="help_browser_toggle">Toggle the Sample Browser to load factory or recorded sounds onto pads.</string>
     <string name="help_sample_item_format">Sample: %s. Click to enter mapping mode, then touch a pad to assign.</string>
