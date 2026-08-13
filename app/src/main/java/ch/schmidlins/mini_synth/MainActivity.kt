@@ -1472,20 +1472,30 @@ class MainActivity : AppCompatActivity() {
         
         lifecycleScope.launch {
             if (isFinishing || isDestroyed) return@launch
+            
+            val dialogView = layoutInflater.inflate(R.layout.dialog_progress, null)
             val progress = AlertDialog.Builder(this@MainActivity)
-                .setMessage(getString(R.string.dialog_exporting))
+                .setView(dialogView)
                 .setCancelable(false)
-                .show()
+                .create()
+            progress.show()
             
             try {
                 kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
                     synthManager.renderPatternToFile(file.absolutePath)
                 }
+                if (!isFinishing && !isDestroyed) {
+                    Toast.makeText(this@MainActivity, "Export successful!", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                if (!isFinishing && !isDestroyed) {
+                    Toast.makeText(this@MainActivity, "Export failed: ${e.message}", Toast.LENGTH_LONG).show()
+                }
             } finally {
                 if (!isFinishing && !isDestroyed) progress.dismiss()
             }
             
-            if (!isFinishing && !isDestroyed) shareFile(file)
+            if (!isFinishing && !isDestroyed && file.exists()) shareFile(file)
         }
     }
 
