@@ -492,22 +492,26 @@ float AudioEngine::getMetronomeSample() {
 
 void AudioEngine::saveProject(const std::string& directory) {
     std::vector<std::vector<float>> pads(MAX_PADS);
+    std::vector<float> pannings(MAX_PADS);
     for (int i = 0; i < MAX_PADS; ++i) {
         pads[i] = mPadBuffers[i];
+        pannings[i] = mPadPanning[i];
     }
-    ProjectManager::saveProject(directory, mVoiceManager.getParams(), mMidiSequencer, pads, mBpm);
+    ProjectManager::saveProject(directory, mVoiceManager.getParams(), mMidiSequencer, pads, pannings, mBpm);
 }
 
 void AudioEngine::loadProject(const std::string& directory) {
     EngineParams params;
     std::vector<std::vector<float>> pads;
+    std::vector<float> pannings;
     float bpm;
-    if (ProjectManager::loadProject(directory, params, mMidiSequencer, pads, bpm)) {
+    if (ProjectManager::loadProject(directory, params, mMidiSequencer, pads, pannings, bpm)) {
         mVoiceManager.setParams(params);
         mBpm = bpm;
         updateMetronomeParams();
         for (int i = 0; i < MAX_PADS && i < pads.size(); ++i) {
             mPadBuffers[i] = pads[i];
+            mPadPanning[i] = (i < pannings.size()) ? pannings[i] : 0.0f;
         }
     }
 }

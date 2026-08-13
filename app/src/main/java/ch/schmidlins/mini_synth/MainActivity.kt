@@ -1501,10 +1501,12 @@ class MainActivity : AppCompatActivity() {
             lfoTargetIndex = content.spinnerLfoTarget!!.selectedItemPosition,
             filterCutoff = content.seekFilterCutoff!!.progress / 100f,
             filterResonance = content.seekFilterRes!!.progress / 100f,
+            panning = (content.seekPanning!!.progress - 50) / 50f,
             sequencerStepDivision = when (content.spinnerStepDuration!!.selectedItemPosition) {
                 0 -> 0.25f; 1 -> 0.5f; 2 -> 1.0f; 3 -> 2.0f; 4 -> 4.0f; else -> 0.25f
             },
-            padSamplePaths = padSamplePaths.toMap()
+            padSamplePaths = padSamplePaths.toMap(),
+            padPannings = padPannings.toMap()
         )
         lifecycleScope.launch { presetRepository.savePreset(preset) }
     }
@@ -1525,12 +1527,15 @@ class MainActivity : AppCompatActivity() {
         content.spinnerLfoTarget!!.setSelection(preset.lfoTargetIndex.coerceAtLeast(0))
         content.seekFilterCutoff!!.progress = (preset.filterCutoff.coerceIn(0f, 1f) * 100).toInt()
         content.seekFilterRes!!.progress = (preset.filterResonance.coerceIn(0f, 1f) * 100).toInt()
+        content.seekPanning!!.progress = (preset.panning.coerceIn(-1f, 1f) * 50 + 50).toInt()
         val divIndex = when (preset.sequencerStepDivision) {
             0.25f -> 0; 0.5f -> 1; 1.0f -> 2; 2.0f -> 3; 4.0f -> 4; else -> 0
         }
         content.spinnerStepDuration!!.setSelection(divIndex)
         padSamplePaths.clear()
         preset.padSamplePaths.forEach { (idx, path) -> if (File(path).exists()) { synthManager.loadPadSample(idx, path); padSamplePaths[idx] = path } }
+        padPannings.clear()
+        preset.padPannings.forEach { (idx, pan) -> synthManager.setPadPanning(idx, pan); padPannings[idx] = pan }
         updateLabels(content)
     }
 
