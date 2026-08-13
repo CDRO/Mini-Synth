@@ -1,0 +1,22 @@
+# Tasks: Milestone 37 - Recording Export & Sample Sharing
+
+- `[ ]` Setup Export Infrastructure
+    - `[x]` Create GitHub Milestone & Issue (#153).
+    - `[x]` Create branch `feature/m37-export-sharing`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline.
+- `[ ]` Review & Repair Loop (1-10)
+    - `[ ]` 1/10: Implement `renderPatternToFile` in native `AudioEngine`.
+    - `[ ]` 2/10: Add WAV header generation logic in C++.
+    - `[ ]` 3/10: Verify offline rendering speed vs real-time.
+    - `[ ]` 4/10: Implement background rendering task in Kotlin (Coroutines).
+    - `[ ]` 5/10: Add progress UI feedback during export.
+    - `[ ]` 6/10: Configure `FileProvider` in `AndroidManifest.xml`.
+    - `[ ]` 7/10: Implement `shareFile` intent logic.
+    - `[ ]` 8/10: Integrate Export into Sequencer Options menu.
+    - `[ ]` 9/10: Verify audio quality and sharing across Android 10-14.
+    - `[ ]` 10/10: Final polish and documentation.
+- `[ ]` Finalize
+    - `[ ]` Run full test suite.
+    - `[ ]` Squash and Merge.
+    - `[ ]` Cleanup local and remote branches.

@@ -10,6 +10,7 @@ class ShadowSynthManager {
     val noteOnCalls = mutableListOf<Int>()
     val noteOffCalls = mutableListOf<Int>()
     val midiMessages = mutableListOf<ByteArray>()
+    val renderPatternCalls = mutableListOf<String>()
 
     @Implementation fun startEngine() {}
     @Implementation fun stopEngine() {}
@@ -50,7 +51,9 @@ class ShadowSynthManager {
     @Implementation fun getFftData(buffer: FloatArray): Int = 0
     @Implementation fun startRecording(path: String) {}
     @Implementation fun stopRecording() {}
-    @Implementation fun renderPatternToFile(path: String) {}
+    @Implementation fun renderPatternToFile(path: String) {
+        renderPatternCalls.add(path)
+    }
     @Implementation fun setBpm(bpm: Float) {}
     @Implementation fun setMetronomeEnabled(enabled: Boolean) {}
     @Implementation fun isBeatStarted(): Boolean = false

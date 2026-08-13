@@ -37,74 +37,37 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
     - Triangle: `2 * abs((phase / PI) - 1) - 1`
 - **Control**: `trigger(midi, velocity)`, `release(midi)`.
 
-### [Logic] [Range]
-- **Calculation**: `effective_midi = keyboard_midi + (octave_shift * 12)`.
-- **Constraint**: Clamp result to valid MIDI range [0, 127].
-
 ### [Interface] [JNI Bridge]
 - **Bridge**: Minimal overhead. No heavy objects passed.
 - **Methods**: `startAudio()`, `stopAudio()`, `setNote()`, `releaseNote()`, `setPolyphony()`, `setWaveform()`, `setOctaveShift()`.
 
 ---
 
-## Milestone 1-30: Core Synthesis, Effects, & Gestures [DONE]
+## Milestone 1-35: Completed core synthesis, effects, and visualizer series. [DONE]
 
 ---
 
-## Milestone 31: Dynamic Grid & Pad Customization [DONE]
-
-### [UI] [Pad Customization]
-- **Config Visibility**: Option to hide parameter controls to maximize pad space.
-- **Dynamic Grid**: Default 4x4, expandable to 4x8 or 4x16.
-- **Color Configuration**: Per-pad color assignment for organization and visual feedback.
-
----
-
-## Milestone 32: Header Refinement & Engine Status [DONE]
-
-### [UI] [Header]
-- **Status Dashboard**: Unified MIDI and Latency display.
-- **Modularization**: Refactor header XML into reusable components using `include`.
-
-## Milestone 33: Design System & Accessibility [DONE]
-
-### [UI] [Standardization]
-- **Localization**: Zero hardcoded strings in layout files.
-- **Scaling**: Responsive text and container definitions to handle diverse aspect ratios.
-
-## Milestone 34: Pad UX & Audio Stability Refinement [DONE]
-
-### [Logic] [Performance]
-- **Mixer Normalization**: Implement soft-clipping in the audio thread to handle polyphonic peaks.
-- **Config Mode**: Discrete toggle for pad configuration to allow long-press sustaining.
-
----
-
-## Milestone 35: Performance Visualization & FFT Polish [DONE]
-
-### [UI] [Visualization]
-- **High-Resolution FFT**: Implement a log-scaled frequency analyzer for more accurate bass representation.
-- **Peak Tracking**: Visual markers for peak amplitudes across the frequency spectrum.
-
----
-
-## Milestone 36: UI Stability & Visualizer Restoration [TODO]
+## Milestone 36: UI Stability, Pad UX & Sequencer Repair [DONE]
 
 ### [UI] [Stability]
-- **Layout Repair**: Fix clipping in the top-right header controls across diverse aspect ratios.
-- **Visual Restoration**: Re-align FFT color gradients to restore high-amplitude red alerts.
-
-## Milestone 37: Pad Configuration & Interaction [TODO]
+- **Layout Repair**: Fixed clipping in header controls using weighted ConstraintLayout.
+- **Visual Restoration**: Re-aligned spectrum analyzer gradients to restore high-amplitude red alerts.
 
 ### [UI] [UX]
-- **Pad EDIT Mode**: Decouple pad configuration from musical performance via a dedicated toggle.
-- **Sustain Support**: Allow long-press note sustaining on pads without interrupting performance.
-
-## Milestone 38: Sequencer Logic & Educational Onboarding [TODO]
+- **Pad EDIT Mode**: Decoupled pad configuration from musical performance via a dedicated toggle.
+- **Sustain Support**: Enabled long-press note sustaining on pads.
 
 ### [Logic] [Training]
-- **Recording Fix**: Audit and repair the sequencer real-time recording path.
-- **Guided Onboarding**: Upgrade the integrated demo to include an auto-scrolling training sequence for loop management.
+- **Recording Fix**: Repaired the sequencer real-time recording UI refresh path.
+- **Guided Onboarding**: Upgraded the integrated demo to include an auto-scrolling training sequence for loop management.
+
+---
+
+## Milestone 37: Recording Export & Sample Sharing [TODO]
+
+### [Logic] [Export]
+- **Offline Renderer**: Implement a dedicated path for non-real-time high-speed WAV/MP3 generation.
+- **Share Intent**: Deep integration with Android system sharing for exported files.
 
 ---
 

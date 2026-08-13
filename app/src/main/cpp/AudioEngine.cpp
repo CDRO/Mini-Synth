@@ -2,7 +2,7 @@
 #include <android/log.h>
 #include <fstream>
 #include <cstring>
-#include "Mp3Encoder.h"
+#include "WavEncoder.h"
 #include "ProjectManager.h"
 
 #define TAG "AudioEngine"
@@ -312,11 +312,11 @@ void AudioEngine::stopRecording() {
 }
 
 void AudioEngine::recordingLoop(const std::string& path) {
-    Mp3Encoder encoder;
+    WavEncoder encoder;
     int sampleRate = mStream ? mStream->getSampleRate() : 48000;
 
     if (!encoder.init(path, sampleRate, 1, 128)) {
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "Failed to initialize MP3 encoder for path: %s", path.c_str());
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "Failed to initialize WAV encoder for path: %s", path.c_str());
         mIsRecording = false;
         return;
     }
@@ -361,7 +361,7 @@ void AudioEngine::renderPatternToFile(const std::string& path) {
     renderVm.setSampleRate(sampleRate);
     renderVm.setParams(params);
 
-    Mp3Encoder encoder;
+    WavEncoder encoder;
     if (!encoder.init(path, sampleRate, 1, 192)) return;
 
     float stepDivision = mMidiSequencer.getStepDivision();
@@ -370,10 +370,10 @@ void AudioEngine::renderPatternToFile(const std::string& path) {
 
     std::vector<float> pcmBuffer(stepDuration);
     const std::atomic<uint64_t>* grid = mMidiSequencer.getGridData();
+    int numStepsToRender = mMidiSequencer.getNumSteps();
 
-    // Render 16 steps
-    for (int step = 0; step < 16; ++step) {
-        // Trigger
+    for (int step = 0; step < numStepsToRender; ++step) {
+        // Trigger notes for this step
         for (int word = 0; word < 2; ++word) {
             uint64_t val = grid[step * 2 + word].load();
             if (val == 0) continue;
@@ -384,15 +384,16 @@ void AudioEngine::renderPatternToFile(const std::string& path) {
 
         for (int s = 0; s < stepDuration; ++s) {
             if (s == gateSamples) {
-                 for (int word = 0; word < 2; ++word) {
+                // Release notes
+                for (int word = 0; word < 2; ++word) {
                     uint64_t val = grid[step * 2 + word].load();
                     if (val == 0) continue;
                     for (int bit = 0; bit < 64; ++bit) {
                         if (val & (1ULL << bit)) renderVm.noteOff(word * 64 + bit);
                     }
-                 }
+                }
             }
-            pcmBuffer[s] = renderVm.nextSample(); // Use internal mix logic (includes 0.5f headroom)
+            pcmBuffer[s] = renderVm.nextSample();
         }
         encoder.encode(pcmBuffer.data(), stepDuration);
     }

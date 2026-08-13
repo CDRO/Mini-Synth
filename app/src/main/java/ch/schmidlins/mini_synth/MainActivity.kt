@@ -1066,6 +1066,10 @@ class MainActivity : AppCompatActivity() {
             synthManager.clearSequencer()
             for (id in stepButtonIds) content.root.findViewById<android.widget.ToggleButton>(id)?.isChecked = false
         }
+        content.btnSequencerExport!!.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_sequencer_export)); return@setOnClickListener }
+            triggerExportSequence()
+        }
         val durations = arrayOf(
             getString(R.string.step_duration_1_16),
             getString(R.string.step_duration_1_8),
@@ -1154,16 +1158,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun shareFile(file: File) {
+        if (!file.exists()) {
+            Toast.makeText(this, "File not found for sharing.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         try {
-            val uri = androidx.core.content.FileProvider.getUriForFile(this, "${applicationContext.packageName}.fileprovider", file)
+            val authority = "${applicationContext.packageName}.fileprovider"
+            val uri = androidx.core.content.FileProvider.getUriForFile(this, authority, file)
+            
+            val mimeType = if (file.extension.equals("wav", ignoreCase = true)) "audio/wav" else "audio/mpeg"
+            
             val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
-                type = "audio/wav"
+                type = mimeType
                 putExtra(android.content.Intent.EXTRA_STREAM, uri)
                 addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
             startActivity(android.content.Intent.createChooser(intent, getString(R.string.dialog_share_pattern)))
         } catch (e: Exception) {
-            Toast.makeText(this, getString(R.string.toast_export_failed, e.message ?: "Unknown error"), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.toast_export_failed, e.message ?: "Sharing failed"), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -1464,24 +1477,35 @@ class MainActivity : AppCompatActivity() {
 
     private fun triggerExportSequence() {
         val dir = getExternalFilesDir(null) ?: filesDir
-        val file = java.io.File(dir, "pattern_export_${System.currentTimeMillis()}.wav")
+        val timestamp = System.currentTimeMillis()
+        val file = java.io.File(dir, "MS_Pattern_$timestamp.wav")
         
         lifecycleScope.launch {
             if (isFinishing || isDestroyed) return@launch
+            
+            val dialogView = layoutInflater.inflate(R.layout.dialog_progress, null)
             val progress = AlertDialog.Builder(this@MainActivity)
-                .setMessage(getString(R.string.dialog_exporting))
+                .setView(dialogView)
                 .setCancelable(false)
-                .show()
+                .create()
+            progress.show()
             
             try {
                 kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
                     synthManager.renderPatternToFile(file.absolutePath)
                 }
+                if (!isFinishing && !isDestroyed) {
+                    Toast.makeText(this@MainActivity, "Export successful!", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                if (!isFinishing && !isDestroyed) {
+                    Toast.makeText(this@MainActivity, "Export failed: ${e.message}", Toast.LENGTH_LONG).show()
+                }
             } finally {
                 if (!isFinishing && !isDestroyed) progress.dismiss()
             }
             
-            if (!isFinishing && !isDestroyed) shareFile(file)
+            if (!isFinishing && !isDestroyed && file.exists()) shareFile(file)
         }
     }
 
