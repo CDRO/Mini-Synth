@@ -61,10 +61,10 @@
     <string name="help_rows_up">Pad Grid: Increase the number of rows (horizontal dividers).</string>
     <string name="help_bank_prev">Switch to the previous bank of pads.</string>
     <string name="help_bank_next">Switch to the next bank of pads.</string>
-    <string name="help_sequencer_play">Start or stop the 16-step MIDI sequencer.</string>
-    <string name="help_sequencer_rec">Enable Real-time Recording. If the sequencer is playing, your keyboard performance will be recorded into the loop.</string>
-    <string name="help_pad_sampling">Enable Pad Sampling. While active, touching a pad will record the current engine output into that pad.</string>
-    <string name="help_step_rec">Step Recording: Each key you press will be recorded to the next sequencer step. Use REST to skip a step and BACK to undo.</string>
+    <string name="help_sequencer_play">Start or stop the MIDI sequencer loop playback.</string>
+    <string name="help_sequencer_rec">Enable Real-time Recording. Capture your keyboard performance into the loop automatically.</string>
+    <string name="help_pad_sampling">Enable Pad Sampling. Capture engine output directly onto a pad by touching it.</string>
+    <string name="help_step_rec">Step Recording: Enter notes one-by-one. Each key press advances to the next step.</string>
     <string name="help_step_rest">Skip the current step without adding a note (Rest).</string>
     <string name="help_step_back">Go back to the previous step and clear it.</string>
     <string name="help_sequencer_clear">Clear all notes from the sequencer grid.</string>
