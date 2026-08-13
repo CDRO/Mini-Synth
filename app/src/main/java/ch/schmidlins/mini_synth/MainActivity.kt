@@ -1477,7 +1477,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun triggerExportSequence() {
         val dir = getExternalFilesDir(null) ?: filesDir
-        val file = java.io.File(dir, "pattern_export_${System.currentTimeMillis()}.wav")
+        val timestamp = System.currentTimeMillis()
+        val file = java.io.File(dir, "MS_Pattern_$timestamp.wav")
         
         lifecycleScope.launch {
             if (isFinishing || isDestroyed) return@launch
