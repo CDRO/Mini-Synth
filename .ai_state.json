@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "40_Unison_Layering",
     "current_step": "Review Loop",
-    "loop_iteration": 5,
-    "last_action_completed": "Review loop 5/10: Added Unison Spinner and Detune slider to the UI.",
-    "next_immediate_action": "Review loop 6/10: Update Preset and Project persistence for Unison."
+    "loop_iteration": 6,
+    "last_action_completed": "Review loop 6/10: Updated SynthPreset and ProjectManager to persist Unison and Detune values.",
+    "next_immediate_action": "Review loop 7/10: Optimize oscillator sum normalization."
   }
 }

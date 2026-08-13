@@ -49,7 +49,12 @@ public:
     void setModulation(float amount) { mTargetModulation = amount; }
     void setAftertouch(float amount) { mTargetAftertouch = amount; }
     void setPanning(float panning) { mPanning = panning; }
-    void setUnison(int count, float detune, float spread) { mUnisonCount = count; mUnisonDetune = detune; mUnisonSpread = spread; }
+    void setUnison(int count, float detune, float spread) {
+        mUnisonCount = count;
+        mUnisonDetune = detune;
+        mUnisonSpread = spread;
+        mUnisonNorm = 1.0f / sqrtf(static_cast<float>(std::max(1, count)));
+    }
 
     void nextSample(float& left, float& right);
 
@@ -73,6 +78,7 @@ private:
     int mUnisonCount = 1;
     float mUnisonDetune = 0.0f;
     float mUnisonSpread = 0.0f;
+    float mUnisonNorm = 1.0f;
     bool mActive;
     bool mIsSampleMode;
     int mNote;

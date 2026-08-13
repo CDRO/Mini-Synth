@@ -128,9 +128,8 @@ void Voice::nextSample(float& left, float& right) {
         }
 
         // Normalize sum to prevent volume explosion
-        float norm = 1.0f / sqrtf(static_cast<float>(count));
-        left = mFilter.process(combinedL * mVelocity * env * (modVolume + atVolume) * norm);
-        right = mFilter.process(combinedR * mVelocity * env * (modVolume + atVolume) * norm);
+        left = mFilter.process(combinedL * mVelocity * env * (modVolume + atVolume) * mUnisonNorm);
+        right = mFilter.process(combinedR * mVelocity * env * (modVolume + atVolume) * mUnisonNorm);
         return;
     }
 
