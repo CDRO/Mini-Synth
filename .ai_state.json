@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "38_Demo_Training",
     "current_step": "Review Loop",
-    "loop_iteration": 7,
-    "last_action_completed": "Review loop 7/10: Refined engine and UI state reset in resetEngineState() to ensure clean demo completion.",
-    "next_immediate_action": "Review loop 8/10: Verify layout stability during auto-scrolling."
+    "loop_iteration": 8,
+    "last_action_completed": "Review loop 8/10: Expanded the integrated demo to include Zen Mode and Browser toggling demonstrations.",
+    "next_immediate_action": "Review loop 9/10: Add unit test for sequencer recording routing."
   }
 }

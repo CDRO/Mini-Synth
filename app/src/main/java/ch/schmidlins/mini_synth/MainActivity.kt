@@ -670,6 +670,23 @@ class MainActivity : AppCompatActivity() {
                 }
                 synthManager.padNoteOff(1)
                 
+                delay(1500)
+                showDemoToast("Zen Mode: Hiding parameter controls to focus.")
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.toggleZenMode.isChecked = true 
+                    binding.appBarMain.contentMain.parameterContainer.visibility = View.GONE
+                }
+                delay(2000)
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.toggleZenMode.isChecked = false 
+                }
+                
+                delay(1000)
+                showDemoToast("Browser: Loading samples and managing sound banks.")
+                runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = true }
+                delay(2000)
+                runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = false }
+
                 if (!isDemoPlaying) return@launch
 
                 // Stage 2: Multi-Bank Sampling
@@ -706,6 +723,23 @@ class MainActivity : AppCompatActivity() {
                 }
                 synthManager.padNoteOff(1)
                 
+                delay(1500)
+                showDemoToast("Zen Mode: Hiding parameter controls to focus.")
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.toggleZenMode.isChecked = true 
+                    binding.appBarMain.contentMain.parameterContainer.visibility = View.GONE
+                }
+                delay(2000)
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.toggleZenMode.isChecked = false 
+                }
+                
+                delay(1000)
+                showDemoToast("Browser: Loading samples and managing sound banks.")
+                runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = true }
+                delay(2000)
+                runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = false }
+
                 if (!isDemoPlaying) return@launch
 
                 delay(1000)
@@ -815,6 +849,23 @@ class MainActivity : AppCompatActivity() {
                 }
                 synthManager.padNoteOff(1)
                 
+                delay(1500)
+                showDemoToast("Zen Mode: Hiding parameter controls to focus.")
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.toggleZenMode.isChecked = true 
+                    binding.appBarMain.contentMain.parameterContainer.visibility = View.GONE
+                }
+                delay(2000)
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.toggleZenMode.isChecked = false 
+                }
+                
+                delay(1000)
+                showDemoToast("Browser: Loading samples and managing sound banks.")
+                runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = true }
+                delay(2000)
+                runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = false }
+
                 if (!isDemoPlaying) return@launch
                 
                 showDemoToast(getString(R.string.demo_spatial_wash))
