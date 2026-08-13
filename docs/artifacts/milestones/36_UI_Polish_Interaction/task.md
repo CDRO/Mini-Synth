@@ -6,10 +6,9 @@
     - `[ ]` Create Pull Request.
     - `[ ]` Build baseline.
 - `[ ]` Review & Repair Loop (1-10)
-    - `[ ]` 1/10: Fix BPM button clipping in the header.
-    - `[ ]` 2/10: Remove opaque background from the header status bar.
-    - `[ ]` 3/10: Restore Red gradient stops in the visualizer spectrum.
-    - `[ ]` 4/10: Implement "PAD EDIT" mode in UI and Custom View.
+    - `[x]` 1/10: Fix BPM button clipping in the header.
+    - `[x]` 2/10: Restore Red gradient stops in the visualizer spectrum.
+    - `[ ]` 3/10: Implement "PAD EDIT" mode in UI and Custom View.
     - `[ ]` 5/10: Enable pad sustain/hold in performance mode.
     - `[ ]` 6/10: Fix real-time sequencer recording UI refresh.
     - `[ ]` 7/10: Implement auto-scroll to sequencer in integrated demo.

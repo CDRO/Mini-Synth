@@ -26,12 +26,19 @@ class VisualizerView @JvmOverloads constructor(
     private val buffer = FloatArray(1024)
     private val drawBuffer = FloatArray(1024)
     private val fftBuffer = FloatArray(512)
-    private val smoothedMagnitudes = FloatArray(64)
+    private val numBuckets = 128
+    private val smoothedMagnitudes = FloatArray(numBuckets)
+    private val peakMagnitudes = FloatArray(numBuckets)
+    private val peakDropSpeeds = FloatArray(numBuckets)
     private var lastFftTime = 0L
     private val barPaint = Paint().apply {
         style = Paint.Style.FILL
     }
     private var gradient: android.graphics.LinearGradient? = null
+    private val peakPaint = Paint().apply {
+        color = ContextCompat.getColor(context, R.color.off_white)
+        style = Paint.Style.FILL
+    }
     private val dividerPaint = Paint().apply {
         color = ContextCompat.getColor(context, R.color.border_dim)
         strokeWidth = 2f
@@ -45,10 +52,16 @@ class VisualizerView @JvmOverloads constructor(
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         if (w > 0 && h > 0) {
+            val acidGreen = ContextCompat.getColor(context, R.color.acid_green)
+            val electricBlue = ContextCompat.getColor(context, R.color.electric_blue)
+            val vibrantRed = ContextCompat.getColor(context, R.color.vibrant_red)
+            
+            // Vertical gradient for the spectrum bars (bottom half of view)
+            // Refined stops to bring back red at high amplitudes (above 70%)
             gradient = android.graphics.LinearGradient(
                 0f, h.toFloat(), 0f, h / 2f,
-                ContextCompat.getColor(context, R.color.acid_green),
-                ContextCompat.getColor(context, R.color.electric_blue),
+                intArrayOf(acidGreen, electricBlue, vibrantRed),
+                floatArrayOf(0f, 0.4f, 0.7f),
                 android.graphics.Shader.TileMode.CLAMP
             )
             barPaint.shader = gradient
@@ -89,7 +102,6 @@ class VisualizerView @JvmOverloads constructor(
             val fftCount = manager.getFftData(fftBuffer)
             if (fftCount > 0) {
                 lastFftTime = now
-                val numBuckets = 64
                 val minFreq = 20.0
                 val maxFreq = 20000.0
                 val logMin = Math.log10(minFreq)
@@ -108,14 +120,13 @@ class VisualizerView @JvmOverloads constructor(
                         maxMag = Math.max(maxMag, fftBuffer[b])
                     }
                     
-                    val targetMag = maxMag * 15f
-                    smoothedMagnitudes[i] = (smoothedMagnitudes[i] * 0.7f) + (targetMag * 0.3f)
+                    val targetMag = maxMag * 20f
+                    smoothedMagnitudes[i] = (smoothedMagnitudes[i] * 0.6f) + (targetMag * 0.4f)
                 }
             }
         }
 
         // Always draw the spectrum using current smoothed values
-        val numBuckets = 64
         val bucketWidth = width.toFloat() / numBuckets
         val bottomY = height.toFloat()
         val maxBarHeight = height / 2f
@@ -124,6 +135,19 @@ class VisualizerView @JvmOverloads constructor(
             val barHeight = (smoothedMagnitudes[i] * maxBarHeight).coerceIn(0f, maxBarHeight)
             val left = i * bucketWidth
             canvas.drawRect(left, bottomY - barHeight, left + bucketWidth - 1f, bottomY, barPaint)
+
+            // Peak tracking
+            if (barHeight > peakMagnitudes[i]) {
+                peakMagnitudes[i] = barHeight
+                peakDropSpeeds[i] = 0f
+            } else {
+                peakDropSpeeds[i] += 1f // Gravity
+                peakMagnitudes[i] = (peakMagnitudes[i] - peakDropSpeeds[i]).coerceAtLeast(0f)
+            }
+
+            if (peakMagnitudes[i] > 1f) {
+                canvas.drawRect(left, bottomY - peakMagnitudes[i], left + bucketWidth - 1f, bottomY - peakMagnitudes[i] + 4f, peakPaint)
+            }
         }
         
         postInvalidateDelayed(16)
