@@ -49,6 +49,15 @@ void MidiSequencer::clear() {
     reset();
 }
 
+void MidiSequencer::setRecording(bool recording) {
+    mIsRecording.store(recording);
+    if (!recording) {
+        // Clear real-time note tracking when recording stops
+        mActiveNoteTracking[0].store(0);
+        mActiveNoteTracking[1].store(0);
+    }
+}
+
 void MidiSequencer::setStepDuration(float division) {
     if (division < 0.01f) division = 0.01f;
     if (division > 100.0f) division = 100.0f;
