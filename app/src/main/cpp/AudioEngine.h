@@ -61,7 +61,7 @@ public:
     void setReverbDamping(float damping) { mReverb.setDamping(damping); }
     void setReverbMix(float mix) { mReverb.setMix(mix); }
 
-    float renderSampleForTest();
+    void renderStereoSampleForTest(float& left, float& right);
 
     int32_t getVisualizerData(float* buffer, int32_t size);
     int32_t getFftData(float* buffer, int32_t size);

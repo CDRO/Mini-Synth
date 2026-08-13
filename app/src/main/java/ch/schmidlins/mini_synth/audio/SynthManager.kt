@@ -171,6 +171,6 @@ class SynthManager {
     /** Load all pads and parameters from a project directory. */
     external fun loadProject(directory: String)
 
-    /** Render a single sample for host-side unit tests. */
-    external fun renderSampleForTest(): Float
+    /** Render a stereo sample (L, R) for host-side unit tests. */
+    external fun renderStereoSampleForTest(buffer: FloatArray): Int
 }

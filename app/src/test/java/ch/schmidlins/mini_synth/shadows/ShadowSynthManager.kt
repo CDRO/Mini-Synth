@@ -103,5 +103,9 @@ class ShadowSynthManager {
     }
     @Implementation fun saveProject(directory: String) {}
     @Implementation fun loadProject(directory: String) {}
-    @Implementation fun renderSampleForTest(): Float = 0.0f
+    @Implementation fun renderStereoSampleForTest(buffer: FloatArray): Int {
+        buffer[0] = 0.0f
+        buffer[1] = 0.0f
+        return 2
+    }
 }

@@ -222,11 +222,17 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setAftertouch(JNIEnv *env, job
     if (engine) engine->setAftertouch(midi_note, amount);
 }
 
-extern "C" JNIEXPORT jfloat JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_renderSampleForTest(JNIEnv *env, jobject thiz) {
+extern "C" JNIEXPORT jint JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_renderStereoSampleForTest(JNIEnv *env, jobject thiz, jfloatArray buffer) {
     std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) return engine->renderSampleForTest();
-    return 0.0f;
+    if (!engine) return 0;
+
+    float left = 0, right = 0;
+    engine->renderStereoSampleForTest(left, right);
+
+    float samples[2] = {left, right};
+    env->SetFloatArrayRegion(buffer, 0, 2, samples);
+    return 2;
 }
 
 extern "C" JNIEXPORT jint JNICALL
