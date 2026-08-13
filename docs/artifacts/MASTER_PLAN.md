@@ -10,7 +10,7 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 ### Audio & Performance
 - **Performance**: C++ (Oboe/AAudio) for all sound generation and mixing. Low latency target < 10ms.
 - **Polyphony**: 16 simultaneous voices. Additive mixing with `tanh` soft-clipping.
-- **Backends**: Oboe handles fallback between AAudio and OpenSL ES automatically.
+- **Stereo**: True interleaved stereo path with Equal Power Panning.
 
 ### Logic & Features
 - **Configurability**: Toggle between Polyphonic and Monophonic modes.
@@ -24,30 +24,33 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 1-35: Core synthesis, effects, and visualizers. [DONE]
+## Milestone 1-38: Completed core features, effects, visualizers, and onboarding. [DONE]
 
 ---
 
-## Milestone 36: UI Stability, Pad UX & Sequencer Repair [DONE]
-## Milestone 37: Recording Export & Sample Sharing [DONE]
-## Milestone 38: Educational Demo & Sequencer Training [DONE]
-
----
-
-## Milestone 39: Stereo Engine & Spatial Routing [TODO]
+## Milestone 39: Stereo Engine & Spatial Routing [DONE]
 
 ### [Logic] [Audio]
-- **Stereo Migration**: Transition the Oboe stream and mixer to 2-channel output.
-- **Panning**: Implement a panning parameter per voice and pad.
-- **Stereo FX**: Update Delay and Reverb to support stereo-width processing.
+- **Stereo Migration**: Transitioned the Oboe stream and mixer to 2-channel output.
+- **Panning**: Implemented Equal Power Panning per voice and pad.
+- **Stereo FX**: Expanded Delay and Reverb to support stereo-width processing.
+
+---
+
+## Milestone 40: Unison & Voice Layering [TODO]
+
+### [Logic] [Synthesis]
+- **Unison Stacking**: Modify the Voice architecture to support multiple sub-oscillators per note.
+- **Detune**: Add a "Spread" parameter to offset the pitch of unison voices.
+- **Stereo Width**: Distribute unison voices across the stereo field automatically.
 
 ---
 
 ## Future Features & Roadmap
 
 ### [Feature] [Synthesis]
-- **Unison & Detune**: Layering voices with pitch offsets for thicker sound.
 - **Waveform Morphing**: Smooth blending between basic waveforms.
+- **Custom Oscillators**: Wavetable support for more complex timbres.
 
 ### [Feature] [Sampling & Sequencing]
 - **Sample Mapping**: Dedicated UI for mapping external or recorded samples to pads.

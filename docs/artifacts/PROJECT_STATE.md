@@ -5,7 +5,8 @@
 ### Audio Engine (C++ / Oboe)
 - **Core**: 16-voice polyphonic engine with Sine, Square, Saw, Triangle waveforms.
 - **Stability**: Summing mixer with `tanh` soft-clipping, automatic error recovery.
-- **Modules**: ADSR Envelopes, Resonant Low-Pass Filter (LPF), LFO.
+- **Stereo**: Interleaved stereo pipeline (2 channels) with high-fidelity routing.
+- **Modules**: ADSR Envelopes, Resonant Low-Pass Filter (LPF), LFO with multiple targets.
 - **Metronome**: Sample-accurate native tick generator, synced with BPM.
 - **Recording**: Real-time MP3 encoding using LAME.
 - **MIDI Sequencer**: Supports up to 64 steps. Atomic bitmask implementation.
@@ -23,13 +24,14 @@
 ### [DONE] Milestone 36: UI Stability, Pad UX & Sequencer Repair.
 ### [DONE] Milestone 37: Recording Export & Sample Sharing.
 ### [DONE] Milestone 38: Educational Demo & Sequencer Training.
+### [DONE] Milestone 39: Stereo Engine & Spatial Routing.
 
-### [NEXT] Milestone 39: Stereo Engine & Spatial Routing
-- **Objective**: Enhance depth and dimension by moving to stereo signal processing.
+### [NEXT] Milestone 40: Unison & Voice Layering
+- **Objective**: Enhance sound thickness by stacking multiple oscillators per note with pitch offsets.
 - **Key Features**:
-    - Stereo voice mixing.
-    - Panning per pad/voice.
-    - Stereo Delay & Reverb expansion.
+    - Unison voice stacking (2, 4, 8 voices).
+    - Detune (Spread) control.
+    - Stereo voice distribution.
 
 ## Quality Assurance Status
 - **Unit Tests**: 27 local JVM tests passing (Robolectric).
