@@ -604,8 +604,10 @@ class MainActivity : AppCompatActivity() {
                 
                 // Discovery explanation
                 showDemoToast(getString(R.string.demo_initializing))
-                
-                // Stage 1: Synthesis Stage
+                runOnUiThread {
+                    binding.appBarMain.contentMain.workspaceScroll.smoothScrollTo(0, 0)
+                }
+                delay(1000)
                 showDemoToast(getString(R.string.demo_stage_1))
                 
                 // Set a rich Sawtooth patch
@@ -673,6 +675,9 @@ class MainActivity : AppCompatActivity() {
                 // Stage 2: Multi-Bank Sampling
                 delay(1000)
                 showDemoToast(getString(R.string.demo_stage_2))
+                runOnUiThread {
+                    binding.appBarMain.contentMain.workspaceScroll.smoothScrollTo(0, binding.appBarMain.contentMain.padCustomizationSection.top)
+                }
                 delay(2000)
 
                 val demoPitches = listOf(60, 64, 67, 72)
