@@ -604,8 +604,10 @@ class MainActivity : AppCompatActivity() {
                 
                 // Discovery explanation
                 showDemoToast(getString(R.string.demo_initializing))
-                
-                // Stage 1: Synthesis Stage
+                runOnUiThread {
+                    binding.appBarMain.contentMain.workspaceScroll.smoothScrollTo(0, 0)
+                }
+                delay(1000)
                 showDemoToast(getString(R.string.demo_stage_1))
                 
                 // Set a rich Sawtooth patch
@@ -668,11 +670,31 @@ class MainActivity : AppCompatActivity() {
                 }
                 synthManager.padNoteOff(1)
                 
+                delay(1500)
+                showDemoToast("Zen Mode: Hiding parameter controls to focus.")
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.toggleZenMode.isChecked = true 
+                    binding.appBarMain.contentMain.parameterContainer.visibility = View.GONE
+                }
+                delay(2000)
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.toggleZenMode.isChecked = false 
+                }
+                
+                delay(1000)
+                showDemoToast("Browser: Loading samples and managing sound banks.")
+                runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = true }
+                delay(2000)
+                runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = false }
+
                 if (!isDemoPlaying) return@launch
 
                 // Stage 2: Multi-Bank Sampling
                 delay(1000)
                 showDemoToast(getString(R.string.demo_stage_2))
+                runOnUiThread {
+                    binding.appBarMain.contentMain.workspaceScroll.smoothScrollTo(0, binding.appBarMain.contentMain.padCustomizationSection.top)
+                }
                 delay(2000)
 
                 val demoPitches = listOf(60, 64, 67, 72)
@@ -701,6 +723,23 @@ class MainActivity : AppCompatActivity() {
                 }
                 synthManager.padNoteOff(1)
                 
+                delay(1500)
+                showDemoToast("Zen Mode: Hiding parameter controls to focus.")
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.toggleZenMode.isChecked = true 
+                    binding.appBarMain.contentMain.parameterContainer.visibility = View.GONE
+                }
+                delay(2000)
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.toggleZenMode.isChecked = false 
+                }
+                
+                delay(1000)
+                showDemoToast("Browser: Loading samples and managing sound banks.")
+                runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = true }
+                delay(2000)
+                runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = false }
+
                 if (!isDemoPlaying) return@launch
 
                 delay(1000)
@@ -716,35 +755,49 @@ class MainActivity : AppCompatActivity() {
                 }
                 delay(2000)
                 
+                // Reset sequencer for clean tutorial
+                synthManager.clearSequencer()
+                runOnUiThread { updateSequencerToggles(binding.appBarMain.contentMain) }
+                
                 // Stage 3: Sequencer Masterclass
-                showDemoToast("Educational: Mastering the Sequencer")
+                showDemoToast(getString(R.string.demo_sequencer_masterclass))
                 
                 // Scroll to Sequencer
                 runOnUiThread {
                     binding.appBarMain.contentMain.workspaceScroll.smoothScrollTo(0, binding.appBarMain.contentMain.sequencerSection.top)
                 }
-                delay(1500)
+                delay(2500)
                 
-                showDemoToast("Step 1: Manual Editing. Toggle steps in the grid.")
-                for (i in listOf(0, 4, 8, 12)) {
+                showDemoToast(getString(R.string.demo_sequencer_manual))
+                val stepsToToggle = listOf(0, 4, 8, 12)
+                for (step in stepsToToggle) {
                     if (!isDemoPlaying) break
                     runOnUiThread {
-                        val toggle = binding.appBarMain.contentMain.root.findViewById<android.widget.ToggleButton>(stepButtonIds[i])
+                        // Toggle base note (60)
+                        val toggle = binding.appBarMain.contentMain.root.findViewById<android.widget.ToggleButton>(stepButtonIds[step])
                         toggle?.isChecked = true
+                        // Visual feedback on keyboard for the note we just added to the step
+                        binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true)
                     }
                     delay(800)
+                    runOnUiThread {
+                        binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
+                    }
+                    delay(400)
                 }
                 
-                delay(1500)
-                showDemoToast("Step 2: Real-time Recording. Capture your keyboard performance.")
+                delay(2000)
+                showDemoToast(getString(R.string.demo_sequencer_recording))
                 runOnUiThread {
                     binding.appBarMain.contentMain.toggleSequencerRec.isChecked = true
                     if (!synthManager.isSequencerPlaying()) {
                         binding.appBarMain.contentMain.btnSequencerPlay.performClick()
                     }
                 }
+                delay(1000)
                 
-                val melody = listOf(67, 69, 70, 72)
+                showDemoToast("Recording: Playing a melodic sequence...")
+                val melody = listOf(60, 63, 67, 68, 67, 63, 60)
                 for (note in melody) {
                     if (!isDemoPlaying) break
                     synthManager.noteOn(note, 0.8f)
@@ -752,18 +805,18 @@ class MainActivity : AppCompatActivity() {
                         binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.RECORD, true)
                         updateSequencerToggles(binding.appBarMain.contentMain)
                     }
-                    delay(500)
+                    delay(400)
                     synthManager.noteOff(note)
                     runOnUiThread { 
                         binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.RECORD, false)
                     }
-                    delay(300)
+                    delay(200)
                 }
                 
                 delay(3000)
                 runOnUiThread { 
                     binding.appBarMain.contentMain.toggleSequencerRec.isChecked = false 
-                    showDemoToast("Recorded! The loop is now active.")
+                    showDemoToast(getString(R.string.demo_sequencer_play_along))
                 }
 
                 // Stage 4: Performance Stage. Using pads and built-in effects.
@@ -796,6 +849,23 @@ class MainActivity : AppCompatActivity() {
                 }
                 synthManager.padNoteOff(1)
                 
+                delay(1500)
+                showDemoToast("Zen Mode: Hiding parameter controls to focus.")
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.toggleZenMode.isChecked = true 
+                    binding.appBarMain.contentMain.parameterContainer.visibility = View.GONE
+                }
+                delay(2000)
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.toggleZenMode.isChecked = false 
+                }
+                
+                delay(1000)
+                showDemoToast("Browser: Loading samples and managing sound banks.")
+                runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = true }
+                delay(2000)
+                runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = false }
+
                 if (!isDemoPlaying) return@launch
                 
                 showDemoToast(getString(R.string.demo_spatial_wash))
@@ -846,9 +916,14 @@ class MainActivity : AppCompatActivity() {
         synthManager.setReverbMix(0f)
         synthManager.setPitchBend(0f)
         synthManager.setModulation(0f)
+        synthManager.clearSequencer()
+        synthManager.setSequencerPlaying(false)
+        synthManager.setSequencerRecording(false)
         
         // Reset UI State
         isPadMode = false
+        isSequencerRecordMode = false
+        isStepRecordMode = false
         val content = binding.appBarMain.contentMain
         content.btnModeToggle.text = getString(R.string.btn_mode_pads)
         content.keyboardPadView.setMode(KeyboardPadView.Mode.KEYBOARD)
@@ -862,6 +937,10 @@ class MainActivity : AppCompatActivity() {
         
         updateWorkspaceVisibility(content)
         updateLabels(content)
+        updateSequencerToggles(content)
+        content.toggleSequencerRec.isChecked = false
+        content.toggleStepRec.isChecked = false
+        content.btnSequencerPlay.text = "▶"
     }
 
     private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {

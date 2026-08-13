@@ -1,0 +1,22 @@
+# Tasks: Milestone 38 - Educational Demo & Sequencer Training
+
+- `[ ]` Setup Refinement Infrastructure
+    - `[x]` Create GitHub Milestone & Issue (#155).
+    - `[x]` Create branch `feature/m38-demo-sequencer`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline status.
+- `[ ]` Review & Repair Loop (1-10)
+    - `[ ]` 1/10: Slow down Demo transition timings and update strings.
+    - `[ ]` 2/10: Implement Workspace scroll logic for the integrated demo.
+    - `[ ]` 3/10: Add Manual Step Editing demo segment.
+    - `[ ]` 4/10: Refine live keyboard recording demo segment.
+    - `[ ]` 5/10: Stabilize C++ Sequencer recording bit clearing.
+    - `[ ]` 6/10: Update Discovery Mode help text for Sequencer actions.
+    - `[ ]` 7/10: Verify demo completion and engine state reset.
+    - `[ ]` 8/10: Verify layout stability during auto-scrolling.
+    - `[ ]` 9/10: Add unit test for sequencer recording routing.
+    - `[ ]` 10/10: Final polish and documentation.
+- `[ ]` Finalize
+    - `[ ]` Run full test suite.
+    - `[ ]` Squash and Merge.
+    - `[ ]` Cleanup local and remote branches.

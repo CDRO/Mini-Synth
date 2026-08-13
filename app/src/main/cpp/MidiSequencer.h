@@ -48,7 +48,7 @@ public:
         if (!playing) stop(voiceManager);
     }
     bool isPlaying() const { return mIsPlaying.load(); }
-    void setRecording(bool recording) { mIsRecording.store(recording); }
+    void setRecording(bool recording);
     bool isRecording() const { return mIsRecording.load(); }
 
 private:

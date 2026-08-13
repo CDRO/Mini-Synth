@@ -9,10 +9,10 @@
     "milestones_folder_path": "docs/artifacts/milestones"
   },
   "current_state": {
-    "active_milestone_file": "37_Recording_Export_Sharing",
-    "current_step": "Finalization",
-    "loop_iteration": 10,
-    "last_action_completed": "Completed all review loops for Milestone 37: Recording Export & Sample Sharing.",
-    "next_immediate_action": "Merge PR and finalize milestone."
+    "active_milestone_file": "38_Demo_Training",
+    "current_step": "Review Loop",
+    "loop_iteration": 9,
+    "last_action_completed": "Review loop 9/10: Added unit tests and shadow tracking for sequencer recording routing.",
+    "next_immediate_action": "Review loop 10/10: Final polish and documentation."
   }
 }
