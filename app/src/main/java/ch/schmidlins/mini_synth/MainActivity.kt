@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
     private val padMappings = mutableMapOf<Int, String>() // Pad index -> Sample name
     private var mappingSampleId: Int? = null // if not null, we are in mapping mode
     private val padSamplePaths = mutableMapOf<Int, String>()
+    private val padPannings = mutableMapOf<Int, Float>()
     private val lastAftertouch = mutableMapOf<Int, Float>()
     
     companion object {
@@ -325,6 +326,21 @@ class MainActivity : AppCompatActivity() {
                 if (isHelpMode && fromUser) { showHelp(getString(R.string.help_master_volume)); return }
                 synthManager.setMasterVolume(progress / 100f)
                 content.tvMasterVolVal!!.text = String.format(Locale.US, "%d%%", progress)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        content.seekPanning!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val pan = (progress - 50) / 50f
+                synthManager.setPanning(pan)
+                val label = when {
+                    progress < 45 -> "L${Math.abs(progress - 50)}"
+                    progress > 55 -> "R${progress - 50}"
+                    else -> "C"
+                }
+                content.tvPanVal!!.text = label
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
@@ -670,6 +686,16 @@ class MainActivity : AppCompatActivity() {
                 }
                 synthManager.padNoteOff(1)
                 
+                delay(1000)
+                showDemoToast("Spatial Panning: Sweeping across the stereo field.")
+                for (i in 0..10) {
+                    if (!isDemoPlaying) break
+                    val pan = (i - 5) / 5f
+                    synthManager.setPanning(pan)
+                    delay(300)
+                }
+                synthManager.setPanning(0f)
+                
                 delay(1500)
                 showDemoToast("Zen Mode: Hiding parameter controls to focus.")
                 runOnUiThread { 
@@ -722,6 +748,16 @@ class MainActivity : AppCompatActivity() {
                     delay(200)
                 }
                 synthManager.padNoteOff(1)
+                
+                delay(1000)
+                showDemoToast("Spatial Panning: Sweeping across the stereo field.")
+                for (i in 0..10) {
+                    if (!isDemoPlaying) break
+                    val pan = (i - 5) / 5f
+                    synthManager.setPanning(pan)
+                    delay(300)
+                }
+                synthManager.setPanning(0f)
                 
                 delay(1500)
                 showDemoToast("Zen Mode: Hiding parameter controls to focus.")
@@ -848,6 +884,16 @@ class MainActivity : AppCompatActivity() {
                     delay(200)
                 }
                 synthManager.padNoteOff(1)
+                
+                delay(1000)
+                showDemoToast("Spatial Panning: Sweeping across the stereo field.")
+                for (i in 0..10) {
+                    if (!isDemoPlaying) break
+                    val pan = (i - 5) / 5f
+                    synthManager.setPanning(pan)
+                    delay(300)
+                }
+                synthManager.setPanning(0f)
                 
                 delay(1500)
                 showDemoToast("Zen Mode: Hiding parameter controls to focus.")
@@ -1081,6 +1127,27 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
         layout.addView(colorSpinner)
+
+        val panLabel = android.widget.TextView(this).apply {
+            text = "Pad Panning:"
+            setPadding(0, 20, 0, 8)
+        }
+        layout.addView(panLabel)
+
+        val panSeek = android.widget.SeekBar(this).apply {
+            max = 100
+            progress = ((padPannings[padIndex] ?: 0f) * 50 + 50).toInt()
+            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    val pan = (progress - 50) / 50f
+                    padPannings[padIndex] = pan
+                    synthManager.setPadPanning(padIndex, pan)
+                }
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            })
+        }
+        layout.addView(panSeek)
 
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.dialog_pad_config_title_format, padIndex))
@@ -1464,10 +1531,12 @@ class MainActivity : AppCompatActivity() {
             lfoTargetIndex = content.spinnerLfoTarget!!.selectedItemPosition,
             filterCutoff = content.seekFilterCutoff!!.progress / 100f,
             filterResonance = content.seekFilterRes!!.progress / 100f,
+            panning = (content.seekPanning!!.progress - 50) / 50f,
             sequencerStepDivision = when (content.spinnerStepDuration!!.selectedItemPosition) {
                 0 -> 0.25f; 1 -> 0.5f; 2 -> 1.0f; 3 -> 2.0f; 4 -> 4.0f; else -> 0.25f
             },
-            padSamplePaths = padSamplePaths.toMap()
+            padSamplePaths = padSamplePaths.toMap(),
+            padPannings = padPannings.toMap()
         )
         lifecycleScope.launch { presetRepository.savePreset(preset) }
     }
@@ -1488,12 +1557,15 @@ class MainActivity : AppCompatActivity() {
         content.spinnerLfoTarget!!.setSelection(preset.lfoTargetIndex.coerceAtLeast(0))
         content.seekFilterCutoff!!.progress = (preset.filterCutoff.coerceIn(0f, 1f) * 100).toInt()
         content.seekFilterRes!!.progress = (preset.filterResonance.coerceIn(0f, 1f) * 100).toInt()
+        content.seekPanning!!.progress = (preset.panning.coerceIn(-1f, 1f) * 50 + 50).toInt()
         val divIndex = when (preset.sequencerStepDivision) {
             0.25f -> 0; 0.5f -> 1; 1.0f -> 2; 2.0f -> 3; 4.0f -> 4; else -> 0
         }
         content.spinnerStepDuration!!.setSelection(divIndex)
         padSamplePaths.clear()
         preset.padSamplePaths.forEach { (idx, path) -> if (File(path).exists()) { synthManager.loadPadSample(idx, path); padSamplePaths[idx] = path } }
+        padPannings.clear()
+        preset.padPannings.forEach { (idx, pan) -> synthManager.setPadPanning(idx, pan); padPannings[idx] = pan }
         updateLabels(content)
     }
 
@@ -1774,6 +1846,7 @@ class MainActivity : AppCompatActivity() {
         mainHandler.post(beatPoller)
         val content = binding.appBarMain.contentMain
         synthManager.setMasterVolume(content.seekMasterVol!!.progress / 100f)
+        synthManager.setPanning((content.seekPanning!!.progress - 50) / 50f)
         synthManager.setPolyphonic(isPoly)
         synthManager.setOctaveShift(octaveShift)
         synthManager.setBpm(bpm)

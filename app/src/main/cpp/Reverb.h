@@ -12,7 +12,7 @@ public:
     void setDamping(float damping);
     void setMix(float mix);
 
-    float process(float input);
+    void process(float inputL, float inputR, float& outputL, float& outputR);
 
 private:
     float mSampleRate = 48000.0f;
@@ -50,10 +50,12 @@ private:
         }
     };
 
-    static const int NUM_COMBS = 8; // Increased for density
-    static const int NUM_ALLPASS = 4; // Increased for smoothness
-    CombFilter mCombs[NUM_COMBS];
-    AllPassFilter mAllPass[NUM_ALLPASS];
+    static const int NUM_COMBS = 8;
+    static const int NUM_ALLPASS = 4;
+    CombFilter mCombsL[NUM_COMBS];
+    CombFilter mCombsR[NUM_COMBS];
+    AllPassFilter mAllPassL[NUM_ALLPASS];
+    AllPassFilter mAllPassR[NUM_ALLPASS];
 
     void initFilters();
 };

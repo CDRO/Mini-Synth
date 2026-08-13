@@ -9,6 +9,7 @@
 
 AudioEngine::AudioEngine() {
     updateMetronomeParams();
+    for (int i = 0; i < MAX_PADS; ++i) mPadPanning[i] = 0.0f;
 }
 
 AudioEngine::~AudioEngine() {
@@ -22,7 +23,7 @@ void AudioEngine::start() {
     oboe::AudioStreamBuilder builder;
     // Note: Oboe handles fallback from AAudio to OpenSL ES automatically for API < 26.
     oboe::Result result = builder.setFormat(oboe::AudioFormat::Float)
-        ->setChannelCount(oboe::ChannelCount::Mono)
+        ->setChannelCount(oboe::ChannelCount::Stereo)
         ->setPerformanceMode(oboe::PerformanceMode::LowLatency)
         ->setSharingMode(oboe::SharingMode::Exclusive)
         ->setDataCallback(this)
@@ -135,13 +136,20 @@ void AudioEngine::loadPadSample(int padIndex, const char* path) {
     file.close();
 }
 
+void AudioEngine::setPadPanning(int padIndex, float panning) {
+    if (padIndex >= 0 && padIndex < MAX_PADS) {
+        mPadPanning[padIndex] = panning;
+    }
+}
+
 void AudioEngine::padNoteOn(int padIndex, float velocity) {
     if (padIndex < 0 || padIndex >= MAX_PADS || padIndex == mSamplingPadIndex) return;
 
+    float panning = mPadPanning[padIndex];
     if (mPadBuffers[padIndex].empty()) {
-        mVoiceManager.noteOn(60 + padIndex, velocity);
+        mVoiceManager.noteOn(60 + padIndex, velocity, nullptr, panning);
     } else {
-        mVoiceManager.noteOn(60 + padIndex, velocity, &mPadBuffers[padIndex]);
+        mVoiceManager.noteOn(60 + padIndex, velocity, &mPadBuffers[padIndex], panning);
     }
 }
 
@@ -172,7 +180,7 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
         uint8_t velocity = event.data2;
 
         if (status == 0x90 && velocity > 0) {
-            mVoiceManager.noteOn(note, velocity / 127.0f);
+            mVoiceManager.noteOn(note, velocity / 127.0f, nullptr, 0.0f);
             if (mIsSequencerRecording.load()) mMidiSequencer.handleRealTimeNoteOn(note);
         } else if (status == 0x80 || (status == 0x90 && velocity == 0)) {
             mVoiceManager.noteOff(note);
@@ -222,10 +230,13 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
     }
 
     for (int i = 0; i < numFrames; ++i) {
-        float sample = mVoiceManager.nextSample();
+        float left = 0.0f;
+        float right = 0.0f;
+        mVoiceManager.nextSample(left, right);
 
         if (mSamplingPadIndex != -1) {
-            // Sampling timeout/limit check (5s)
+            // Sampling mono for now
+            float sample = (left + right) * 0.5f;
             if (mPadBuffers[mSamplingPadIndex].size() < (48000 * 5)) {
                 mSampleRecorder.recordSample(sample);
                 if (mAutoSampleRemaining > 0) {
@@ -240,22 +251,29 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
         }
 
         if (mMetronomeEnabled) {
-            sample += getMetronomeSample();
+            float met = getMetronomeSample();
+            left += met;
+            right += met;
         }
 
-        sample = mDelay.process(sample);
-        sample = mReverb.process(sample);
+        mDelay.process(left, right, left, right);
+        mReverb.process(left, right, left, right);
 
-        sample = std::max(-1.0f, std::min(sample, 1.0f));
-        mVizQueue.push(sample);
-        mFftQueue.push(sample);
+        left = std::max(-1.0f, std::min(left, 1.0f));
+        right = std::max(-1.0f, std::min(right, 1.0f));
+
+        float monoSum = (left + right) * 0.5f;
+        mVizQueue.push(monoSum);
+        mFftQueue.push(monoSum);
 
         if (mIsRecording.load(std::memory_order_relaxed)) {
-            mRecordQueue.push(sample);
+            mRecordQueue.push(left);
+            mRecordQueue.push(right);
         }
 
-        for (int channel = 0; channel < channelCount; ++channel) {
-            output[i * channelCount + channel] = sample;
+        output[i * channelCount] = left;
+        if (channelCount > 1) {
+            output[i * channelCount + 1] = right;
         }
     }
     return oboe::DataCallbackResult::Continue;
@@ -314,8 +332,9 @@ void AudioEngine::stopRecording() {
 void AudioEngine::recordingLoop(const std::string& path) {
     WavEncoder encoder;
     int sampleRate = mStream ? mStream->getSampleRate() : 48000;
+    int channels = 2; // Stereo recording
 
-    if (!encoder.init(path, sampleRate, 1, 128)) {
+    if (!encoder.init(path, sampleRate, channels, 128)) {
         __android_log_print(ANDROID_LOG_ERROR, TAG, "Failed to initialize WAV encoder for path: %s", path.c_str());
         mIsRecording = false;
         return;
@@ -362,13 +381,13 @@ void AudioEngine::renderPatternToFile(const std::string& path) {
     renderVm.setParams(params);
 
     WavEncoder encoder;
-    if (!encoder.init(path, sampleRate, 1, 192)) return;
+    if (!encoder.init(path, sampleRate, 2, 192)) return;
 
     float stepDivision = mMidiSequencer.getStepDivision();
     int32_t stepDuration = static_cast<int32_t>(static_cast<float>(samplesPerBeat) * stepDivision);
     int32_t gateSamples = static_cast<int32_t>(static_cast<float>(stepDuration) * 0.9f);
 
-    std::vector<float> pcmBuffer(stepDuration);
+    std::vector<float> pcmBuffer(stepDuration * 2); // Stereo
     const std::atomic<uint64_t>* grid = mMidiSequencer.getGridData();
     int numStepsToRender = mMidiSequencer.getNumSteps();
 
@@ -393,9 +412,12 @@ void AudioEngine::renderPatternToFile(const std::string& path) {
                     }
                 }
             }
-            pcmBuffer[s] = renderVm.nextSample();
+            float left = 0, right = 0;
+            renderVm.nextSample(left, right);
+            pcmBuffer[s * 2] = left;
+            pcmBuffer[s * 2 + 1] = right;
         }
-        encoder.encode(pcmBuffer.data(), stepDuration);
+        encoder.encode(pcmBuffer.data(), stepDuration * 2);
     }
 
     encoder.flush();
@@ -418,7 +440,7 @@ void AudioEngine::onErrorAfterClose(oboe::AudioStream *oboeStream, oboe::Result 
     }
 }
 
-float AudioEngine::renderSampleForTest() {
+void AudioEngine::renderStereoSampleForTest(float& left, float& right) {
     // Drain MIDI queue for testing
     MidiEvent event;
     while (mMidiQueue.pop(event)) {
@@ -426,17 +448,18 @@ float AudioEngine::renderSampleForTest() {
         uint8_t note = event.data1;
         uint8_t velocity = event.data2;
         if (status == 0x90 && velocity > 0) {
-            mVoiceManager.noteOn(note, velocity / 127.0f);
+            mVoiceManager.noteOn(note, velocity / 127.0f, nullptr, 0.0f);
         } else if (status == 0x80 || (status == 0x90 && velocity == 0)) {
             mVoiceManager.noteOff(note);
         }
     }
 
-    float sample = mVoiceManager.nextSample();
+    mVoiceManager.nextSample(left, right);
     if (mMetronomeEnabled) {
-        sample += getMetronomeSample();
+        float met = getMetronomeSample();
+        left += met;
+        right += met;
     }
-    return sample;
 }
 
 void AudioEngine::updateMetronomeParams() {
@@ -470,22 +493,26 @@ float AudioEngine::getMetronomeSample() {
 
 void AudioEngine::saveProject(const std::string& directory) {
     std::vector<std::vector<float>> pads(MAX_PADS);
+    std::vector<float> pannings(MAX_PADS);
     for (int i = 0; i < MAX_PADS; ++i) {
         pads[i] = mPadBuffers[i];
+        pannings[i] = mPadPanning[i];
     }
-    ProjectManager::saveProject(directory, mVoiceManager.getParams(), mMidiSequencer, pads, mBpm);
+    ProjectManager::saveProject(directory, mVoiceManager.getParams(), mMidiSequencer, pads, pannings, mBpm);
 }
 
 void AudioEngine::loadProject(const std::string& directory) {
     EngineParams params;
     std::vector<std::vector<float>> pads;
+    std::vector<float> pannings;
     float bpm;
-    if (ProjectManager::loadProject(directory, params, mMidiSequencer, pads, bpm)) {
+    if (ProjectManager::loadProject(directory, params, mMidiSequencer, pads, pannings, bpm)) {
         mVoiceManager.setParams(params);
         mBpm = bpm;
         updateMetronomeParams();
         for (int i = 0; i < MAX_PADS && i < pads.size(); ++i) {
             mPadBuffers[i] = pads[i];
+            mPadPanning[i] = (i < pannings.size()) ? pannings[i] : 0.0f;
         }
     }
 }

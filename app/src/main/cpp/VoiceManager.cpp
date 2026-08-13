@@ -32,10 +32,11 @@ void VoiceManager::setPolyphonic(bool isPolyphonic) {
     }
 }
 
-void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer) {
+void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer, float initialPan) {
     if (mIsPolyphonic) {
         int index = findVoiceByNote(midiNote);
         if (index != -1) {
+            mVoices[index].setPanning(initialPan);
             mVoices[index].trigger(midiNote, velocity, sampleBuffer);
             return;
         }
@@ -55,6 +56,7 @@ void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>
             mVoices[index].setFilterCutoff(mFilterCutoff);
             mVoices[index].setFilterResonance(mFilterResonance);
 
+            mVoices[index].setPanning(initialPan);
             mVoices[index].trigger(midiNote, velocity, sampleBuffer);
         }
     } else {
@@ -71,6 +73,7 @@ void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>
         mVoices[0].setFilterCutoff(mFilterCutoff);
         mVoices[0].setFilterResonance(mFilterResonance);
 
+        mVoices[0].setPanning(initialPan);
         mVoices[0].trigger(midiNote, velocity, sampleBuffer);
     }
 }
@@ -112,12 +115,14 @@ int VoiceManager::findVoiceByNote(int midiNote) {
     return -1;
 }
 
-float VoiceManager::nextSample() {
-    float mixedSample = 0.0f;
+void VoiceManager::nextSample(float& left, float& right) {
+    float mixedSampleL = 0.0f;
+    float mixedSampleR = 0.0f;
     int activeCount = 0;
 
     bool updateParams = mParamsChanged.exchange(false);
     float currentVol = mMasterVolume.load(std::memory_order_relaxed);
+    float currentPan = mPanning.load(std::memory_order_relaxed);
 
     for (int i = 0; i < MAX_VOICES; ++i) {
         if (mVoices[i].isActive()) {
@@ -135,24 +140,26 @@ float VoiceManager::nextSample() {
                 mVoices[i].setModulation(mModulation);
             }
 
-            mixedSample += mVoices[i].nextSample();
+            float vL = 0, vR = 0;
+            mVoices[i].nextSample(vL, vR);
+            mixedSampleL += vL;
+            mixedSampleR += vR;
             activeCount++;
         }
     }
 
     if (activeCount > 0) {
-        // Dynamic headroom and soft-clipping to prevent harsh digital distortion
-        mixedSample *= 0.4f; // 12dB headroom for better polyphonic sum
-        if (mixedSample > 1.0f) mixedSample = 1.0f;
-        else if (mixedSample < -1.0f) mixedSample = -1.0f;
-        else {
-            // Cubic soft-clipper for smoother saturation near peaks
-            // f(x) = 1.5x - 0.5x^3
-            mixedSample = 1.5f * mixedSample - 0.5f * (mixedSample * mixedSample * mixedSample);
-        }
+        mixedSampleL *= 0.5f; // Headroom
+        mixedSampleR *= 0.5f;
     }
 
-    return mixedSample * currentVol;
+    // Master Panning (Offset global mix)
+    float angle = (currentPan + 1.0f) * (PI_F / 4.0f);
+    float masterL = cosf(angle);
+    float masterR = sinf(angle);
+
+    left = std::tanh(mixedSampleL * currentVol * masterL);
+    right = std::tanh(mixedSampleR * currentVol * masterR);
 }
 
 EngineParams VoiceManager::getParams() const {
@@ -172,6 +179,7 @@ EngineParams VoiceManager::getParams() const {
     p.isPolyphonic = mIsPolyphonic;
     p.pitchBend = mPitchBend.load();
     p.modulation = mModulation.load();
+    p.panning = mPanning.load();
     return p;
 }
 
@@ -191,6 +199,7 @@ void VoiceManager::setParams(const EngineParams& p) {
     setPolyphonic(p.isPolyphonic);
     setPitchBend(p.pitchBend);
     setModulation(p.modulation);
+    setPanning(p.panning);
 }
 
 void VoiceManager::setVoiceAftertouch(int midiNote, float amount) {

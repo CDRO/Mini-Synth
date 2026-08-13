@@ -11,6 +11,7 @@ bool ProjectManager::saveProject(const std::string& directory,
                                  const EngineParams& params,
                                  const MidiSequencer& sequencer,
                                  const std::vector<std::vector<float>>& padBuffers,
+                                 const std::vector<float>& padPannings,
                                  float bpm) {
     json j;
     j["version"] = 1;
@@ -30,6 +31,7 @@ bool ProjectManager::saveProject(const std::string& directory,
     j["engine"]["filterCutoff"] = params.filterCutoff;
     j["engine"]["filterResonance"] = params.filterResonance;
     j["engine"]["isPolyphonic"] = params.isPolyphonic;
+    j["engine"]["panning"] = params.panning;
 
     // Sequencer
     j["sequencer"]["stepDivision"] = sequencer.getStepDivision();
@@ -42,7 +44,6 @@ bool ProjectManager::saveProject(const std::string& directory,
     }
 
     // Pads
-    // We save pad data as binary files in the directory
     for (size_t i = 0; i < padBuffers.size(); ++i) {
         if (!padBuffers[i].empty()) {
             std::string padPath = directory + "/pad_" + std::to_string(i) + ".raw";
@@ -50,8 +51,11 @@ bool ProjectManager::saveProject(const std::string& directory,
             if (padFile.is_open()) {
                 padFile.write(reinterpret_cast<const char*>(padBuffers[i].data()),
                               padBuffers[i].size() * sizeof(float));
-                j["pads"][i] = "pad_" + std::to_string(i) + ".raw";
+                j["pads"][std::to_string(i)]["file"] = "pad_" + std::to_string(i) + ".raw";
             }
+        }
+        if (i < padPannings.size()) {
+            j["pads"][std::to_string(i)]["panning"] = padPannings[i];
         }
     }
 
@@ -67,6 +71,7 @@ bool ProjectManager::loadProject(const std::string& directory,
                                  EngineParams& outParams,
                                  MidiSequencer& outSequencer,
                                  std::vector<std::vector<float>>& outPadBuffers,
+                                 std::vector<float>& outPadPannings,
                                  float& outBpm) {
     std::string configPath = directory + "/project.json";
     std::ifstream configFile(configPath);
@@ -92,6 +97,8 @@ bool ProjectManager::loadProject(const std::string& directory,
     outParams.filterCutoff = e["filterCutoff"];
     outParams.filterResonance = e["filterResonance"];
     outParams.isPolyphonic = e["isPolyphonic"];
+    if (e.contains("panning")) outParams.panning = e["panning"];
+    else outParams.panning = 0.0f;
 
     // Sequencer
     outSequencer.clear();
@@ -106,19 +113,28 @@ bool ProjectManager::loadProject(const std::string& directory,
     }
 
     // Pads
-    outPadBuffers.assign(256, std::vector<float>()); // Support 256 pads
+    outPadBuffers.assign(256, std::vector<float>());
+    outPadPannings.assign(256, 0.0f);
     if (j.contains("pads")) {
         for (auto it = j["pads"].begin(); it != j["pads"].end(); ++it) {
             int padIndex = std::stoi(it.key());
-            std::string padFileRelative = it.value();
-            std::string padPath = directory + "/" + padFileRelative;
+            auto padData = it.value();
 
-            std::ifstream padFile(padPath, std::ios::binary | std::ios::ate);
-            if (padFile.is_open()) {
-                std::streamsize size = padFile.tellg();
-                padFile.seekg(0, std::ios::beg);
-                outPadBuffers[padIndex].resize(size / sizeof(float));
-                padFile.read(reinterpret_cast<char*>(outPadBuffers[padIndex].data()), size);
+            if (padData.contains("panning")) {
+                outPadPannings[padIndex] = padData["panning"];
+            }
+
+            if (padData.contains("file")) {
+                std::string padFileRelative = padData["file"];
+                std::string padPath = directory + "/" + padFileRelative;
+
+                std::ifstream padFile(padPath, std::ios::binary | std::ios::ate);
+                if (padFile.is_open()) {
+                    std::streamsize size = padFile.tellg();
+                    padFile.seekg(0, std::ios::beg);
+                    outPadBuffers[padIndex].resize(size / sizeof(float));
+                    padFile.read(reinterpret_cast<char*>(outPadBuffers[padIndex].data()), size);
+                }
             }
         }
     }

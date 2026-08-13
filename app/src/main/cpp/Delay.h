@@ -12,14 +12,15 @@ public:
     void setFeedback(float feedback);
     void setMix(float mix);
 
-    float process(float input);
+    void process(float inputL, float inputR, float& outputL, float& outputR);
 
 private:
     float mSampleRate = 48000.0f;
     float mFeedback = 0.5f;
     float mMix = 0.5f;
 
-    std::vector<float> mBuffer;
+    std::vector<float> mBufferL;
+    std::vector<float> mBufferR;
     size_t mWriteIndex = 0;
     float mCurrentDelaySamples = 0.0f;
     float mTargetDelaySamples = 0.0f;

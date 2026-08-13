@@ -12,12 +12,14 @@ public:
                            const EngineParams& engineParams,
                            const MidiSequencer& sequencer,
                            const std::vector<std::vector<float>>& padBuffers,
+                           const std::vector<float>& padPannings,
                            float bpm);
 
     static bool loadProject(const std::string& directory,
                            EngineParams& outEngineParams,
                            MidiSequencer& outSequencer,
                            std::vector<std::vector<float>>& outPadBuffers,
+                           std::vector<float>& outPadPannings,
                            float& outBpm);
 };
 

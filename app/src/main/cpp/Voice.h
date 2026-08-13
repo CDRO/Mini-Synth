@@ -46,8 +46,9 @@ public:
     void setPitchBend(float semitones) { mTargetPitchBend = semitones; }
     void setModulation(float amount) { mTargetModulation = amount; }
     void setAftertouch(float amount) { mTargetAftertouch = amount; }
+    void setPanning(float panning) { mPanning = panning; }
 
-    float nextSample();
+    void nextSample(float& left, float& right);
 
 private:
     Oscillator mOscillator;
@@ -64,6 +65,7 @@ private:
     float mCurrentModulation = 0.0f;
     float mTargetAftertouch = 0.0f;
     float mCurrentAftertouch = 0.0f;
+    float mPanning = 0.0f;
     bool mActive;
     bool mIsSampleMode;
     int mNote;

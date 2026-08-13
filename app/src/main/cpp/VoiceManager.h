@@ -23,6 +23,7 @@ struct EngineParams {
     bool isPolyphonic;
     float pitchBend;
     float modulation;
+    float panning;
 };
 
 class VoiceManager {
@@ -33,7 +34,7 @@ public:
     void setWaveform(Waveform waveform);
     void setPolyphonic(bool isPolyphonic);
 
-    void noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer = nullptr);
+    void noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer = nullptr, float initialPan = 0.0f);
     void noteOff(int midiNote);
     void setPadLooping(int midiNote, bool looping);
 
@@ -43,6 +44,7 @@ public:
     void setRelease(float seconds) { mParams.release = seconds; }
 
     void setMasterVolume(float volume) { mMasterVolume = volume; }
+    void setPanning(float panning) { mPanning = panning; mParamsChanged = true; }
 
     void setLfoRate(float frequency) { mLfoRate = frequency; mParamsChanged = true; }
     void setLfoDepth(float depth) { mLfoDepth = depth; mParamsChanged = true; }
@@ -60,7 +62,7 @@ public:
     EngineParams getParams() const;
     void setParams(const EngineParams& params);
 
-    float nextSample();
+    void nextSample(float& left, float& right);
 
 private:
     static const int MAX_VOICES = 16;
@@ -82,6 +84,7 @@ private:
     std::atomic<float> mFilterResonance{0.5f};
     std::atomic<float> mPitchBend{0.0f};
     std::atomic<float> mModulation{0.0f};
+    std::atomic<float> mPanning{0.0f}; // -1.0 to 1.0
     std::atomic<bool> mParamsChanged{false};
 
     int findFreeVoice();
