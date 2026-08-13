@@ -9,10 +9,10 @@
     "milestones_folder_path": "docs/artifacts/milestones"
   },
   "current_state": {
-    "active_milestone_file": "39_Stereo_Engine_Spatial",
-    "current_step": "Finalization",
-    "loop_iteration": 10,
-    "last_action_completed": "Finalized Milestone 39: Stereo Engine & Spatial Routing.",
-    "next_immediate_action": "Commence Milestone 40: Unison & Voice Layering."
+    "active_milestone_file": "40_Unison_Layering",
+    "current_step": "Review Loop",
+    "loop_iteration": 1,
+    "last_action_completed": "Review loop 1/10: Updated Voice class to support multiple oscillators with detune and spread logic.",
+    "next_immediate_action": "Review loop 2/10: Implement pitch detuning logic for unison voices."
   }
 }
