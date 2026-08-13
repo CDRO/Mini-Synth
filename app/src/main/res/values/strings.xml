@@ -186,6 +186,10 @@
     <string name="demo_lfo_modulating">LFO: Automatically modulating Filter Cutoff.</string>
     <string name="demo_spatial_wash">Final spatial wash with high-density Reverb.</string>
     <string name="demo_complete">Demo Complete. You can now use all these features manually!</string>
+    <string name="demo_sequencer_masterclass">Sequencer Masterclass: Creating and Recording loops...</string>
+    <string name="demo_sequencer_manual">Step 1: Manual Editing. Toggle steps in the grid to build a pattern.</string>
+    <string name="demo_sequencer_recording">Step 2: Real-time Recording. Your keyboard performance is captured instantly.</string>
+    <string name="demo_sequencer_play_along">Now let\'s play along with our recorded sequence!</string>
 
     <string name="toast_mode_toggle_disabled">Mode toggle disabled during Demo.</string>
     <string name="toast_sample_mapped">Sample mapped!</string>

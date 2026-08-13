@@ -717,26 +717,26 @@ class MainActivity : AppCompatActivity() {
                 delay(2000)
                 
                 // Stage 3: Sequencer Masterclass
-                showDemoToast("Educational: Mastering the Sequencer")
+                showDemoToast(getString(R.string.demo_sequencer_masterclass))
                 
                 // Scroll to Sequencer
                 runOnUiThread {
                     binding.appBarMain.contentMain.workspaceScroll.smoothScrollTo(0, binding.appBarMain.contentMain.sequencerSection.top)
                 }
-                delay(1500)
+                delay(2500)
                 
-                showDemoToast("Step 1: Manual Editing. Toggle steps in the grid.")
+                showDemoToast(getString(R.string.demo_sequencer_manual))
                 for (i in listOf(0, 4, 8, 12)) {
                     if (!isDemoPlaying) break
                     runOnUiThread {
                         val toggle = binding.appBarMain.contentMain.root.findViewById<android.widget.ToggleButton>(stepButtonIds[i])
                         toggle?.isChecked = true
                     }
-                    delay(800)
+                    delay(1200)
                 }
                 
-                delay(1500)
-                showDemoToast("Step 2: Real-time Recording. Capture your keyboard performance.")
+                delay(2000)
+                showDemoToast(getString(R.string.demo_sequencer_recording))
                 runOnUiThread {
                     binding.appBarMain.contentMain.toggleSequencerRec.isChecked = true
                     if (!synthManager.isSequencerPlaying()) {
@@ -752,18 +752,18 @@ class MainActivity : AppCompatActivity() {
                         binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.RECORD, true)
                         updateSequencerToggles(binding.appBarMain.contentMain)
                     }
-                    delay(500)
+                    delay(600)
                     synthManager.noteOff(note)
                     runOnUiThread { 
                         binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(note, KeyboardPadView.Backlight.RECORD, false)
                     }
-                    delay(300)
+                    delay(400)
                 }
                 
                 delay(3000)
                 runOnUiThread { 
                     binding.appBarMain.contentMain.toggleSequencerRec.isChecked = false 
-                    showDemoToast("Recorded! The loop is now active.")
+                    showDemoToast(getString(R.string.demo_sequencer_play_along))
                 }
 
                 // Stage 4: Performance Stage. Using pads and built-in effects.

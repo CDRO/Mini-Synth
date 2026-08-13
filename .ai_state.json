@@ -9,10 +9,10 @@
     "milestones_folder_path": "docs/artifacts/milestones"
   },
   "current_state": {
-    "active_milestone_file": "37_Recording_Export_Sharing",
-    "current_step": "Finalization",
-    "loop_iteration": 10,
-    "last_action_completed": "Completed all review loops for Milestone 37: Recording Export & Sample Sharing.",
-    "next_immediate_action": "Merge PR and finalize milestone."
+    "active_milestone_file": "38_Demo_Training",
+    "current_step": "Review Loop",
+    "loop_iteration": 1,
+    "last_action_completed": "Review loop 1/10: Slowed down Demo transition timings and updated strings for the Sequencer Masterclass.",
+    "next_immediate_action": "Review loop 2/10: Implement Workspace scroll logic for the integrated demo."
   }
 }

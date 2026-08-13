@@ -12,7 +12,7 @@ add_library(mini_synth SHARED
         Envelope.cpp
         Lfo.cpp
         Filter.cpp
-        Mp3Encoder.cpp
+        WavEncoder.cpp
         MidiSequencer.cpp
         SamplePlayer.cpp
         ProjectManager.cpp
