@@ -330,6 +330,21 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
+        content.seekPanning!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val pan = (progress - 50) / 50f
+                synthManager.setPanning(pan)
+                val label = when {
+                    progress < 45 -> "L${Math.abs(progress - 50)}"
+                    progress > 55 -> "R${progress - 50}"
+                    else -> "C"
+                }
+                content.tvPanVal!!.text = label
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
         setupAdsr(content)
         setupLfo(content)
         setupFilter(content)
@@ -1774,6 +1789,7 @@ class MainActivity : AppCompatActivity() {
         mainHandler.post(beatPoller)
         val content = binding.appBarMain.contentMain
         synthManager.setMasterVolume(content.seekMasterVol!!.progress / 100f)
+        synthManager.setPanning((content.seekPanning!!.progress - 50) / 50f)
         synthManager.setPolyphonic(isPoly)
         synthManager.setOctaveShift(octaveShift)
         synthManager.setBpm(bpm)

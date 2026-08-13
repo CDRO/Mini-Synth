@@ -151,6 +151,12 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setMasterVolume(JNIEnv *env, j
 }
 
 extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setPanning(JNIEnv *env, jobject thiz, jfloat panning) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setPanning(panning);
+}
+
+extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setLfoRate(JNIEnv *env, jobject thiz, jfloat frequency) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setLfoRate(frequency);

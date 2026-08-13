@@ -77,6 +77,9 @@ class SynthManager {
     /** Set overall engine output volume. */
     external fun setMasterVolume(volume: Float)
 
+    /** Set master panning (-1.0 to 1.0). */
+    external fun setPanning(panning: Float)
+
     external fun setLfoRate(frequency: Float)
     external fun setLfoDepth(depth: Float)
     external fun setLfoWaveform(waveformIndex: Int)
