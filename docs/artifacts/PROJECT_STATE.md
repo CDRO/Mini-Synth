@@ -1,49 +1,31 @@
 # Consolidated Project Status: Mini-Synth
 
-Merging context from initial feature implementation and workspace refinements.
-
 ## Current System State
 
 ### Audio Engine (C++ / Oboe)
 - **Core**: 16-voice polyphonic engine with Sine, Square, Saw, Triangle waveforms.
-- **Stability**: Summing mixer (consistent volume), automatic error recovery.
+- **Stability**: Summing mixer with `tanh` soft-clipping, automatic error recovery.
 - **Modules**: ADSR Envelopes, Resonant Low-Pass Filter (LPF), LFO.
 - **Metronome**: Sample-accurate native tick generator, synced with BPM.
 - **Recording**: Real-time MP3 encoding using LAME.
-- **MIDI Sequencer**: Supports real-time loop overdub, input quantization, and up to 64 steps. Atomic bitmask implementation for thread safety.
+- **MIDI Sequencer**: Supports up to 64 steps. Atomic bitmask implementation.
 
 ### UI (Kotlin)
-- **Aesthetic**: Dark DAW theme.
-- **Layout**: Optimized 20/30/50 ratio. perfectly centered Visualizer (20% height).
-- **Modes**: Keyboard (with Gestures), Pad (with Bank management), Discovery, and Demo modes.
-- **Sequencer UI**: Paginated step view (16 steps per page), with multi-note highlighting.
+- **Aesthetic**: Dark DAW theme with responsive layout weights.
+- **Visualizer**: High-density 128-bar spectrum analyzer with peak-hold caps and red alert gradients.
+- **Modes**: Keyboard (with Gestures), Pad (with Bank management and EDIT toggle), Discovery, and Demo modes.
+- **Sequencer UI**: Paginated step view (16 steps per page) with real-time recording feedback.
 
 ## Feature Roadmap
 
-### [DONE] Milestone 1-30: Core Synthesis, Sequencer, & UI.
-### [DONE] Milestone 31: Dynamic Grid & Pad Customization.
-### [DONE] Milestone 32: Header Refinement & Engine Status.
-### [DONE] Milestone 33: Design System & Accessibility.
-### [DONE] Milestone 34: Pad UX & Audio Stability Refinement.
-### [DONE] Milestone 35: Performance Visualization & FFT Polish.
+### [DONE] Milestone 1-35: Core Synthesis, Effects, Visualization & FFT.
+### [DONE] Milestone 36: UI Stability, Pad UX & Sequencer Repair.
 
-### [NEXT] Milestone 36: UI Stability & Visualizer Restoration
-- **Objective**: Fix header clipping and visual regressions.
+### [NEXT] Milestone 37: Recording Export & Sample Sharing
+- **Objective**: Implement high-speed offline rendering and system-wide sharing.
 - **Key Features**:
-    - Layout weighting for header buttons.
-    - Restoration of red FFT peak gradients.
-
-### [NEXT] Milestone 37: Pad Configuration & Interaction
-- **Objective**: Fix pad sustaining and separate config from performance.
-- **Key Features**:
-    - "EDIT" mode toggle for Pad grid.
-    - Long-press sustain support for pads.
-
-### [NEXT] Milestone 38: Sequencer Logic & Educational Onboarding
-- **Objective**: Fix sequencer recording and guide the user.
-- **Key Features**:
-    - Repaired recording path.
-    - Auto-scrolling educational demo.
+    - High-speed WAV/MP3 rendering.
+    - Android Share Intent integration.
 
 ## Quality Assurance Status
 - **Unit Tests**: 27 local JVM tests passing (Robolectric).
