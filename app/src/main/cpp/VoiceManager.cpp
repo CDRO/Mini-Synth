@@ -112,12 +112,13 @@ int VoiceManager::findVoiceByNote(int midiNote) {
     return -1;
 }
 
-float VoiceManager::nextSample() {
+void VoiceManager::nextSample(float& left, float& right) {
     float mixedSample = 0.0f;
     int activeCount = 0;
 
     bool updateParams = mParamsChanged.exchange(false);
     float currentVol = mMasterVolume.load(std::memory_order_relaxed);
+    float currentPan = mPanning.load(std::memory_order_relaxed);
 
     for (int i = 0; i < MAX_VOICES; ++i) {
         if (mVoices[i].isActive()) {
@@ -152,7 +153,13 @@ float VoiceManager::nextSample() {
         }
     }
 
-    return mixedSample * currentVol;
+    float outMono = mixedSample * currentVol;
+
+    // Equal Power Panning
+    // pan in range [-1.0, 1.0]
+    float angle = (currentPan + 1.0f) * (PI_F / 4.0f); // 0 to PI/2
+    left = outMono * cosf(angle);
+    right = outMono * sinf(angle);
 }
 
 EngineParams VoiceManager::getParams() const {
@@ -172,6 +179,7 @@ EngineParams VoiceManager::getParams() const {
     p.isPolyphonic = mIsPolyphonic;
     p.pitchBend = mPitchBend.load();
     p.modulation = mModulation.load();
+    p.panning = mPanning.load();
     return p;
 }
 
@@ -191,6 +199,7 @@ void VoiceManager::setParams(const EngineParams& p) {
     setPolyphonic(p.isPolyphonic);
     setPitchBend(p.pitchBend);
     setModulation(p.modulation);
+    setPanning(p.panning);
 }
 
 void VoiceManager::setVoiceAftertouch(int midiNote, float amount) {

@@ -222,10 +222,13 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
     }
 
     for (int i = 0; i < numFrames; ++i) {
-        float sample = mVoiceManager.nextSample();
+        float left = 0.0f;
+        float right = 0.0f;
+        mVoiceManager.nextSample(left, right);
 
         if (mSamplingPadIndex != -1) {
-            // Sampling timeout/limit check (5s)
+            // Sampling mono for now
+            float sample = (left + right) * 0.5f;
             if (mPadBuffers[mSamplingPadIndex].size() < (48000 * 5)) {
                 mSampleRecorder.recordSample(sample);
                 if (mAutoSampleRemaining > 0) {
@@ -240,22 +243,31 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
         }
 
         if (mMetronomeEnabled) {
-            sample += getMetronomeSample();
+            float met = getMetronomeSample();
+            left += met;
+            right += met;
         }
 
-        sample = mDelay.process(sample);
-        sample = mReverb.process(sample);
+        left = mDelay.process(left);
+        right = mDelay.process(right);
+        left = mReverb.process(left);
+        right = mReverb.process(right);
 
-        sample = std::max(-1.0f, std::min(sample, 1.0f));
-        mVizQueue.push(sample);
-        mFftQueue.push(sample);
+        left = std::max(-1.0f, std::min(left, 1.0f));
+        right = std::max(-1.0f, std::min(right, 1.0f));
+
+        float monoSum = (left + right) * 0.5f;
+        mVizQueue.push(monoSum);
+        mFftQueue.push(monoSum);
 
         if (mIsRecording.load(std::memory_order_relaxed)) {
-            mRecordQueue.push(sample);
+            mRecordQueue.push(left);
+            mRecordQueue.push(right);
         }
 
-        for (int channel = 0; channel < channelCount; ++channel) {
-            output[i * channelCount + channel] = sample;
+        output[i * channelCount] = left;
+        if (channelCount > 1) {
+            output[i * channelCount + 1] = right;
         }
     }
     return oboe::DataCallbackResult::Continue;
@@ -314,8 +326,9 @@ void AudioEngine::stopRecording() {
 void AudioEngine::recordingLoop(const std::string& path) {
     WavEncoder encoder;
     int sampleRate = mStream ? mStream->getSampleRate() : 48000;
+    int channels = 2; // Stereo recording
 
-    if (!encoder.init(path, sampleRate, 1, 128)) {
+    if (!encoder.init(path, sampleRate, channels, 128)) {
         __android_log_print(ANDROID_LOG_ERROR, TAG, "Failed to initialize WAV encoder for path: %s", path.c_str());
         mIsRecording = false;
         return;
@@ -362,13 +375,13 @@ void AudioEngine::renderPatternToFile(const std::string& path) {
     renderVm.setParams(params);
 
     WavEncoder encoder;
-    if (!encoder.init(path, sampleRate, 1, 192)) return;
+    if (!encoder.init(path, sampleRate, 2, 192)) return;
 
     float stepDivision = mMidiSequencer.getStepDivision();
     int32_t stepDuration = static_cast<int32_t>(static_cast<float>(samplesPerBeat) * stepDivision);
     int32_t gateSamples = static_cast<int32_t>(static_cast<float>(stepDuration) * 0.9f);
 
-    std::vector<float> pcmBuffer(stepDuration);
+    std::vector<float> pcmBuffer(stepDuration * 2); // Stereo
     const std::atomic<uint64_t>* grid = mMidiSequencer.getGridData();
     int numStepsToRender = mMidiSequencer.getNumSteps();
 
@@ -393,9 +406,12 @@ void AudioEngine::renderPatternToFile(const std::string& path) {
                     }
                 }
             }
-            pcmBuffer[s] = renderVm.nextSample();
+            float left = 0, right = 0;
+            renderVm.nextSample(left, right);
+            pcmBuffer[s * 2] = left;
+            pcmBuffer[s * 2 + 1] = right;
         }
-        encoder.encode(pcmBuffer.data(), stepDuration);
+        encoder.encode(pcmBuffer.data(), stepDuration * 2);
     }
 
     encoder.flush();
