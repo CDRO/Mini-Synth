@@ -26,6 +26,7 @@ struct EngineParams {
     float panning;
     int unisonCount;
     float unisonDetune;
+    float unisonSpread;
 };
 
 class VoiceManager {
@@ -47,7 +48,7 @@ public:
 
     void setMasterVolume(float volume) { mMasterVolume = volume; }
     void setPanning(float panning) { mPanning = panning; mParamsChanged = true; }
-    void setUnison(int count, float detune) { mUnisonCount = count; mUnisonDetune = detune; mParamsChanged = true; }
+    void setUnison(int count, float detune, float spread) { mUnisonCount = count; mUnisonDetune = detune; mUnisonSpread = spread; mParamsChanged = true; }
 
     void setLfoRate(float frequency) { mLfoRate = frequency; mParamsChanged = true; }
     void setLfoDepth(float depth) { mLfoDepth = depth; mParamsChanged = true; }
@@ -90,6 +91,7 @@ private:
     std::atomic<float> mPanning{0.0f}; // -1.0 to 1.0
     std::atomic<int> mUnisonCount{1};
     std::atomic<float> mUnisonDetune{0.0f};
+    std::atomic<float> mUnisonSpread{0.0f};
     std::atomic<bool> mParamsChanged{false};
 
     int findFreeVoice();

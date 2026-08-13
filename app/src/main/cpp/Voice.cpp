@@ -110,7 +110,7 @@ void Voice::nextSample(float& left, float& right) {
                 // Calculate detune and pan offset for this unison voice
                 float ratio = static_cast<float>(i) / (count - 1); // 0.0 to 1.0
                 detune = (ratio * 2.0f - 1.0f) * mUnisonDetune; // -Detune to +Detune cents
-                panOffset = (ratio * 2.0f - 1.0f); // -1.0 to 1.0
+                panOffset = (ratio * 2.0f - 1.0f) * mUnisonSpread; // -Spread to +Spread
             }
 
             double freq = baseFreq * pow(2.0, (totalPitchShift + (detune / 100.0)) / 12.0);
