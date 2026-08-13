@@ -876,6 +876,22 @@
                             android:layout_width="4dp"
                             android:layout_height="match_parent" />
 
+                        <Button
+                            android:id="@+id/btn_sequencer_export"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_height="@dimen/button_height_standard"
+                            android:padding="0dp"
+                            android:text="@string/sequencer_export_short"
+                            android:contentDescription="@string/sequencer_export_long"
+                            android:textColor="@color/electric_blue"
+                            android:textSize="12sp"
+                            android:background="@drawable/selector_toggle_bg" />
+
+                        <Space
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent" />
+
                         <ToggleButton
                             android:id="@+id/toggle_pad_sampling"
                             style="?attr/materialButtonOutlinedStyle"

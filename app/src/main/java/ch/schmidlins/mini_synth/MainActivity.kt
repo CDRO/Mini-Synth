@@ -1066,6 +1066,10 @@ class MainActivity : AppCompatActivity() {
             synthManager.clearSequencer()
             for (id in stepButtonIds) content.root.findViewById<android.widget.ToggleButton>(id)?.isChecked = false
         }
+        content.btnSequencerExport!!.setOnClickListener {
+            if (isHelpMode) { showHelp("Export sequence: Renders the current pattern to a high-quality audio file."); return@setOnClickListener }
+            triggerExportSequence()
+        }
         val durations = arrayOf(
             getString(R.string.step_duration_1_16),
             getString(R.string.step_duration_1_8),

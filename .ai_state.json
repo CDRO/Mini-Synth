@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "37_Recording_Export_Sharing",
     "current_step": "Review Loop",
-    "loop_iteration": 2,
-    "last_action_completed": "Review loop 2/10: Added external-files-path to FileProvider paths configuration.",
-    "next_immediate_action": "Review loop 3/10: Implement background rendering task and progress UI in MainActivity."
+    "loop_iteration": 3,
+    "last_action_completed": "Review loop 3/10: Added a dedicated 'EXP' button to the sequencer UI and refined the background export task.",
+    "next_immediate_action": "Review loop 4/10: Rename Mp3Encoder to WavEncoder to reflect its actual behavior."
   }
 }
