@@ -248,8 +248,7 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
             right += met;
         }
 
-        left = mDelay.process(left);
-        right = mDelay.process(right);
+        mDelay.process(left, right, left, right);
         left = mReverb.process(left);
         right = mReverb.process(right);
 
