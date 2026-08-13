@@ -9,66 +9,46 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ### Audio & Performance
 - **Performance**: C++ (Oboe/AAudio) for all sound generation and mixing. Low latency target < 10ms.
-- **Threading**: Audio thread real-time priority. **No locks/allocations in callback**.
-- **Polyphony**: 16 simultaneous voices. Additive mixing. Output normalization.
+- **Polyphony**: 16 simultaneous voices. Additive mixing with `tanh` soft-clipping.
 - **Backends**: Oboe handles fallback between AAudio and OpenSL ES automatically.
 
 ### Logic & Features
 - **Configurability**: Toggle between Polyphonic and Monophonic modes.
 - **Oscillators**: Sine, Square, Saw, Triangle support.
-- **Keyboard**: 13-key fixed range (C to C). Support for ±4 octave internal shift.
-- **Sound Board**: Toggleable 4x4 pad grid mode.
+- **Keyboard**: 13-key fixed range (C to C). ±4 octave internal shift.
+- **Sound Board**: Customizable pad grid (up to 16x16) with Bank management.
 
 ### Design & UX (FL Studio Aesthetic)
 - **Theme**: Dark, high-contrast "Stealth Synth" look.
-- **Orientation**: Locked Landscape. Single screen layout.
-- **Feedback**: Backlit keys/pads.
-    - `Acid Green` (#C0FF00): Touch input.
-    - `Electric Blue` (#00A3FF): Playback state.
-    - `Vibrant Red` (#FF3B30): Recording state.
-
-## Technical Specifications (Caveman Mode)
-
-### [Logic] [Oscillator]
-- **Math**:
-    - Sine: `sin(phase)`
-    - Square: `phase < PI ? 1 : -1`
-    - Saw: `(phase / PI) - 1`
-    - Triangle: `2 * abs((phase / PI) - 1) - 1`
-- **Control**: `trigger(midi, velocity)`, `release(midi)`.
-
-### [Interface] [JNI Bridge]
-- **Bridge**: Minimal overhead. No heavy objects passed.
-- **Methods**: `startAudio()`, `stopAudio()`, `setNote()`, `releaseNote()`, `setPolyphony()`, `setWaveform()`, `setOctaveShift()`.
+- **Feedback**: Backlit keys/pads for Touch, Playback, and Recording.
 
 ---
 
-## Milestone 1-35: Completed core synthesis, effects, and visualizer series. [DONE]
+## Milestone 1-35: Core synthesis, effects, and visualizers. [DONE]
 
 ---
 
 ## Milestone 36: UI Stability, Pad UX & Sequencer Repair [DONE]
-
-### [UI] [Stability]
-- **Layout Repair**: Fixed clipping in header controls using weighted ConstraintLayout.
-- **Visual Restoration**: Re-aligned spectrum analyzer gradients to restore high-amplitude red alerts.
-
-### [UI] [UX]
-- **Pad EDIT Mode**: Decoupled pad configuration from musical performance via a dedicated toggle.
-- **Sustain Support**: Enabled long-press note sustaining on pads.
-
-### [Logic] [Training]
-- **Recording Fix**: Repaired the sequencer real-time recording UI refresh path.
-- **Guided Onboarding**: Upgraded the integrated demo to include an auto-scrolling training sequence for loop management.
+## Milestone 37: Recording Export & Sample Sharing [DONE]
+## Milestone 38: Educational Demo & Sequencer Training [DONE]
 
 ---
 
-## Milestone 37: Recording Export & Sample Sharing [TODO]
+## Milestone 39: Stereo Engine & Spatial Routing [TODO]
 
-### [Logic] [Export]
-- **Offline Renderer**: Implement a dedicated path for non-real-time high-speed WAV/MP3 generation.
-- **Share Intent**: Deep integration with Android system sharing for exported files.
+### [Logic] [Audio]
+- **Stereo Migration**: Transition the Oboe stream and mixer to 2-channel output.
+- **Panning**: Implement a panning parameter per voice and pad.
+- **Stereo FX**: Update Delay and Reverb to support stereo-width processing.
 
 ---
 
 ## Future Features & Roadmap
+
+### [Feature] [Synthesis]
+- **Unison & Detune**: Layering voices with pitch offsets for thicker sound.
+- **Waveform Morphing**: Smooth blending between basic waveforms.
+
+### [Feature] [Sampling & Sequencing]
+- **Sample Mapping**: Dedicated UI for mapping external or recorded samples to pads.
+- **Session Management**: Export full project bundles (audio + patterns).

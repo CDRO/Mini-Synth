@@ -1,0 +1,22 @@
+# Tasks: Milestone 39 - Stereo Engine & Spatial Routing
+
+- `[ ]` Setup Spatial Infrastructure
+    - `[ ]` Create GitHub Milestone & Issue.
+    - `[ ]` Create local branch `feature/m39-stereo-spatial`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline.
+- `[ ]` Review & Repair Loop (1-10)
+    - `[ ]` 1/10: Update Oboe stream to Stereo.
+    - `[ ]` 2/10: Refactor Mixer for interleaved stereo output.
+    - `[ ]` 3/10: Implement Equal Power Panning in VoiceManager.
+    - `[ ]` 4/10: Add Pan slider to UI Parameter container.
+    - `[ ]` 5/10: Expand Delay effect to Stereo (Ping-Pong support).
+    - `[ ]` 6/10: Refine Reverb diffusion for stereo width.
+    - `[ ]` 7/10: Implement per-pad panning in Pad Config dialog.
+    - `[ ]` 8/10: Update Persistence to save Panning values.
+    - `[ ]` 9/10: Optimize stereo processing with SIMD or efficient math.
+    - `[ ]` 10/10: Final polish and documentation.
+- `[ ]` Finalize
+    - `[ ]` Run full test suite.
+    - `[ ]` Squash and Merge.
+    - `[ ]` Cleanup local and remote branches.
