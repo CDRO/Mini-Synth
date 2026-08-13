@@ -22,7 +22,7 @@ void AudioEngine::start() {
     oboe::AudioStreamBuilder builder;
     // Note: Oboe handles fallback from AAudio to OpenSL ES automatically for API < 26.
     oboe::Result result = builder.setFormat(oboe::AudioFormat::Float)
-        ->setChannelCount(oboe::ChannelCount::Mono)
+        ->setChannelCount(oboe::ChannelCount::Stereo)
         ->setPerformanceMode(oboe::PerformanceMode::LowLatency)
         ->setSharingMode(oboe::SharingMode::Exclusive)
         ->setDataCallback(this)
