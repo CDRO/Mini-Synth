@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Mini-Synth</string>
+
+    <!-- Header -->
+    <string name="header_metronome">MET</string>
+    <string name="header_bpm_format">BPM: %d</string>
+    <string name="header_demo">DEMO</string>
+    <string name="header_stop">STOPP</string>
+    <string name="header_latency_format">LATENZ: %1$d (%2$d)</string>
+    <string name="header_auto">AUTO</string>
+    <string name="header_manual">MAN</string>
+    <string name="header_help">&#063;</string>
+    <string name="generic_on">EIN</string>
+    <string name="generic_off">AUS</string>
+
+    <!-- Sequencer -->
+    <string name="sequencer_title">SEQUENZER</string>
+    <string name="sequencer_save_short">SPCH</string>
+    <string name="sequencer_save_long">Muster speichern</string>
+    <string name="sequencer_load_short">LADEN</string>
+    <string name="sequencer_load_long">Muster laden</string>
+    <string name="sequencer_clear_short">LÖSCH</string>
+    <string name="sequencer_clear_long">Sequenz löschen</string>
+    <string name="sequencer_export_short">EXP</string>
+    <string name="sequencer_export_long">Sequenz exportieren</string>
+    <string name="sequencer_sampling_off">SMP AUS</string>
+    <string name="sequencer_sampling_on">SMP EIN</string>
+    <string name="sequencer_step_off">STP AUS</string>
+    <string name="sequencer_step_on">STP EIN</string>
+
+    <!-- UI Labels -->
+    <string name="btn_mode_pads">Pads</string>
+    <string name="btn_mode_keys">Tasten</string>
+    <string name="btn_poly_on">Poly: EIN</string>
+    <string name="btn_poly_off">Poly: AUS</string>
+    <string name="label_octave">Okt:</string>
+
+    <!-- Help -->
+    <string name="toast_discovery_active">Hilfemodus aktiv. Klicken Sie auf ein Element.</string>
+    <string name="help_mode_toggle">Wechseln zwischen Keyboard und Pad-Grid.</string>
+    <string name="help_polyphony">Polyphonie umschalten (Mehrstimmig/Monophon).</string>
+    <string name="help_waveform_sine">Wellenform wählen: Sinus, Rechteck, Sägezahn oder Dreieck.</string>
+    <string name="help_waveform_morph">Waveform Morphing: Stufenloses Überblenden der Wellenformen.</string>
+    <string name="help_master_volume">Gesamtlautstärke und Panorama anpassen.</string>
+</resources>

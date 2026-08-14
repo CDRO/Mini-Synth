@@ -77,8 +77,30 @@
     <string name="help_pad_config_toggle">Pad Edit Mode: When ON, touching a pad opens its configuration immediately. When OFF, you can sustain pad notes by holding them.</string>
     <string name="help_lfo_rate">LFO Rate: Speed of the oscillation (0.1Hz to 20Hz). Scale also affects LFO Depth.</string>
     <string name="help_lfo_depth">LFO Depth: Intensity of the modulation effect.</string>
+    <string name="help_lfo_waveform">LFO Waveform: Select the shape of the modulation oscillator.</string>
+    <string name="help_lfo_target">LFO Target: The parameter being modulated by the LFO.</string>
+    <string name="help_at_target">Aftertouch Target: The parameter modulated by key pressure.</string>
+    <string name="help_attack">Attack: Time taken for the sound to reach peak volume after trigger.</string>
+    <string name="help_decay">Decay: Time taken to drop from peak to sustain level.</string>
+    <string name="help_sustain">Sustain: The constant volume level while a key is held.</string>
+    <string name="help_release">Release: Time taken for the sound to fade to silence after key release.</string>
     <string name="help_filter_cutoff">Cutoff: Frequency above which sounds are attenuated. Resonance adds a boost at the cutoff point.</string>
     <string name="help_filter_res">Resonance: Emphasizes frequencies near the cutoff point for a "squeaky" or "wet" sound.</string>
+    <string name="help_waveform_morph">Waveform Morphing: Smoothly blend between Sine, Triangle, Saw, and Square waves.</string>
+    <string name="help_waveform_wt">Wavetable Mode: Use complex, non-geometric timbres like Vocal or Organ sounds.</string>
+    <string name="help_unison_count">Unison: Stack multiple oscillators (2x, 4x, 8x) for a thicker, richer sound.</string>
+    <string name="help_unison_detune">Detune: Introduce small pitch offsets between unison voices for a chorus effect.</string>
+    <string name="help_panning">Panning: Position the sound in the stereo field (Left/Center/Right).</string>
+    <string name="help_delay_time">Delay Time: The interval between echoes (up to 2 seconds).</string>
+    <string name="help_delay_feedback">Delay Feedback: The number of repeating echoes. High values create a long tail.</string>
+    <string name="help_delay_mix">Delay Mix: Balance between the dry signal and the echoes.</string>
+    <string name="help_reverb_size">Reverb Size: Simulates the dimensions of the room. Larger values create longer decay.</string>
+    <string name="help_reverb_damping">Reverb Damping: Reduces high frequencies in the tail for a warmer, darker sound.</string>
+    <string name="help_reverb_mix">Reverb Mix: Balance between the dry signal and the ambient wash.</string>
+    <string name="help_sequencer_duration">Step Size: Adjust the time duration of each sequencer step.</string>
+    <string name="help_sequencer_length">Loop Length: Set the total number of steps in the sequence (8 to 64).</string>
+    <string name="help_pads_fullscreen">Toggle Fullscreen Pads: Hides the header and parameter panel to focus on performance.</string>
+    <string name="help_keyboard_hidden">Toggle Keyboard Visibility: Hide the piano keys to maximize workspace space.</string>
 
     <!-- Toasts and Dialogs -->
     <string name="toast_discovery_active">Discovery Mode Active. Click any control for info.</string>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Mini-Synth</string>
+    <string name="header_help">&#063;</string>
+    <string name="generic_on">ZAP</string>
+    <string name="generic_off">VYP</string>
+    <string name="btn_mode_pads">Pady</string>
+    <string name="btn_mode_keys">Klávesy</string>
+    <string name="sequencer_title">SEKVENČNÍK</string>
+    <string name="toast_discovery_active">Režim Objevování Aktivní</string>
+</resources>
