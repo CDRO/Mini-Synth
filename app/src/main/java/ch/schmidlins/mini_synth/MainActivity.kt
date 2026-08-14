@@ -331,6 +331,17 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
+        content.seekPd.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (isHelpMode && fromUser) { showHelp(getString(R.string.help_phase_distortion)); return }
+                val pd = progress / 100f
+                synthManager.setPhaseDistortion(pd)
+                content.tvPdVal.text = "$progress%"
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
         // Octave controls
         content.btnOctaveDown!!.setOnClickListener {
             if (isHelpMode) { showHelp(getString(R.string.help_octave_down)); return@setOnClickListener }
@@ -1049,6 +1060,7 @@ class MainActivity : AppCompatActivity() {
         synthManager.setPitchBend(0f)
         synthManager.setModulation(0f)
         synthManager.setMorph(0f)
+        synthManager.setPhaseDistortion(0f)
         synthManager.clearSequencer()
         synthManager.setSequencerPlaying(false)
         synthManager.setSequencerRecording(false)
@@ -1064,6 +1076,8 @@ class MainActivity : AppCompatActivity() {
         content.seekMorph.progress = 0
         content.seekMorph.visibility = View.GONE
         content.tvMorphVal.visibility = View.GONE
+        content.seekPd.progress = 0
+        content.tvPdVal.text = "0%"
         content.toggleWaveform.check(R.id.btn_wave_sine)
         
         // Clear all backlights
@@ -1684,6 +1698,7 @@ class MainActivity : AppCompatActivity() {
             filterResonance = content.seekFilterRes!!.progress / 100f,
             panning = (content.seekPanning!!.progress - 50) / 50f,
             morph = content.seekMorph.progress / 100f,
+            phaseDistortion = content.seekPd.progress / 100f,
             unisonCount = unisonCount,
             unisonDetune = unisonDetune,
             sequencerStepDivision = when (content.spinnerStepDuration!!.selectedItemPosition) {
@@ -1715,6 +1730,8 @@ class MainActivity : AppCompatActivity() {
         content.seekPanning!!.progress = (preset.panning.coerceIn(-1f, 1f) * 50 + 50).toInt()
         content.seekMorph.progress = (preset.morph.coerceIn(0f, 3f) * 100).toInt()
         content.tvMorphVal.text = String.format(java.util.Locale.US, "%.2f", preset.morph)
+        content.seekPd.progress = (preset.phaseDistortion.coerceIn(0f, 1f) * 100).toInt()
+        content.tvPdVal.text = "${(preset.phaseDistortion * 100).toInt()}%"
         
         unisonCount = preset.unisonCount
         unisonDetune = preset.unisonDetune
@@ -1951,7 +1968,8 @@ class MainActivity : AppCompatActivity() {
         val targetAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf(
             getString(R.string.lfo_target_pitch),
             getString(R.string.lfo_target_volume),
-            getString(R.string.lfo_target_filter)
+            getString(R.string.lfo_target_filter),
+            getString(R.string.lfo_target_phase_dist)
         ))
         targetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         content.spinnerLfoTarget!!.adapter = targetAdapter
