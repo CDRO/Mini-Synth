@@ -49,6 +49,8 @@ class MainActivity : AppCompatActivity() {
     private var isKeyboardHidden = false
     private var isHelpMode = false
     private var isDemoPlaying = false
+    private var unisonCount = 1
+    private var unisonDetune = 0f
     private var demoJob: kotlinx.coroutines.Job? = null
     private var demoToast: Toast? = null
     var isPollingEnabled = true // Exposed for tests
@@ -352,6 +354,7 @@ class MainActivity : AppCompatActivity() {
         setupPresets(content)
         setupMetronome(content)
         setupSequencer(content)
+        setupUnison(content)
         setupPadCustomization(content)
         setupBankManagement(content)
         setupEffects(content)
@@ -697,7 +700,7 @@ class MainActivity : AppCompatActivity() {
                 synthManager.setPanning(0f)
                 
                 delay(1500)
-                showDemoToast("Zen Mode: Hiding parameter controls to focus.")
+                showDemoToast(getString(R.string.demo_zen_mode))
                 runOnUiThread { 
                     binding.appBarMain.contentMain.toggleZenMode.isChecked = true 
                     binding.appBarMain.contentMain.parameterContainer.visibility = View.GONE
@@ -708,11 +711,26 @@ class MainActivity : AppCompatActivity() {
                 }
                 
                 delay(1000)
-                showDemoToast("Browser: Loading samples and managing sound banks.")
+                showDemoToast(getString(R.string.demo_browser_banks))
                 runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = true }
                 delay(2000)
                 runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = false }
 
+                delay(1000)
+                showDemoToast(getString(R.string.demo_unison_textures))
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.spinnerUnison.setSelection(2) // 4x Unison
+                    binding.appBarMain.contentMain.seekDetune.progress = 25
+                    binding.appBarMain.contentMain.tvDetuneVal.text = "25"
+                }
+                synthManager.setUnison(4, 25f, 1.0f)
+                
+                synthManager.noteOn(60, 0.8f)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true)
+                delay(2000)
+                synthManager.noteOff(60)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
+                
                 if (!isDemoPlaying) return@launch
 
                 // Stage 2: Multi-Bank Sampling
@@ -760,7 +778,7 @@ class MainActivity : AppCompatActivity() {
                 synthManager.setPanning(0f)
                 
                 delay(1500)
-                showDemoToast("Zen Mode: Hiding parameter controls to focus.")
+                showDemoToast(getString(R.string.demo_zen_mode))
                 runOnUiThread { 
                     binding.appBarMain.contentMain.toggleZenMode.isChecked = true 
                     binding.appBarMain.contentMain.parameterContainer.visibility = View.GONE
@@ -771,11 +789,26 @@ class MainActivity : AppCompatActivity() {
                 }
                 
                 delay(1000)
-                showDemoToast("Browser: Loading samples and managing sound banks.")
+                showDemoToast(getString(R.string.demo_browser_banks))
                 runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = true }
                 delay(2000)
                 runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = false }
 
+                delay(1000)
+                showDemoToast(getString(R.string.demo_unison_textures))
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.spinnerUnison.setSelection(2) // 4x Unison
+                    binding.appBarMain.contentMain.seekDetune.progress = 25
+                    binding.appBarMain.contentMain.tvDetuneVal.text = "25"
+                }
+                synthManager.setUnison(4, 25f, 1.0f)
+                
+                synthManager.noteOn(60, 0.8f)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true)
+                delay(2000)
+                synthManager.noteOff(60)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
+                
                 if (!isDemoPlaying) return@launch
 
                 delay(1000)
@@ -896,7 +929,7 @@ class MainActivity : AppCompatActivity() {
                 synthManager.setPanning(0f)
                 
                 delay(1500)
-                showDemoToast("Zen Mode: Hiding parameter controls to focus.")
+                showDemoToast(getString(R.string.demo_zen_mode))
                 runOnUiThread { 
                     binding.appBarMain.contentMain.toggleZenMode.isChecked = true 
                     binding.appBarMain.contentMain.parameterContainer.visibility = View.GONE
@@ -907,11 +940,26 @@ class MainActivity : AppCompatActivity() {
                 }
                 
                 delay(1000)
-                showDemoToast("Browser: Loading samples and managing sound banks.")
+                showDemoToast(getString(R.string.demo_browser_banks))
                 runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = true }
                 delay(2000)
                 runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = false }
 
+                delay(1000)
+                showDemoToast(getString(R.string.demo_unison_textures))
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.spinnerUnison.setSelection(2) // 4x Unison
+                    binding.appBarMain.contentMain.seekDetune.progress = 25
+                    binding.appBarMain.contentMain.tvDetuneVal.text = "25"
+                }
+                synthManager.setUnison(4, 25f, 1.0f)
+                
+                synthManager.noteOn(60, 0.8f)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true)
+                delay(2000)
+                synthManager.noteOff(60)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
+                
                 if (!isDemoPlaying) return@launch
                 
                 showDemoToast(getString(R.string.demo_spatial_wash))
@@ -987,6 +1035,31 @@ class MainActivity : AppCompatActivity() {
         content.toggleSequencerRec.isChecked = false
         content.toggleStepRec.isChecked = false
         content.btnSequencerPlay.text = "▶"
+    }
+
+    private fun setupUnison(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        val options = arrayOf("OFF", "2x", "4x", "8x")
+        val values = intArrayOf(1, 2, 4, 8)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, options)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        content.spinnerUnison.adapter = adapter
+        content.spinnerUnison.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                unisonCount = values[position]
+                synthManager.setUnison(unisonCount, unisonDetune, if (unisonCount > 1) 1.0f else 0.0f)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        content.seekDetune.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                unisonDetune = progress.toFloat() // 0 to 100 cents
+                content.tvDetuneVal.text = progress.toString()
+                synthManager.setUnison(unisonCount, unisonDetune, if (unisonCount > 1) 1.0f else 0.0f)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
     }
 
     private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -1532,6 +1605,8 @@ class MainActivity : AppCompatActivity() {
             filterCutoff = content.seekFilterCutoff!!.progress / 100f,
             filterResonance = content.seekFilterRes!!.progress / 100f,
             panning = (content.seekPanning!!.progress - 50) / 50f,
+            unisonCount = unisonCount,
+            unisonDetune = unisonDetune,
             sequencerStepDivision = when (content.spinnerStepDuration!!.selectedItemPosition) {
                 0 -> 0.25f; 1 -> 0.5f; 2 -> 1.0f; 3 -> 2.0f; 4 -> 4.0f; else -> 0.25f
             },
@@ -1558,6 +1633,14 @@ class MainActivity : AppCompatActivity() {
         content.seekFilterCutoff!!.progress = (preset.filterCutoff.coerceIn(0f, 1f) * 100).toInt()
         content.seekFilterRes!!.progress = (preset.filterResonance.coerceIn(0f, 1f) * 100).toInt()
         content.seekPanning!!.progress = (preset.panning.coerceIn(-1f, 1f) * 50 + 50).toInt()
+        
+        unisonCount = preset.unisonCount
+        unisonDetune = preset.unisonDetune
+        content.spinnerUnison.setSelection(when(unisonCount) { 2 -> 1; 4 -> 2; 8 -> 3; else -> 0 })
+        content.seekDetune.progress = unisonDetune.toInt()
+        content.tvDetuneVal.text = unisonDetune.toInt().toString()
+        synthManager.setUnison(unisonCount, unisonDetune, if (unisonCount > 1) 1.0f else 0.0f)
+
         val divIndex = when (preset.sequencerStepDivision) {
             0.25f -> 0; 0.5f -> 1; 1.0f -> 2; 2.0f -> 3; 4.0f -> 4; else -> 0
         }
@@ -1851,6 +1934,7 @@ class MainActivity : AppCompatActivity() {
         synthManager.setOctaveShift(octaveShift)
         synthManager.setBpm(bpm)
         synthManager.setMetronomeEnabled(isMetronomeEnabled)
+        synthManager.setUnison(unisonCount, unisonDetune, if (unisonCount > 1) 1.0f else 0.0f)
         synthManager.setAttack((Math.pow(2000.0, content.seekAttack!!.progress / 100.0) / 1000.0).toFloat())
         synthManager.setDecay((Math.pow(2000.0, content.seekDecay!!.progress / 100.0) / 1000.0).toFloat())
         synthManager.setSustain(content.seekSustain!!.progress / 100f)

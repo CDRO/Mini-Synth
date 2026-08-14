@@ -163,6 +163,12 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setPadPanning(JNIEnv *env, job
 }
 
 extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setUnison(JNIEnv *env, jobject thiz, jint count, jfloat detune, jfloat spread) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setUnison(count, detune, spread);
+}
+
+extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setLfoRate(JNIEnv *env, jobject thiz, jfloat frequency) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setLfoRate(frequency);

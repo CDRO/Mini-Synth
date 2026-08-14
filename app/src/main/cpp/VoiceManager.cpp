@@ -56,6 +56,7 @@ void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>
             mVoices[index].setFilterCutoff(mFilterCutoff);
             mVoices[index].setFilterResonance(mFilterResonance);
 
+            mVoices[index].setUnison(mUnisonCount, mUnisonDetune, mUnisonSpread);
             mVoices[index].setPanning(initialPan);
             mVoices[index].trigger(midiNote, velocity, sampleBuffer);
         }
@@ -73,6 +74,7 @@ void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>
         mVoices[0].setFilterCutoff(mFilterCutoff);
         mVoices[0].setFilterResonance(mFilterResonance);
 
+        mVoices[0].setUnison(mUnisonCount, mUnisonDetune, mUnisonSpread);
         mVoices[0].setPanning(initialPan);
         mVoices[0].trigger(midiNote, velocity, sampleBuffer);
     }
@@ -138,6 +140,7 @@ void VoiceManager::nextSample(float& left, float& right) {
 
                 mVoices[i].setPitchBend(mPitchBend);
                 mVoices[i].setModulation(mModulation);
+                mVoices[i].setUnison(mUnisonCount, mUnisonDetune, mUnisonSpread);
             }
 
             float vL = 0, vR = 0;
@@ -180,6 +183,9 @@ EngineParams VoiceManager::getParams() const {
     p.pitchBend = mPitchBend.load();
     p.modulation = mModulation.load();
     p.panning = mPanning.load();
+    p.unisonCount = mUnisonCount.load();
+    p.unisonDetune = mUnisonDetune.load();
+    p.unisonSpread = mUnisonSpread.load();
     return p;
 }
 
@@ -200,6 +206,7 @@ void VoiceManager::setParams(const EngineParams& p) {
     setPitchBend(p.pitchBend);
     setModulation(p.modulation);
     setPanning(p.panning);
+    setUnison(p.unisonCount, p.unisonDetune, p.unisonSpread);
 }
 
 void VoiceManager::setVoiceAftertouch(int midiNote, float amount) {

@@ -12,12 +12,14 @@ public:
     Voice() : mActive(false), mNote(0), mIsSampleMode(false) {}
 
     void setSampleRate(int32_t sampleRate) {
-        mOscillator.setSampleRate(sampleRate);
+        for (int i = 0; i < MAX_UNISON; ++i) mOscillators[i].setSampleRate(sampleRate);
         mEnvelope.setSampleRate(sampleRate);
         mLfo.setSampleRate(sampleRate);
         mFilter.setSampleRate(sampleRate);
     }
-    void setWaveform(Waveform waveform) { mOscillator.setWaveform(waveform); }
+    void setWaveform(Waveform waveform) {
+        for (int i = 0; i < MAX_UNISON; ++i) mOscillators[i].setWaveform(waveform);
+    }
 
     void trigger(int note, float velocity, const std::vector<float>* sampleBuffer = nullptr);
     void release();
@@ -47,11 +49,18 @@ public:
     void setModulation(float amount) { mTargetModulation = amount; }
     void setAftertouch(float amount) { mTargetAftertouch = amount; }
     void setPanning(float panning) { mPanning = panning; }
+    void setUnison(int count, float detune, float spread) {
+        mUnisonCount = count;
+        mUnisonDetune = detune;
+        mUnisonSpread = spread;
+        mUnisonNorm = 1.0f / sqrtf(static_cast<float>(std::max(1, count)));
+    }
 
     void nextSample(float& left, float& right);
 
 private:
-    Oscillator mOscillator;
+    static const int MAX_UNISON = 8;
+    Oscillator mOscillators[MAX_UNISON];
     SamplePlayer mSamplePlayer;
     Envelope mEnvelope;
     Lfo mLfo;
@@ -66,6 +75,10 @@ private:
     float mTargetAftertouch = 0.0f;
     float mCurrentAftertouch = 0.0f;
     float mPanning = 0.0f;
+    int mUnisonCount = 1;
+    float mUnisonDetune = 0.0f;
+    float mUnisonSpread = 0.0f;
+    float mUnisonNorm = 1.0f;
     bool mActive;
     bool mIsSampleMode;
     int mNote;

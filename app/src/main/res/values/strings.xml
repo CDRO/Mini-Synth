@@ -186,6 +186,9 @@
     <string name="demo_lfo_modulating">LFO: Automatically modulating Filter Cutoff.</string>
     <string name="demo_spatial_wash">Final spatial wash with high-density Reverb.</string>
     <string name="demo_complete">Demo Complete. You can now use all these features manually!</string>
+    <string name="demo_unison_textures">Unison &amp; Detune: Creating thick, rich textures.</string>
+    <string name="demo_browser_banks">Browser: Loading samples and managing sound banks.</string>
+    <string name="demo_zen_mode">Zen Mode: Hiding parameter controls to focus.</string>
     <string name="demo_sequencer_masterclass">Sequencer Masterclass: Creating and Recording loops...</string>
     <string name="demo_sequencer_manual">Step 1: Manual Editing. Toggle steps in the grid to build a pattern.</string>
     <string name="demo_sequencer_recording">Step 2: Real-time Recording. Your keyboard performance is captured instantly.</string>
