@@ -37,12 +37,20 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 40: Unison & Voice Layering [TODO]
+## Milestone 40: Unison & Voice Layering [DONE]
 
 ### [Logic] [Synthesis]
-- **Unison Stacking**: Modify the Voice architecture to support multiple sub-oscillators per note.
-- **Detune**: Add a "Spread" parameter to offset the pitch of unison voices.
-- **Stereo Width**: Distribute unison voices across the stereo field automatically.
+- **Unison Stacking**: Modified the Voice architecture to support multiple sub-oscillators per note.
+- **Detune**: Added a "Detune" parameter to offset the pitch of unison voices.
+- **Stereo Width**: Distributed unison voices across the stereo field automatically.
+
+---
+
+## Milestone 41: Waveform Morphing & Wavetables [TODO]
+
+### [Logic] [Synthesis]
+- **Waveform Morphing**: Smooth blending between basic waveforms using a dedicated morph parameter.
+- **Wavetable Engine**: Implement support for high-resolution wavetables for complex timbres.
 
 ---
 

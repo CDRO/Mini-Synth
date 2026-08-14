@@ -25,13 +25,13 @@
 ### [DONE] Milestone 37: Recording Export & Sample Sharing.
 ### [DONE] Milestone 38: Educational Demo & Sequencer Training.
 ### [DONE] Milestone 39: Stereo Engine & Spatial Routing.
+### [DONE] Milestone 40: Unison & Voice Layering.
 
-### [NEXT] Milestone 40: Unison & Voice Layering
-- **Objective**: Enhance sound thickness by stacking multiple oscillators per note with pitch offsets.
+### [NEXT] Milestone 41: Waveform Morphing & Wavetables
+- **Objective**: Expand the oscillator capabilities with smooth timbral transitions.
 - **Key Features**:
-    - Unison voice stacking (2, 4, 8 voices).
-    - Detune (Spread) control.
-    - Stereo voice distribution.
+    - Waveform crossfading.
+    - Custom wavetable loading.
 
 ## Quality Assurance Status
 - **Unit Tests**: 27 local JVM tests passing (Robolectric).
