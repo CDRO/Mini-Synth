@@ -310,12 +310,7 @@ class MainActivity : AppCompatActivity() {
                 content.tvMorphVal.visibility = if (isMorph) View.VISIBLE else View.GONE
                 
                 if (checkedId == R.id.btn_wave_wt) {
-                    // Default Vocal WT
-                    val data = FloatArray(2048) { i ->
-                        val phase = 2.0 * Math.PI * i / 2048.0
-                        (Math.sin(phase) + 0.5 * Math.sin(phase * 2) + 0.25 * Math.sin(phase * 3)).toFloat()
-                    }
-                    synthManager.setWavetable(data)
+                    showWavetableSelector()
                 }
             }
         }
@@ -1091,6 +1086,38 @@ class MainActivity : AppCompatActivity() {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+    }
+
+    private fun showWavetableSelector() {
+        val tables = arrayOf("Vocal (Ah)", "Electronic Organ", "Aggressive Growl", "Soft Bell")
+        AlertDialog.Builder(this)
+            .setTitle("Select Wavetable")
+            .setItems(tables) { _, which ->
+                val data = when (which) {
+                    0 -> FloatArray(2048) { i -> // Vocal Ah
+                        val p = 2.0 * Math.PI * i / 2048.0
+                        (Math.sin(p) + 0.6 * Math.sin(p * 2) + 0.4 * Math.sin(p * 3) + 0.2 * Math.sin(p * 4)).toFloat()
+                    }
+                    1 -> FloatArray(2048) { i -> // Organ
+                        val p = 2.0 * Math.PI * i / 2048.0
+                        (Math.sin(p) + 0.5 * Math.sin(p * 2) + 0.3 * Math.sin(p * 4) + 0.1 * Math.sin(p * 8)).toFloat()
+                    }
+                    2 -> FloatArray(2048) { i -> // Growl
+                        val p = 2.0 * Math.PI * i / 2048.0
+                        (Math.sin(p) + 0.8 * Math.sin(p * 1.5) + 0.4 * Math.sin(p * 3.5)).toFloat()
+                    }
+                    else -> FloatArray(2048) { i -> // Bell
+                        val p = 2.0 * Math.PI * i / 2048.0
+                        (Math.sin(p) * Math.exp(-0.5 * i / 2048.0)).toFloat()
+                    }
+                }
+                // Normalize wavetable
+                val max = data.maxOf { Math.abs(it) }.coerceAtLeast(0.0001f)
+                for (i in data.indices) data[i] /= max
+                
+                synthManager.setWavetable(data)
+            }
+            .show()
     }
 
     private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
