@@ -38,6 +38,12 @@ void Voice::release() {
     }
 }
 
+void Voice::setWavetable(const float* data, int32_t size) {
+    for (auto& osc : mOscillators) {
+        osc.setWavetable(data, size);
+    }
+}
+
 void Voice::nextSample(float& left, float& right) {
     if (!isActive()) {
         left = 0.0f;
@@ -119,6 +125,7 @@ void Voice::nextSample(float& left, float& right) {
 
             double freq = baseFreq * pow(2.0, (totalPitchShift + (detune / 100.0)) / 12.0);
             mOscillators[i].setFrequency(freq);
+            mOscillators[i].setMorph(mMorph);
 
             float s = mOscillators[i].nextSample();
 

@@ -83,6 +83,12 @@ class SynthManager {
     /** Set Unison parameters. */
     external fun setUnison(count: Int, detune: Float, spread: Float)
 
+    /** Set the waveform morph parameter (0.0 to 3.0). */
+    external fun setMorph(morph: Float)
+
+    /** Load a custom wavetable into the oscillator. */
+    external fun setWavetable(data: FloatArray)
+
     /** Set per-pad panning (-1.0 to 1.0). */
     external fun setPadPanning(padIndex: Int, panning: Float)
 

@@ -142,6 +142,7 @@ void VoiceManager::nextSample(float& left, float& right) {
                 mVoices[i].setPitchBend(mPitchBend);
                 mVoices[i].setModulation(mModulation);
                 mVoices[i].setUnison(mUnisonCount, mUnisonDetune, mUnisonSpread);
+                mVoices[i].setMorph(mMorph);
             }
 
             float vL = 0, vR = 0;
@@ -187,6 +188,7 @@ EngineParams VoiceManager::getParams() const {
     p.unisonCount = mUnisonCount.load();
     p.unisonDetune = mUnisonDetune.load();
     p.unisonSpread = mUnisonSpread.load();
+    p.morph = mMorph.load();
     return p;
 }
 
@@ -208,6 +210,13 @@ void VoiceManager::setParams(const EngineParams& p) {
     setModulation(p.modulation);
     setPanning(p.panning);
     setUnison(p.unisonCount, p.unisonDetune, p.unisonSpread);
+    setMorph(p.morph);
+}
+
+void VoiceManager::setWavetable(const float* data, int32_t size) {
+    for (auto& voice : mVoices) {
+        voice.setWavetable(data, size);
+    }
 }
 
 void VoiceManager::setVoiceAftertouch(int midiNote, float amount) {
