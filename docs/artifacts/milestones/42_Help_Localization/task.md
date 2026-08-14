@@ -1,0 +1,22 @@
+# Tasks: Milestone 42 - Help Coverage & Global Localization
+
+- `[x]` Setup Localization Infrastructure
+    - `[x]` Create GitHub Milestone & Issue (#163).
+    - `[x]` Create local branch `feature/m42-localization`.
+    - `[x]` Create Pull Request.
+    - `[x]` Build baseline status.
+- `[x]` Review & Repair Loop (1-10)
+    - `[x]` 1/10: Audit `MainActivity.kt` and add missing `isHelpMode` logic to Morph/Unison/WT controls.
+    - `[x]` 2/10: Standardize all `showHelp` calls to use resource strings and add missing keys to `strings.xml`.
+    - `[x]` 3/10: Generate German (`values-de`) and French (`values-fr`) translations.
+    - `[x]` 4/10: Generate Italian (`values-it`), Spanish (`values-es`), and Portuguese translations.
+    - `[x]` 5/10: Generate East Asian (Chinese, Japanese, Korean) translations.
+    - `[x]` 6/10: Generate Central/Eastern European translations (Czech, Slovak, Slovenian, etc.).
+    - `[x]` 7/10: Generate Northern European and Baltic translations (Swedish, Norwegian, Finnish, etc.).
+    - `[x]` 8/10: Generate remaining European translations (Greek, Turkish, Ukrainian, Romanian, etc.).
+    - `[x]` 9/10: Verify automated locale switching and fallback logic.
+    - `[x]` 10/10: Final polish, string consistency check, and walkthrough documentation.
+- `[ ]` Finalize
+    - `[ ]` Run full test suite.
+    - `[ ]` Squash and Merge.
+    - `[ ]` Cleanup local and remote branches.

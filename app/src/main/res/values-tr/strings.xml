@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Mini-Synth</string>
+    <string name="header_help">&#063;</string>
+    <string name="generic_on">AÇIK</string>
+    <string name="generic_off">KAPALI</string>
+    <string name="btn_mode_pads">Padler</string>
+    <string name="btn_mode_keys">Tuşlar</string>
+    <string name="sequencer_title">SIRALAYICI</string>
+    <string name="toast_discovery_active">Keşif Modu Etkin</string>
+</resources>

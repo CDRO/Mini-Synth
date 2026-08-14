@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Mini-Synth</string>
+    <string name="header_help">&#063;</string>
+    <string name="generic_on">켜짐</string>
+    <string name="generic_off">꺼짐</string>
+    <string name="btn_mode_pads">패드</string>
+    <string name="btn_mode_keys">키</string>
+    <string name="sequencer_title">시퀀서</string>
+    <string name="toast_discovery_active">탐색 모드 활성화됨</string>
+</resources>

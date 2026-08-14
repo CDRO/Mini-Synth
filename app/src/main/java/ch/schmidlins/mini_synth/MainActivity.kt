@@ -289,7 +289,12 @@ class MainActivity : AppCompatActivity() {
         // Main Waveform selector
         content.toggleWaveform!!.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isHelpMode && isChecked) {
-                showHelp(getString(R.string.help_waveform_sine))
+                val help = when (checkedId) {
+                    R.id.btn_wave_morph -> getString(R.string.help_waveform_morph)
+                    R.id.btn_wave_wt -> getString(R.string.help_waveform_wt)
+                    else -> getString(R.string.help_waveform_sine)
+                }
+                showHelp(help)
                 return@addOnButtonCheckedListener
             }
             if (isChecked) {
@@ -317,6 +322,7 @@ class MainActivity : AppCompatActivity() {
 
         content.seekMorph.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (isHelpMode && fromUser) { showHelp(getString(R.string.help_waveform_morph)); return }
                 val morph = progress / 100f
                 synthManager.setMorph(morph)
                 content.tvMorphVal.text = String.format(java.util.Locale.US, "%.2f", morph)
@@ -356,6 +362,7 @@ class MainActivity : AppCompatActivity() {
 
         content.seekPanning!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (isHelpMode && fromUser) { showHelp(getString(R.string.help_panning)); return }
                 val pan = (progress - 50) / 50f
                 synthManager.setPanning(pan)
                 val label = when {
@@ -543,12 +550,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         content.togglePadsFullscreen.setOnCheckedChangeListener { _, isChecked ->
+            if (isHelpMode) {
+                showHelp(getString(R.string.help_pads_fullscreen))
+                content.togglePadsFullscreen.isChecked = isFullscreenPads
+                return@setOnCheckedChangeListener
+            }
             isFullscreenPads = isChecked
             content.keyboardPadView.clearHeldNotes() // Fixes #41
             updateWorkspaceVisibility(content)
         }
 
         content.toggleKeyboard.setOnCheckedChangeListener { _, isChecked ->
+            if (isHelpMode) {
+                showHelp(getString(R.string.help_keyboard_hidden))
+                content.toggleKeyboard.isChecked = isKeyboardHidden
+                return@setOnCheckedChangeListener
+            }
             isKeyboardHidden = isChecked
             updateWorkspaceVisibility(content)
         }
@@ -1071,6 +1088,7 @@ class MainActivity : AppCompatActivity() {
         content.spinnerUnison.adapter = adapter
         content.spinnerUnison.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isHelpMode) { showHelp(getString(R.string.help_unison_count)); return }
                 unisonCount = values[position]
                 synthManager.setUnison(unisonCount, unisonDetune, if (unisonCount > 1) 1.0f else 0.0f)
             }
@@ -1079,6 +1097,7 @@ class MainActivity : AppCompatActivity() {
 
         content.seekDetune.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (isHelpMode && fromUser) { showHelp(getString(R.string.help_unison_detune)); return }
                 unisonDetune = progress.toFloat() // 0 to 100 cents
                 content.tvDetuneVal.text = progress.toString()
                 synthManager.setUnison(unisonCount, unisonDetune, if (unisonCount > 1) 1.0f else 0.0f)
@@ -1360,7 +1379,7 @@ class MainActivity : AppCompatActivity() {
         content.spinnerStepDuration!!.adapter = adapter
         content.spinnerStepDuration!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (isHelpMode) return
+                if (isHelpMode) { showHelp(getString(R.string.help_sequencer_duration)); return }
                 synthManager.setSequencerStepDuration(divisions[position])
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -1379,7 +1398,7 @@ class MainActivity : AppCompatActivity() {
         content.spinnerLoopLength!!.setSelection(1) // Default 16
         content.spinnerLoopLength!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (isHelpMode) return
+                if (isHelpMode) { showHelp(getString(R.string.help_sequencer_length)); return }
                 numSteps = lengthValues[position]
                 synthManager.setSequencerNumSteps(numSteps)
                 
@@ -1537,16 +1556,16 @@ class MainActivity : AppCompatActivity() {
         val listener = object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (isHelpMode && fromUser) {
-                    val desc = when (seekBar) {
-                        content.seekDelayTime -> "Delay Time: Duration of the echo effect (up to 2 seconds)."
-                        content.seekDelayFeedback -> "Delay Feedback: Number of repeats."
-                        content.seekDelayMix -> "Delay Mix: Blend between dry and echo sound."
-                        content.seekReverbSize -> "Reverb Size: Simulated room size."
-                        content.seekReverbDamping -> "Reverb Damping: High frequency attenuation in space."
-                        content.seekReverbMix -> "Reverb Mix: Blend between dry and spatial sound."
-                        else -> ""
+                    val helpRes = when (seekBar) {
+                        content.seekDelayTime -> R.string.help_delay_time
+                        content.seekDelayFeedback -> R.string.help_delay_feedback
+                        content.seekDelayMix -> R.string.help_delay_mix
+                        content.seekReverbSize -> R.string.help_reverb_size
+                        content.seekReverbDamping -> R.string.help_reverb_damping
+                        content.seekReverbMix -> R.string.help_reverb_mix
+                        else -> -1
                     }
-                    showHelp(desc)
+                    if (helpRes != -1) showHelp(getString(helpRes))
                     return
                 }
                 val value = progress / 100f
@@ -1862,14 +1881,14 @@ class MainActivity : AppCompatActivity() {
         val listener = object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (isHelpMode && fromUser) {
-                    val desc = when(seekBar) {
-                        content.seekAttack -> "Attack: Time taken for the sound to reach peak volume after trigger."
-                        content.seekDecay -> "Decay: Time taken to drop from peak to sustain level."
-                        content.seekSustain -> "Sustain: The constant volume level while a key is held."
-                        content.seekRelease -> "Release: Time taken for the sound to fade to silence after key release."
-                        else -> ""
+                    val helpRes = when(seekBar) {
+                        content.seekAttack -> R.string.help_attack
+                        content.seekDecay -> R.string.help_decay
+                        content.seekSustain -> R.string.help_sustain
+                        content.seekRelease -> R.string.help_release
+                        else -> -1
                     }
-                    showHelp(desc)
+                    if (helpRes != -1) showHelp(getString(helpRes))
                     return
                 }
                 val timeValue = (Math.pow(2000.0, progress / 100.0) / 1000.0).toFloat()
@@ -1924,7 +1943,7 @@ class MainActivity : AppCompatActivity() {
         content.spinnerLfoWaveform!!.adapter = waveAdapter
         content.spinnerLfoWaveform!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (isHelpMode) return
+                if (isHelpMode) { showHelp(getString(R.string.help_lfo_waveform)); return }
                 synthManager.setLfoWaveform(position)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -1938,7 +1957,7 @@ class MainActivity : AppCompatActivity() {
         content.spinnerLfoTarget!!.adapter = targetAdapter
         content.spinnerLfoTarget!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (isHelpMode) return
+                if (isHelpMode) { showHelp(getString(R.string.help_lfo_target)); return }
                 synthManager.setLfoTarget(position)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -1948,7 +1967,7 @@ class MainActivity : AppCompatActivity() {
         content.spinnerAftertouchTarget!!.setSelection(2) // Default Filter
         content.spinnerAftertouchTarget!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (isHelpMode) return
+                if (isHelpMode) { showHelp(getString(R.string.help_at_target)); return }
                 synthManager.setAftertouchTarget(position)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
