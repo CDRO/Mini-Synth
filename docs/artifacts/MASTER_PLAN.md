@@ -41,8 +41,13 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 43: LFO Expansion & Phase Distortion [TODO]
+## Milestone 43: LFO Expansion & Phase Distortion [DONE]
 
 ### [Logic] [Synthesis]
-- **Phase Distortion**: Casio CZ-style timbre shaping.
-- **Custom LFO**: User-definable LFO waveforms.
+- **Phase Distortion**: Implemented Casio CZ-style timbre shaping in the native Oscillator.
+- **Random LFO**: Added Sample & Hold waveform for unpredictable modulation.
+- **Matrix Expansion**: Integrated Phase Distortion as a target for LFO and Aftertouch.
+
+---
+
+## Future Features & Roadmap

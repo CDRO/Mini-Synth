@@ -27,12 +27,10 @@
 ### [DONE] Milestone 40: Unison & Voice Layering.
 ### [DONE] Milestone 41: Waveform Morphing & Signed Releases.
 ### [DONE] Milestone 42: Help Coverage & Global Localization.
+### [DONE] Milestone 43: LFO Expansion & Phase Distortion.
 
-### [NEXT] Milestone 43: LFO Expansion & Phase Distortion
-- **Objective**: Add advanced modulation shapes and Phase Distortion synthesis.
-- **Key Features**:
-    - Custom LFO shapes.
-    - CZ-style Phase Distortion.
+### [NEXT] Milestone 44: Waveform Morphing & Wavetables (Refinement)
+- **Objective**: Finalize wavetable interpolation and morphing curves.
 
 ## Quality Assurance Status
 - **Unit Tests**: 28 local JVM tests passing.
