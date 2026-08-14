@@ -1,0 +1,21 @@
+# Tasks: Milestone 41 - Waveform Morphing & Signed Releases
+
+- `[x]` Setup Infrastructure
+    - `[x]` Create GitHub Milestone & Issue (#161).
+    - `[x]` Create local branch `feature/m41-morph-signed-releases`.
+    - `[x]` Create Pull Request (#162).
+    - `[x]` Build baseline status.
+- `[x]` Review & Repair Loop (1-10)
+    - `[x]` 1/10: Update `Oscillator` to support waveform blending logic.
+    - `[x]` 2/10: Implement Wavetable lookup with linear interpolation.
+    - `[x]` 3/10: Add "MORPH" slider and "WT" toggle to the UI.
+    - `[x]` 4/10: Configure `signingConfigs` in `app/build.gradle.kts`.
+    - `[x]` 5/10: Update `product-page.yml` for signed release builds.
+    - `[x]` 6/10: Implement preset wavetable generator in `MainActivity`.
+    - `[x]` 7/10: Update persistence logic for Morph and WT state.
+    - `[x]` 8/10: Create comprehensive `README.md`.
+    - `[x]` 9/10: Create formal `CONTRIBUTING.md`.
+    - `[x]` 10/10: Final polish and CI/CD verification.
+- `[ ]` Finalize
+    - `[x]` Squash and Merge.
+    - `[ ]` Verify signed APK on physical device.
