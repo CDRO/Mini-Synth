@@ -31,7 +31,6 @@ public:
     void setPolyphonic(bool isPolyphonic) { mVoiceManager.setPolyphonic(isPolyphonic); }
     void setWaveform(Waveform waveform) { mVoiceManager.setWaveform(waveform); }
     void setOctaveShift(int shift) { mOctaveShift = shift; }
-    void setPadPanning(int padIndex, float panning);
 
     void setAttack(float seconds) { mVoiceManager.setAttack(seconds); }
     void setDecay(float seconds) { mVoiceManager.setDecay(seconds); }
@@ -41,6 +40,7 @@ public:
     void setPanning(float panning) { mVoiceManager.setPanning(panning); }
     void setUnison(int count, float detune, float spread) { mVoiceManager.setUnison(count, detune, spread); }
     void setPadPanning(int padIndex, float panning);
+    void setLfoRate(float frequency) { mVoiceManager.setLfoRate(frequency); }
     void setLfoDepth(float depth) { mVoiceManager.setLfoDepth(depth); }
     void setLfoWaveform(Waveform waveform) { mVoiceManager.setLfoWaveform(waveform); }
     void setLfoTarget(LfoTarget target) { mVoiceManager.setLfoTarget(target); }

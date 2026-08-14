@@ -1,8 +1,9 @@
 #include "VoiceManager.h"
-
 #include <cmath>
 
-#include <cmath>
+#ifndef PI_F
+#define PI_F 3.1415926535f
+#endif
 
 VoiceManager::VoiceManager() {
     setSampleRate(48000);

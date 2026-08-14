@@ -2,6 +2,10 @@
 #include <cmath>
 #include <algorithm>
 
+#ifndef PI_F
+#define PI_F 3.1415926535f
+#endif
+
 static double midiToFreq(int midiNote) {
     return 440.0 * pow(2.0, (midiNote - 69) / 12.0);
 }

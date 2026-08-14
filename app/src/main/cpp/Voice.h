@@ -59,7 +59,7 @@ public:
     void nextSample(float& left, float& right);
 
 private:
-    static const int MAX_UNISON = 8;
+    static constexpr int MAX_UNISON = 8;
     Oscillator mOscillators[MAX_UNISON];
     SamplePlayer mSamplePlayer;
     Envelope mEnvelope;
