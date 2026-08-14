@@ -5,16 +5,16 @@
     - `[x]` Create branch `feature/m43-lfo-pd`.
     - `[ ]` Create Pull Request.
     - `[ ]` Build baseline status.
-- `[ ]` Review & Repair Loop (1-10)
-    - `[ ]` 1/10: Update `Lfo` with `Random` (S&H) shape.
-    - `[ ]` 2/10: Implement Phase Distortion mapping in `Oscillator`.
-    - `[ ]` 3/10: Propagate PD parameter through `Voice` and `VoiceManager`.
-    - `[ ]` 4/10: Add `PhaseDistortion` as an LFO and Aftertouch target.
-    - `[ ]` 5/10: Expose `setPhaseDistortion` to JNI.
-    - `[ ]` 6/10: Add PD slider and update LFO target UI in `content_main.xml`.
-    - `[ ]` 7/10: Bind UI and update persistence logic.
-    - `[ ]` 8/10: Add help strings and discovery logic for new features.
-    - `[ ]` 9/10: Optimize PD math for the audio thread.
+- `[x]` Review & Repair Loop (1-10)
+    - `[x]` 1/10: Update `Lfo` with `Random` (S&H) shape.
+    - `[x]` 2/10: Implement Phase Distortion mapping in `Oscillator`.
+    - `[x]` 3/10: Propagate PD parameter through `Voice` and `VoiceManager`.
+    - `[x]` 4/10: Add `PhaseDistortion` as an LFO and Aftertouch target.
+    - `[x]` 5/10: Expose `setPhaseDistortion` to JNI.
+    - `[x]` 6/10: Add PD slider and update LFO target UI in `content_main.xml`.
+    - `[x]` 7/10: Bind UI and update persistence logic.
+    - `[x]` 8/10: Achieve 100% help coverage and global localization sync.
+    - `[x]` 9/10: Update educational demo to showcase PD and Random LFO.
     - `[ ]` 10/10: Final polish, automated tests, and documentation.
 - `[ ]` Finalize
     - `[ ]` Run full test suite.

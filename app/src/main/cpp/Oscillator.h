@@ -23,6 +23,7 @@ public:
     void setMorph(float morph) { mMorph = morph; }
     void setWavetable(const float* data, int32_t size);
     void setPhaseDistortion(float pd) { mPhaseDistortion = pd; }
+    void resetPhase() { mPhase = 0.0; }
     float nextSample();
 
 private:

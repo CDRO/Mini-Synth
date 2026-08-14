@@ -1010,6 +1010,37 @@ class MainActivity : AppCompatActivity() {
                 binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
                 
                 if (!isDemoPlaying) return@launch
+
+                delay(1000)
+                showDemoToast("Phase Distortion: Dynamic harmonic movement.")
+                runOnUiThread { content.seekPd.progress = 0 }
+                synthManager.noteOn(60, 0.8f)
+                for (i in 0..10) {
+                    if (!isDemoPlaying) break
+                    val pd = i / 10f
+                    synthManager.setPhaseDistortion(pd)
+                    runOnUiThread { content.seekPd.progress = (pd * 100).toInt() }
+                    delay(200)
+                }
+                delay(1000)
+                synthManager.noteOff(60)
+
+                delay(1000)
+                showDemoToast("Random LFO: S&H modulation.")
+                runOnUiThread {
+                    content.spinnerLfoWaveform.setSelection(4) // Random
+                    content.seekLfoRate.progress = 150
+                    content.seekLfoDepth.progress = 80
+                    content.spinnerLfoTarget.setSelection(0) // Pitch
+                }
+                synthManager.setLfoWaveform(4)
+                synthManager.setLfoRate(15f)
+                synthManager.setLfoDepth(0.8f)
+                synthManager.setLfoTarget(0)
+                
+                synthManager.noteOn(64, 0.8f)
+                delay(2000)
+                synthManager.noteOff(64)
                 
                 showDemoToast(getString(R.string.demo_spatial_wash))
                 synthManager.setReverbMix(0.8f)
