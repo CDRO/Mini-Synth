@@ -58,6 +58,8 @@ void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>
             mVoices[index].setFilterResonance(mFilterResonance);
 
             mVoices[index].setUnison(mUnisonCount, mUnisonDetune, mUnisonSpread);
+            mVoices[index].setMorph(mMorph);
+            mVoices[index].setPhaseDistortion(mPhaseDistortion);
             mVoices[index].setPanning(initialPan);
             mVoices[index].trigger(midiNote, velocity, sampleBuffer);
         }
@@ -76,6 +78,8 @@ void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>
         mVoices[0].setFilterResonance(mFilterResonance);
 
         mVoices[0].setUnison(mUnisonCount, mUnisonDetune, mUnisonSpread);
+        mVoices[0].setMorph(mMorph);
+        mVoices[0].setPhaseDistortion(mPhaseDistortion);
         mVoices[0].setPanning(initialPan);
         mVoices[0].trigger(midiNote, velocity, sampleBuffer);
     }
@@ -143,6 +147,7 @@ void VoiceManager::nextSample(float& left, float& right) {
                 mVoices[i].setModulation(mModulation);
                 mVoices[i].setUnison(mUnisonCount, mUnisonDetune, mUnisonSpread);
                 mVoices[i].setMorph(mMorph);
+                mVoices[i].setPhaseDistortion(mPhaseDistortion);
             }
 
             float vL = 0, vR = 0;
@@ -189,6 +194,7 @@ EngineParams VoiceManager::getParams() const {
     p.unisonDetune = mUnisonDetune.load();
     p.unisonSpread = mUnisonSpread.load();
     p.morph = mMorph.load();
+    p.phaseDistortion = mPhaseDistortion.load();
     return p;
 }
 
@@ -211,6 +217,7 @@ void VoiceManager::setParams(const EngineParams& p) {
     setPanning(p.panning);
     setUnison(p.unisonCount, p.unisonDetune, p.unisonSpread);
     setMorph(p.morph);
+    setPhaseDistortion(p.phaseDistortion);
 }
 
 void VoiceManager::setWavetable(const float* data, int32_t size) {

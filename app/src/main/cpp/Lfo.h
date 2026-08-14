@@ -8,7 +8,8 @@
 enum class LfoTarget {
     Pitch,
     Volume,
-    Filter
+    Filter,
+    PhaseDistortion
 };
 
 class Lfo {

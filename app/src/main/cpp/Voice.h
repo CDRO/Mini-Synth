@@ -49,6 +49,7 @@ public:
     void setModulation(float amount) { mTargetModulation = amount; }
     void setAftertouch(float amount) { mTargetAftertouch = amount; }
     void setPanning(float panning) { mPanning = panning; }
+    void setPhaseDistortion(float pd) { mBasePhaseDistortion = pd; }
     void setUnison(int count, float detune, float spread) {
         mUnisonCount = count;
         mUnisonDetune = detune;
@@ -77,6 +78,7 @@ private:
     float mTargetAftertouch = 0.0f;
     float mCurrentAftertouch = 0.0f;
     float mPanning = 0.0f;
+    float mBasePhaseDistortion = 0.0f;
     int mUnisonCount = 1;
     float mUnisonDetune = 0.0f;
     float mUnisonSpread = 0.0f;

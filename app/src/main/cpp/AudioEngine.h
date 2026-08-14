@@ -40,6 +40,7 @@ public:
     void setPanning(float panning) { mVoiceManager.setPanning(panning); }
     void setUnison(int count, float detune, float spread) { mVoiceManager.setUnison(count, detune, spread); }
     void setMorph(float morph) { mVoiceManager.setMorph(morph); }
+    void setPhaseDistortion(float pd) { mVoiceManager.setPhaseDistortion(pd); }
     void setWavetable(const float* data, int32_t size) { mVoiceManager.setWavetable(data, size); }
     void setPadPanning(int padIndex, float panning);
     void setLfoRate(float frequency) { mVoiceManager.setLfoRate(frequency); }
