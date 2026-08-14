@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Przełącz pady na pełny ekran: Ukrywa nagłówek i panel parametrów, aby skupić się na występie.</string>
     <string name="help_keyboard_hidden">Przełącz widoczność klawiatury: Ukryj klawisze pianina, aby maksymalnie zwiększyć przestrzeń roboczą.</string>
     <string name="help_config_toggle">Przełącznik konfiguracji: ukrywa wszystkie suwaki parametrów, aby zmaksymalizować miejsce na pady wydajności.</string>
+    <string name="help_phase_distortion">Zniekształcenie fazowe: Zniekształca linię fazową oscylatora, tworząc bogate harmoniczne.</string>
 
     <string name="demo_initializing">Demo: Inicjalizacja patcha syntezatora&#8230;</string>
     <string name="demo_stage_1">Etap 1: Synteza dynamiczna. Eksploracja fal piłokształtnych i filtrów rezonansowych.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">Krok 1: Edycja ręczna. Przełączaj kroki w siatce, aby zbudować wzór.</string>
     <string name="demo_sequencer_recording">Krok 2: Nagrywanie w czasie rzeczywistym. Twój występ na klawiaturze jest rejestrowany natychmiast.</string>
     <string name="demo_sequencer_play_along">Teraz zagrajmy razem z naszą nagraną sekwencją!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Losowy</string>
 </resources>

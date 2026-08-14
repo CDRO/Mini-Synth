@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Teljes képernyős padok váltása: Elrejti a fejlécet és a paraméterpanelt a teljesítményre való összpontosításhoz.</string>
     <string name="help_keyboard_hidden">Billentyűzet láthatóságának váltása: A zongorabillentyűk elrejtése a munkaterület maximalizálása érdekében.</string>
     <string name="help_config_toggle">Konfiguráció váltó: Elrejti az összes paramétercsúszkát, hogy maximalizálja a helyet a teljesítmény padok számára.</string>
+    <string name="help_phase_distortion">Fázistorzítás: Elvetemíti az oszcillátor fázisvonalát gazdag harmonikusok létrehozásához.</string>
 
     <string name="demo_initializing">Demó: Szintetizátor patch inicializálása&#8230;</string>
     <string name="demo_stage_1">1. szakasz: Dinamikus szintézis. Fűrészfog hullámformák és rezonáns szűrők felfedezése.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">1. lépés: Manuális szerkesztés. Lépések váltása a rácsban a minta felépítéséhez.</string>
     <string name="demo_sequencer_recording">2. lépés: Valós idejű rögzítés. A billentyűzet teljesítménye azonnal rögzítésre kerül.</string>
     <string name="demo_sequencer_play_along">Most játsszunk együtt a rögzített szekvenciánkkal!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Véletlen</string>
 </resources>

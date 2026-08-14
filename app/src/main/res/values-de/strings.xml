@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Vollbild-Pads umschalten: Blendet den Header und das Parameter-Panel aus, um sich auf die Performance zu konzentrieren.</string>
     <string name="help_keyboard_hidden">Tastatur-Sichtbarkeit umschalten: Blenden Sie die Klaviertasten aus, um den Arbeitsbereich zu maximieren.</string>
     <string name="help_config_toggle">Konfigurations-Umschalter: Blendet alle Parameterregler aus, um den Platz für Performance-Pads zu maximieren.</string>
+    <string name="help_phase_distortion">Phasenverzerrung: Verformt die Phasenlinie des Oszillators, um reiche Harmonische zu erzeugen.</string>
 
     <string name="demo_initializing">Demo: Synthesizer-Patch wird initialisiert&#8230;</string>
     <string name="demo_stage_1">Stufe 1: Dynamische Synthese. Erkundung von Sägezahn-Wellenformen und Resonanzfiltern.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">Schritt 1: Manuelles Editieren. Schalten Sie Schritte im Raster um, um ein Muster zu erstellen.</string>
     <string name="demo_sequencer_recording">Schritt 2: Echtzeit-Aufnahme. Ihre Tastatur-Performance wird sofort erfasst.</string>
     <string name="demo_sequencer_play_along">Jetzt spielen wir zu unserer aufgenommenen Sequenz!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Zufall</string>
 </resources>

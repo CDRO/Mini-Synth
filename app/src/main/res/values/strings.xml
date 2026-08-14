@@ -99,9 +99,10 @@
     <string name="help_reverb_mix">Reverb Mix: Balance between the dry signal and the ambient wash.</string>
     <string name="help_sequencer_duration">Step Size: Adjust the time duration of each sequencer step.</string>
     <string name="help_sequencer_length">Loop Length: Set the total number of steps in the sequence (8 to 64).</string>
-    <string name="help_pads_fullscreen">Toggle Fullscreen Pads: Hides the header and parameter panel to focus on performance.</string>
     <string name="help_keyboard_hidden">Toggle Keyboard Visibility: Hide the piano keys to maximize workspace space.</string>
     <string name="help_config_toggle">Config Toggle: Hides all parameter sliders to maximize space for performance pads.</string>
+    <string name="help_phase_distortion">Phase Distortion: Warps the oscillator phase line to create rich harmonics.</string>
+    <string name="help_pads_fullscreen">Toggle Fullscreen Pads: Hides the header and parameter panel to focus on performance.</string>
 
     <!-- Toasts and Dialogs -->
     <string name="toast_discovery_active">Discovery Mode Active. Click any control for info.</string>
@@ -236,6 +237,8 @@
     <string name="lfo_target_pitch">Pitch</string>
     <string name="lfo_target_volume">Volume</string>
     <string name="lfo_target_filter">Filter</string>
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Random</string>
     <string name="color_none">No Color</string>
     <string name="color_acid_green">Acid Green</string>
     <string name="color_electric_blue">Electric Blue</string>

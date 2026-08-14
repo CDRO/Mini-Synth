@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Attiva/Disattiva Pad a Schermo Intero: Nasconde l\'intestazione e il pannello dei parametri per concentrarsi sulla performance.</string>
     <string name="help_keyboard_hidden">Attiva/Disattiva Visibilità Tastiera: Nasconde i tasti del pianoforte per massimizzare lo spazio di lavoro.</string>
     <string name="help_config_toggle">Attivazione/disattivazione configurazione: nasconde tutti i cursori dei parametri per massimizzare lo spazio per i pad per le performance.</string>
+    <string name="help_phase_distortion">Distorsione di fase: Deforma la linea di fase dell\'oscillatore per creare ricche armoniche.</string>
 
     <string name="demo_initializing">Demo: Inizializzazione della patch del sintetizzatore...</string>
     <string name="demo_stage_1">Fase 1: Sintesi dinamica. Esplorazione delle forme d\'onda a dente di sega e dei filtri risonanti.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">Step 1: Editing manuale. Attiva/Disattiva gli step nella griglia per costruire un pattern.</string>
     <string name="demo_sequencer_recording">Step 2: Registrazione in tempo reale. La tua performance sulla tastiera viene catturata istantaneamente.</string>
     <string name="demo_sequencer_play_along">Ora suoniamo insieme alla nostra sequenza registrata!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Casuale</string>
 </resources>

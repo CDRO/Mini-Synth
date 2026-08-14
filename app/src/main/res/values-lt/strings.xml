@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Perjungti visą ekraną užimančius padus: Paslepia antraštę ir parametrų skydelį, kad susikoncentruotumėte į atlikimą.</string>
     <string name="help_keyboard_hidden">Perjungti klaviatūros matomumą: Paslėpkite pianino klavišus, kad padidintumėte darbo erdvę.</string>
     <string name="help_config_toggle">Konfigūracijos perjungimas: paslepia visus parametrų slankiklius, kad būtų padidinta erdvė atlikimo kilimėliams.</string>
+    <string name="help_phase_distortion">Fazinė distorsija: Iškraipo osciliatoriaus fazės liniją, sukurdama sodrius harmonikus.</string>
 
     <string name="demo_initializing">Demo: Inicializuojamas sintezatoriaus nustatymas&#8230;</string>
     <string name="demo_stage_1">1 etapas: Dinaminė sintezė. Pjūklo bangos formų ir rezonanso filtrų tyrinėjimas.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">1 žingsnis: Rankinis redagavimas. Perjunkite žingsnius tinklelyje, kad sukurtumėte šabloną.</string>
     <string name="demo_sequencer_recording">2 žingsnis: Įrašymas realiuoju laiku. Jūsų grojimas klaviatūra užfiksuojamas akimirksniu.</string>
     <string name="demo_sequencer_play_along">Dabar grokime kartu su mūsų įrašyta sekvencija!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Atsitiktinis</string>
 </resources>

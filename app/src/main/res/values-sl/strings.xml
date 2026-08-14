@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Preklop ploščic na cel zaslon: Skrije glavo in ploščo s parametri za osredotočenost na izvajanje.</string>
     <string name="help_keyboard_hidden">Preklop vidnosti tipkovnice: Skrijte klavirske tipke za povečanje delovnega prostora.</string>
     <string name="help_config_toggle">Preklop konfiguracije: skrije vse drsnike parametrov, da poveča prostor za ploščice za zmogljivost.</string>
+    <string name="help_phase_distortion">Fazna distorzija: Izkrivi fazno linijo oscilatorja za ustvarjanje bogatih harmonikov.</string>
 
     <string name="demo_initializing">Demo: Inicializacija sintetizatorske nastavitve&#8230;</string>
     <string name="demo_stage_1">Stopnja 1: Dinamična sinteza. Raziskovanje žagastih valovnih oblik in resonančnih filtrov.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">Korak 1: Ročno urejanje. Preklapljajte korake v mreži za sestavo vzorca.</string>
     <string name="demo_sequencer_recording">Korak 2: Snemanje v realnem času. Vaše igranje na tipkovnici se u ujame takoj.</string>
     <string name="demo_sequencer_play_along">Zdaj pa zaigrajmo skupaj z našo posneto sekvenco!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Naključno</string>
 </resources>

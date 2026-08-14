@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">切换全屏打击垫：隐藏页眉和参数面板以专注于演奏。</string>
     <string name="help_keyboard_hidden">切换键盘可见性：隐藏钢琴键以最大化工作空间。</string>
     <string name="help_config_toggle">配置切换：隐藏所有参数滑块，以最大限度地增加演奏垫的空间。</string>
+    <string name="help_phase_distortion">相位失真：扭曲振荡器相位线以产生丰富的谐波。</string>
 
     <string name="demo_initializing">演示：正在初始化合成器音色&#8230;</string>
     <string name="demo_stage_1">第 1 阶段：动态合成。探索锯齿波和共振滤波器。</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">第 1 步：手动编辑。在网格中切换步进以构建模式。</string>
     <string name="demo_sequencer_recording">第 2 步：实时录音。您的键盘演奏将被立即捕捉。</string>
     <string name="demo_sequencer_play_along">现在让我们伴随着录制的序列进行演奏吧！</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">随机</string>
 </resources>

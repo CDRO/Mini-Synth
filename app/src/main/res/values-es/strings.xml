@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Activar/desactivar pads a pantalla completa: Oculta el encabezado y el panel de parámetros para centrarse en la interpretación.</string>
     <string name="help_keyboard_hidden">Activar/desactivar visibilidad del teclado: Oculta las teclas del piano para maximizar el espacio de trabajo.</string>
     <string name="help_config_toggle">Interruptor de configuración: oculta todos los controles deslizantes de parámetros para maximizar el espacio para los pads de interpretación.</string>
+    <string name="help_phase_distortion">Distorsión de fase: Deforma la línea de fase del oscilador para crear armónicos ricos.</string>
 
     <string name="demo_initializing">Demo: Inicializando el parche del sintetizador...</string>
     <string name="demo_stage_1">Etapa 1: Síntesis dinámica. Explorando ondas de diente de sierra y filtros resonantes.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">Paso 1: Edición manual. Activa/desactiva los pasos en la cuadrícula para construir un patrón.</string>
     <string name="demo_sequencer_recording">Paso 2: Grabación en tiempo real. Tu interpretación en el teclado se captura al instante.</string>
     <string name="demo_sequencer_play_along">¡Ahora toquemos junto con nuestra secuencia grabada!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Aleatorio</string>
 </resources>

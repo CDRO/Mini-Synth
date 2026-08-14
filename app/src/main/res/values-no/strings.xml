@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Veksle helskjerms-pads: Skjuler overskriften og parameterpanelet for å fokusere på performance.</string>
     <string name="help_keyboard_hidden">Veksle tastaturvisning: Skjul pianotastene for å maksimere arbeidsområdet.</string>
     <string name="help_config_toggle">Konfigurasjonsbytte: Skjuler alle parameterglidere for å maksimere plassen for ytelsesputer.</string>
+    <string name="help_phase_distortion">Fasedistorsjon: Vrir oscillatorens faselinje for å skabe rike harmoniske overtoner.</string>
 
     <string name="demo_initializing">Demo: Initierer syntpatch&#8230;</string>
     <string name="demo_stage_1">Etappe 1: Dynamisk syntese. Utforsker sagtannbølgeformer og resonansfiltre.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">Steg 1: Manuell redigering. Veksle mellom steg i rutenettet for å bygge et mønster.</string>
     <string name="demo_sequencer_recording">Steg 2: Sanntidsopptak. Klaviaturspillet ditt fanges opp umiddelbart.</string>
     <string name="demo_sequencer_play_along">La oss nå spille sammen med den innspilte sekvensen vår!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Tilfeldig</string>
 </resources>

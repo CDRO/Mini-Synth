@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Pārslēgt pilnekrāna padus: Paslēpj galveni un parametru paneli, lai koncentrētos uz izpildījumu.</string>
     <string name="help_keyboard_hidden">Pārslēgt tastatūras redzamību: Paslēpt klavieru taustiņus, lai maksimāli palielinātu darba vietu.</string>
     <string name="help_config_toggle">Konfigurācijas pārslēgšana: paslēpj visus parametru slīdņus, lai palielinātu vietu izpildījuma spilventiņiem.</string>
+    <string name="help_phase_distortion">Fāzes distorsija: Izkropļo oscilatora fāzes līniju, lai radītu bagātīgas harmonikas.</string>
 
     <string name="demo_initializing">Demo: Inicializē sintezatora ielāpu&#8230;</string>
     <string name="demo_stage_1">1. posms: Dinamiskā sintēze. Zāģa zoba viļņu formu un rezonanses filtru izpēte.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">1. solis: Manuāla rediģēšana. Pārslēdziet soļus režģī, lai izveidotu rakstu.</string>
     <string name="demo_sequencer_recording">2. solis: Reāllaika ierakstīšana. Jūsu tastatūras izpildījums tiek fiksēts nekavējoties.</string>
     <string name="demo_sequencer_play_along">Tagad spēlēsim kopā ar mūsu ierakstīto sekvenci!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Nejaušs</string>
 </resources>

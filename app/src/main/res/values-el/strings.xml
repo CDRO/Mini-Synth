@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Εναλλαγή Fullscreen Pads: Αποκρύπτει την κεφαλίδα και τον πίνακα παραμέτρων για εστίαση στην απόδοση.</string>
     <string name="help_keyboard_hidden">Εναλλαγή ορατότητας πληκτρολογίου: Απόκρυψη των πλήκτρων πιάνου για μεγιστοποίηση του χώρου εργασίας.</string>
     <string name="help_config_toggle">Εναλλαγή διαμόρφωσης: Κρύβει όλα τα ρυθμιστικά παραμέτρων για να μεγιστοποιήσει τον χώρο για τα pads απόδοσης.</string>
+    <string name="help_phase_distortion">Παραμόρφωση Φάσης: Παραμορφώνει τη γραμμή φάσης του ταλαντωτή για τη δημιουργία πλούσιων αρμονικών.</string>
 
     <string name="demo_initializing">Demo: Αρχικοποίηση patch συνθεσάιζερ&#8230;</string>
     <string name="demo_stage_1">Στάδιο 1: Δυναμική Σύνθεση. Εξερεύνηση κυματομορφών Sawtooth και Φίλτρων Συντονισμού.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">Βήμα 1: Χειροκίνητη επεξεργασία. Εναλλαγή βημάτων στο πλέγμα για τη δημιουργία ενός μοτίβου.</string>
     <string name="demo_sequencer_recording">Βήμα 2: Εγγραφή σε πραγματικό χρόνο. Η απόδοσή σας στο πληκτρολόγιο καταγράφεται αμέσως.</string>
     <string name="demo_sequencer_play_along">Τώρα ας παίξουμε μαζί με την ηχογραφημένη μας ακολουθία!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Τυχαίο</string>
 </resources>

@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Basculer les pads en plein écran : Masque l\'en-tête et le panneau des paramètres pour se concentrer sur la performance.</string>
     <string name="help_keyboard_hidden">Basculer la visibilité du clavier : Masquez les touches du piano pour maximiser l\'espace de travail.</string>
     <string name="help_config_toggle">Bascule de configuration : masque tous les curseurs de paramètres pour maximiser l\'espace pour les pads de performance.</string>
+    <string name="help_phase_distortion">Distorsion de phase : Déforme la ligne de phase de l\'oscillateur pour créer des harmoniques riches.</string>
 
     <string name="demo_initializing">Démo : Initialisation du patch du synthé...</string>
     <string name="demo_stage_1">Étape 1 : Synthèse dynamique. Exploration des ondes en dent de scie et des filtres résonants.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">Étape 1 : Édition manuelle. Basculez les paliers dans la grille pour construire un motif.</string>
     <string name="demo_sequencer_recording">Étape 2 : Enregistrement en temps réel. Votre performance au clavier est capturée instantanément.</string>
     <string name="demo_sequencer_play_along">Maintenant, jouons avec notre séquence enregistrée !</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Aléatoire</string>
 </resources>

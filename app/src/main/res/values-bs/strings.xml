@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Uključi/isključi padove preko cijelog ekrana: Skriva zaglavlje i ploču sa parametrima radi fokusa na izvedbu.</string>
     <string name="help_keyboard_hidden">Uključi/isključi vidljivost klavijature: Sakrijte klavirske tastere kako biste maksimalno povećali radni prostor.</string>
     <string name="help_config_toggle">Prebacivanje konfiguracije: Skriva sve klizače parametara kako bi se maksimizirao prostor za izvedbene padove.</string>
+    <string name="help_phase_distortion">Fazna distorzija: Iskrivljuje faznu liniju oscilatora kako bi stvorila bogate harmonike.</string>
 
     <string name="demo_initializing">Demo: Inicijalizacija zakrpe sintetizatora&#8230;</string>
     <string name="demo_stage_1">Faza 1: Dinamička sinteza. Istraživanje pilastih talasnih oblika i rezonantnih filtera.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">Korak 1: Ručno uređivanje. Prebacujte korake u mreži kako biste izgradili uzorak.</string>
     <string name="demo_sequencer_recording">Korak 2: Snimanje u stvarnom vremenu. Vaša izvedba na klavijaturi se odmah bilježi.</string>
     <string name="demo_sequencer_play_along">Sada svirajmo uz našu snimljenu sekvencu!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Nasumično</string>
 </resources>

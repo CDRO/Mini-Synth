@@ -394,6 +394,23 @@
                             android:progress="0"
                             android:visibility="gone" />
 
+                        <TextView
+                            android:id="@+id/tv_pd_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="28dp"
+                            android:text="0%"
+                            android:textColor="@color/dim_grey"
+                            android:textSize="10sp"
+                            android:background="@drawable/selector_toggle_bg" />
+
+                        <SeekBar
+                            android:id="@+id/seek_pd"
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:max="100"
+                            android:progress="0" />
+
                         <Space
                             android:layout_width="16dp"
                             android:layout_height="match_parent" />

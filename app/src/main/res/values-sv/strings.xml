@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Växla helskärms-pads: Döljer sidhuvudet och parameterpanelen för att fokusera på performance.</string>
     <string name="help_keyboard_hidden">Växla klaviaturens synlighet: Dölj pianotangenterna för att maximera arbetsytan.</string>
     <string name="help_config_toggle">Konfigurationsväxling: Döljer alla parameterreglage för att maximera utrymmet för prestandaplattor.</string>
+    <string name="help_phase_distortion">Fasdistorsion: Vrider oscillatorns faslinje för att skapa rika övertoner.</string>
 
     <string name="demo_initializing">Demo: Initierar syntpatch&#8230;</string>
     <string name="demo_stage_1">Etapp 1: Dynamisk syntes. Utforskar sågtandsvågformer och resonansfilter.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">Steg 1: Manuell redigering. Växla steg i rutnätet för att bygga ett mönster.</string>
     <string name="demo_sequencer_recording">Steg 2: Realtidsinspelning. Ditt klaviaturspel fångas omedelbart.</string>
     <string name="demo_sequencer_play_along">Nu spelar vi med vår inspelade sekvens!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Slumpmässig</string>
 </resources>

@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Tam Ekran Padleri Değiştir: Performansa odaklanmak için başlığı ve parametre panelini gizler.</string>
     <string name="help_keyboard_hidden">Klavye Görünürlüğünü Değiştir: Çalışma alanını maksimize etmek için piyano tuşlarını gizleyin.</string>
     <string name="help_config_toggle">Yapılandırma Geçişi: Performans pedleri için alanı maksimize etmek amacıyla tüm parametre kaydırıcılarını gizler.</string>
+    <string name="help_phase_distortion">Faz Bozulması: Zengin harmonikler oluşturmak için osilatör faz çizgisini büker.</string>
 
     <string name="demo_initializing">Demo: Sentezleyici yaması başlatılıyor&#8230;</string>
     <string name="demo_stage_1">Aşama 1: Dinamik Sentez. Testere dişi dalga formlarını ve Rezonans Filtrelerini keşfetme.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">Adım 1: Manuel Düzenleme. Bir desen oluşturmak için ızgaradaki adımları değiştirin.</string>
     <string name="demo_sequencer_recording">Adım 2: Gerçek Zamanlı Kayıt. Klavye performansınız anında kaydedilir.</string>
     <string name="demo_sequencer_play_along">Şimdi kaydettiğimiz sekansla birlikte çalalım!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Rastgele</string>
 </resources>

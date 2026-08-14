@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Lülita täisekraanil pad-id: Peidab päise ja parameetrite paneeli, et keskenduda esitusele.</string>
     <string name="help_keyboard_hidden">Lülita klaviatuuri nähtavust: Peida klaveriklahvid tööpinnas ruumi maksimeerimiseks.</string>
     <string name="help_config_toggle">Konfiguratsiooni lüliti: Peidab kõik parameetrite liugurid, et maksimeerida ruumi esituspatjade jaoks.</string>
+    <string name="help_phase_distortion">Faasimoonutus: Moonutab ostsillaatori faasijoont, et luua rikkalikke harmoonikuid.</string>
 
     <string name="demo_initializing">Demo: Süntesaatori patchi lähtestamine&#8230;</string>
     <string name="demo_stage_1">1. etapp: Dünaamiline süntees. Saehammas-lainekujude ja resonantsfiltrite uurimine.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">1. samm: Käsitsi muutmine. Lülita samme võrgustikus mustri loomiseks.</string>
     <string name="demo_sequencer_recording">2. samm: Reaalajas salvestamine. Sinu klaviatuuri esitus jäädvustatakse kohe.</string>
     <string name="demo_sequencer_play_along">Mängime nüüd koos oma salvestatud sekventsiga!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Juhuslik</string>
 </resources>

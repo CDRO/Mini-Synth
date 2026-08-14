@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Prepnúť pady na celú obrazovku: Skryje záhlavie a panel parametrov pre sústredenie na výkon.</string>
     <string name="help_keyboard_hidden">Prepnúť viditeľnosť klávesnice: Skryje klávesy klavíra pre maximalizáciu pracovného priestoru.</string>
     <string name="help_config_toggle">Prepínač konfigurácie: Skryje všetky posuvníky parametrov, aby sa maximalizoval priestor pre výkonné pady.</string>
+    <string name="help_phase_distortion">Fázové skreslenie: Deformuje fázovú linku oscilátora pre vytvorenie bohatých harmoník.</string>
 
     <string name="demo_initializing">Demo: Inicializácia syntetizačného patchu&#8230;</string>
     <string name="demo_stage_1">Fáza 1: Dynamická syntéza. Skúmanie pílových vĺn a resonantných filtrov.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">Krok 1: Ručné úpravy. Prepínajte kroky v mriežke pre zostavenie patternu.</string>
     <string name="demo_sequencer_recording">Krok 2: Nahrávanie v reálnom čase. Váš výkon na klávesnici je okamžite zachytený.</string>
     <string name="demo_sequencer_play_along">Teraz si poďme zahrať spolu s našou nahranou sekvenciou!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Náhodné</string>
 </resources>

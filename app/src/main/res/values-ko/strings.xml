@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">전체 화면 패드 전환: 연주에 집중하기 위해 헤더와 파라미터 패널을 숨깁니다.</string>
     <string name="help_keyboard_hidden">키보드 가시성 전환: 작업 공간을 최대화하기 위해 피아노 키를 숨깁니다.</string>
     <string name="help_config_toggle">구성 토글: 성능 패드 공간을 최대화하기 위해 모든 매개변수 슬라이더를 숨깁니다.</string>
+    <string name="help_phase_distortion">위상 왜곡: 오실레이터 위상 라인을 왜곡하여 풍부한 하모닉스를 생성합니다.</string>
 
     <string name="demo_initializing">데모: 신디 패치 초기화 중&#8230;</string>
     <string name="demo_stage_1">1단계: 동적 합성. 톱니파 파형 및 공명 필터 탐색.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">1단계: 수동 편집. 그리드에서 스텝을 전환하여 패턴 생성.</string>
     <string name="demo_sequencer_recording">2단계: 실시간 녹음. 키보드 연주가 즉시 캡처됩니다.</string>
     <string name="demo_sequencer_play_along">이제 녹음된 시퀀스에 맞춰 연주해 봅시다!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">무작위</string>
 </resources>

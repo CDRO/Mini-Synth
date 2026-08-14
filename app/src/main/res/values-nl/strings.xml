@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Schakel Fullscreen Pads in/uit: Verbergt de header en het parameterpaneel om te focussen op performance.</string>
     <string name="help_keyboard_hidden">Schakel Keyboard Zichtbaarheid in/uit: Verberg de pianotoetsen om de werkruimte te maximaliseren.</string>
     <string name="help_config_toggle">Configuratie-schakelaar: verbergt alle parameter-schuifregelaars om de ruimte voor performance-pads te maximaliseren.</string>
+    <string name="help_phase_distortion">Fasedistorsie: Vervormt de faselijn van de oscillator om rijke harmonischen te creëren.</string>
 
     <string name="demo_initializing">Demo: Synthesizer patch initialiseren&#8230;</string>
     <string name="demo_stage_1">Fase 1: Dynamische Synthese. Ontdekken van Zaagtand golfvormen en Resonante Filters.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">Stap 1: Handmatig Editen. Schakel stappen in het grid om een patroon op te bouwen.</string>
     <string name="demo_sequencer_recording">Stap 2: Real-time Opname. Je klavier performance wordt direct vastgelegd.</string>
     <string name="demo_sequencer_play_along">Laten we nu meespelen met onze opgenomen sequence!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Willekeurig</string>
 </resources>

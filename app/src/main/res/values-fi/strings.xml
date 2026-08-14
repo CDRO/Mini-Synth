@@ -67,6 +67,7 @@
     <string name="help_pads_fullscreen">Vaihda kokoruudun padit: Piilottaa yläpalkin ja parametripaneelin keskittyen esiintymiseen.</string>
     <string name="help_keyboard_hidden">Vaihda koskettimiston näkyvyyttä: Piilota pianon koskettimet maksimoidaksesi työtilan.</string>
     <string name="help_config_toggle">Kokoonpanon vaihto: Piilottaa kaikki parametrisäätimet maksimoidakseen tilan suorituskykypadeille.</string>
+    <string name="help_phase_distortion">Vaihevääristymä: Vääristää oskillaattorin vaiheviivaa luoden rikkaita harmonisia ylä-ääniä.</string>
 
     <string name="demo_initializing">Demo: Alustetaan syntetisaattorin patchia&#8230;</string>
     <string name="demo_stage_1">Vaihe 1: Dynaaminen synteesi. Tutustutaan sahalaita-aaltomuotoihin ja resonanssisuodattimiin.</string>
@@ -87,4 +88,7 @@
     <string name="demo_sequencer_manual">Vaihe 1: Manuaalinen muokkaus. Vaihda askeleita ruudukossa rakentaaksesi kuvion.</string>
     <string name="demo_sequencer_recording">Vaihe 2: Reaaliaikainen tallennus. Koskettimistosuorituksesi tallennetaan välittömästi.</string>
     <string name="demo_sequencer_play_along">Soitetaan nyt tallennetun sekvenssimme mukana!</string>
+
+    <string name="lfo_target_phase_dist">Phase Dist</string>
+    <string name="lfo_wave_random">Satunnainen</string>
 </resources>
