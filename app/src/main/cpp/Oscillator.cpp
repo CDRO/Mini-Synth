@@ -44,8 +44,20 @@ float Oscillator::nextSample() {
     float result = 0.0f;
     float phaseFloat = static_cast<float>(mPhase);
 
+    // Apply Phase Distortion
+    float distortedPhase = phaseFloat;
+    if (mPhaseDistortion > 0.001f) {
+        // Warp phase: phase' = phase - PD * sin(phase)
+        // This is a classic "resonant" sweep approximation
+        distortedPhase = phaseFloat - (mPhaseDistortion * sinf(phaseFloat));
+
+        // Wrap back to [0, TWO_PI]
+        while (distortedPhase < 0) distortedPhase += TWO_PI_F;
+        while (distortedPhase >= TWO_PI_F) distortedPhase -= TWO_PI_F;
+    }
+
     if (mWaveform == Waveform::Wavetable && !mWavetable.empty()) {
-        float normalizedPhase = phaseFloat / TWO_PI_F;
+        float normalizedPhase = distortedPhase / TWO_PI_F;
         float tablePos = normalizedPhase * static_cast<float>(mWavetable.size());
         int index1 = static_cast<int>(tablePos) % mWavetable.size();
         int index2 = (index1 + 1) % mWavetable.size();
@@ -62,11 +74,11 @@ float Oscillator::nextSample() {
         else if (stage == 1) { w1 = Waveform::Triangle; w2 = Waveform::Saw; }
         else { w1 = Waveform::Saw; w2 = Waveform::Square; }
 
-        float s1 = getWaveformSample(w1, phaseFloat);
-        float s2 = getWaveformSample(w2, phaseFloat);
+        float s1 = getWaveformSample(w1, distortedPhase);
+        float s2 = getWaveformSample(w2, distortedPhase);
         result = s1 * (1.0f - frac) + s2 * frac;
     } else {
-        result = getWaveformSample(mWaveform, phaseFloat);
+        result = getWaveformSample(mWaveform, distortedPhase);
     }
 
     mPhase += mPhaseIncrement;

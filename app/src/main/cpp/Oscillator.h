@@ -22,6 +22,7 @@ public:
     void setSampleRate(int32_t sampleRate);
     void setMorph(float morph) { mMorph = morph; }
     void setWavetable(const float* data, int32_t size);
+    void setPhaseDistortion(float pd) { mPhaseDistortion = pd; }
     float nextSample();
 
 private:
@@ -31,6 +32,7 @@ private:
     double mPhase = 0.0;
     double mPhaseIncrement = 0.0;
     float mMorph = 0.0f;
+    float mPhaseDistortion = 0.0f;
     std::vector<float> mWavetable;
 
     void updatePhaseIncrement();
