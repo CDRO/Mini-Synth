@@ -342,7 +342,7 @@ jobs:
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest
 
-  build-debug-apk:
+  build-release-apk:
     needs: [changes, test]
     if: ${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)) && needs.changes.outputs.app_changed == 'true' }}
     runs-on: ubuntu-latest
@@ -370,24 +370,33 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
 
-      - name: Build debug APK
-        run: ./gradlew assembleDebug
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.SIGNING_KEY_STORE_BASE64 }}" | base64 -d > app/release.jks
 
-      - name: Locate debug APK
+      - name: Build release APK
+        env:
+          RELEASE_KEYSTORE_PATH: release.jks
+          RELEASE_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+        run: ./gradlew assembleRelease
+
+      - name: Locate release APK
         id: apk
         run: |
-          APK_PATH=$(find app/build/outputs/apk/debug -type f \( -name 'app-debug.apk' -o -name 'app.apk' \) | head -n 1)
+          APK_PATH=$(find app/build/outputs/apk/release -type f \( -name 'app-release.apk' -o -name 'app.apk' \) | head -n 1)
           echo "apk_path=$APK_PATH" >> "$GITHUB_OUTPUT"
           test -n "$APK_PATH"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: debug-apk
+          name: release-apk
           path: ${{ steps.apk.outputs.apk_path }}
 
   release:
-    needs: build-debug-apk
+    needs: build-release-apk
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
     permissions:
@@ -399,14 +408,14 @@ jobs:
       - name: Download APK artifact
         uses: actions/download-artifact@v4
         with:
-          name: debug-apk
+          name: release-apk
           path: ./release-artifacts
 
       - name: Create GitHub release with APK
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          APK_PATH=$(find ./release-artifacts -type f \( -name 'app-debug.apk' -o -name 'app.apk' \) | head -n 1)
+          APK_PATH=$(find ./release-artifacts -type f \( -name 'app-release.apk' -o -name 'app.apk' \) | head -n 1)
           test -n "$APK_PATH"
 
           VERSION="0.$(date -u +'%Y%m%d.%H%M')"
