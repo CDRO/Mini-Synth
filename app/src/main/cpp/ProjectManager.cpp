@@ -35,6 +35,7 @@ bool ProjectManager::saveProject(const std::string& directory,
     j["engine"]["unisonCount"] = params.unisonCount;
     j["engine"]["unisonDetune"] = params.unisonDetune;
     j["engine"]["unisonSpread"] = params.unisonSpread;
+    j["engine"]["morph"] = params.morph;
 
     // Sequencer
     j["sequencer"]["stepDivision"] = sequencer.getStepDivision();
@@ -111,6 +112,9 @@ bool ProjectManager::loadProject(const std::string& directory,
 
     if (e.contains("unisonSpread")) outParams.unisonSpread = e["unisonSpread"];
     else outParams.unisonSpread = 0.0f;
+
+    if (e.contains("morph")) outParams.morph = e["morph"];
+    else outParams.morph = 0.0f;
 
     // Sequencer
     outSequencer.clear();
