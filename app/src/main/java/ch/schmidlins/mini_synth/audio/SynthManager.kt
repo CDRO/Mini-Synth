@@ -86,6 +86,9 @@ class SynthManager {
     /** Set the waveform morph parameter (0.0 to 3.0). */
     external fun setMorph(morph: Float)
 
+    /** Set the Phase Distortion amount (0.0 to 1.0). */
+    external fun setPhaseDistortion(pd: Float)
+
     /** Load a custom wavetable into the oscillator. */
     external fun setWavetable(data: FloatArray)
 

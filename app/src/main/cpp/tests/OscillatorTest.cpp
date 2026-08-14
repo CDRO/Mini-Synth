@@ -82,3 +82,20 @@ TEST_F(OscillatorTest, FrequencyChangeStability) {
     EXPECT_GE(s2, -1.0f);
     EXPECT_LE(s2, 1.0f);
 }
+
+TEST_F(OscillatorTest, PhaseDistortionEffect) {
+    osc.setWaveform(Waveform::Sine);
+    osc.setFrequency(100.0);
+
+    osc.resetPhase();
+    // Render one sample without PD
+    osc.setPhaseDistortion(0.0f);
+    float s1 = osc.nextSample();
+
+    // Reset and render with PD
+    osc.resetPhase();
+    osc.setPhaseDistortion(0.5f);
+    float s2 = osc.nextSample();
+
+    EXPECT_NE(s1, s2);
+}

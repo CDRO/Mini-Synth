@@ -15,6 +15,8 @@
 
 ### UI (Kotlin)
 - **Aesthetic**: Dark DAW theme with responsive layout weights.
+- **Help System**: **100% Help Coverage** in Discovery Mode for all synthesizer components.
+- **Localization**: **Multi-Language Support** for 30+ locales across Europe and East Asia.
 - **Modes**: Keyboard (Gestures), Pad (EDIT toggle, Panning), Discovery, and Demo.
 - **Sequencer**: 64-step grid with real-time feedback and export sharing.
 
@@ -24,8 +26,9 @@
 ### [DONE] Milestone 39: Stereo Engine & Spatial Routing.
 ### [DONE] Milestone 40: Unison & Voice Layering.
 ### [DONE] Milestone 41: Waveform Morphing & Signed Releases.
+### [DONE] Milestone 42: Help Coverage & Global Localization.
 
-### [NEXT] Milestone 42: LFO Expansion & Phase Distortion
+### [NEXT] Milestone 43: LFO Expansion & Phase Distortion
 - **Objective**: Add advanced modulation shapes and Phase Distortion synthesis.
 - **Key Features**:
     - Custom LFO shapes.

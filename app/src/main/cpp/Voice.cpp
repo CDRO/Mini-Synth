@@ -66,6 +66,7 @@ void Voice::nextSample(float& left, float& right) {
         float modPitch = 0.0f;
         float modVolume = 1.0f;
         float modFilter = 0.0f;
+        float modPD = 0.0f;
 
         // Base modulation (Mod Wheel)
         float effectiveLfoDepth = mLfo.getDepth() + (mCurrentModulation * 0.5f);
@@ -74,6 +75,7 @@ void Voice::nextSample(float& left, float& right) {
         float atVolume = 0.0f;
         float atPitch = 0.0f;
         float atFilter = 0.0f;
+        float atPD = 0.0f;
 
         switch (mAftertouchTarget) {
             case LfoTarget::Pitch:
@@ -84,6 +86,9 @@ void Voice::nextSample(float& left, float& right) {
                 break;
             case LfoTarget::Filter:
                 atFilter = mCurrentAftertouch * 4.0f; // +4 octaves
+                break;
+            case LfoTarget::PhaseDistortion:
+                atPD = mCurrentAftertouch * 0.8f;
                 break;
         }
 
@@ -97,12 +102,17 @@ void Voice::nextSample(float& left, float& right) {
             case LfoTarget::Filter:
                 modFilter = lfoVal * 5.0f * effectiveLfoDepth;
                 break;
+            case LfoTarget::PhaseDistortion:
+                modPD = lfoVal * effectiveLfoDepth;
+                break;
         }
 
         // Combine all modulations
         float totalPitchShift = mCurrentPitchBend + modPitch + atPitch;
         float filterShift = modFilter + (mCurrentModulation * 2.0f) + atFilter;
         mFilter.setCutoff(mBaseCutoff * powf(2.0f, filterShift));
+
+        float effectivePD = std::max(0.0f, std::min(mBasePhaseDistortion + modPD + atPD, 0.99f));
 
         float env = mEnvelope.nextLevel();
         float baseFreq = midiToFreq(mNote);
@@ -126,6 +136,7 @@ void Voice::nextSample(float& left, float& right) {
             double freq = baseFreq * pow(2.0, (totalPitchShift + (detune / 100.0)) / 12.0);
             mOscillators[i].setFrequency(freq);
             mOscillators[i].setMorph(mMorph);
+            mOscillators[i].setPhaseDistortion(effectivePD);
 
             float s = mOscillators[i].nextSample();
 

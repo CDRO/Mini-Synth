@@ -8,7 +8,8 @@
 enum class LfoTarget {
     Pitch,
     Volume,
-    Filter
+    Filter,
+    PhaseDistortion
 };
 
 class Lfo {
@@ -30,6 +31,7 @@ private:
     double mSampleRate = 48000.0;
     double mPhase = 0.0;
     double mPhaseIncrement = 0.0;
+    float mRandomValue = 0.0f;
 
     void updatePhaseIncrement();
 };

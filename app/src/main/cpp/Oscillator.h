@@ -11,7 +11,8 @@ enum class Waveform {
     Saw,
     Triangle,
     Morph,
-    Wavetable
+    Wavetable,
+    Random
 };
 
 class Oscillator {
@@ -21,6 +22,8 @@ public:
     void setSampleRate(int32_t sampleRate);
     void setMorph(float morph) { mMorph = morph; }
     void setWavetable(const float* data, int32_t size);
+    void setPhaseDistortion(float pd) { mPhaseDistortion = pd; }
+    void resetPhase() { mPhase = 0.0; }
     float nextSample();
 
 private:
@@ -30,6 +33,7 @@ private:
     double mPhase = 0.0;
     double mPhaseIncrement = 0.0;
     float mMorph = 0.0f;
+    float mPhaseDistortion = 0.0f;
     std::vector<float> mWavetable;
 
     void updatePhaseIncrement();

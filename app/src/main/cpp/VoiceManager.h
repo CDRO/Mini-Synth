@@ -28,6 +28,7 @@ struct EngineParams {
     float unisonDetune;
     float unisonSpread;
     float morph;
+    float phaseDistortion;
 };
 
 class VoiceManager {
@@ -51,6 +52,7 @@ public:
     void setPanning(float panning) { mPanning = panning; mParamsChanged = true; }
     void setUnison(int count, float detune, float spread) { mUnisonCount = count; mUnisonDetune = detune; mUnisonSpread = spread; mParamsChanged = true; }
     void setMorph(float morph) { mMorph = morph; mParamsChanged = true; }
+    void setPhaseDistortion(float pd) { mPhaseDistortion = pd; mParamsChanged = true; }
     void setWavetable(const float* data, int32_t size);
 
     void setLfoRate(float frequency) { mLfoRate = frequency; mParamsChanged = true; }
@@ -96,6 +98,7 @@ private:
     std::atomic<float> mUnisonDetune{0.0f};
     std::atomic<float> mUnisonSpread{0.0f};
     std::atomic<float> mMorph{0.0f};
+    std::atomic<float> mPhaseDistortion{0.0f};
     std::atomic<bool> mParamsChanged{false};
 
     int findFreeVoice();
