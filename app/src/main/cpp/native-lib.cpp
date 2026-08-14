@@ -169,6 +169,23 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setUnison(JNIEnv *env, jobject
 }
 
 extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setMorph(JNIEnv *env, jobject thiz, jfloat morph) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setMorph(morph);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setWavetable(JNIEnv *env, jobject thiz, jfloatArray data) {
+    jsize len = env->GetArrayLength(data);
+    float* nativeData = env->GetFloatArrayElements(data, nullptr);
+    {
+        std::lock_guard<std::mutex> lock(engineMutex);
+        if (engine) engine->setWavetable(nativeData, len);
+    }
+    env->ReleaseFloatArrayElements(data, nativeData, JNI_ABORT);
+}
+
+extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setLfoRate(JNIEnv *env, jobject thiz, jfloat frequency) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setLfoRate(frequency);

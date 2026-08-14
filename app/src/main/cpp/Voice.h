@@ -55,11 +55,13 @@ public:
         mUnisonSpread = spread;
         mUnisonNorm = 1.0f / sqrtf(static_cast<float>(std::max(1, count)));
     }
+    void setMorph(float morph) { mMorph = morph; }
+    void setWavetable(const float* data, int32_t size);
 
     void nextSample(float& left, float& right);
 
 private:
-    static const int MAX_UNISON = 8;
+    static constexpr int MAX_UNISON = 8;
     Oscillator mOscillators[MAX_UNISON];
     SamplePlayer mSamplePlayer;
     Envelope mEnvelope;
@@ -79,6 +81,7 @@ private:
     float mUnisonDetune = 0.0f;
     float mUnisonSpread = 0.0f;
     float mUnisonNorm = 1.0f;
+    float mMorph = 0.0f;
     bool mActive;
     bool mIsSampleMode;
     int mNote;

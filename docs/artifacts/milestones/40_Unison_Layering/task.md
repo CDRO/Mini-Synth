@@ -5,7 +5,7 @@
     - `[x]` Create local branch `feature/m40-unison`.
     - `[ ]` Create Pull Request.
     - `[ ]` Build baseline status.
-- `[ ]` Review & Repair Loop (1-10)
+- `[x]` Review & Repair Loop (1-10)
     - `[x]` 1/10: Update `Voice` class to support multiple oscillators.
     - `[x]` 2/10: Implement pitch detuning logic for unison voices.
     - `[x]` 3/10: Implement stereo spreading for unison voices.
@@ -14,8 +14,8 @@
     - `[x]` 6/10: Update Preset and Project persistence for Unison.
     - `[x]` 7/10: Optimize oscillator sum normalization.
     - `[x]` 8/10: Test high polyphony + high unison CPU load.
-    - `[/]` 9/10: Update educational demo to showcase Unison.
-    - `[ ]` 10/10: Final polish and documentation.
+    - `[x]` 9/10: Update educational demo to showcase Unison.
+    - `[x]` 10/10: Final polish and documentation.
 - `[ ]` Finalize
     - `[ ]` Run full test suite.
     - `[ ]` Squash and Merge.

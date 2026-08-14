@@ -298,11 +298,32 @@ class MainActivity : AppCompatActivity() {
                     R.id.btn_wave_square -> 1
                     R.id.btn_wave_saw -> 2
                     R.id.btn_wave_triangle -> 3
+                    R.id.btn_wave_morph -> 4
+                    R.id.btn_wave_wt -> 5
                     else -> 0
                 }
                 synthManager.setWaveform(index)
+                
+                // Show/hide morph controls
+                val isMorph = (checkedId == R.id.btn_wave_morph)
+                content.seekMorph.visibility = if (isMorph) View.VISIBLE else View.GONE
+                content.tvMorphVal.visibility = if (isMorph) View.VISIBLE else View.GONE
+                
+                if (checkedId == R.id.btn_wave_wt) {
+                    showWavetableSelector()
+                }
             }
         }
+
+        content.seekMorph.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val morph = progress / 100f
+                synthManager.setMorph(morph)
+                content.tvMorphVal.text = String.format(java.util.Locale.US, "%.2f", morph)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
 
         // Octave controls
         content.btnOctaveDown!!.setOnClickListener {
@@ -1010,6 +1031,7 @@ class MainActivity : AppCompatActivity() {
         synthManager.setReverbMix(0f)
         synthManager.setPitchBend(0f)
         synthManager.setModulation(0f)
+        synthManager.setMorph(0f)
         synthManager.clearSequencer()
         synthManager.setSequencerPlaying(false)
         synthManager.setSequencerRecording(false)
@@ -1022,6 +1044,10 @@ class MainActivity : AppCompatActivity() {
         content.btnModeToggle.text = getString(R.string.btn_mode_pads)
         content.keyboardPadView.setMode(KeyboardPadView.Mode.KEYBOARD)
         content.keyboardPadView.clearHeldNotes()
+        content.seekMorph.progress = 0
+        content.seekMorph.visibility = View.GONE
+        content.tvMorphVal.visibility = View.GONE
+        content.toggleWaveform.check(R.id.btn_wave_sine)
         
         // Clear all backlights
         for (note in 0..127) {
@@ -1060,6 +1086,38 @@ class MainActivity : AppCompatActivity() {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+    }
+
+    private fun showWavetableSelector() {
+        val tables = arrayOf("Vocal (Ah)", "Electronic Organ", "Aggressive Growl", "Soft Bell")
+        AlertDialog.Builder(this)
+            .setTitle("Select Wavetable")
+            .setItems(tables) { _, which ->
+                val data = when (which) {
+                    0 -> FloatArray(2048) { i -> // Vocal Ah
+                        val p = 2.0 * Math.PI * i / 2048.0
+                        (Math.sin(p) + 0.6 * Math.sin(p * 2) + 0.4 * Math.sin(p * 3) + 0.2 * Math.sin(p * 4)).toFloat()
+                    }
+                    1 -> FloatArray(2048) { i -> // Organ
+                        val p = 2.0 * Math.PI * i / 2048.0
+                        (Math.sin(p) + 0.5 * Math.sin(p * 2) + 0.3 * Math.sin(p * 4) + 0.1 * Math.sin(p * 8)).toFloat()
+                    }
+                    2 -> FloatArray(2048) { i -> // Growl
+                        val p = 2.0 * Math.PI * i / 2048.0
+                        (Math.sin(p) + 0.8 * Math.sin(p * 1.5) + 0.4 * Math.sin(p * 3.5)).toFloat()
+                    }
+                    else -> FloatArray(2048) { i -> // Bell
+                        val p = 2.0 * Math.PI * i / 2048.0
+                        (Math.sin(p) * Math.exp(-0.5 * i / 2048.0)).toFloat()
+                    }
+                }
+                // Normalize wavetable
+                val max = data.maxOf { Math.abs(it) }.coerceAtLeast(0.0001f)
+                for (i in data.indices) data[i] /= max
+                
+                synthManager.setWavetable(data)
+            }
+            .show()
     }
 
     private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -1592,7 +1650,8 @@ class MainActivity : AppCompatActivity() {
         val preset = SynthPreset(
             name = name,
             waveformIndex = when (content.toggleWaveform!!.checkedButtonId) {
-                R.id.btn_wave_sine -> 0; R.id.btn_wave_square -> 1; R.id.btn_wave_saw -> 2; R.id.btn_wave_triangle -> 3; else -> 0
+                R.id.btn_wave_sine -> 0; R.id.btn_wave_square -> 1; R.id.btn_wave_saw -> 2; R.id.btn_wave_triangle -> 3;
+                R.id.btn_wave_morph -> 4; R.id.btn_wave_wt -> 5; else -> 0
             },
             attack = content.seekAttack!!.progress / 100f,
             decay = content.seekDecay!!.progress / 100f,
@@ -1605,6 +1664,7 @@ class MainActivity : AppCompatActivity() {
             filterCutoff = content.seekFilterCutoff!!.progress / 100f,
             filterResonance = content.seekFilterRes!!.progress / 100f,
             panning = (content.seekPanning!!.progress - 50) / 50f,
+            morph = content.seekMorph.progress / 100f,
             unisonCount = unisonCount,
             unisonDetune = unisonDetune,
             sequencerStepDivision = when (content.spinnerStepDuration!!.selectedItemPosition) {
@@ -1619,7 +1679,8 @@ class MainActivity : AppCompatActivity() {
     private fun applyPreset(preset: SynthPreset) {
         val content = binding.appBarMain.contentMain
         val btnId = when (preset.waveformIndex) {
-            0 -> R.id.btn_wave_sine; 1 -> R.id.btn_wave_square; 2 -> R.id.btn_wave_saw; 3 -> R.id.btn_wave_triangle; else -> R.id.btn_wave_sine
+            0 -> R.id.btn_wave_sine; 1 -> R.id.btn_wave_square; 2 -> R.id.btn_wave_saw; 3 -> R.id.btn_wave_triangle;
+            4 -> R.id.btn_wave_morph; 5 -> R.id.btn_wave_wt; else -> R.id.btn_wave_sine
         }
         content.toggleWaveform!!.check(btnId)
         content.seekAttack!!.progress = (preset.attack.coerceIn(0f, 1f) * 100).toInt()
@@ -1633,6 +1694,8 @@ class MainActivity : AppCompatActivity() {
         content.seekFilterCutoff!!.progress = (preset.filterCutoff.coerceIn(0f, 1f) * 100).toInt()
         content.seekFilterRes!!.progress = (preset.filterResonance.coerceIn(0f, 1f) * 100).toInt()
         content.seekPanning!!.progress = (preset.panning.coerceIn(-1f, 1f) * 50 + 50).toInt()
+        content.seekMorph.progress = (preset.morph.coerceIn(0f, 3f) * 100).toInt()
+        content.tvMorphVal.text = String.format(java.util.Locale.US, "%.2f", preset.morph)
         
         unisonCount = preset.unisonCount
         unisonDetune = preset.unisonDetune

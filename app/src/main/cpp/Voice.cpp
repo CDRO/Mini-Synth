@@ -2,6 +2,10 @@
 #include <cmath>
 #include <algorithm>
 
+#ifndef PI_F
+#define PI_F 3.1415926535f
+#endif
+
 static double midiToFreq(int midiNote) {
     return 440.0 * pow(2.0, (midiNote - 69) / 12.0);
 }
@@ -31,6 +35,12 @@ void Voice::release() {
         mSamplePlayer.stop();
     } else {
         mEnvelope.release();
+    }
+}
+
+void Voice::setWavetable(const float* data, int32_t size) {
+    for (auto& osc : mOscillators) {
+        osc.setWavetable(data, size);
     }
 }
 
@@ -115,6 +125,7 @@ void Voice::nextSample(float& left, float& right) {
 
             double freq = baseFreq * pow(2.0, (totalPitchShift + (detune / 100.0)) / 12.0);
             mOscillators[i].setFrequency(freq);
+            mOscillators[i].setMorph(mMorph);
 
             float s = mOscillators[i].nextSample();
 
