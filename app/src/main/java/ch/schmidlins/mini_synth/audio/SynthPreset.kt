@@ -19,6 +19,7 @@ data class SynthPreset(
     val filterResonance: Float = 0.2f,
     val panning: Float = 0.0f,
     val morph: Float = 0.0f,
+    val phaseDistortion: Float = 0.0f,
     val unisonCount: Int = 1,
     val unisonDetune: Float = 0.0f,
     val sequencerStepDivision: Float = 0.25f,

@@ -36,6 +36,7 @@ bool ProjectManager::saveProject(const std::string& directory,
     j["engine"]["unisonDetune"] = params.unisonDetune;
     j["engine"]["unisonSpread"] = params.unisonSpread;
     j["engine"]["morph"] = params.morph;
+    j["engine"]["phaseDistortion"] = params.phaseDistortion;
 
     // Sequencer
     j["sequencer"]["stepDivision"] = sequencer.getStepDivision();
@@ -115,6 +116,9 @@ bool ProjectManager::loadProject(const std::string& directory,
 
     if (e.contains("morph")) outParams.morph = e["morph"];
     else outParams.morph = 0.0f;
+
+    if (e.contains("phaseDistortion")) outParams.phaseDistortion = e["phaseDistortion"];
+    else outParams.phaseDistortion = 0.0f;
 
     // Sequencer
     outSequencer.clear();
