@@ -7,12 +7,11 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: github-pages-${{ github.ref }}
+  group: github-release-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
   contents: write
-  pages: write
   id-token: write
 
 jobs:
@@ -43,7 +42,7 @@ jobs:
   
 
   test:
-    needs: [changes, pages]
+    needs: [changes]
     if: ${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)) && needs.changes.outputs.app_changed == 'true' }}
     runs-on: ubuntu-latest
     steps:
