@@ -101,6 +101,7 @@
     <string name="help_sequencer_length">Loop Length: Set the total number of steps in the sequence (8 to 64).</string>
     <string name="help_pads_fullscreen">Toggle Fullscreen Pads: Hides the header and parameter panel to focus on performance.</string>
     <string name="help_keyboard_hidden">Toggle Keyboard Visibility: Hide the piano keys to maximize workspace space.</string>
+    <string name="help_config_toggle">Config Toggle: Hides all parameter sliders to maximize space for performance pads.</string>
 
     <!-- Toasts and Dialogs -->
     <string name="toast_discovery_active">Discovery Mode Active. Click any control for info.</string>

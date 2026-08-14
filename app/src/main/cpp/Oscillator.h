@@ -11,7 +11,8 @@ enum class Waveform {
     Saw,
     Triangle,
     Morph,
-    Wavetable
+    Wavetable,
+    Random
 };
 
 class Oscillator {

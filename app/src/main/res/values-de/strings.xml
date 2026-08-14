@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Mini-Synth</string>
-
-    <!-- Header -->
     <string name="header_metronome">MET</string>
     <string name="header_bpm_format">BPM: %d</string>
     <string name="header_demo">DEMO</string>
@@ -9,37 +7,84 @@
     <string name="header_latency_format">LATENZ: %1$d (%2$d)</string>
     <string name="header_auto">AUTO</string>
     <string name="header_manual">MAN</string>
-    <string name="header_help">&#063;</string>
-    <string name="generic_on">EIN</string>
-    <string name="generic_off">AUS</string>
 
-    <!-- Sequencer -->
-    <string name="sequencer_title">SEQUENZER</string>
-    <string name="sequencer_save_short">SPCH</string>
-    <string name="sequencer_save_long">Muster speichern</string>
-    <string name="sequencer_load_short">LADEN</string>
-    <string name="sequencer_load_long">Muster laden</string>
-    <string name="sequencer_clear_short">LÖSCH</string>
-    <string name="sequencer_clear_long">Sequenz löschen</string>
-    <string name="sequencer_export_short">EXP</string>
-    <string name="sequencer_export_long">Sequenz exportieren</string>
-    <string name="sequencer_sampling_off">SMP AUS</string>
-    <string name="sequencer_sampling_on">SMP EIN</string>
-    <string name="sequencer_step_off">STP AUS</string>
-    <string name="sequencer_step_on">STP EIN</string>
+    <string name="help_mode_toggle">Wechseln Sie zwischen einer 13-Tasten-Tastatur und einem Raster aus anpassbaren Pads.</string>
+    <string name="help_polyphony">Polyphonie umschalten. EIN erlaubt das Spielen mehrerer Noten. AUS begrenzt auf eine Note (Monophon).</string>
+    <string name="help_record_session">Nehmen Sie Ihre Sitzung direkt als MP3-Datei auf Ihrem Gerät auf.</string>
+    <string name="help_mock_play">Test-Wiedergabestatus umschalten (nur visuell im Mock-Modus).</string>
+    <string name="help_waveform_sine">Wählen Sie die Basisschwinger-Wellenform: Sinus, Rechteck, Sägezahn oder Dreieck.</string>
+    <string name="help_octave_down">Verschieben Sie den Tastaturbereich um eine Oktave nach unten.</string>
+    <string name="help_octave_up">Verschieben Sie den Tastaturbereich um eine Oktave nach oben.</string>
+    <string name="help_master_volume">Passen Sie die Gesamtausgabelautstärke und das Master-Panning an.</string>
+    <string name="help_projects">Projekt-Browser: Verwalten Sie Ihre Musikprojekte (Speichern, Laden, Erstellen). Räumliche Daten bleiben erhalten.</string>
+    <string name="help_zen_mode">Der Zen-Modus blendet die komplexen Parameterregler aus, um sich auf den Performance-Bereich zu konzentrieren.</string>
+    <string name="help_browser_toggle">Schalten Sie den Sample-Browser um, um Werks- oder aufgenommene Sounds auf Pads zu laden.</string>
+    <string name="help_sample_item_format">Sample: %s. Klicken Sie, um in den Mapping-Modus zu gelangen, und berühren Sie dann ein Pad zum Zuweisen.</string>
+    <string name="help_cols_down">Pad-Raster: Verringern Sie die Anzahl der Spalten (vertikale Teiler).</string>
+    <string name="help_cols_up">Pad-Raster: Erhöhen Sie die Anzahl der Spalten (vertikale Teiler).</string>
+    <string name="help_rows_down">Pad-Raster: Verringern Sie die Anzahl der Zeilen (horizontale Teiler).</string>
+    <string name="help_rows_up">Pad-Raster: Erhöhen Sie die Anzahl der Zeilen (horizontale Teiler).</string>
+    <string name="help_bank_prev">Zum vorherigen Pad-Bank wechseln.</string>
+    <string name="help_bank_next">Zum nächsten Pad-Bank wechseln.</string>
+    <string name="help_sequencer_play">Starten oder Stoppen der MIDI-Sequenzer-Loop-Wiedergabe.</string>
+    <string name="help_sequencer_rec">Echtzeit-Aufnahme aktivieren. Erfassen Sie Ihre Tastatur-Performance automatisch im Loop.</string>
+    <string name="help_pad_sampling">Pad-Sampling aktivieren. Erfassen Sie den Engine-Ausgang direkt auf ein Pad, indem Sie es berühren.</string>
+    <string name="help_step_rec">Schritt-Aufnahme: Noten einzeln eingeben. Jeder Tastendruck springt zum nächsten Schritt.</string>
+    <string name="help_step_rest">Den aktuellen Schritt überspringen, ohne eine Note hinzuzufügen (Pause).</string>
+    <string name="help_step_back">Zum vorherigen Schritt zurückkehren und ihn löschen.</string>
+    <string name="help_sequencer_clear">Alle Noten aus dem Sequenzer-Raster löschen.</string>
+    <string name="help_sequencer_export">Sequenz exportieren: Rendert das aktuelle Muster in eine hochwertige WAV-Datei zum Teilen.</string>
+    <string name="help_step_toggle_format">Note bei Schritt %d umschalten.</string>
+    <string name="help_metronome">Metronom umschalten. Als Klick zu hören, synchronisiert mit den BPM.</string>
+    <string name="help_save_preset">Speichern Sie die aktuellen Synthesizer-Parameter (OSC, ADSR, LFO, Filter) als benanntes Preset.</string>
+    <string name="help_load_preset">Laden Sie ein zuvor gespeichertes Synthesizer-Preset.</string>
+    <string name="help_sequencer_options">Sequenzer-Optionen: Zugriff auf SPEICHERN, LADEN, EXP und Quantisierungseinstellungen.</string>
+    <string name="help_pad_config_toggle">Pad-Edit-Modus: Wenn EIN, öffnet das Berühren eines Pads sofort dessen Konfiguration. Wenn AUS, können Sie Pad-Noten durch Halten halten.</string>
+    <string name="help_lfo_rate">LFO-Rate: Geschwindigkeit der Oszillation (0,1 Hz bis 20 Hz). Skalierung beeinflusst auch die LFO-Tiefe.</string>
+    <string name="help_lfo_depth">LFO-Tiefe: Intensität des Modulationseffekts.</string>
+    <string name="help_lfo_waveform">LFO-Wellenform: Wählen Sie die Form des Modulationsoszillators.</string>
+    <string name="help_lfo_target">LFO-Ziel: Der vom LFO modulierte Parameter.</string>
+    <string name="help_at_target">Aftertouch-Ziel: Der durch Tastendruck modulierte Parameter.</string>
+    <string name="help_attack">Attack: Zeit, die der Sound benötigt, um nach dem Auslösen die Spitzenlautstärke zu erreichen.</string>
+    <string name="help_decay">Decay: Zeit, die benötigt wird, um von der Spitze auf den Sustain-Pegel abzufallen.</string>
+    <string name="help_sustain">Sustain: Der konstante Lautstärkepegel, während eine Taste gehalten wird.</string>
+    <string name="help_release">Release: Zeit, die der Sound benötigt, um nach dem Loslassen der Taste zu verstummen.</string>
+    <string name="help_filter_cutoff">Cutoff: Frequenz, oberhalb derer Klänge gedämpft werden. Resonanz fügt eine Verstärkung am Cutoff-Punkt hinzu.</string>
+    <string name="help_filter_res">Resonanz: Betont Frequenzen nahe dem Cutoff-Punkt für einen \'quietschenden\' oder \'nassen\' Sound.</string>
+    <string name="help_waveform_morph">Wellenform-Morphing: Nahtloses Überblenden zwischen Sinus-, Dreieck-, Sägezahn- und Rechteckwellen.</string>
+    <string name="help_waveform_wt">Wavetable-Modus: Verwenden Sie komplexe, nicht-geometrische Klangfarben wie Vocal- oder Orgel-Sounds.</string>
+    <string name="help_unison_count">Unisono: Stapeln Sie mehrere Oszillatoren (2x, 4x, 8x) für einen dickeren, reicheren Sound.</string>
+    <string name="help_unison_detune">Detune: Führen Sie kleine Tonhöhenabweichungen zwischen Unisono-Stimmen für einen Chorus-Effekt ein.</string>
+    <string name="help_panning">Panning: Positionieren Sie den Sound im Stereofeld (Links/Mitte/Rechts).</string>
+    <string name="help_delay_time">Delay-Zeit: Das Intervall zwischen den Echos (bis zu 2 Sekunden).</string>
+    <string name="help_delay_feedback">Delay-Feedback: Die Anzahl der sich wiederholenden Echos. Hohe Werte erzeugen einen langen Ausklang.</string>
+    <string name="help_delay_mix">Delay-Mix: Verhältnis zwischen dem trockenen Signal und den Echos.</string>
+    <string name="help_reverb_size">Reverb-Größe: Simuliert die Abmessungen des Raums. Größere Werte erzeugen ein längeres Abklingen.</string>
+    <string name="help_reverb_damping">Reverb-Dämpfung: Reduziert hohe Frequenzen im Ausklang für einen wärmeren, dunkleren Sound.</string>
+    <string name="help_reverb_mix">Reverb-Mix: Verhältnis zwischen dem trockenen Signal und dem Umgebungsrauschen.</string>
+    <string name="help_sequencer_duration">Schrittgröße: Passen Sie die Zeitdauer jedes Sequenzer-Schritts an.</string>
+    <string name="help_sequencer_length">Loop-Länge: Legen Sie die Gesamtzahl der Schritte in der Sequenz fest (8 bis 64).</string>
+    <string name="help_pads_fullscreen">Vollbild-Pads umschalten: Blendet den Header und das Parameter-Panel aus, um sich auf die Performance zu konzentrieren.</string>
+    <string name="help_keyboard_hidden">Tastatur-Sichtbarkeit umschalten: Blenden Sie die Klaviertasten aus, um den Arbeitsbereich zu maximieren.</string>
+    <string name="help_config_toggle">Konfigurations-Umschalter: Blendet alle Parameterregler aus, um den Platz für Performance-Pads zu maximieren.</string>
 
-    <!-- UI Labels -->
-    <string name="btn_mode_pads">Pads</string>
-    <string name="btn_mode_keys">Tasten</string>
-    <string name="btn_poly_on">Poly: EIN</string>
-    <string name="btn_poly_off">Poly: AUS</string>
-    <string name="label_octave">Okt:</string>
-
-    <!-- Help -->
-    <string name="toast_discovery_active">Hilfemodus aktiv. Klicken Sie auf ein Element.</string>
-    <string name="help_mode_toggle">Wechseln zwischen Keyboard und Pad-Grid.</string>
-    <string name="help_polyphony">Polyphonie umschalten (Mehrstimmig/Monophon).</string>
-    <string name="help_waveform_sine">Wellenform wählen: Sinus, Rechteck, Sägezahn oder Dreieck.</string>
-    <string name="help_waveform_morph">Waveform Morphing: Stufenloses Überblenden der Wellenformen.</string>
-    <string name="help_master_volume">Gesamtlautstärke und Panorama anpassen.</string>
+    <string name="demo_initializing">Demo: Synthesizer-Patch wird initialisiert&#8230;</string>
+    <string name="demo_stage_1">Stufe 1: Dynamische Synthese. Erkundung von Sägezahn-Wellenformen und Resonanzfiltern.</string>
+    <string name="demo_opening_filter">Öffnen des 2-Pol-Resonanz-Tiefpassfilters&#8230;</string>
+    <string name="demo_modulating_pitch">Modulation der Tonhöhe über LFO (Vibrato).</string>
+    <string name="demo_aftertouch_expressive">Aftertouch: Simulation von Druck für expressive Lautstärkeschwankungen.</string>
+    <string name="demo_stage_2">Stufe 2: Multi-Bank-Resampling. Erfassen von 4 verschiedenen Sounds auf P0-P3.</string>
+    <string name="demo_sampling_pad_format">Sound %1$d wird auf Pad %2$d gesampelt&#8230;</string>
+    <string name="demo_workspace_transition">Automatisierter Arbeitsbereichsübergang: Wechsel in den Pad-Modus.</string>
+    <string name="demo_stage_3">Stufe 3: Performance. Erkundung von LFO-Modulation und expressiven Filter-Sweeps.</string>
+    <string name="demo_lfo_modulating">LFO: Automatische Modulation des Filter-Cutoffs.</string>
+    <string name="demo_spatial_wash">Finaler räumlicher Wash mit hochdichtem Reverb.</string>
+    <string name="demo_complete">Demo abgeschlossen. Sie können nun alle diese Funktionen manuell nutzen!</string>
+    <string name="demo_unison_textures">Unisono &amp; Detune: Erstellung dicker, reicher Texturen.</string>
+    <string name="demo_browser_banks">Browser: Laden von Samples und Verwalten von Soundbänken.</string>
+    <string name="demo_zen_mode">Zen-Modus: Ausblenden der Parameterregler zur Konzentration.</string>
+    <string name="demo_sequencer_masterclass">Sequenzer-Masterclass: Erstellen und Aufnehmen von Loops&#8230;</string>
+    <string name="demo_sequencer_manual">Schritt 1: Manuelles Editieren. Schalten Sie Schritte im Raster um, um ein Muster zu erstellen.</string>
+    <string name="demo_sequencer_recording">Schritt 2: Echtzeit-Aufnahme. Ihre Tastatur-Performance wird sofort erfasst.</string>
+    <string name="demo_sequencer_play_along">Jetzt spielen wir zu unserer aufgenommenen Sequenz!</string>
 </resources>

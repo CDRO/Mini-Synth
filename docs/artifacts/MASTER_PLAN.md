@@ -25,22 +25,23 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ## Milestone 39: Stereo Engine & Spatial Routing [DONE]
 ## Milestone 40: Unison & Voice Layering [DONE]
-
----
-
 ## Milestone 41: Waveform Morphing & Signed Releases [DONE]
 
-### [Logic] [Synthesis]
-- **Waveform Morphing**: Continuous blending between basic waveforms.
-- **Wavetable Engine**: 2048-sample interpolation engine for complex timbres.
+---
 
-### [CI/CD] [Delivery]
-- **Signed Releases**: Automated production APK signing and release on GitHub.
-- **Documentation**: Professional `README.md` and `CONTRIBUTING.md`.
+## Milestone 42: Help Coverage & Global Localization [DONE]
+
+### [UI] [Help]
+- **100% Coverage**: Verified help labels for every knob, button, and slider in the app.
+- **Discovery Mode**: Integrated localized help toasts across all synthesis and effects modules.
+
+### [UI] [Localization]
+- **Multi-Language**: Infrastructure and baseline translations for 30+ European and East Asian locales.
+- **Auto-Selection**: Automated language switching based on device system settings.
 
 ---
 
-## Milestone 42: LFO Expansion & Phase Distortion [TODO]
+## Milestone 43: LFO Expansion & Phase Distortion [TODO]
 
 ### [Logic] [Synthesis]
 - **Phase Distortion**: Casio CZ-style timbre shaping.

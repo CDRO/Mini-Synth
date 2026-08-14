@@ -1,5 +1,6 @@
 #include "Lfo.h"
 #include <algorithm>
+#include <cstdlib>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -49,11 +50,19 @@ float Lfo::nextValue() {
         case Waveform::Triangle:
             result = 2.0f * fabsf((phaseFloat / PI_F) - 1.0f) - 1.0f;
             break;
+        case Waveform::Random:
+            result = mRandomValue;
+            break;
+        default:
+            result = 0.0f;
     }
 
     mPhase += mPhaseIncrement;
     if (mPhase >= static_cast<double>(TWO_PI_F)) {
         mPhase -= static_cast<double>(TWO_PI_F);
+        if (mWaveform == Waveform::Random) {
+            mRandomValue = ((static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) * 2.0f) - 1.0f;
+        }
     }
 
     return result * mDepth;

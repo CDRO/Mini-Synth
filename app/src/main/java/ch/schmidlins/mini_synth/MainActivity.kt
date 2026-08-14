@@ -545,7 +545,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         content.toggleConfig.setOnCheckedChangeListener { _, isChecked ->
-            if (isHelpMode) { showHelp("Config Toggle: Hides all parameter sliders to maximize space for performance pads."); return@setOnCheckedChangeListener }
+            if (isHelpMode) { showHelp(getString(R.string.help_config_toggle)); return@setOnCheckedChangeListener }
             content.configWorkspace.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
 
