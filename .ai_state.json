@@ -9,10 +9,10 @@
     "milestones_folder_path": "docs/artifacts/milestones"
   },
   "current_state": {
-    "active_milestone_file": "40_Unison_Layering",
-    "current_step": "Finalization",
-    "loop_iteration": 10,
-    "last_action_completed": "Finalized Milestone 40: Unison & Voice Layering.",
-    "next_immediate_action": "Commence Milestone 41: Waveform Morphing & Wavetables."
+    "active_milestone_file": "41_Morph_Signed_Releases",
+    "current_step": "Initialization",
+    "loop_iteration": 0,
+    "last_action_completed": "Initialized Milestone 41: Waveform Morphing & Signed Releases.",
+    "next_immediate_action": "Review loop 1/10: Update Oscillator to support waveform blending logic."
   }
 }
