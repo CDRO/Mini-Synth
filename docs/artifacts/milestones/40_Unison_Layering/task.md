@@ -6,15 +6,15 @@
     - `[ ]` Create Pull Request.
     - `[ ]` Build baseline status.
 - `[ ]` Review & Repair Loop (1-10)
-    - `[ ]` 1/10: Update `Voice` class to support multiple oscillators.
-    - `[ ]` 2/10: Implement pitch detuning logic for unison voices.
-    - `[ ]` 3/10: Implement stereo spreading for unison voices.
-    - `[ ]` 4/10: Expose Unison parameters to JNI.
-    - `[ ]` 5/10: Add Unison and Detune controls to the UI.
-    - `[ ]` 6/10: Update Preset and Project persistence for Unison.
-    - `[ ]` 7/10: Optimize oscillator sum normalization.
-    - `[ ]` 8/10: Test high polyphony + high unison CPU load.
-    - `[ ]` 9/10: Update educational demo to showcase Unison.
+    - `[x]` 1/10: Update `Voice` class to support multiple oscillators.
+    - `[x]` 2/10: Implement pitch detuning logic for unison voices.
+    - `[x]` 3/10: Implement stereo spreading for unison voices.
+    - `[x]` 4/10: Expose Unison parameters to JNI.
+    - `[x]` 5/10: Add Unison and Detune controls to the UI.
+    - `[x]` 6/10: Update Preset and Project persistence for Unison.
+    - `[x]` 7/10: Optimize oscillator sum normalization.
+    - `[x]` 8/10: Test high polyphony + high unison CPU load.
+    - `[/]` 9/10: Update educational demo to showcase Unison.
     - `[ ]` 10/10: Final polish and documentation.
 - `[ ]` Finalize
     - `[ ]` Run full test suite.

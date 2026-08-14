@@ -700,7 +700,7 @@ class MainActivity : AppCompatActivity() {
                 synthManager.setPanning(0f)
                 
                 delay(1500)
-                showDemoToast("Zen Mode: Hiding parameter controls to focus.")
+                showDemoToast(getString(R.string.demo_zen_mode))
                 runOnUiThread { 
                     binding.appBarMain.contentMain.toggleZenMode.isChecked = true 
                     binding.appBarMain.contentMain.parameterContainer.visibility = View.GONE
@@ -711,11 +711,26 @@ class MainActivity : AppCompatActivity() {
                 }
                 
                 delay(1000)
-                showDemoToast("Browser: Loading samples and managing sound banks.")
+                showDemoToast(getString(R.string.demo_browser_banks))
                 runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = true }
                 delay(2000)
                 runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = false }
 
+                delay(1000)
+                showDemoToast(getString(R.string.demo_unison_textures))
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.spinnerUnison.setSelection(2) // 4x Unison
+                    binding.appBarMain.contentMain.seekDetune.progress = 25
+                    binding.appBarMain.contentMain.tvDetuneVal.text = "25"
+                }
+                synthManager.setUnison(4, 25f, 1.0f)
+                
+                synthManager.noteOn(60, 0.8f)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true)
+                delay(2000)
+                synthManager.noteOff(60)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
+                
                 if (!isDemoPlaying) return@launch
 
                 // Stage 2: Multi-Bank Sampling
@@ -763,7 +778,7 @@ class MainActivity : AppCompatActivity() {
                 synthManager.setPanning(0f)
                 
                 delay(1500)
-                showDemoToast("Zen Mode: Hiding parameter controls to focus.")
+                showDemoToast(getString(R.string.demo_zen_mode))
                 runOnUiThread { 
                     binding.appBarMain.contentMain.toggleZenMode.isChecked = true 
                     binding.appBarMain.contentMain.parameterContainer.visibility = View.GONE
@@ -774,11 +789,26 @@ class MainActivity : AppCompatActivity() {
                 }
                 
                 delay(1000)
-                showDemoToast("Browser: Loading samples and managing sound banks.")
+                showDemoToast(getString(R.string.demo_browser_banks))
                 runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = true }
                 delay(2000)
                 runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = false }
 
+                delay(1000)
+                showDemoToast(getString(R.string.demo_unison_textures))
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.spinnerUnison.setSelection(2) // 4x Unison
+                    binding.appBarMain.contentMain.seekDetune.progress = 25
+                    binding.appBarMain.contentMain.tvDetuneVal.text = "25"
+                }
+                synthManager.setUnison(4, 25f, 1.0f)
+                
+                synthManager.noteOn(60, 0.8f)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true)
+                delay(2000)
+                synthManager.noteOff(60)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
+                
                 if (!isDemoPlaying) return@launch
 
                 delay(1000)
@@ -899,7 +929,7 @@ class MainActivity : AppCompatActivity() {
                 synthManager.setPanning(0f)
                 
                 delay(1500)
-                showDemoToast("Zen Mode: Hiding parameter controls to focus.")
+                showDemoToast(getString(R.string.demo_zen_mode))
                 runOnUiThread { 
                     binding.appBarMain.contentMain.toggleZenMode.isChecked = true 
                     binding.appBarMain.contentMain.parameterContainer.visibility = View.GONE
@@ -910,11 +940,26 @@ class MainActivity : AppCompatActivity() {
                 }
                 
                 delay(1000)
-                showDemoToast("Browser: Loading samples and managing sound banks.")
+                showDemoToast(getString(R.string.demo_browser_banks))
                 runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = true }
                 delay(2000)
                 runOnUiThread { binding.appBarMain.contentMain.toggleBrowser.isChecked = false }
 
+                delay(1000)
+                showDemoToast(getString(R.string.demo_unison_textures))
+                runOnUiThread { 
+                    binding.appBarMain.contentMain.spinnerUnison.setSelection(2) // 4x Unison
+                    binding.appBarMain.contentMain.seekDetune.progress = 25
+                    binding.appBarMain.contentMain.tvDetuneVal.text = "25"
+                }
+                synthManager.setUnison(4, 25f, 1.0f)
+                
+                synthManager.noteOn(60, 0.8f)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, true)
+                delay(2000)
+                synthManager.noteOff(60)
+                binding.appBarMain.contentMain.keyboardPadView.setNoteBacklight(60, KeyboardPadView.Backlight.PLAY, false)
+                
                 if (!isDemoPlaying) return@launch
                 
                 showDemoToast(getString(R.string.demo_spatial_wash))
