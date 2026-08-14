@@ -4,8 +4,6 @@ on:
     branches:
       - main
   workflow_dispatch:
-    - main
-    - version/[0-9][0-9]-release
 
 concurrency:
   group: github-pages-${{ github.ref }}
