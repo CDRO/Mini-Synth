@@ -16,7 +16,7 @@ class VisualizerView @JvmOverloads constructor(
 
     private val paint = Paint().apply {
         color = ContextCompat.getColor(context, R.color.acid_green)
-        strokeWidth = 4f
+        strokeWidth = 3f
         style = Paint.Style.STROKE
         isAntiAlias = true
     }
@@ -41,7 +41,13 @@ class VisualizerView @JvmOverloads constructor(
     }
     private val dividerPaint = Paint().apply {
         color = ContextCompat.getColor(context, R.color.border_dim)
-        strokeWidth = 2f
+        strokeWidth = 1f
+        style = Paint.Style.STROKE
+    }
+
+    private val gridPaint = Paint().apply {
+        color = ContextCompat.getColor(context, R.color.border_dim)
+        strokeWidth = 0.5f
         style = Paint.Style.STROKE
     }
 
@@ -72,6 +78,16 @@ class VisualizerView @JvmOverloads constructor(
         super.onDraw(canvas)
         
         val manager = synthManager ?: return
+
+        // Draw Background Grid
+        val w = width.toFloat()
+        val h = height.toFloat()
+        for (i in 1..3) {
+            val x = i * w / 4f
+            canvas.drawLine(x, 0f, x, h, gridPaint)
+        }
+        canvas.drawLine(0f, h / 4f, w, h / 4f, gridPaint)
+        canvas.drawLine(0f, 3 * h / 4f, w, 3 * h / 4f, gridPaint)
         
         // Draw Waveform (Top Half)
         val count = manager.getVisualizerData(buffer)
