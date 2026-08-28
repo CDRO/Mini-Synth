@@ -1,0 +1,22 @@
+# Tasks: Milestone 47 - Virtual Device Performance & UI Polish
+
+- `[/]` Setup Refinement Infrastructure
+    - `[x]` Create GitHub Milestone & Issue.
+    - `[x]` Create local branch `feature/m47-avd-polish`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline status.
+- `[ ]` Review & Repair Loop (1-10)
+    - `[ ]` 1/10: Analyze emulator audio output and implement AVD-specific buffer tuning in `AudioEngine`.
+    - `[ ]` 2/10: Optimize native audio thread CPU usage for better performance on virtual CPUs.
+    - `[ ]` 3/10: Resolve Playmode button and BPM display overlap in `content_main.xml`.
+    - `[ ]` 4/10: Fix Bank Select and Hide Keyboard button overlap in `content_main.xml`.
+    - `[ ]` 5/10: Verify layout stability on different AVD device configurations (Phone/Tablet).
+    - `[ ]` 6/10: Implement additional visual safety margins for floating buttons.
+    - `[ ]` 7/10: Audit Discovery Mode labels for the newly positioned elements.
+    - `[ ]` 8/10: Stress test emulated audio with maximum polyphony and effects.
+    - `[ ]` 9/10: Finalize localized strings for any UI changes.
+    - `[ ]` 10/10: Final polish, automated tests, and documentation.
+- `[ ]` Finalize
+    - `[ ]` Run full test suite.
+    - `[ ]` Squash and Merge.
+    - `[ ]` Cleanup local and remote branches.
