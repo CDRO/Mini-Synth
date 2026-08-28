@@ -28,11 +28,15 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 46: Phase Distortion Refinement [TODO]
+## Milestone 46: Phase Distortion Refinement [DONE]
 
 ### [Logic] [Optimization]
-- **Math**: Optimize PD mapping with lookup tables or SIMD.
-- **Visuals**: Add a "Warped Phase" visualization to the top header.
+- **Performance**: Sine LUT optimization for phase warping.
+- **Visuals**: Live Phase Distortion transfer function visualizer.
+
+---
+
+## Milestone 47: Virtual Device Audio & Performance [TODO]
 
 ---
 
