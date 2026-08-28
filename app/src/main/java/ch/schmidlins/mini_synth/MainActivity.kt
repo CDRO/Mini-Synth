@@ -339,6 +339,7 @@ class MainActivity : AppCompatActivity() {
                 if (isHelpMode && fromUser) { showHelp(getString(R.string.help_phase_distortion)); return }
                 val pd = progress / 100f
                 synthManager.setPhaseDistortion(pd)
+                content.topHeader.pdVisualizerView.setPhaseDistortion(pd)
                 content.tvPdVal.text = "$progress%"
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -1851,6 +1852,7 @@ class MainActivity : AppCompatActivity() {
         content.tvMorphVal.text = String.format(java.util.Locale.US, "%.2f", preset.morph)
         content.seekPd.progress = (preset.phaseDistortion.coerceIn(0f, 1f) * 100).toInt()
         content.tvPdVal.text = "${(preset.phaseDistortion * 100).toInt()}%"
+        content.topHeader.pdVisualizerView.setPhaseDistortion(preset.phaseDistortion)
         
         unisonCount = preset.unisonCount
         unisonDetune = preset.unisonDetune
@@ -2163,6 +2165,7 @@ class MainActivity : AppCompatActivity() {
         val cutoffFreq = (20.0 * Math.pow(1000.0, content.seekFilterCutoff!!.progress / 100.0)).toFloat()
         synthManager.setFilterCutoff(cutoffFreq)
         synthManager.setFilterResonance(content.seekFilterRes!!.progress / 100f)
+        content.topHeader.pdVisualizerView.setPhaseDistortion(content.seekPd.progress / 100f)
         updateLabels(content)
         updateLatencyStatus()
         val index = when (content.toggleWaveform!!.checkedButtonId) {
