@@ -111,7 +111,7 @@
             android:layout_height="match_parent"
             android:fadeScrollbars="false"
             android:scrollbarStyle="outsideOverlay"
-            android:paddingBottom="16dp"
+            android:paddingBottom="64dp"
             android:clipToPadding="false">
 
             <LinearLayout
@@ -245,6 +245,22 @@
                         android:textOff="EDIT OFF"
                         android:textOn="EDIT ON"
                         android:textColor="@color/vibrant_red"
+                        android:textSize="10sp"
+                        android:visibility="gone"
+                        android:background="@drawable/selector_toggle_bg" />
+
+                    <Space
+                        android:layout_width="8dp"
+                        android:layout_height="match_parent" />
+
+                    <ToggleButton
+                        android:id="@+id/toggle_pads_fullscreen"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:textOff="@string/btn_play_mode_off"
+                        android:textOn="@string/btn_play_mode_on"
+                        android:textColor="@color/acid_green"
                         android:textSize="10sp"
                         android:visibility="gone"
                         android:background="@drawable/selector_toggle_bg" />
@@ -1375,26 +1391,13 @@
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="@dimen/button_height_standard"
         android:layout_height="@dimen/button_height_standard"
-        android:layout_margin="@dimen/spacing_small"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:textOff="▼"
         android:textOn="▲"
         android:textColor="@color/acid_green"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/keyboard_pad_scroll_view"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <ToggleButton
-        android:id="@+id/toggle_pads_fullscreen"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/button_height_standard"
-        android:layout_margin="@dimen/spacing_medium"
-        android:textOff="@string/btn_play_mode_off"
-        android:textOn="@string/btn_play_mode_on"
-        android:textColor="@color/acid_green"
-        android:textSize="12sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

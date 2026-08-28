@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Reverb-Mix: Verhältnis zwischen dem trockenen Signal und dem Umgebungsrauschen.</string>
     <string name="help_sequencer_duration">Schrittgröße: Passen Sie die Zeitdauer jedes Sequenzer-Schritts an.</string>
     <string name="help_sequencer_length">Loop-Länge: Legen Sie die Gesamtzahl der Schritte in der Sequenz fest (8 bis 64).</string>
-    <string name="help_pads_fullscreen">Vollbild-Pads umschalten: Blendet den Header und das Parameter-Panel aus, um sich auf die Performance zu konzentrieren.</string>
+    <string name="help_pads_fullscreen">Spielmodus (Vollbild): Blendet den Header und die Parameter-Panels aus, um sich ausschließlich auf die Performance-Pads zu konzentrieren.</string>
     <string name="help_keyboard_hidden">Tastatur-Sichtbarkeit umschalten: Blenden Sie die Klaviertasten aus, um den Arbeitsbereich zu maximieren.</string>
     <string name="help_config_toggle">Konfigurations-Umschalter: Blendet alle Parameterregler aus, um den Platz für Performance-Pads zu maximieren.</string>
     <string name="help_phase_distortion">Phasenverzerrung: Verformt die Phasenlinie des Oszillators, um reiche Harmonische zu erzeugen.</string>

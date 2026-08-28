@@ -17,6 +17,7 @@ private:
     float mSampleRate = 48000.0f;
     float mCutoff = 1000.0f;
     float mResonance = 0.5f;
+    bool mParamsDirty = true;
 
     // Filter coefficients
     float f = 0.0f;

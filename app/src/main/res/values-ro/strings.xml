@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Mix Reverb: Echilibrul între semnalul sec și ambient.</string>
     <string name="help_sequencer_duration">Dimensiune Pas: Reglați durata temporală a fiecărui pas al secvențiatorului.</string>
     <string name="help_sequencer_length">Lungime Buclă: Setați numărul total de pași din secvență (8 până la 64).</string>
-    <string name="help_pads_fullscreen">Comutați Pad-uri pe Tot Ecranul: Ascunde antetul și panoul de parametri pentru a vă concentra pe performanță.</string>
+    <string name="help_pads_fullscreen">Mod redare (ecran complet): Ascunde antetul și panourile de parametri pentru a vă concentra exclusiv pe pad-urile de performanță.</string>
     <string name="help_keyboard_hidden">Comutați Vizibilitatea Tastaturii: Ascundeți tastele pianului pentru a maximiza spațiul de lucru.</string>
     <string name="help_config_toggle">Comutare configurare: Ascunde toate glisoarele de parametri pentru a maximiza spațiul pentru pad-urile de performanță.</string>
     <string name="help_phase_distortion">Distorsiune de fază: Deformează linia de fază a oscilatorului pentru a crea armonici bogate.</string>

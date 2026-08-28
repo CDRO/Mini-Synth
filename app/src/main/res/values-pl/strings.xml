@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Mix pogłosu: Równowaga między sygnałem suchym a pogłosem otoczenia.</string>
     <string name="help_sequencer_duration">Rozmiar kroku: Dostosuj czas trwania każdego kroku sekwensera.</string>
     <string name="help_sequencer_length">Długość pętli: Ustaw całkowitą liczbę kroków w sekwencji (od 8 do 64).</string>
-    <string name="help_pads_fullscreen">Przełącz pady na pełny ekran: Ukrywa nagłówek i panel parametrów, aby skupić się na występie.</string>
+    <string name="help_pads_fullscreen">Tryb odtwarzania (pełny ekran): ukrywa nagłówek i panele parametrów, aby skupić się wyłącznie na padach wydajnościowych.</string>
     <string name="help_keyboard_hidden">Przełącz widoczność klawiatury: Ukryj klawisze pianina, aby maksymalnie zwiększyć przestrzeń roboczą.</string>
     <string name="help_config_toggle">Przełącznik konfiguracji: ukrywa wszystkie suwaki parametrów, aby zmaksymalizować miejsce na pady wydajności.</string>
     <string name="help_phase_distortion">Zniekształcenie fazowe: Zniekształca linię fazową oscylatora, tworząc bogate harmoniczne.</string>

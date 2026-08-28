@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Reverb Mix: Rovnováha mezi suchým signálem a okolním prostředím. </string>
     <string name="help_sequencer_duration">Velikost kroku: Nastavení časové délky každého kroku sekvenceru.</string>
     <string name="help_sequencer_length">Délka smyčky: Nastavte celkový počet kroků v sekvenci (8 až 64).</string>
-    <string name="help_pads_fullscreen">Přepnout pady na celou obrazovku: Skryje záhlaví a panel parametrů pro soustředění na výkon.</string>
+    <string name="help_pads_fullscreen">Režim přehrávání (celá obrazovka): Skryje záhlaví a panely parametrů, abyste se mohli soustředit výhradně na výkonnostní pady.</string>
     <string name="help_keyboard_hidden">Přepnout viditelnost klávesnice: Skryje klávesy klavíru pro maximalizaci pracovního prostoru.</string>
     <string name="help_config_toggle">Přepínač konfigurace: Skryje všechny posuvníky parametrů pro maximalizaci prostoru pro výkonnostní pady.</string>
     <string name="help_phase_distortion">Fázové zkreslení: Deformuje fázovou linku oscilátoru pro vytvoření bohatých harmonik.</string>

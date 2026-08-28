@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">리버브 믹스: 드라이 신호와 앰비언트 워시 사이의 균형.</string>
     <string name="help_sequencer_duration">스텝 크기: 각 시퀀서 스텝의 시간 지속 길이를 조절합니다.</string>
     <string name="help_sequencer_length">루프 길이: 시퀀스의 총 스텝 수를 설정합니다(8 ~ 64).</string>
-    <string name="help_pads_fullscreen">전체 화면 패드 전환: 연주에 집중하기 위해 헤더와 파라미터 패널을 숨깁니다.</string>
+    <string name="help_pads_fullscreen">재생 모드(전체 화면): 연주 패드에만 집중할 수 있도록 헤더와 파라미터 패널을 숨깁니다.</string>
     <string name="help_keyboard_hidden">키보드 가시성 전환: 작업 공간을 최대화하기 위해 피아노 키를 숨깁니다.</string>
     <string name="help_config_toggle">구성 토글: 성능 패드 공간을 최대화하기 위해 모든 매개변수 슬라이더를 숨깁니다.</string>
     <string name="help_phase_distortion">위상 왜곡: 오실레이터 위상 라인을 왜곡하여 풍부한 하모닉스를 생성합니다.</string>

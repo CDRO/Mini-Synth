@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Mix Riverbero: Bilanciamento tra il segnale asciutto e l\'ambiente.</string>
     <string name="help_sequencer_duration">Dimensione Step: Regola la durata temporale di ogni step del sequencer.</string>
     <string name="help_sequencer_length">Lunghezza Loop: Imposta il numero totale di step nella sequenza (da 8 a 64).</string>
-    <string name="help_pads_fullscreen">Attiva/Disattiva Pad a Schermo Intero: Nasconde l\'intestazione e il pannello dei parametri per concentrarsi sulla performance.</string>
+    <string name="help_pads_fullscreen">Modalità riproduzione (schermo intero): nasconde l\'intestazione e i pannelli dei parametri per concentrasi esclusivamente sui pad per le performance.</string>
     <string name="help_keyboard_hidden">Attiva/Disattiva Visibilità Tastiera: Nasconde i tasti del pianoforte per massimizzare lo spazio di lavoro.</string>
     <string name="help_config_toggle">Attivazione/disattivazione configurazione: nasconde tutti i cursori dei parametri per massimizzare lo spazio per i pad per le performance.</string>
     <string name="help_phase_distortion">Distorsione di fase: Deforma la linea di fase dell\'oscillatore per creare ricche armoniche.</string>

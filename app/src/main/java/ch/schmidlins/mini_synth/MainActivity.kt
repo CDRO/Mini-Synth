@@ -465,12 +465,12 @@ class MainActivity : AppCompatActivity() {
         content.keyboardPadView.visibility = if (kbVisible) View.VISIBLE else View.GONE
         
         set.setVisibility(toggleKbId, if (isHelpMode) View.GONE else View.VISIBLE)
-        set.setVisibility(fullToggleId, if (isPadMode) View.VISIBLE else View.GONE)
+        content.togglePadsFullscreen.visibility = if (isPadMode) View.VISIBLE else View.GONE
         
         if (!kbVisible) {
             set.clear(toggleKbId, ConstraintSet.TOP)
             set.clear(toggleKbId, ConstraintSet.BOTTOM)
-            set.connect(toggleKbId, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 16)
+            set.connect(toggleKbId, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 24)
         } else {
             set.clear(toggleKbId, ConstraintSet.BOTTOM)
             set.connect(toggleKbId, ConstraintSet.BOTTOM, keyboardId, ConstraintSet.TOP, 8)

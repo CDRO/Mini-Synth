@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Mix jeke: Ravnoteža između suhog signala i ambijentalnog odjeka. </string>
     <string name="help_sequencer_duration">Veličina koraka: Podesite vremensko trajanje svakog koraka sekvencera.</string>
     <string name="help_sequencer_length">Duljina petlje: Postavite ukupni broj koraka u sekvenci (8 do 64).</string>
-    <string name="help_pads_fullscreen">Uključi/isključi jastučiće preko cijelog zaslona: Skriva zaglavlje i ploču s parametrima radi fokusa na izvedbu.</string>
+    <string name="help_pads_fullscreen">Način reprodukcije (cijeli zaslon): Skriva zaglavlje i ploče s parametrima kako bi se isključivo fokusirao na jastučiće za izvedbu.</string>
     <string name="help_keyboard_hidden">Uključi/isključi vidljivost tipkovnice: Sakrijte tipke klavira kako biste maksimalno povećali radni prostor.</string>
     <string name="help_config_toggle">Prebacivanje konfiguracije: Skriva sve klizače parametara kako bi se maksimizirao prostor za izvedbene padove.</string>
     <string name="help_phase_distortion">Fazna distorzija: Iskrivljuje faznu liniju oscilatora kako bi stvorila bogate harmonike.</string>

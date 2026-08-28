@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Përzierja e Reverb: Ekuilibri midis sinjalit të thatë dhe larjes ambjentale.</string>
     <string name="help_sequencer_duration">Madhësia e Hapit: Rregulloni kohëzgjatjen e çdo hapi të sekuencuesit.</string>
     <string name="help_sequencer_length">Gjatësia e Ciklit: Vendosni numrin total të hapave në sekuencë (8 deri në 64).</string>
-    <string name="help_pads_fullscreen">Ndërroni Pad-et në Ekran të Plotë: Fsheh kokën dhe panelin e parametrave për t\'u fokusuar në performancë.</string>
+    <string name="help_pads_fullscreen">Modaliteti i luajtjes (ekran i plotë): Fsheh kokën dhe panelet e parametrave për t\'u fokusuar ekskluzivisht në pad-et e performancës.</string>
     <string name="help_keyboard_hidden">Ndërroni Vizibilitetin e Tastierës: Fshihni tastet e pianos për të maksimizuar hapësirën e punës.</string>
     <string name="help_config_toggle">Ndërrimi i konfigurimit: Fsheh të gjithë rrëshqitësit e parametrave për të maksimizuar hapësirën për pad-et e performancës.</string>
     <string name="help_phase_distortion">Distorsioni i fazës: Deformon linjën e fazës së oshilatorit për të krijuar harmonikë të pasur.</string>

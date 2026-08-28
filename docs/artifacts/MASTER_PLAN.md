@@ -36,11 +36,12 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 
 ---
 
-## Milestone 47: Virtual Device Audio & Performance [TODO]
+## Milestone 47: Virtual Device Audio & Performance [DONE]
 
 ### [Quality] [Performance]
-- **Analysis**: Diagnose audio output dropouts and latency in Android Virtual Devices (AVD).
-- **Optimization**: Implement a low-overhead audio path and buffer tuning to ensure glitch-free playback in emulated environments.
+- **Stability**: AVD-specific buffer tuning and soft-clipping optimization.
+- **UI Repair**: Fixed Playmode/BPM and Bank/Hide button overlaps.
 
-### [UI] [Fix]
-- **Overlaps**: Fix Playmode/BPM and Bank/Hide button overlapping on various screen sizes.
+---
+
+## Future Features & Roadmap

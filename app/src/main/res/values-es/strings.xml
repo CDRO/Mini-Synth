@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Mezcla de reverberación: Equilibrio entre la señal seca y el ambiente.</string>
     <string name="help_sequencer_duration">Tamaño del paso: Ajusta la duración de cada paso del secuenciador.</string>
     <string name="help_sequencer_length">Longitud del bucle: Establece el número total de pasos en la secuencia (8 a 64).</string>
-    <string name="help_pads_fullscreen">Activar/desactivar pads a pantalla completa: Oculta el encabezado y el panel de parámetros para centrarse en la interpretación.</string>
+    <string name="help_pads_fullscreen">Modo de juego (pantalla completa): oculta los paneles de encabezado y parámetros para centrarse exclusivamente en los pads de interpretación.</string>
     <string name="help_keyboard_hidden">Activar/desactivar visibilidad del teclado: Oculta las teclas del piano para maximizar el espacio de trabajo.</string>
     <string name="help_config_toggle">Interruptor de configuración: oculta todos los controles deslizantes de parámetros para maximizar el espacio para los pads de interpretación.</string>
     <string name="help_phase_distortion">Distorsión de fase: Deforma la línea de fase del oscilador para crear armónicos ricos.</string>

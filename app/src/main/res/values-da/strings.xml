@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Reverb-mix: Balance mellem det tørre signal og den omgivende efterklang.</string>
     <string name="help_sequencer_duration">Stegstørrelse: Juster tidsvarigheden for hvert sequencer-trin.</string>
     <string name="help_sequencer_length">Loop-længde: Indstil det samlede antal trin i sekvensen (8 til 64).</string>
-    <string name="help_pads_fullscreen">Slå helskærms-pads til/fra: Skjuler overskriften og parameterpanelet for at fokusere på performance.</string>
+    <string name="help_pads_fullscreen">Spilletilstand (fuld skærm): Skjuler overskriften og parameterpanelerne for udelukkende at fokusere på performance-pads.</string>
     <string name="help_keyboard_hidden">Slå klaviatur-synlighed til/fra: Skjul pianotasterne for at maksimere arbejdsområdet.</string>
     <string name="help_config_toggle">Konfigurationsskift: Skjuler alle parameterglidere for at maksimere pladsen til performance pads.</string>
     <string name="help_phase_distortion">Fasedistorsion: Vrider oscillatorens faselinje for at skabe rige harmoniske overtoner.</string>

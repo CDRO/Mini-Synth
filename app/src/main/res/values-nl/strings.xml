@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Reverb Mix: Balans tussen het droge signaal en de ambient wash.</string>
     <string name="help_sequencer_duration">Stap Grootte: Pas de tijdsduur van elke sequencer stap aan.</string>
     <string name="help_sequencer_length">Loop Lengte: Stel het totaal aantal stappen in de sequence in (8 tot 64).</string>
-    <string name="help_pads_fullscreen">Schakel Fullscreen Pads in/uit: Verbergt de header en het parameterpaneel om te focussen op performance.</string>
+    <string name="help_pads_fullscreen">Afspeelmodus (volledig scherm): Verbergt de header en parameterpanelen om u uitsluitend op de performance-pads te concentreren.</string>
     <string name="help_keyboard_hidden">Schakel Keyboard Zichtbaarheid in/uit: Verberg de pianotoetsen om de werkruimte te maximaliseren.</string>
     <string name="help_config_toggle">Configuratie-schakelaar: verbergt alle parameter-schuifregelaars om de ruimte voor performance-pads te maximaliseren.</string>
     <string name="help_phase_distortion">Fasedistorsie: Vervormt de faselijn van de oscillator om rijke harmonischen te creëren.</string>
