@@ -72,6 +72,7 @@
     <string name="help_bpm_down_fine">BPMを1下げます。</string>
     <string name="help_bpm_up_fine">BPMを1上げます。</string>
     <string name="help_bpm_up">BPMを5上げます。</string>
+    <string name="help_visualizer">ビジュアライザー：リアルタイムのオーディオスペクトルと波形データを表示します。</string>
 
     <string name="demo_initializing">デモ：シンセパッチを初期化中&#8230;</string>
     <string name="demo_stage_1">ステージ1：ダイナミックシンセシス。のこぎり波とレゾナントフィルターの探索。</string>

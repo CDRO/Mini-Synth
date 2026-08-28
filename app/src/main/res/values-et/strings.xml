@@ -72,6 +72,7 @@
     <string name="help_bpm_down_fine">Vähenda BPM-i 1 võrra.</string>
     <string name="help_bpm_up_fine">Suurenda BPM-i 1 võrra.</string>
     <string name="help_bpm_up">Suurenda BPM-i 5 võrra.</string>
+    <string name="help_visualizer">Visualiseerija: kuvab reaalajas helispektrit ja lainekuju andmeid.</string>
 
     <string name="demo_initializing">Demo: Süntesaatori patchi lähtestamine&#8230;</string>
     <string name="demo_stage_1">1. etapp: Dünaamiline süntees. Saehammas-lainekujude ja resonantsfiltrite uurimine.</string>

@@ -72,6 +72,7 @@
     <string name="help_bpm_down_fine">Scade BPM cu 1.</string>
     <string name="help_bpm_up_fine">Crește BPM cu 1.</string>
     <string name="help_bpm_up">Crește BPM cu 5.</string>
+    <string name="help_visualizer">Vizualizator: Afișează spectrul audio și datele formei de undă în timp real.</string>
 
     <string name="demo_initializing">Demo: Se inițializează patch-ul de sintetizator&#8230;</string>
     <string name="demo_stage_1">Etapa 1: Sinteză dinamică. Explorarea formelor de undă Dinte de fierăstrău și a filtrelor rezonante.</string>

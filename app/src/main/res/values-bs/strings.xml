@@ -72,6 +72,7 @@
     <string name="help_bpm_down_fine">Smanjite BPM za 1.</string>
     <string name="help_bpm_up_fine">Povećajte BPM za 1.</string>
     <string name="help_bpm_up">Povećajte BPM za 5.</string>
+    <string name="help_visualizer">Vizualizator: Prikazuje audio spektar i talasne podatke u stvarnom vremenu.</string>
 
     <string name="demo_initializing">Demo: Inicijalizacija zakrpe sintetizatora&#8230;</string>
     <string name="demo_stage_1">Faza 1: Dinamička sinteza. Istraživanje pilastih talasnih oblika i rezonantnih filtera.</string>

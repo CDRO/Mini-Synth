@@ -72,6 +72,7 @@
     <string name="help_bpm_down_fine">Reduser BPM med 1.</string>
     <string name="help_bpm_up_fine">Øk BPM med 1.</string>
     <string name="help_bpm_up">Øk BPM med 5.</string>
+    <string name="help_visualizer">Visualizer: Viser lydspektrum og bølgeformdata i sanntid.</string>
 
     <string name="demo_initializing">Demo: Initierer syntpatch&#8230;</string>
     <string name="demo_stage_1">Etappe 1: Dynamisk syntese. Utforsker sagtannbølgeformer og resonansfiltre.</string>

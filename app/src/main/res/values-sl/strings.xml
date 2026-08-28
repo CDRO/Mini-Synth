@@ -72,6 +72,7 @@
     <string name="help_bpm_down_fine">Zmanjšaj BPM za 1.</string>
     <string name="help_bpm_up_fine">Povečaj BPM za 1.</string>
     <string name="help_bpm_up">Povečaj BPM za 5.</string>
+    <string name="help_visualizer">Vizualizator: Prikazuje zvočni spekter in podatke o valovni obliki v realnem času.</string>
 
     <string name="demo_initializing">Demo: Inicializacija sintetizatorske nastavitve&#8230;</string>
     <string name="demo_stage_1">Stopnja 1: Dinamična sinteza. Raziskovanje žagastih valovnih oblik in resonančnih filtrov.</string>

@@ -114,6 +114,9 @@ class MainActivity : AppCompatActivity() {
         val content = binding.appBarMain.contentMain
         val synthView = content.keyboardPadView!!
         content.topHeader.visualizerView.setSynthManager(synthManager)
+        content.topHeader.visualizerView.setOnClickListener {
+            if (isHelpMode) showHelp(getString(R.string.help_visualizer))
+        }
         
         // Listener
         synthView.listener = object : KeyboardPadView.OnNoteEventListener {

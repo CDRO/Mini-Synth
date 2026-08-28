@@ -72,6 +72,7 @@
     <string name="help_bpm_down_fine">Зменшити BPM на 1.</string>
     <string name="help_bpm_up_fine">Збільшити BPM на 1.</string>
     <string name="help_bpm_up">Збільшити BPM на 5.</string>
+    <string name="help_visualizer">Візуалізатор: відображає спектр аудіо та дані форми сигналу в реальному часі.</string>
 
     <string name="demo_initializing">Демо: ініціалізація патча синтезатора&#8230;</string>
     <string name="demo_stage_1">Етап 1: динамічний синтез. Дослідження пилкоподібних форм хвилі та резонансних фільтрів.</string>

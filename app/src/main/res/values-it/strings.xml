@@ -72,6 +72,7 @@
     <string name="help_bpm_down_fine">Diminuisci BPM di 1.</string>
     <string name="help_bpm_up_fine">Aumenta BPM di 1.</string>
     <string name="help_bpm_up">Aumenta BPM di 5.</string>
+    <string name="help_visualizer">Visualizzatore: visualizza lo spettro audio e i dati della forma d\'onda in tempo reale.</string>
 
     <string name="demo_initializing">Demo: Inizializzazione della patch del sintetizzatore...</string>
     <string name="demo_stage_1">Fase 1: Sintesi dinamica. Esplorazione delle forme d\'onda a dente di sega e dei filtri risonanti.</string>

@@ -72,6 +72,7 @@
     <string name="help_bpm_down_fine">Disminuir BPM en 1.</string>
     <string name="help_bpm_up_fine">Aumentar BPM en 1.</string>
     <string name="help_bpm_up">Aumentar BPM en 5.</string>
+    <string name="help_visualizer">Visualizador: Muestra el espectro de audio y los datos de forma de onda en tiempo real.</string>
 
     <string name="demo_initializing">Demo: Inicializando el parche del sintetizador...</string>
     <string name="demo_stage_1">Etapa 1: Síntesis dinámica. Explorando ondas de diente de sierra y filtros resonantes.</string>

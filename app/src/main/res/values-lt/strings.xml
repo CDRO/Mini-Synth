@@ -72,6 +72,7 @@
     <string name="help_bpm_down_fine">Sumažinti BPM 1.</string>
     <string name="help_bpm_up_fine">Padidinti BPM 1.</string>
     <string name="help_bpm_up">Padidinti BPM 5.</string>
+    <string name="help_visualizer">Vizualizatorius: rodo realiojo laiko garso spektrą ir bangos formos duomenis.</string>
 
     <string name="demo_initializing">Demo: Inicializuojamas sintezatoriaus nustatymas&#8230;</string>
     <string name="demo_stage_1">1 etapas: Dinaminė sintezė. Pjūklo bangos formų ir rezonanso filtrų tyrinėjimas.</string>

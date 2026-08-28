@@ -72,6 +72,7 @@
     <string name="help_bpm_down_fine">BPM um 1 verringern.</string>
     <string name="help_bpm_up_fine">BPM um 1 erhöhen.</string>
     <string name="help_bpm_up">BPM um 5 erhöhen.</string>
+    <string name="help_visualizer">Visualizer: Zeigt Audiospektrum und Wellenformdaten in Echtzeit an.</string>
 
     <string name="demo_initializing">Demo: Synthesizer-Patch wird initialisiert&#8230;</string>
     <string name="demo_stage_1">Stufe 1: Dynamische Synthese. Erkundung von Sägezahn-Wellenformen und Resonanzfiltern.</string>

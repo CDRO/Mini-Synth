@@ -72,6 +72,7 @@
     <string name="help_bpm_down_fine">Znížiť BPM o 1.</string>
     <string name="help_bpm_up_fine">Zvýšiť BPM o 1.</string>
     <string name="help_bpm_up">Zvýšiť BPM o 5.</string>
+    <string name="help_visualizer">Vizualizér: Zobrazuje zvukové spektrum a údaje o priebehu v reálnom čase.</string>
 
     <string name="demo_initializing">Demo: Inicializácia syntetizačného patchu&#8230;</string>
     <string name="demo_stage_1">Fáza 1: Dynamická syntéza. Skúmanie pílových vĺn a resonantných filtrov.</string>

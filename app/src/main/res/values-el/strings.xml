@@ -72,6 +72,7 @@
     <string name="help_bpm_down_fine">Μείωση BPM κατά 1.</string>
     <string name="help_bpm_up_fine">Αύξηση BPM κατά 1.</string>
     <string name="help_bpm_up">Αύξηση BPM κατά 5.</string>
+    <string name="help_visualizer">Visualizer: Εμφανίζει το φάσμα ήχου και τα δεδομένα κυματομορφής σε πραγματικό χρόνο.</string>
 
     <string name="demo_initializing">Demo: Αρχικοποίηση patch συνθεσάιζερ&#8230;</string>
     <string name="demo_stage_1">Στάδιο 1: Δυναμική Σύνθεση. Εξερεύνηση κυματομορφών Sawtooth και Φίλτρων Συντονισμού.</string>
