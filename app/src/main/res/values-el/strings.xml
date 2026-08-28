@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Λειτουργία εγγραφής ενεργοποιημένη</string>
     <string name="toast_step_rec_on">Βηματική εγγραφή ενεργοποιημένη</string>
     <string name="help_pd_visualizer">Οπτικοποιητής Παραμόρφωσης Φάσης: Δείχνει πώς η φάση παραμορφώνεται για τη δημιουργία νέων αρμονικών.</string>
+    <string name="demo_morphing_intro">Στάδιο 1: Αρμονική Εξέλιξη. Ανακαλύψτε τη συνεχή μορφοποίηση κυματομορφής.</string>
+    <string name="demo_morphing_sweep">Μορφοποίηση από ημίτονο σε τετράγωνο. Παρατηρήστε το εξελισσόμενο αρμονικό περιεχόμενο.</string>
+    <string name="demo_pd_intro">Παραμόρφωση Φάσης: Στρέβλωση της φάσης για κλασικό ψηφιακό ήχο.</string>
+    <string name="demo_pd_sweep">Σάρωση έντασης PD. Κοιτάξτε τον Οπτικοποιητή Φάσης στην κεφαλίδα!</string>
+    <string name="demo_wavetable_intro">Προσαρμοσμένα Wavetables: Πέρα από τα γεωμετρικά σχήματα με περίπλοκα ηχοχρώματα.</string>
+    <string name="demo_random_lfo">Τυχαίο LFO (Sample &amp; Hold): Γενετική διαμόρφωση για πειραματικό σχεδιασμό ήχου.</string>
 </resources>

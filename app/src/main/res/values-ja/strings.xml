@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">録音モード有効</string>
     <string name="toast_step_rec_on">ステップ録音有効</string>
     <string name="help_pd_visualizer">フェイズ・ディストーション・ビジュアライザー：位相がどのように歪んで新しい倍音を作成するかを示します。</string>
+    <string name="demo_morphing_intro">ステージ 1: 倍音の進化。連続的な波形モーフィングを体験してください。</string>
+    <string name="demo_morphing_sweep">サイン波からスクエア波へのモーフィング。進化する倍音成分に注目してください。</string>
+    <string name="demo_pd_intro">フェーズ・ディストーション：クラシックなデジタル・グリットのために位相を歪ませます。 </string>
+    <string name="demo_pd_sweep">PD強度のスイープ。ヘッダーのフェーズ・ビジュアライザーを見てください！</string>
+    <string name="demo_wavetable_intro">カスタム・ウェーブテーブル：複雑な音色を持つ幾何学的形状を超えて。</string>
+    <string name="demo_random_lfo">ランダムLFO (Sample &amp; Hold)：実験的なサウンドデザインのための生成的なモジュレーション。</string>
 </resources>

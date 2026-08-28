@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">录制模式已启用</string>
     <string name="toast_step_rec_on">分步录制已启用</string>
     <string name="help_pd_visualizer">相位失真可视化器：显示相位如何扭曲以产生新的谐波。</string>
+    <string name="demo_morphing_intro">第 1 阶段：谐波演变。探索连续波形变换。</string>
+    <string name="demo_morphing_sweep">从正弦波变换为方波。请注意不断演变的谐波内容。</string>
+    <string name="demo_pd_intro">相位失真：扭曲相位以获得经典数字质感。</string>
+    <string name="demo_pd_sweep">扫频 PD 强度。请查看页眉中的相位可视化器！</string>
+    <string name="demo_wavetable_intro">自定义波表：超越具有复杂音色的几何形状。</string>
+    <string name="demo_random_lfo">随机 LFO (Sample &amp; Hold)：用于实验性声音设计的生成式调制。</string>
 </resources>

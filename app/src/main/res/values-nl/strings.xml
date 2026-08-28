@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Opnamemodus ingeschakeld</string>
     <string name="toast_step_rec_on">Stap-opname ingeschakeld</string>
     <string name="help_pd_visualizer">Fasevervormingsvisualizer: Laat zien hoe de fase wordt vervormd om nieuwe harmonischen te creëren.</string>
+    <string name="demo_morphing_intro">Stap 1: Harmonische evolutie. Ontdek continue golfvorm-morphing.</string>
+    <string name="demo_morphing_sweep">Morphing van sinus naar vierkant. Let op de evoluerende harmonische inhoud.</string>
+    <string name="demo_pd_intro">Fasedistorsie: De fase vervormen voor een klassieke digitale grit.</string>
+    <string name="demo_pd_sweep">PD-intensiteit swipen. Kijk naar de fasevisualisator in de header!</string>
+    <string name="demo_wavetable_intro">Aangepaste wavetables: Verder dan geometrische vormen met complexe timbres.</string>
+    <string name="demo_random_lfo">Willekeurige LFO (Sample &amp; Hold): Generatieve modulatie voor experimenteel geluidsontwerp.</string>
 </resources>

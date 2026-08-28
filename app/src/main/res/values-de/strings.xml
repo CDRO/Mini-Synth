@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Aufnahmemodus aktiviert</string>
     <string name="toast_step_rec_on">Schritt-Aufnahme aktiviert</string>
     <string name="help_pd_visualizer">Phasenverzerrungs-Visualizer: Zeigt, wie die Phase verformt wird, um neue Obertöne zu erzeugen.</string>
+    <string name="demo_morphing_intro">Stufe 1: Harmonische Evolution. Entdecken Sie kontinuierliches Wellenform-Morphing.</string>
+    <string name="demo_morphing_sweep">Morphing von Sinus zu Rechteck. Beachten Sie den sich entwickelnden harmonischen Inhalt.</string>
+    <string name="demo_pd_intro">Phasenverzerrung: Verformung der Phase für klassischen digitalen Charakter.</string>
+    <string name="demo_pd_sweep">Intensität der Phasenverzerrung sweepen. Schauen Sie auf den Phasen-Visualizer im Header!</string>
+    <string name="demo_wavetable_intro">Eigene Wavetables: Jenseits geometrischer Formen mit komplexen Klangfarben.</string>
+    <string name="demo_random_lfo">Zufalls-LFO (Sample &amp; Hold): Generative Modulation für experimentelles Sounddesign.</string>
 </resources>

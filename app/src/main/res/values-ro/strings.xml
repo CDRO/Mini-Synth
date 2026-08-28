@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Mod înregistrare activat</string>
     <string name="toast_step_rec_on">Înregistrare prin pași activată</string>
     <string name="help_pd_visualizer">Vizualizator de distorsiune a fazei: arată cum este deformată faza pentru a crea noi armonici.</string>
+    <string name="demo_morphing_intro">Etapa 1: Evoluție armonică. Descoperă morphing-ul continuu al formei de undă.</string>
+    <string name="demo_morphing_sweep">Morphing de la sinus la pătrat. Observă conținutul armonic în evoluție.</string>
+    <string name="demo_pd_intro">Distorsiune de fază: Deformarea fazei pentru un caracter digital clasic.</string>
+    <string name="demo_pd_sweep">Variația intensității PD. Uită-te la Vizualizatorul de Fază din antet!</string>
+    <string name="demo_wavetable_intro">Tabele de unde personalizate: Dincolo de formele geometrice cu timbre complexe.</string>
+    <string name="demo_random_lfo">LFO aleatoriu (Sample &amp; Hold): Modulație generativă pentru design sonor experimental.</string>
 </resources>

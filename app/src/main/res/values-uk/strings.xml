@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Режим запису увімкнено</string>
     <string name="toast_step_rec_on">Покроковий запис увімкнено</string>
     <string name="help_pd_visualizer">Візуалізатор фазових спотворень: Показує, як фаза деформується для створення нових гармонік.</string>
+    <string name="demo_morphing_intro">Етап 1: Гармонійна еволюція. Відкрийте для себе безперервний морфінг хвилі.</string>
+    <string name="demo_morphing_sweep">Морфінг від синусоїди до квадрата. Зверніть увагу на гармонійний вміст, що розвивається.</string>
+    <string name="demo_pd_intro">Фазове спотворення: Викривлення фази для класичного цифрового звуку.</string>
+    <string name="demo_pd_sweep">Зміна інтенсивності PD. Подивіться на візуалізатор фази в заголовку!</string>
+    <string name="demo_wavetable_intro">Спеціальні хвильові таблиці: Поза межами геометричних форм зі складними тембрами.</string>
+    <string name="demo_random_lfo">Випадковий LFO (Sample &amp; Hold): Генеративна модуляція для експериментального звукового дизайну.</string>
 </resources>

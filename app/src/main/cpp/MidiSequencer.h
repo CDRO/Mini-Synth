@@ -11,21 +11,23 @@ class MidiSequencer {
 public:
     static const int MAX_STEPS = 64;
     static const int NUM_NOTES = 128;
+    static const int MAX_TRACKS = 4;
 
     MidiSequencer();
 
-    void setNote(int step, int note, bool active);
-    bool getNote(int step, int note) const;
-    void getActiveNotes(int step, std::vector<int>& outNotes) const;
-    bool isStepActive(int step) const {
-        if (step >= 0 && step < mNumSteps) {
-            return mGrid[step][0].load() != 0 || mGrid[step][1].load() != 0;
+    void setNote(int track, int step, int note, bool active);
+    bool getNote(int track, int step, int note) const;
+    void getActiveNotes(int track, int step, std::vector<int>& outNotes) const;
+    bool isStepActive(int track, int step) const {
+        if (track >= 0 && track < MAX_TRACKS && step >= 0 && step < mNumSteps) {
+            return mGrid[track][step][0].load() != 0 || mGrid[track][step][1].load() != 0;
         }
         return false;
     }
     void clear();
+    void clearTrack(int track);
 
-    const std::atomic<uint64_t>* getGridData() const { return &mGrid[0][0]; }
+    const std::atomic<uint64_t>* getGridData(int track) const { return &mGrid[track][0][0]; }
     float getStepDivision() const { return mStepDivision.load(); }
 
     void setStepDuration(float division);
@@ -34,12 +36,12 @@ public:
     void setOverdub(bool enabled) { mIsOverdub.store(enabled); }
     void setNumSteps(int steps) { if (steps > 0 && steps <= MAX_STEPS) mNumSteps.store(steps); }
     int getNumSteps() const { return mNumSteps.load(); }
-    int recordNote(int note);
-    void stepRecordNote(int note);
+    int recordNote(int track, int note);
+    void stepRecordNote(int track, int note);
     void stepRecordRest();
     void stepRecordBack();
-    void handleRealTimeNoteOn(int note);
-    void handleRealTimeNoteOff(int note);
+    void handleRealTimeNoteOn(int track, int note);
+    void handleRealTimeNoteOff(int track, int note);
     void process(int32_t numFrames, int32_t samplesPerBeat, VoiceManager& voiceManager);
 
     int getCurrentStep() const { return mCurrentStep.load(); }
@@ -52,7 +54,7 @@ public:
     bool isRecording() const { return mIsRecording.load(); }
 
 private:
-    std::atomic<uint64_t> mGrid[MAX_STEPS][2];
+    std::atomic<uint64_t> mGrid[MAX_TRACKS][MAX_STEPS][2];
     std::atomic<int> mNumSteps{16};
     std::atomic<int> mCurrentStep{0};
     std::atomic<int32_t> mSamplesProcessed{0};
@@ -63,7 +65,7 @@ private:
     std::atomic<bool> mIsOverdub{true};
     std::atomic<bool> mInputQuantize{true};
     std::atomic<float> mVelocity{0.8f};
-    std::atomic<uint64_t> mActiveNoteTracking[2];
+    std::atomic<uint64_t> mActiveNoteTracking[MAX_TRACKS][2];
 
     void stop(VoiceManager& voiceManager);
     void reset();

@@ -8,47 +8,50 @@ using json = nlohmann::json;
 #define TAG "ProjectManager"
 
 bool ProjectManager::saveProject(const std::string& directory,
-                                 const EngineParams& params,
+                                 const std::array<Track, 4>& tracks,
                                  const MidiSequencer& sequencer,
                                  const std::vector<std::vector<float>>& padBuffers,
                                  const std::vector<float>& padPannings,
                                  float bpm) {
     json j;
-    j["version"] = 1;
+    j["version"] = 2; // Incremented for multi-track
     j["bpm"] = bpm;
 
-    // Engine Params
-    j["engine"]["waveform"] = static_cast<int>(params.waveform);
-    j["engine"]["attack"] = params.attack;
-    j["engine"]["decay"] = params.decay;
-    j["engine"]["sustain"] = params.sustain;
-    j["engine"]["release"] = params.release;
-    j["engine"]["masterVolume"] = params.masterVolume;
-    j["engine"]["lfoRate"] = params.lfoRate;
-    j["engine"]["lfoDepth"] = params.lfoDepth;
-    j["engine"]["lfoWaveform"] = static_cast<int>(params.lfoWaveform);
-    j["engine"]["lfoTarget"] = static_cast<int>(params.lfoTarget);
-    j["engine"]["filterCutoff"] = params.filterCutoff;
-    j["engine"]["filterResonance"] = params.filterResonance;
-    j["engine"]["isPolyphonic"] = params.isPolyphonic;
-    j["engine"]["panning"] = params.panning;
-    j["engine"]["unisonCount"] = params.unisonCount;
-    j["engine"]["unisonDetune"] = params.unisonDetune;
-    j["engine"]["unisonSpread"] = params.unisonSpread;
-    j["engine"]["morph"] = params.morph;
-    j["engine"]["phaseDistortion"] = params.phaseDistortion;
+    for (int t = 0; t < 4; ++t) {
+        const auto& params = tracks[t].params;
+        json tj;
+        tj["engine"]["waveform"] = static_cast<int>(params.waveform);
+        tj["engine"]["attack"] = params.attack;
+        tj["engine"]["decay"] = params.decay;
+        tj["engine"]["sustain"] = params.sustain;
+        tj["engine"]["release"] = params.release;
+        tj["engine"]["masterVolume"] = params.masterVolume;
+        tj["engine"]["lfoRate"] = params.lfoRate;
+        tj["engine"]["lfoDepth"] = params.lfoDepth;
+        tj["engine"]["lfoWaveform"] = static_cast<int>(params.lfoWaveform);
+        tj["engine"]["lfoTarget"] = static_cast<int>(params.lfoTarget);
+        tj["engine"]["filterCutoff"] = params.filterCutoff;
+        tj["engine"]["filterResonance"] = params.filterResonance;
+        tj["engine"]["panning"] = params.panning;
+        tj["engine"]["unisonCount"] = params.unisonCount;
+        tj["engine"]["unisonDetune"] = params.unisonDetune;
+        tj["engine"]["unisonSpread"] = params.unisonSpread;
+        tj["engine"]["morph"] = params.morph;
+        tj["engine"]["phaseDistortion"] = params.phaseDistortion;
 
-    // Sequencer
-    j["sequencer"]["stepDivision"] = sequencer.getStepDivision();
-    for (int s = 0; s < 16; ++s) {
-        std::vector<int> activeNotes;
-        for (int n = 0; n < 128; ++n) {
-            if (sequencer.getNote(s, n)) activeNotes.push_back(n);
+        // Sequencer grid for this track
+        tj["sequencer"]["stepDivision"] = sequencer.getStepDivision();
+        for (int s = 0; s < 16; ++s) {
+            std::vector<int> activeNotes;
+            for (int n = 0; n < 128; ++n) {
+                if (sequencer.getNote(t, s, n)) activeNotes.push_back(n);
+            }
+            tj["sequencer"]["steps"][s] = activeNotes;
         }
-        j["sequencer"]["steps"][s] = activeNotes;
+        j["tracks"].push_back(tj);
     }
 
-    // Pads
+    // Pads (Shared across tracks for now)
     for (size_t i = 0; i < padBuffers.size(); ++i) {
         if (!padBuffers[i].empty()) {
             std::string padPath = directory + "/pad_" + std::to_string(i) + ".raw";
@@ -68,12 +71,11 @@ bool ProjectManager::saveProject(const std::string& directory,
     std::ofstream configFile(configPath);
     if (!configFile.is_open()) return false;
     configFile << j.dump(4);
-
     return true;
 }
 
 bool ProjectManager::loadProject(const std::string& directory,
-                                 EngineParams& outParams,
+                                 std::array<Track, 4>& outTracks,
                                  MidiSequencer& outSequencer,
                                  std::vector<std::vector<float>>& outPadBuffers,
                                  std::vector<float>& outPadPannings,
@@ -84,50 +86,38 @@ bool ProjectManager::loadProject(const std::string& directory,
 
     json j;
     configFile >> j;
-
     if (j.contains("bpm")) outBpm = j["bpm"];
 
-    // Engine
-    auto e = j["engine"];
-    outParams.waveform = static_cast<Waveform>(e["waveform"]);
-    outParams.attack = e["attack"];
-    outParams.decay = e["decay"];
-    outParams.sustain = e["sustain"];
-    outParams.release = e["release"];
-    outParams.masterVolume = e["masterVolume"];
-    outParams.lfoRate = e["lfoRate"];
-    outParams.lfoDepth = e["lfoDepth"];
-    outParams.lfoWaveform = static_cast<Waveform>(e["lfoWaveform"]);
-    outParams.lfoTarget = static_cast<LfoTarget>(e["lfoTarget"]);
-    outParams.filterCutoff = e["filterCutoff"];
-    outParams.filterResonance = e["filterResonance"];
-    outParams.isPolyphonic = e["isPolyphonic"];
-    if (e.contains("panning")) outParams.panning = e["panning"];
-    else outParams.panning = 0.0f;
-
-    if (e.contains("unisonCount")) outParams.unisonCount = e["unisonCount"];
-    else outParams.unisonCount = 1;
-
-    if (e.contains("unisonDetune")) outParams.unisonDetune = e["unisonDetune"];
-    else outParams.unisonDetune = 0.0f;
-
-    if (e.contains("unisonSpread")) outParams.unisonSpread = e["unisonSpread"];
-    else outParams.unisonSpread = 0.0f;
-
-    if (e.contains("morph")) outParams.morph = e["morph"];
-    else outParams.morph = 0.0f;
-
-    if (e.contains("phaseDistortion")) outParams.phaseDistortion = e["phaseDistortion"];
-    else outParams.phaseDistortion = 0.0f;
-
-    // Sequencer
     outSequencer.clear();
-    outSequencer.setStepDuration(j["sequencer"]["stepDivision"]);
-    auto steps = j["sequencer"]["steps"];
-    for (int s = 0; s < 16; ++s) {
-        if (steps.size() > s) {
-            for (int note : steps[s]) {
-                outSequencer.setNote(s, note, true);
+    if (j.contains("tracks")) {
+        for (int t = 0; t < 4 && t < j["tracks"].size(); ++t) {
+            auto tj = j["tracks"][t];
+            auto e = tj["engine"];
+            auto& params = outTracks[t].params;
+            params.waveform = static_cast<Waveform>(e["waveform"]);
+            params.attack = e["attack"];
+            params.decay = e["decay"];
+            params.sustain = e["sustain"];
+            params.release = e["release"];
+            params.lfoRate = e["lfoRate"];
+            params.lfoDepth = e["lfoDepth"];
+            params.lfoWaveform = static_cast<Waveform>(e["lfoWaveform"]);
+            params.lfoTarget = static_cast<LfoTarget>(e["lfoTarget"]);
+            params.filterCutoff = e["filterCutoff"];
+            params.filterResonance = e["filterResonance"];
+            params.panning = e.value("panning", 0.0f);
+            params.unisonCount = e.value("unisonCount", 1);
+            params.unisonDetune = e.value("unisonDetune", 0.0f);
+            params.morph = e.value("morph", 0.0f);
+            params.phaseDistortion = e.value("phaseDistortion", 0.0f);
+
+            auto steps = tj["sequencer"]["steps"];
+            for (int s = 0; s < 16; ++s) {
+                if (steps.size() > s) {
+                    for (int note : steps[s]) {
+                        outSequencer.setNote(t, s, note, true);
+                    }
+                }
             }
         }
     }
@@ -139,15 +129,9 @@ bool ProjectManager::loadProject(const std::string& directory,
         for (auto it = j["pads"].begin(); it != j["pads"].end(); ++it) {
             int padIndex = std::stoi(it.key());
             auto padData = it.value();
-
-            if (padData.contains("panning")) {
-                outPadPannings[padIndex] = padData["panning"];
-            }
-
+            if (padData.contains("panning")) outPadPannings[padIndex] = padData["panning"];
             if (padData.contains("file")) {
-                std::string padFileRelative = padData["file"];
-                std::string padPath = directory + "/" + padFileRelative;
-
+                std::string padPath = directory + "/" + padData["file"].get<std::string>();
                 std::ifstream padFile(padPath, std::ios::binary | std::ios::ate);
                 if (padFile.is_open()) {
                     std::streamsize size = padFile.tellg();
@@ -158,6 +142,5 @@ bool ProjectManager::loadProject(const std::string& directory,
             }
         }
     }
-
     return true;
 }

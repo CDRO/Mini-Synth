@@ -24,8 +24,8 @@ class SynthManager {
     /** Check if the audio stream is active. */
     external fun isEngineRunning(): Boolean
 
-    /** Trigger a synth voice for the given MIDI note. */
-    external fun noteOn(midiNote: Int, velocity: Float)
+    /** Trigger a synth voice for the given MIDI note on a specific track. */
+    external fun noteOn(midiNote: Int, velocity: Float, trackId: Int = 0)
     
     /** Release a synth voice for the given MIDI note. */
     external fun noteOff(midiNote: Int)
@@ -63,31 +63,34 @@ class SynthManager {
     /** Toggle between polyphonic (16-voice) and monophonic modes. */
     external fun setPolyphonic(isPolyphonic: Boolean)
     
-    /** Set the oscillator waveform (0: Sine, 1: Square, 2: Saw, 3: Triangle). */
-    external fun setWaveform(waveformIndex: Int)
+    /** Set the oscillator waveform for a specific track. */
+    external fun setTrackWaveform(track: Int, waveformIndex: Int)
     
     /** Shift the keyboard range by octaves (+/- 4). */
     external fun setOctaveShift(shift: Int)
     
-    external fun setAttack(seconds: Float)
-    external fun setDecay(seconds: Float)
-    external fun setSustain(level: Float)
-    external fun setRelease(seconds: Float)
+    external fun setTrackAttack(track: Int, seconds: Float)
+    external fun setTrackDecay(track: Int, seconds: Float)
+    external fun setTrackSustain(track: Int, level: Float)
+    external fun setTrackRelease(track: Int, seconds: Float)
     
     /** Set overall engine output volume. */
     external fun setMasterVolume(volume: Float)
 
-    /** Set master panning (-1.0 to 1.0). */
-    external fun setPanning(panning: Float)
+    /** Set per-track volume. */
+    external fun setTrackVolume(track: Int, volume: Float)
 
-    /** Set Unison parameters. */
-    external fun setUnison(count: Int, detune: Float, spread: Float)
+    /** Set per-track panning (-1.0 to 1.0). */
+    external fun setTrackPanning(track: Int, panning: Float)
 
-    /** Set the waveform morph parameter (0.0 to 3.0). */
-    external fun setMorph(morph: Float)
+    /** Set Unison parameters for a track. */
+    external fun setTrackUnison(track: Int, count: Int, detune: Float, spread: Float)
 
-    /** Set the Phase Distortion amount (0.0 to 1.0). */
-    external fun setPhaseDistortion(pd: Float)
+    /** Set the waveform morph parameter for a track. */
+    external fun setTrackMorph(track: Int, morph: Float)
+
+    /** Set the Phase Distortion amount for a track. */
+    external fun setTrackPhaseDistortion(track: Int, pd: Float)
 
     /** Load a custom wavetable into the oscillator. */
     external fun setWavetable(data: FloatArray)
@@ -95,14 +98,14 @@ class SynthManager {
     /** Set per-pad panning (-1.0 to 1.0). */
     external fun setPadPanning(padIndex: Int, panning: Float)
 
-    external fun setLfoRate(frequency: Float)
-    external fun setLfoDepth(depth: Float)
-    external fun setLfoWaveform(waveformIndex: Int)
-    external fun setLfoTarget(targetIndex: Int)
+    external fun setTrackLfoRate(track: Int, frequency: Float)
+    external fun setTrackLfoDepth(track: Int, depth: Float)
+    external fun setTrackLfoWaveform(track: Int, waveformIndex: Int)
+    external fun setTrackLfoTarget(track: Int, targetIndex: Int)
     external fun setAftertouchTarget(targetIndex: Int)
 
-    external fun setFilterCutoff(frequency: Float)
-    external fun setFilterResonance(resonance: Float)
+    external fun setTrackFilterCutoff(track: Int, frequency: Float)
+    external fun setTrackFilterResonance(track: Int, resonance: Float)
     
     /** Shift pitch of all active voices in semitones. */
     external fun setPitchBend(semitones: Float)
@@ -119,13 +122,13 @@ class SynthManager {
     /** Retrieve FFT magnitude data. */
     external fun getFftData(buffer: FloatArray): Int
     
-    /** Start recording engine output to an MP3 file. */
+    /** Start recording engine output to a WAV file. */
     external fun startRecording(path: String)
     
-    /** Stop MP3 recording and flush encoder. */
+    /** Stop recording and flush encoder. */
     external fun stopRecording()
     
-    /** Render current sequencer pattern to an MP3 file (Faster than real-time). */
+    /** Render current sequencer pattern to a WAV file (Faster than real-time). */
     external fun renderPatternToFile(path: String)
     
     /** Set engine tempo in beats per minute. */
@@ -157,16 +160,17 @@ class SynthManager {
     external fun isSequencerPlaying(): Boolean
     external fun setSequencerRecording(recording: Boolean)
     external fun isSequencerRecording(): Boolean
-    external fun setSequencerNote(step: Int, note: Int, active: Boolean)
-    external fun isSequencerNoteActive(step: Int, note: Int): Boolean
-    external fun getSequencerActiveNotes(step: Int): IntArray?
-    external fun isSequencerStepActive(step: Int): Boolean
-    external fun recordSequencerNote(note: Int): Int
+    external fun setSequencerNote(track: Int, step: Int, note: Int, active: Boolean)
+    external fun isSequencerNoteActive(track: Int, step: Int, note: Int): Boolean
+    external fun getSequencerActiveNotes(track: Int, step: Int): IntArray?
+    external fun isSequencerStepActive(track: Int, step: Int): Boolean
+    external fun recordSequencerNote(track: Int, note: Int): Int
     external fun setSequencerNumSteps(steps: Int)
-    external fun handleRealTimeNoteOn(note: Int)
-    external fun handleRealTimeNoteOff(note: Int)
+    external fun handleRealTimeNoteOn(track: Int, note: Int)
+    external fun handleRealTimeNoteOff(track: Int, note: Int)
     external fun clearSequencer()
-    external fun stepRecordNote(note: Int)
+    external fun clearSequencerTrack(track: Int)
+    external fun stepRecordNote(track: Int, note: Int)
     external fun stepRecordRest()
     external fun stepRecordBack()
     external fun setSequencerStepDuration(division: Float)
@@ -185,4 +189,28 @@ class SynthManager {
 
     /** Render a stereo sample (L, R) for host-side unit tests. */
     external fun renderStereoSampleForTest(buffer: FloatArray): Int
+    
+    // Backwards compatibility or convenience setters for active track
+    fun setWaveform(waveformIndex: Int) = setTrackWaveform(0, waveformIndex)
+    fun setAttack(seconds: Float) = setTrackAttack(0, seconds)
+    fun setDecay(seconds: Float) = setTrackDecay(0, seconds)
+    fun setSustain(level: Float) = setTrackSustain(0, level)
+    fun setRelease(seconds: Float) = setTrackRelease(0, seconds)
+    fun setFilterCutoff(frequency: Float) = setTrackFilterCutoff(0, frequency)
+    fun setFilterResonance(resonance: Float) = setTrackFilterResonance(0, resonance)
+    fun setLfoRate(frequency: Float) = setTrackLfoRate(0, frequency)
+    fun setLfoDepth(depth: Float) = setTrackLfoDepth(0, depth)
+    fun setLfoWaveform(waveformIndex: Int) = setTrackLfoWaveform(0, waveformIndex)
+    fun setLfoTarget(targetIndex: Int) = setTrackLfoTarget(0, targetIndex)
+    fun setUnison(count: Int, detune: Float, spread: Float) = setTrackUnison(0, count, detune, spread)
+    fun setMorph(morph: Float) = setTrackMorph(0, morph)
+    fun setPhaseDistortion(pd: Float) = setTrackPhaseDistortion(0, pd)
+    fun setPanning(panning: Float) = setTrackPanning(0, panning)
+    fun setSequencerNote(step: Int, note: Int, active: Boolean) = setSequencerNote(0, step, note, active)
+    fun isSequencerNoteActive(step: Int, note: Int) = isSequencerNoteActive(0, step, note)
+    fun getSequencerActiveNotes(step: Int) = getSequencerActiveNotes(0, step)
+    fun recordSequencerNote(note: Int) = recordSequencerNote(0, note)
+    fun handleRealTimeNoteOn(note: Int) = handleRealTimeNoteOn(0, note)
+    fun handleRealTimeNoteOff(note: Int) = handleRealTimeNoteOff(0, note)
+    fun stepRecordNote(note: Int) = stepRecordNote(0, note)
 }

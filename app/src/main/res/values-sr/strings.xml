@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Režim snimanja omogućen</string>
     <string name="toast_step_rec_on">Step snimanje omogućeno</string>
     <string name="help_pd_visualizer">Vizuelizator distorzije faze: Pokazuje kako se faza iskrivljuje da bi se stvorili novi harmonici.</string>
+    <string name="demo_morphing_intro">Faza 1: Harmonijska evolucija. Otkrijte kontinuirano morfiranje talasnog oblika.</string>
+    <string name="demo_morphing_sweep">Morfiranje od sinusa do kvadrata. Primetite evoluirajući harmonijski sadržaj.</string>
+    <string name="demo_pd_intro">Fazna distorzija: Iskrivljenje faze za klasični digitalni zvuk.</string>
+    <string name="demo_pd_sweep">Promena intenziteta PD. Pogledajte vizualizator faze u zaglavlju!</string>
+    <string name="demo_wavetable_intro">Prilagođene talasne tabele: Izvan geometrijskih oblika sa složenim bojama zvuka.</string>
+    <string name="demo_random_lfo">Nasumični LFO (Sample &amp; Hold): Generativna modulacija za eksperimentalni dizajn zvuka.</string>
 </resources>

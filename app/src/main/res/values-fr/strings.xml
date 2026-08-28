@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Mode d\'enregistrement activé</string>
     <string name="toast_step_rec_on">Enregistrement par étapes activé</string>
     <string name="help_pd_visualizer">Visualiseur de distorsion de phase : montre comment la phase est déformée pour créer de nouvelles harmoniques.</string>
+    <string name="demo_morphing_intro">Étape 1 : Évolution harmonique. Découvrez le morphing continu de forme d\'onde.</string>
+    <string name="demo_morphing_sweep">Morphing du sinus au carré. Notez l\'évolution du contenu harmonique.</string>
+    <string name="demo_pd_intro">Distorsion de phase : Déformation de la phase pour un grain numérique classique.</string>
+    <string name="demo_pd_sweep">Balayage de l\'intensité PD. Regardez le visualiseur de phase dans l\'en-tête !</string>
+    <string name="demo_wavetable_intro">Wavetables personnalisées : Au-delà des formes géométriques avec des timbres complexes.</string>
+    <string name="demo_random_lfo">LFO aléatoire (Sample &amp; Hold) : Modulation générative pour une conception sonore expérimentale.</string>
 </resources>

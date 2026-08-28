@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Način snemanja omogučen</string>
     <string name="toast_step_rec_on">Koračno snemanje omogočeno</string>
     <string name="help_pd_visualizer">Vizualizator popačenja faze: Prikazuje, kako se faza popači, da nastanejo novi harmoniki.</string>
+    <string name="demo_morphing_intro">Faza 1: Harmonična evolucija. Odkrijte neprekinjeno prelivanje valovnih oblik.</string>
+    <string name="demo_morphing_sweep">Prelivanje iz sinusa v kvadrat. Opazite razvijajočo se harmonično vsebino.</string>
+    <string name="demo_pd_intro">Fazna distorzija: Izkrivljanje faze za klasičen digitalni zvok.</string>
+    <string name="demo_pd_sweep">Spreminjanje intenzivnosti PD. Oglejte si vizualizator faze v glavi!</string>
+    <string name="demo_wavetable_intro">Valne tabele po meri: Onkraj geometrijskih oblik s kompleksnimi barvami zvoka.</string>
+    <string name="demo_random_lfo">Naključni LFO (Sample &amp; Hold): Generativna modulacija za eksperimentalno oblikovanje zvoka.</string>
 </resources>

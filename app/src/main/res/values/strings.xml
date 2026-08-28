@@ -230,6 +230,12 @@
     <string name="demo_sequencer_manual">Step 1: Manual Editing. Toggle steps in the grid to build a pattern.</string>
     <string name="demo_sequencer_recording">Step 2: Real-time Recording. Your keyboard performance is captured instantly.</string>
     <string name="demo_sequencer_play_along">Now let\'s play along with our recorded sequence!</string>
+    <string name="demo_morphing_intro">Stage 1: Harmonic Evolution. Discover continuous Waveform Morphing.</string>
+    <string name="demo_morphing_sweep">Morphing from Sine to Square. Notice the evolving harmonic content.</string>
+    <string name="demo_pd_intro">Phase Distortion: Warping the phase for classic digital grit.</string>
+    <string name="demo_pd_sweep">Sweeping PD intensity. Look at the Phase Visualizer in the header!</string>
+    <string name="demo_wavetable_intro">Custom Wavetables: Beyond geometric shapes with complex timbres.</string>
+    <string name="demo_random_lfo">Random LFO (Sample &amp; Hold): Generative modulation for experimental sound design.</string>
 
     <string name="toast_mode_toggle_disabled">Mode toggle disabled during Demo.</string>
     <string name="toast_sample_mapped">Sample mapped!</string>

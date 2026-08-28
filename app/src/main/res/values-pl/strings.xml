@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Tryb nagrywania włączony</string>
     <string name="toast_step_rec_on">Nagrywanie krokowe włączone</string>
     <string name="help_pd_visualizer">Wizualizator zniekształceń fazowych: Pokazuje, jak faza jest zniekształcana w celu stworzenia nowych harmonicznych.</string>
+    <string name="demo_morphing_intro">Etap 1: Ewolucja harmoniczna. Odkryj ciągły morphing przebiegów falowych.</string>
+    <string name="demo_morphing_sweep">Morphing od sinusa do kwadratu. Zwróć uwagę na ewoluującą treść harmoniczną.</string>
+    <string name="demo_pd_intro">Przesterowanie fazy: Zniekształcanie fazy dla klasycznego cyfrowego brzmienia.</string>
+    <string name="demo_pd_sweep">Zmiana intensywności PD. Spójrz na wizualizator fazy w nagłówku!</string>
+    <string name="demo_wavetable_intro">Własne tablice fal: Poza geometryczne kształty ze złożonymi barwami.</string>
+    <string name="demo_random_lfo">Losowy LFO (Sample &amp; Hold): Generatywna modulacja do eksperymentalnego projektowania dźwięku.</string>
 </resources>

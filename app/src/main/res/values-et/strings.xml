@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Salvestusrežiim lubatud</string>
     <string name="toast_step_rec_on">Samm-salvestus lubatud</string>
     <string name="help_pd_visualizer">Faasimoonutuse visualiseerija: Näitab, kuidas faasi moonutatakse uute harmoonikute loomiseks.</string>
+    <string name="demo_morphing_intro">1. etapp: Harmooniline evolutsioon. Avasta pidev lainekuju morfimine.</string>
+    <string name="demo_morphing_sweep">Morfimine siinusest ruuduni. Pane tähele arenevat harmoonilist sisu.</string>
+    <string name="demo_pd_intro">Faasimoonutus: Faasi moonutamine klassikalise digitaalse heli saavutamiseks.</string>
+    <string name="demo_pd_sweep">PD intensiivsuse muutmine. Vaata faasi visualiseerijat päises!</string>
+    <string name="demo_wavetable_intro">Kohandatud lainetabelid: Enamat kui geomeetrilised kujundid keerukate tämbritega.</string>
+    <string name="demo_random_lfo">Juhuslik LFO (Sample &amp; Hold): Generatiivne modulatsioon eksperimentaalseks helidisainiks.</string>
 </resources>

@@ -3,14 +3,7 @@
 
 #include <stdint.h>
 #include <cmath>
-#include "Oscillator.h"
-
-enum class LfoTarget {
-    Pitch,
-    Volume,
-    Filter,
-    PhaseDistortion
-};
+#include "AudioCommon.h"
 
 class Lfo {
 public:

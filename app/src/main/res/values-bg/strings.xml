@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Режимът на запис е активиран</string>
     <string name="toast_step_rec_on">Стъпковият запис е активиран</string>
     <string name="help_pd_visualizer">Визуализатор на фазово изкривяване: Показва как фазата се деформира, за да създаде нови хармоници.</string>
+    <string name="demo_morphing_intro">Етап 1: Хармонична еволюция. Открийте непрекъснато морфиране на вълновата форма.</string>
+    <string name="demo_morphing_sweep">Морфиране от синусоида към квадрат. Забележете развиващото се хармонично съдържание.</string>
+    <string name="demo_pd_intro">Фазово изкривяване: Изкривяване на фазата за класически дигитален звук.</string>
+    <string name="demo_pd_sweep">Промяна на интензивността на PD. Погледнете визуализатора на фазата в заглавието!</string>
+    <string name="demo_wavetable_intro">Персонализирани вълнови таблици: Отвъд геометричните форми със сложни тембри.</string>
+    <string name="demo_random_lfo">Произволен LFO (Sample &amp; Hold): Генеративна модулация за експериментален звуков дизайн.</string>
 </resources>
