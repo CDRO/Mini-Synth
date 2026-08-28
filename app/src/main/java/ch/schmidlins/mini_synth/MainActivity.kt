@@ -270,7 +270,7 @@ class MainActivity : AppCompatActivity() {
             content.btnMockRec!!.alpha = if (isMockRec) 1.0f else 0.5f
             if (isMockRec) {
                 val dir = getExternalFilesDir(null) ?: filesDir
-                val file = java.io.File(dir, "recording_${System.currentTimeMillis()}.mp3")
+                val file = java.io.File(dir, "recording_${System.currentTimeMillis()}.wav")
                 synthManager.startRecording(file.absolutePath)
             } else {
                 synthManager.stopRecording()
