@@ -442,7 +442,7 @@ class MainActivity : AppCompatActivity() {
 
         content.keyboardPadView.isEnabled = !isHelpMode
 
-        val keyboardId = R.id.keyboard_pad_view
+        val keyboardId = R.id.keyboard_pad_scroll_view
         val toggleKbId = R.id.toggle_keyboard
         val headerId = R.id.top_header
         val workspaceId = R.id.workspace_layout
@@ -450,7 +450,6 @@ class MainActivity : AppCompatActivity() {
 
         val kbVisible = !(isKeyboardHidden || isHelpMode)
         set.setVisibility(keyboardId, if (kbVisible) View.VISIBLE else View.GONE)
-        content.keyboardPadView.visibility = if (kbVisible) View.VISIBLE else View.GONE
         
         set.setVisibility(toggleKbId, if (isHelpMode) View.GONE else View.VISIBLE)
         set.setVisibility(fullToggleId, if (isPadMode) View.VISIBLE else View.GONE)
@@ -491,8 +490,8 @@ class MainActivity : AppCompatActivity() {
         // Nested views visibility (managed directly as they are not top-level children of the root ConstraintLayout)
         if (isPadMode && !isFullscreenPads) {
             content.parameterContainer.visibility = View.GONE
-            content.sequencerSection.visibility = View.GONE
-            content.padCustomizationSection.visibility = View.GONE
+            content.sequencerSection.visibility = View.VISIBLE
+            content.padCustomizationSection.visibility = View.VISIBLE
             content.btnPolyToggle.visibility = View.GONE
             content.btnOctaveDown.visibility = View.GONE
             content.btnOctaveUp.visibility = View.GONE
