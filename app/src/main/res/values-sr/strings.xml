@@ -73,6 +73,7 @@
     <string name="help_bpm_up_fine">Повећајте БПМ за 1.</string>
     <string name="help_bpm_up">Повећајте БПМ за 5.</string>
     <string name="help_visualizer">Визуелизатор: Приказује аудио спектар и таласне податке у реалном времену.</string>
+    <string name="help_auto_latency">Аутоматска латенција: Аутоматски прилагођава величину аудио бафера на основу перформанси система како би се спречили кликови и пуцкетања.</string>
 
     <string name="demo_initializing">Demo: Inicijalizacija zakrpe sintetizatora&#8230;</string>
     <string name="demo_stage_1">Faza 1: Dinamička sinteza. Istraživanje pilastih talasnih oblika i rezonantnih filtera.</string>

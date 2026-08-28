@@ -73,6 +73,7 @@
     <string name="help_bpm_up_fine">Forøg BPM med 1.</string>
     <string name="help_bpm_up">Forøg BPM med 5.</string>
     <string name="help_visualizer">Visualizer: Viser lydspektrum og bølgeformdata i realtid.</string>
+    <string name="help_auto_latency">Auto Latency: Justerer automatisk lydbufferstørrelsen baseret på systemets ydeevne for at forhindre klik og pop.</string>
 
     <string name="demo_initializing">Demo: Initierer synt-patch&#8230;</string>
     <string name="demo_stage_1">Etape 1: Dynamisk syntese. Udforsker savtaks-bølgeformer og resonansfiltre.</string>

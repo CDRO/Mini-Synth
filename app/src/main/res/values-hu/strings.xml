@@ -73,6 +73,7 @@
     <string name="help_bpm_up_fine">BPM növelése 1-gyel.</string>
     <string name="help_bpm_up">BPM növelése 5-tel.</string>
     <string name="help_visualizer">Visualizer: Valós idejű audiospektrumot és hullámforma-adatokat jelenít meg.</string>
+    <string name="help_auto_latency">Automatikus késleltetés: Automatikusan beállítja az audio puffer méretét a rendszer teljesítménye alapján a kattanások és pattogások elkerülése érdekében.</string>
 
     <string name="demo_initializing">Demó: Szintetizátor patch inicializálása&#8230;</string>
     <string name="demo_stage_1">1. szakasz: Dinamikus szintézis. Fűrészfog hullámformák és rezonáns szűrők felfedezése.</string>

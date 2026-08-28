@@ -73,6 +73,7 @@
     <string name="help_bpm_up_fine">Zvýšit BPM o 1.</string>
     <string name="help_bpm_up">Zvýšit BPM o 5.</string>
     <string name="help_visualizer">Vizualizér: Zobrazuje zvukové spektrum a data průběhu v reálném čase.</string>
+    <string name="help_auto_latency">Automatická latence: Automaticky upravuje velikost zvukové vyrovnávací paměti na základě výkonu systému, aby se zabránilo praskání a lupání.</string>
 
     <string name="demo_initializing">Demo: Inicializace syntetizačního patche&#8230;</string>
     <string name="demo_stage_1">Fáze 1: Dynamická syntéza. Zkoumání pilových vĺn a resonantních filtrů.</string>

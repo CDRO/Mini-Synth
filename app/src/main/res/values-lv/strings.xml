@@ -73,6 +73,7 @@
     <string name="help_bpm_up_fine">Palielināt BPM par 1.</string>
     <string name="help_bpm_up">Palielināt BPM par 5.</string>
     <string name="help_visualizer">Vizualizators: parāda reāllaika audio spektru un viļņu formas datus.</string>
+    <string name="help_auto_latency">Automātiskā aizture: automātiski pielāgo audio bufera izmēru, pamatojoties uz sistēmas veiktspēju, lai novērstu klikšķus un trokšņus.</string>
 
     <string name="demo_initializing">Demo: Inicializē sintezatora ielāpu&#8230;</string>
     <string name="demo_stage_1">1. posms: Dinamiskā sintēze. Zāģa zoba viļņu formu un rezonanses filtru izpēte.</string>

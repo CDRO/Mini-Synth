@@ -404,6 +404,11 @@ class MainActivity : AppCompatActivity() {
         setupPatternManagement(content)
         
         content.topHeader.toggleAutoLatency.setOnCheckedChangeListener { _, isChecked ->
+            if (isHelpMode) {
+                showHelp(getString(R.string.help_auto_latency))
+                content.topHeader.toggleAutoLatency.isChecked = !isChecked // Revert UI
+                return@setOnCheckedChangeListener
+            }
             synthManager.setAutoLatencyEnabled(isChecked)
         }
         

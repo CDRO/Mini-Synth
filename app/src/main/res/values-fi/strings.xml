@@ -73,6 +73,7 @@
     <string name="help_bpm_up_fine">Lisää BPM:ää 1:llä.</string>
     <string name="help_bpm_up">Lisää BPM:ää 5:llä.</string>
     <string name="help_visualizer">Visualisoija: Näyttää äänispektrin ja aaltomuototiedot reaaliajassa.</string>
+    <string name="help_auto_latency">Automaattinen viive: Säätää automaattisesti ääni-puskurin kokoa järjestelmän suorituskyvyn perusteella estääkseen napsahdukset ja poksahdukset.</string>
 
     <string name="demo_initializing">Demo: Alustetaan syntetisaattorin patchia&#8230;</string>
     <string name="demo_stage_1">Vaihe 1: Dynaaminen synteesi. Tutustutaan sahalaita-aaltomuotoihin ja resonanssisuodattimiin.</string>

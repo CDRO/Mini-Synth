@@ -73,6 +73,7 @@
     <string name="help_bpm_up_fine">将 BPM 提高 1。</string>
     <string name="help_bpm_up">将 BPM 提高 5。</string>
     <string name="help_visualizer">可视化器：实时显示音频频谱和波形数据。</string>
+    <string name="help_auto_latency">自动延迟：根据系统性能自动调整音频缓冲区大小，以防止点击声和爆裂声。</string>
 
     <string name="demo_initializing">演示：正在初始化合成器音色&#8230;</string>
     <string name="demo_stage_1">第 1 阶段：动态合成。探索锯齿波和共振滤波器。</string>

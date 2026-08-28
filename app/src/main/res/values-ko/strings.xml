@@ -73,6 +73,7 @@
     <string name="help_bpm_up_fine">BPM을 1 증가시킵니다.</string>
     <string name="help_bpm_up">BPM을 5 증가시킵니다.</string>
     <string name="help_visualizer">비주얼라이저: 실시간 오디오 스펙트럼 및 파형 데이터를 표시합니다.</string>
+    <string name="help_auto_latency">자동 레이턴시: 클릭 및 팝 노이즈를 방지하기 위해 시스템 성능에 따라 오디오 버퍼 크기를 자동으로 조정합니다.</string>
 
     <string name="demo_initializing">데모: 신디 패치 초기화 중&#8230;</string>
     <string name="demo_stage_1">1단계: 동적 합성. 톱니파 파형 및 공명 필터 탐색.</string>

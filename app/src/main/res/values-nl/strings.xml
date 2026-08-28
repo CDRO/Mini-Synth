@@ -73,6 +73,7 @@
     <string name="help_bpm_up_fine">BPM verhogen met 1.</string>
     <string name="help_bpm_up">BPM verhogen met 5.</string>
     <string name="help_visualizer">Visualizer: Toont real-time audiospectrum en golfvormgegevens.</string>
+    <string name="help_auto_latency">Auto Latency: Past automatisch de grootte van de audiobuffer aan op basis van de systeemprestaties om klikken en ploppen te voorkomen.</string>
 
     <string name="demo_initializing">Demo: Synthesizer patch initialiseren&#8230;</string>
     <string name="demo_stage_1">Fase 1: Dynamische Synthese. Ontdekken van Zaagtand golfvormen en Resonante Filters.</string>

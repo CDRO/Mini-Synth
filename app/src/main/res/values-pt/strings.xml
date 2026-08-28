@@ -73,6 +73,7 @@
     <string name="help_bpm_up_fine">Aumentar o BPM em 1.</string>
     <string name="help_bpm_up">Aumentar o BPM em 5.</string>
     <string name="help_visualizer">Visualizador: Exibe o espectro de áudio e dados de forma de onda em tempo real.</string>
+    <string name="help_auto_latency">Latência Automática: Ajusta automaticamente o tamanho do buffer de áudio com base no desempenho do sistema para evitar cliques e estalos.</string>
 
     <string name="demo_initializing">Demo: A inicializar o patch do sintetizador...</string>
     <string name="demo_stage_1">Etapa 1: Síntese Dinâmica. A explorar formas de onda Dente de Serra e Filtros Ressonantes.</string>

@@ -108,6 +108,7 @@
     <string name="help_bpm_up_fine">Increase BPM by 1.</string>
     <string name="help_bpm_up">Increase BPM by 5.</string>
     <string name="help_visualizer">Visualizer: Displays real-time audio spectrum and waveform data.</string>
+    <string name="help_auto_latency">Auto Latency: Automatically adjusts the audio buffer size based on system performance to prevent clicks and pops.</string>
 
     <!-- Toasts and Dialogs -->
     <string name="toast_discovery_active">Discovery Mode Active. Click any control for info.</string>

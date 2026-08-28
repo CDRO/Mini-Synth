@@ -73,6 +73,7 @@
     <string name="help_bpm_up_fine">BPM\'i 1 birim artırın.</string>
     <string name="help_bpm_up">BPM\'i 5 birim artırın.</string>
     <string name="help_visualizer">Görselleştirici: Gerçek zamanlı ses spektrumunu ve dalga formu verilerini görüntüler.</string>
+    <string name="help_auto_latency">Otomatik Gecikme: Tıklamaları ve patlamaları önlemek için sistem performansına dayalı olarak ses tampon boyutunu otomatik olarak ayarlar.</string>
 
     <string name="demo_initializing">Demo: Sentezleyici yaması başlatılıyor&#8230;</string>
     <string name="demo_stage_1">Aşama 1: Dinamik Sentez. Testere dişi dalga formlarını ve Rezonans Filtrelerini keşfetme.</string>
