@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Przełącz widoczność klawiatury: Ukryj klawisze pianina, aby maksymalnie zwiększyć przestrzeń roboczą.</string>
     <string name="help_config_toggle">Przełącznik konfiguracji: ukrywa wszystkie suwaki parametrów, aby zmaksymalizować miejsce na pady wydajności.</string>
     <string name="help_phase_distortion">Zniekształcenie fazowe: Zniekształca linię fazową oscylatora, tworząc bogate harmoniczne.</string>
+    <string name="help_bpm_down">Zmniejsz BPM o 5.</string>
+    <string name="help_bpm_down_fine">Zmniejsz BPM o 1.</string>
+    <string name="help_bpm_up_fine">Zwiększ BPM o 1.</string>
+    <string name="help_bpm_up">Zwiększ BPM o 5.</string>
 
     <string name="demo_initializing">Demo: Inicjalizacja patcha syntezatora&#8230;</string>
     <string name="demo_stage_1">Etap 1: Synteza dynamiczna. Eksploracja fal piłokształtnych i filtrów rezonansowych.</string>

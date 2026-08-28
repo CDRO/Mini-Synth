@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Vaihda koskettimiston näkyvyyttä: Piilota pianon koskettimet maksimoidaksesi työtilan.</string>
     <string name="help_config_toggle">Kokoonpanon vaihto: Piilottaa kaikki parametrisäätimet maksimoidakseen tilan suorituskykypadeille.</string>
     <string name="help_phase_distortion">Vaihevääristymä: Vääristää oskillaattorin vaiheviivaa luoden rikkaita harmonisia ylä-ääniä.</string>
+    <string name="help_bpm_down">Vähennä BPM:ää 5:llä.</string>
+    <string name="help_bpm_down_fine">Vähennä BPM:ää 1:llä.</string>
+    <string name="help_bpm_up_fine">Lisää BPM:ää 1:llä.</string>
+    <string name="help_bpm_up">Lisää BPM:ää 5:llä.</string>
 
     <string name="demo_initializing">Demo: Alustetaan syntetisaattorin patchia&#8230;</string>
     <string name="demo_stage_1">Vaihe 1: Dynaaminen synteesi. Tutustutaan sahalaita-aaltomuotoihin ja resonanssisuodattimiin.</string>

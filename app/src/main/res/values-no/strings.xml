@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Veksle tastaturvisning: Skjul pianotastene for å maksimere arbeidsområdet.</string>
     <string name="help_config_toggle">Konfigurasjonsbytte: Skjuler alle parameterglidere for å maksimere plassen for ytelsesputer.</string>
     <string name="help_phase_distortion">Fasedistorsjon: Vrir oscillatorens faselinje for å skabe rike harmoniske overtoner.</string>
+    <string name="help_bpm_down">Reduser BPM med 5.</string>
+    <string name="help_bpm_down_fine">Reduser BPM med 1.</string>
+    <string name="help_bpm_up_fine">Øk BPM med 1.</string>
+    <string name="help_bpm_up">Øk BPM med 5.</string>
 
     <string name="demo_initializing">Demo: Initierer syntpatch&#8230;</string>
     <string name="demo_stage_1">Etappe 1: Dynamisk syntese. Utforsker sagtannbølgeformer og resonansfiltre.</string>

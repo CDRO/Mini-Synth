@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Schakel Keyboard Zichtbaarheid in/uit: Verberg de pianotoetsen om de werkruimte te maximaliseren.</string>
     <string name="help_config_toggle">Configuratie-schakelaar: verbergt alle parameter-schuifregelaars om de ruimte voor performance-pads te maximaliseren.</string>
     <string name="help_phase_distortion">Fasedistorsie: Vervormt de faselijn van de oscillator om rijke harmonischen te creëren.</string>
+    <string name="help_bpm_down">BPM verlagen met 5.</string>
+    <string name="help_bpm_down_fine">BPM verlagen met 1.</string>
+    <string name="help_bpm_up_fine">BPM verhogen met 1.</string>
+    <string name="help_bpm_up">BPM verhogen met 5.</string>
 
     <string name="demo_initializing">Demo: Synthesizer patch initialiseren&#8230;</string>
     <string name="demo_stage_1">Fase 1: Dynamische Synthese. Ontdekken van Zaagtand golfvormen en Resonante Filters.</string>

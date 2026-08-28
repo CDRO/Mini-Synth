@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Comutați Vizibilitatea Tastaturii: Ascundeți tastele pianului pentru a maximiza spațiul de lucru.</string>
     <string name="help_config_toggle">Comutare configurare: Ascunde toate glisoarele de parametri pentru a maximiza spațiul pentru pad-urile de performanță.</string>
     <string name="help_phase_distortion">Distorsiune de fază: Deformează linia de fază a oscilatorului pentru a crea armonici bogate.</string>
+    <string name="help_bpm_down">Scade BPM cu 5.</string>
+    <string name="help_bpm_down_fine">Scade BPM cu 1.</string>
+    <string name="help_bpm_up_fine">Crește BPM cu 1.</string>
+    <string name="help_bpm_up">Crește BPM cu 5.</string>
 
     <string name="demo_initializing">Demo: Se inițializează patch-ul de sintetizator&#8230;</string>
     <string name="demo_stage_1">Etapa 1: Sinteză dinamică. Explorarea formelor de undă Dinte de fierăstrău și a filtrelor rezonante.</string>

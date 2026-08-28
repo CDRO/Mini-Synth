@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Perjungti klaviatūros matomumą: Paslėpkite pianino klavišus, kad padidintumėte darbo erdvę.</string>
     <string name="help_config_toggle">Konfigūracijos perjungimas: paslepia visus parametrų slankiklius, kad būtų padidinta erdvė atlikimo kilimėliams.</string>
     <string name="help_phase_distortion">Fazinė distorsija: Iškraipo osciliatoriaus fazės liniją, sukurdama sodrius harmonikus.</string>
+    <string name="help_bpm_down">Sumažinti BPM 5.</string>
+    <string name="help_bpm_down_fine">Sumažinti BPM 1.</string>
+    <string name="help_bpm_up_fine">Padidinti BPM 1.</string>
+    <string name="help_bpm_up">Padidinti BPM 5.</string>
 
     <string name="demo_initializing">Demo: Inicializuojamas sintezatoriaus nustatymas&#8230;</string>
     <string name="demo_stage_1">1 etapas: Dinaminė sintezė. Pjūklo bangos formų ir rezonanso filtrų tyrinėjimas.</string>

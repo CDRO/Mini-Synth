@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Přepnout viditelnost klávesnice: Skryje klávesy klavíru pro maximalizaci pracovního prostoru.</string>
     <string name="help_config_toggle">Přepínač konfigurace: Skryje všechny posuvníky parametrů pro maximalizaci prostoru pro výkonnostní pady.</string>
     <string name="help_phase_distortion">Fázové zkreslení: Deformuje fázovou linku oscilátoru pro vytvoření bohatých harmonik.</string>
+    <string name="help_bpm_down">Snížit BPM o 5.</string>
+    <string name="help_bpm_down_fine">Snížit BPM o 1.</string>
+    <string name="help_bpm_up_fine">Zvýšit BPM o 1.</string>
+    <string name="help_bpm_up">Zvýšit BPM o 5.</string>
 
     <string name="demo_initializing">Demo: Inicializace syntetizačního patche&#8230;</string>
     <string name="demo_stage_1">Fáze 1: Dynamická syntéza. Zkoumání pilových vĺn a resonantních filtrů.</string>

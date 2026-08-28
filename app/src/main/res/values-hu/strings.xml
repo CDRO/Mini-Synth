@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Billentyűzet láthatóságának váltása: A zongorabillentyűk elrejtése a munkaterület maximalizálása érdekében.</string>
     <string name="help_config_toggle">Konfiguráció váltó: Elrejti az összes paramétercsúszkát, hogy maximalizálja a helyet a teljesítmény padok számára.</string>
     <string name="help_phase_distortion">Fázistorzítás: Elvetemíti az oszcillátor fázisvonalát gazdag harmonikusok létrehozásához.</string>
+    <string name="help_bpm_down">BPM csökkentése 5-tel.</string>
+    <string name="help_bpm_down_fine">BPM csökkentése 1-gyel.</string>
+    <string name="help_bpm_up_fine">BPM növelése 1-gyel.</string>
+    <string name="help_bpm_up">BPM növelése 5-tel.</string>
 
     <string name="demo_initializing">Demó: Szintetizátor patch inicializálása&#8230;</string>
     <string name="demo_stage_1">1. szakasz: Dinamikus szintézis. Fűrészfog hullámformák és rezonáns szűrők felfedezése.</string>

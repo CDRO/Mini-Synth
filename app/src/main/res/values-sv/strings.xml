@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Växla klaviaturens synlighet: Dölj pianotangenterna för att maximera arbetsytan.</string>
     <string name="help_config_toggle">Konfigurationsväxling: Döljer alla parameterreglage för att maximera utrymmet för prestandaplattor.</string>
     <string name="help_phase_distortion">Fasdistorsion: Vrider oscillatorns faslinje för att skapa rika övertoner.</string>
+    <string name="help_bpm_down">Minska BPM med 5.</string>
+    <string name="help_bpm_down_fine">Minska BPM med 1.</string>
+    <string name="help_bpm_up_fine">Öka BPM med 1.</string>
+    <string name="help_bpm_up">Öka BPM med 5.</string>
 
     <string name="demo_initializing">Demo: Initierar syntpatch&#8230;</string>
     <string name="demo_stage_1">Etapp 1: Dynamisk syntes. Utforskar sågtandsvågformer och resonansfilter.</string>

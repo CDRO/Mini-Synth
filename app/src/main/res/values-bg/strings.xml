@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Превключване на видимостта на клавиатурата: Скрийте клавишите на пианото, за да увеличите максимално работното пространство.</string>
     <string name="help_config_toggle">Превключвател на конфигурацията: Скрива всички плъзгачи за параметри, за да увеличи максимално пространството за падовете за изпълнение.</string>
     <string name="help_phase_distortion">Фазово изкривяване: Изкривява фазовата линия на осцилатора за създаване на богати хармоници.</string>
+    <string name="help_bpm_down">Понижаване на BPM с 5.</string>
+    <string name="help_bpm_down_fine">Понижаване на BPM с 1.</string>
+    <string name="help_bpm_up_fine">Увеличаване на BPM с 1.</string>
+    <string name="help_bpm_up">Увеличаване на BPM с 5.</string>
 
     <string name="demo_initializing">Демо: Инициализиране на пач за синтезатор&#8230;</string>
     <string name="demo_stage_1">Етап 1: Динамичен синтез. Изследване на трионообразни вълнови форми и резонансни филтри.</string>

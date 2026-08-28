@@ -103,6 +103,10 @@
     <string name="help_config_toggle">Config Toggle: Hides all parameter sliders to maximize space for performance pads.</string>
     <string name="help_phase_distortion">Phase Distortion: Warps the oscillator phase line to create rich harmonics.</string>
     <string name="help_pads_fullscreen">Toggle Fullscreen Pads: Hides the header and parameter panel to focus on performance.</string>
+    <string name="help_bpm_down">Decrease BPM by 5.</string>
+    <string name="help_bpm_down_fine">Decrease BPM by 1.</string>
+    <string name="help_bpm_up_fine">Increase BPM by 1.</string>
+    <string name="help_bpm_up">Increase BPM by 5.</string>
 
     <!-- Toasts and Dialogs -->
     <string name="toast_discovery_active">Discovery Mode Active. Click any control for info.</string>

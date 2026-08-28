@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Перемкнути видимість клавіатури: приховати клавіші піаніно, щоб максимально збільшити робочий простір.</string>
     <string name="help_config_toggle">Перемикач конфігурації: приховує всі повзунки параметрів, щоб збільшити простір для педів виконання.</string>
     <string name="help_phase_distortion">Фазове спотворення: Викривляє фазову лінію осцилятора для створення багатих гармонік.</string>
+    <string name="help_bpm_down">Зменшити BPM на 5.</string>
+    <string name="help_bpm_down_fine">Зменшити BPM на 1.</string>
+    <string name="help_bpm_up_fine">Збільшити BPM на 1.</string>
+    <string name="help_bpm_up">Збільшити BPM на 5.</string>
 
     <string name="demo_initializing">Демо: ініціалізація патча синтезатора&#8230;</string>
     <string name="demo_stage_1">Етап 1: динамічний синтез. Дослідження пилкоподібних форм хвилі та резонансних фільтрів.</string>

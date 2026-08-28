@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Tastatur-Sichtbarkeit umschalten: Blenden Sie die Klaviertasten aus, um den Arbeitsbereich zu maximieren.</string>
     <string name="help_config_toggle">Konfigurations-Umschalter: Blendet alle Parameterregler aus, um den Platz für Performance-Pads zu maximieren.</string>
     <string name="help_phase_distortion">Phasenverzerrung: Verformt die Phasenlinie des Oszillators, um reiche Harmonische zu erzeugen.</string>
+    <string name="help_bpm_down">BPM um 5 verringern.</string>
+    <string name="help_bpm_down_fine">BPM um 1 verringern.</string>
+    <string name="help_bpm_up_fine">BPM um 1 erhöhen.</string>
+    <string name="help_bpm_up">BPM um 5 erhöhen.</string>
 
     <string name="demo_initializing">Demo: Synthesizer-Patch wird initialisiert&#8230;</string>
     <string name="demo_stage_1">Stufe 1: Dynamische Synthese. Erkundung von Sägezahn-Wellenformen und Resonanzfiltern.</string>

@@ -1649,10 +1649,22 @@ class MainActivity : AppCompatActivity() {
             synthManager.setMetronomeEnabled(isMetronomeEnabled)
             content.topHeader.btnMetronomeToggle.text = if (isMetronomeEnabled) getString(R.string.generic_on) else getString(R.string.generic_off)
         }
-        content.topHeader.btnBpmDown.setOnClickListener { if (bpm >= 45) { bpm -= 5; updateBpm() } }
-        content.topHeader.btnBpmDownFine.setOnClickListener { if (bpm >= 41) { bpm -= 1; updateBpm() } }
-        content.topHeader.btnBpmUpFine.setOnClickListener { if (bpm <= 239) { bpm += 1; updateBpm() } }
-        content.topHeader.btnBpmUp.setOnClickListener { if (bpm <= 235) { bpm += 5; updateBpm() } }
+        content.topHeader.btnBpmDown.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_bpm_down)); return@setOnClickListener }
+            if (bpm >= 45) { bpm -= 5; updateBpm() } 
+        }
+        content.topHeader.btnBpmDownFine.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_bpm_down_fine)); return@setOnClickListener }
+            if (bpm >= 41) { bpm -= 1; updateBpm() } 
+        }
+        content.topHeader.btnBpmUpFine.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_bpm_up_fine)); return@setOnClickListener }
+            if (bpm <= 239) { bpm += 1; updateBpm() } 
+        }
+        content.topHeader.btnBpmUp.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_bpm_up)); return@setOnClickListener }
+            if (bpm <= 235) { bpm += 5; updateBpm() } 
+        }
         updateBpm()
     }
 

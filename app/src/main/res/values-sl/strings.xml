@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Preklop vidnosti tipkovnice: Skrijte klavirske tipke za povečanje delovnega prostora.</string>
     <string name="help_config_toggle">Preklop konfiguracije: skrije vse drsnike parametrov, da poveča prostor za ploščice za zmogljivost.</string>
     <string name="help_phase_distortion">Fazna distorzija: Izkrivi fazno linijo oscilatorja za ustvarjanje bogatih harmonikov.</string>
+    <string name="help_bpm_down">Zmanjšaj BPM za 5.</string>
+    <string name="help_bpm_down_fine">Zmanjšaj BPM za 1.</string>
+    <string name="help_bpm_up_fine">Povečaj BPM za 1.</string>
+    <string name="help_bpm_up">Povečaj BPM za 5.</string>
 
     <string name="demo_initializing">Demo: Inicializacija sintetizatorske nastavitve&#8230;</string>
     <string name="demo_stage_1">Stopnja 1: Dinamična sinteza. Raziskovanje žagastih valovnih oblik in resonančnih filtrov.</string>

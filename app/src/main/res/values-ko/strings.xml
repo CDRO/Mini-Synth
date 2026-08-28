@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">키보드 가시성 전환: 작업 공간을 최대화하기 위해 피아노 키를 숨깁니다.</string>
     <string name="help_config_toggle">구성 토글: 성능 패드 공간을 최대화하기 위해 모든 매개변수 슬라이더를 숨깁니다.</string>
     <string name="help_phase_distortion">위상 왜곡: 오실레이터 위상 라인을 왜곡하여 풍부한 하모닉스를 생성합니다.</string>
+    <string name="help_bpm_down">BPM을 5 감소시킵니다.</string>
+    <string name="help_bpm_down_fine">BPM을 1 감소시킵니다.</string>
+    <string name="help_bpm_up_fine">BPM을 1 증가시킵니다.</string>
+    <string name="help_bpm_up">BPM을 5 증가시킵니다.</string>
 
     <string name="demo_initializing">데모: 신디 패치 초기화 중&#8230;</string>
     <string name="demo_stage_1">1단계: 동적 합성. 톱니파 파형 및 공명 필터 탐색.</string>

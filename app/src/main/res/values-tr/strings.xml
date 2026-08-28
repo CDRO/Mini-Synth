@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Klavye Görünürlüğünü Değiştir: Çalışma alanını maksimize etmek için piyano tuşlarını gizleyin.</string>
     <string name="help_config_toggle">Yapılandırma Geçişi: Performans pedleri için alanı maksimize etmek amacıyla tüm parametre kaydırıcılarını gizler.</string>
     <string name="help_phase_distortion">Faz Bozulması: Zengin harmonikler oluşturmak için osilatör faz çizgisini büker.</string>
+    <string name="help_bpm_down">BPM\'i 5 birim azaltın.</string>
+    <string name="help_bpm_down_fine">BPM\'i 1 birim azaltın.</string>
+    <string name="help_bpm_up_fine">BPM\'i 1 birim artırın.</string>
+    <string name="help_bpm_up">BPM\'i 5 birim artırın.</string>
 
     <string name="demo_initializing">Demo: Sentezleyici yaması başlatılıyor&#8230;</string>
     <string name="demo_stage_1">Aşama 1: Dinamik Sentez. Testere dişi dalga formlarını ve Rezonans Filtrelerini keşfetme.</string>

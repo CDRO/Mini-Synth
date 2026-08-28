@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Activar/desactivar visibilidad del teclado: Oculta las teclas del piano para maximizar el espacio de trabajo.</string>
     <string name="help_config_toggle">Interruptor de configuración: oculta todos los controles deslizantes de parámetros para maximizar el espacio para los pads de interpretación.</string>
     <string name="help_phase_distortion">Distorsión de fase: Deforma la línea de fase del oscilador para crear armónicos ricos.</string>
+    <string name="help_bpm_down">Disminuir BPM en 5.</string>
+    <string name="help_bpm_down_fine">Disminuir BPM en 1.</string>
+    <string name="help_bpm_up_fine">Aumentar BPM en 1.</string>
+    <string name="help_bpm_up">Aumentar BPM en 5.</string>
 
     <string name="demo_initializing">Demo: Inicializando el parche del sintetizador...</string>
     <string name="demo_stage_1">Etapa 1: Síntesis dinámica. Explorando ondas de diente de sierra y filtros resonantes.</string>

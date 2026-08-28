@@ -68,6 +68,10 @@
     <string name="help_keyboard_hidden">Pārslēgt tastatūras redzamību: Paslēpt klavieru taustiņus, lai maksimāli palielinātu darba vietu.</string>
     <string name="help_config_toggle">Konfigurācijas pārslēgšana: paslēpj visus parametru slīdņus, lai palielinātu vietu izpildījuma spilventiņiem.</string>
     <string name="help_phase_distortion">Fāzes distorsija: Izkropļo oscilatora fāzes līniju, lai radītu bagātīgas harmonikas.</string>
+    <string name="help_bpm_down">Samazināt BPM par 5.</string>
+    <string name="help_bpm_down_fine">Samazināt BPM par 1.</string>
+    <string name="help_bpm_up_fine">Palielināt BPM par 1.</string>
+    <string name="help_bpm_up">Palielināt BPM par 5.</string>
 
     <string name="demo_initializing">Demo: Inicializē sintezatora ielāpu&#8230;</string>
     <string name="demo_stage_1">1. posms: Dinamiskā sintēze. Zāģa zoba viļņu formu un rezonanses filtru izpēte.</string>
