@@ -13,6 +13,10 @@ class ShadowSynthManager {
     val renderPatternCalls = mutableListOf<String>()
     val realTimeNoteOnCalls = mutableListOf<Int>()
     val recordSequencerNoteCalls = mutableListOf<Int>()
+    var lastPhaseDistortion = 0f
+    var lastMorph = 0f
+    var lastPanning = 0f
+    var lastUnisonCount = 1
 
     @Implementation fun startEngine() {}
     @Implementation fun stopEngine() {}
@@ -40,10 +44,18 @@ class ShadowSynthManager {
     @Implementation fun setSustain(level: Float) {}
     @Implementation fun setRelease(seconds: Float) {}
     @Implementation fun setMasterVolume(volume: Float) {}
+    @Implementation fun setPanning(panning: Float) {
+        this.lastPanning = panning
+    }
+    @Implementation fun setUnison(count: Int, detune: Float, spread: Float) {
+        this.lastUnisonCount = count
+    }
+    @Implementation fun setPadPanning(padIndex: Int, panning: Float) {}
     @Implementation fun setLfoRate(frequency: Float) {}
     @Implementation fun setLfoDepth(depth: Float) {}
     @Implementation fun setLfoWaveform(waveformIndex: Int) {}
     @Implementation fun setLfoTarget(targetIndex: Int) {}
+    @Implementation fun setAftertouchTarget(targetIndex: Int) {}
     @Implementation fun setFilterCutoff(frequency: Float) {}
     @Implementation fun setFilterResonance(resonance: Float) {}
     @Implementation fun setPitchBend(semitones: Float) {}
@@ -55,6 +67,12 @@ class ShadowSynthManager {
     @Implementation fun stopRecording() {}
     @Implementation fun renderPatternToFile(path: String) {
         renderPatternCalls.add(path)
+    }
+    @Implementation fun setMorph(morph: Float) {
+        this.lastMorph = morph
+    }
+    @Implementation fun setPhaseDistortion(pd: Float) {
+        this.lastPhaseDistortion = pd
     }
     @Implementation fun setBpm(bpm: Float) {}
     @Implementation fun setMetronomeEnabled(enabled: Boolean) {}

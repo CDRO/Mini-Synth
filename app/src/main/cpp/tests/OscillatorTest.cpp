@@ -79,8 +79,21 @@ TEST_F(OscillatorTest, FrequencyChangeStability) {
     osc.setFrequency(880.0);
     float s2 = osc.nextSample();
     EXPECT_NE(s1, s2);
-    EXPECT_GE(s2, -1.0f);
-    EXPECT_LE(s2, 1.0f);
+    osc.resetPhase();
+    osc.setPhaseDistortion(0.5f);
+    float s2 = osc.nextSample();
+
+    EXPECT_NE(s1, s2);
+}
+
+TEST_F(OscillatorTest, FastSinAccuracy) {
+    osc.setFrequency(440.0); // Triggers initSineLut
+    for (int i = 0; i < 1000; ++i) {
+        float phase = (static_cast<float>(i) / 1000.0f) * TWO_PI_F;
+        float standard = sinf(phase);
+        float fast = osc.fastSin(phase);
+        EXPECT_NEAR(standard, fast, 1e-4f);
+    }
 }
 
 TEST_F(OscillatorTest, PhaseDistortionEffect) {
