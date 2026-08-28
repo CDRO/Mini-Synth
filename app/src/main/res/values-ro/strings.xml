@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Aleatoriu</string>
+    <string name="toast_pad_edit_on">Mod Editare Pad PORNIT</string>
+    <string name="toast_pad_edit_off">Mod Editare Pad OPRIT</string>
+    <string name="toast_sequencer_playing">Secvențiator redare</string>
+    <string name="toast_sequencer_stopped">Secvențiator oprit</string>
+    <string name="toast_sequencer_rec_on">Mod înregistrare activat</string>
+    <string name="toast_step_rec_on">Înregistrare prin pași activată</string>
 </resources>

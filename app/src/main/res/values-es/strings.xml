@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Aleatorio</string>
+    <string name="toast_pad_edit_on">Modo de edición de pad ACTIVADO</string>
+    <string name="toast_pad_edit_off">Modo de edición de pad DESACTIVADO</string>
+    <string name="toast_sequencer_playing">Secuenciador reproduciendo</string>
+    <string name="toast_sequencer_stopped">Secuenciador detenido</string>
+    <string name="toast_sequencer_rec_on">Modo de grabación habilitado</string>
+    <string name="toast_step_rec_on">Grabación por pasos habilitada</string>
 </resources>

@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Atsitiktinis</string>
+    <string name="toast_pad_edit_on">Pad redagavimo režimas ĮJUNGTAS</string>
+    <string name="toast_pad_edit_off">Pad redagavimo režimas IŠJUNGTAS</string>
+    <string name="toast_sequencer_playing">Sekvenceris groja</string>
+    <string name="toast_sequencer_stopped">Sekvenceris sustabdytas</string>
+    <string name="toast_sequencer_rec_on">Įrašymo režimas įjungtas</string>
+    <string name="toast_step_rec_on">Žingsninis įrašymas įjungtas</string>
 </resources>

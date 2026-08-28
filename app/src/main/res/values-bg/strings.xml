@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Фазова дист</string>
     <string name="lfo_wave_random">Произволно</string>
+    <string name="toast_pad_edit_on">Режим за редактиране на пад ВКЛ.</string>
+    <string name="toast_pad_edit_off">Режим за редактиране на пад ИЗКЛ.</string>
+    <string name="toast_sequencer_playing">Секвенсерът възпроизвежда</string>
+    <string name="toast_sequencer_stopped">Секвенсерът е спрян</string>
+    <string name="toast_sequencer_rec_on">Режимът на запис е активиран</string>
+    <string name="toast_step_rec_on">Стъпковият запис е активиран</string>
 </resources>

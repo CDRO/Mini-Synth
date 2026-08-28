@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Tilfældig</string>
+    <string name="toast_pad_edit_on">Pad Edit Mode TIL</string>
+    <string name="toast_pad_edit_off">Pad Edit Mode FRA</string>
+    <string name="toast_sequencer_playing">Sequencer spiller</string>
+    <string name="toast_sequencer_stopped">Sequencer stoppet</string>
+    <string name="toast_sequencer_rec_on">Optagetilstand aktiveret</string>
+    <string name="toast_step_rec_on">Step-optagelse aktiveret</string>
 </resources>

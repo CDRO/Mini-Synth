@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Véletlen</string>
+    <string name="toast_pad_edit_on">Pad szerkesztési mód BE</string>
+    <string name="toast_pad_edit_off">Pad szerkesztési mód KI</string>
+    <string name="toast_sequencer_playing">Szekvencer lejátszás</string>
+    <string name="toast_sequencer_stopped">Szekvencer leállítva</string>
+    <string name="toast_sequencer_rec_on">Felvételi mód engedélyezve</string>
+    <string name="toast_step_rec_on">Lépésenkénti felvétel engedélyezve</string>
 </resources>

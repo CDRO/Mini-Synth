@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">무작위</string>
+    <string name="toast_pad_edit_on">패드 편집 모드 ON</string>
+    <string name="toast_pad_edit_off">패드 편집 모드 OFF</string>
+    <string name="toast_sequencer_playing">시퀀서 재생 중</string>
+    <string name="toast_sequencer_stopped">시퀀서 중지됨</string>
+    <string name="toast_sequencer_rec_on">녹음 모드 활성화됨</string>
+    <string name="toast_step_rec_on">스텝 녹음 활성화됨</string>
 </resources>

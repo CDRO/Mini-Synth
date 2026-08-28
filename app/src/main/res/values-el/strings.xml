@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Τυχαίο</string>
+    <string name="toast_pad_edit_on">Λειτουργία επεξεργασίας Pad ΕΝΕΡΓΗ</string>
+    <string name="toast_pad_edit_off">Λειτουργία επεξεργασίας Pad ΑΝΕΝΕΡΓΗ</string>
+    <string name="toast_sequencer_playing">Αναπαραγωγή Sequencer</string>
+    <string name="toast_sequencer_stopped">Διακοπή Sequencer</string>
+    <string name="toast_sequencer_rec_on">Λειτουργία εγγραφής ενεργοποιημένη</string>
+    <string name="toast_step_rec_on">Βηματική εγγραφή ενεργοποιημένη</string>
 </resources>

@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">随机</string>
+    <string name="toast_pad_edit_on">打击垫编辑模式开启</string>
+    <string name="toast_pad_edit_off">打击垫编辑模式关闭</string>
+    <string name="toast_sequencer_playing">序列器播放中</string>
+    <string name="toast_sequencer_stopped">序列器已停止</string>
+    <string name="toast_sequencer_rec_on">录制模式已启用</string>
+    <string name="toast_step_rec_on">分步录制已启用</string>
 </resources>

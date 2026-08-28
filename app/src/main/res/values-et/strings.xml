@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Juhuslik</string>
+    <string name="toast_pad_edit_on">Padi redigeerimisrežiim SEES</string>
+    <string name="toast_pad_edit_off">Padi redigeerimisrežiim VÄLJAS</string>
+    <string name="toast_sequencer_playing">Sekvener mängib</string>
+    <string name="toast_sequencer_stopped">Sekvener peatatud</string>
+    <string name="toast_sequencer_rec_on">Salvestusrežiim lubatud</string>
+    <string name="toast_step_rec_on">Samm-salvestus lubatud</string>
 </resources>

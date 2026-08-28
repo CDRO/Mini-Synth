@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Willekeurig</string>
+    <string name="toast_pad_edit_on">Pad-bewerkingsmodus AAN</string>
+    <string name="toast_pad_edit_off">Pad-bewerkingsmodus UIT</string>
+    <string name="toast_sequencer_playing">Sequencer speelt af</string>
+    <string name="toast_sequencer_stopped">Sequencer gestopt</string>
+    <string name="toast_sequencer_rec_on">Opnamemodus ingeschakeld</string>
+    <string name="toast_step_rec_on">Stap-opname ingeschakeld</string>
 </resources>

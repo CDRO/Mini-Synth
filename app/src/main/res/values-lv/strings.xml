@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Nejaušs</string>
+    <string name="toast_pad_edit_on">Pad rediģēšanas režīms IESLĒGTS</string>
+    <string name="toast_pad_edit_off">Pad rediģēšanas režīms IZSLĒGTS</string>
+    <string name="toast_sequencer_playing">Sekvencers spēlē</string>
+    <string name="toast_sequencer_stopped">Sekvencers apturēts</string>
+    <string name="toast_sequencer_rec_on">Ierakstīšanas režīms iespējots</string>
+    <string name="toast_step_rec_on">Soļu ierakstīšana iespējota</string>
 </resources>

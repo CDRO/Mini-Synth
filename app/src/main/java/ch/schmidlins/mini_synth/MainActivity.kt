@@ -1250,7 +1250,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnCheckedChangeListener
             }
             synthView.isConfigMode = isChecked
-            Toast.makeText(this, if (isChecked) "Pad Edit Mode ON" else "Pad Edit Mode OFF", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, if (isChecked) getString(R.string.toast_pad_edit_on) else getString(R.string.toast_pad_edit_off), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -1379,7 +1379,7 @@ class MainActivity : AppCompatActivity() {
             val playing = !synthManager.isSequencerPlaying()
             synthManager.setSequencerPlaying(playing)
             content.btnSequencerPlay!!.text = if (playing) "■" else "▶"
-            Toast.makeText(this, if (playing) "Sequencer Playing" else "Sequencer Stopped", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, if (playing) getString(R.string.toast_sequencer_playing) else getString(R.string.toast_sequencer_stopped), Toast.LENGTH_SHORT).show()
         }
         content.toggleSequencerRec!!.setOnCheckedChangeListener { _, isChecked ->
             if (isHelpMode) { showHelp(getString(R.string.help_sequencer_rec)); return@setOnCheckedChangeListener }
@@ -1387,7 +1387,7 @@ class MainActivity : AppCompatActivity() {
             synthManager.setSequencerRecording(isChecked)
             if (isChecked) {
                 content.toggleStepRec.isChecked = false
-                Toast.makeText(this, "Recording Mode Enabled", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.toast_sequencer_rec_on), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -1404,7 +1404,7 @@ class MainActivity : AppCompatActivity() {
             isStepRecordMode = isChecked
             if (isChecked) {
                 content.toggleSequencerRec.isChecked = false
-                Toast.makeText(this, "Step Recording Enabled", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.toast_step_rec_on), Toast.LENGTH_SHORT).show()
             }
             content.btnStepRest!!.visibility = if (isChecked) View.VISIBLE else View.GONE
             content.btnStepBack!!.visibility = if (isChecked) View.VISIBLE else View.GONE

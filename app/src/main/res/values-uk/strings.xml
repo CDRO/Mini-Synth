@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Фазова дист</string>
     <string name="lfo_wave_random">Випадково</string>
+    <string name="toast_pad_edit_on">Режим редагування педа УВІМК.</string>
+    <string name="toast_pad_edit_off">Режим редагування педа ВИМК.</string>
+    <string name="toast_sequencer_playing">Секвенсор відтворює</string>
+    <string name="toast_sequencer_stopped">Секвенсор зупинено</string>
+    <string name="toast_sequencer_rec_on">Режим запису увімкнено</string>
+    <string name="toast_step_rec_on">Покроковий запис увімкнено</string>
 </resources>

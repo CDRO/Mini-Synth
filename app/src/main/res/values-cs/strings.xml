@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Náhodné</string>
+    <string name="toast_pad_edit_on">Režim úpravy padů ZAP</string>
+    <string name="toast_pad_edit_off">Režim úpravy padů VYP</string>
+    <string name="toast_sequencer_playing">Sekvencer hraje</string>
+    <string name="toast_sequencer_stopped">Sekvencer zastaven</string>
+    <string name="toast_sequencer_rec_on">Režim nahrávání povolen</string>
+    <string name="toast_step_rec_on">Krokové nahrávání povoleno</string>
 </resources>

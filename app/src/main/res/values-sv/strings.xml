@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Slumpmässig</string>
+    <string name="toast_pad_edit_on">Pad-redigeringsläge PÅ</string>
+    <string name="toast_pad_edit_off">Pad-redigeringsläge AV</string>
+    <string name="toast_sequencer_playing">Sequencer spelar</string>
+    <string name="toast_sequencer_stopped">Sequencer stoppad</string>
+    <string name="toast_sequencer_rec_on">Inspelningsläge aktiverat</string>
+    <string name="toast_step_rec_on">Stegvis inspelning aktiverad</string>
 </resources>

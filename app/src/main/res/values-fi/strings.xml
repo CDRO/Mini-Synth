@@ -97,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Satunnainen</string>
+    <string name="toast_pad_edit_on">Padin muokkaustila PÄÄLLÄ</string>
+    <string name="toast_pad_edit_off">Padin muokkaustila POIS</string>
+    <string name="toast_sequencer_playing">Sekvensseri toistaa</string>
+    <string name="toast_sequencer_stopped">Sekvensseri pysäytetty</string>
+    <string name="toast_sequencer_rec_on">Tallennustila käytössä</string>
+    <string name="toast_step_rec_on">Askel-tallennus käytössä</string>
 </resources>
