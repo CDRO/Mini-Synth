@@ -8,46 +8,35 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 ## Core Architectural Requirements
 
 ### Audio & Performance
-- **Performance**: C++ (Oboe/AAudio) for sound generation. Low latency < 10ms.
-- **Polyphony**: 16 voices. Additive mixing with `tanh` soft-clipping.
-- **Stereo**: True interleaved stereo path.
+- **Performance**: C++ (Oboe/AAudio) for low-latency generation.
+- **Polyphony**: 16 voices with `tanh` soft-clipping and Unison.
+- **Stereo**: True interleaved path with spatial routing.
 
 ### Logic & Features
-- **Oscillators**: Geometric waveforms with **Waveform Morphing** and **Wavetables**.
-- **Keyboard**: 13-key range with ±4 octave shift and gestures.
-- **Sound Board**: Customizable pad grid with sampling and spatial panning.
+- **Oscillators**: Morphing and Wavetables with Phase Distortion.
+- **Sequencer**: 64-step grid with real-time capture and export.
+- **Sound Board**: Customizable pad grid with sampling.
 
 ---
 
-## Milestone 1-38: Completed core series. [DONE]
+## Milestone 1-43: Completed core series through Phase Distortion. [DONE]
 
 ---
 
-## Milestone 39: Stereo Engine & Spatial Routing [DONE]
-## Milestone 40: Unison & Voice Layering [DONE]
-## Milestone 41: Waveform Morphing & Signed Releases [DONE]
+## Milestone 44: UI Polish & Functional Repair [DONE]
+
+### [UI] [Stability]
+- **Constraint Fix**: Anchored keyboard toggle to stable container.
+- **Visibility**: Restored configuration and sequencer access in Pad mode.
+
+### [Logic] [Fix]
+- **WAV Export**: Aligned file extensions with native encoder output.
+- **Feedback**: Localized confirmation toasts for all major UI actions.
 
 ---
 
-## Milestone 42: Help Coverage & Global Localization [DONE]
+## Milestone 45: Phase Distortion Refinement [TODO]
 
-### [UI] [Help]
-- **100% Coverage**: Verified help labels for every knob, button, and slider in the app.
-- **Discovery Mode**: Integrated localized help toasts across all synthesis and effects modules.
-
-### [UI] [Localization]
-- **Multi-Language**: Infrastructure and baseline translations for 30+ European and East Asian locales.
-- **Auto-Selection**: Automated language switching based on device system settings.
-
----
-
-## Milestone 43: LFO Expansion & Phase Distortion [DONE]
-
-### [Logic] [Synthesis]
-- **Phase Distortion**: Implemented Casio CZ-style timbre shaping in the native Oscillator.
-- **Random LFO**: Added Sample & Hold waveform for unpredictable modulation.
-- **Matrix Expansion**: Integrated Phase Distortion as a target for LFO and Aftertouch.
-
----
-
-## Future Features & Roadmap
+### [Logic] [Optimization]
+- **Math**: Optimize PD mapping with lookup tables or SIMD.
+- **Visuals**: Add a "Warped Phase" visualization to the top header.
