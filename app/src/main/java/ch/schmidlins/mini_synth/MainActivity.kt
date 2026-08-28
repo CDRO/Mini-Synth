@@ -469,7 +469,7 @@ class MainActivity : AppCompatActivity() {
             set.connect(toggleKbId, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 16)
         } else {
             set.clear(toggleKbId, ConstraintSet.BOTTOM)
-            set.connect(toggleKbId, ConstraintSet.BOTTOM, keyboardId, ConstraintSet.TOP)
+            set.connect(toggleKbId, ConstraintSet.BOTTOM, keyboardId, ConstraintSet.TOP, 8)
         }
 
         if (isPadMode) {
@@ -507,6 +507,7 @@ class MainActivity : AppCompatActivity() {
             content.btnOctaveUp.visibility = View.GONE
             content.tvOctaveValue.visibility = View.GONE
             content.toggleZenMode.visibility = View.VISIBLE
+            content.togglePadEditMain.visibility = View.VISIBLE
         } else if (!isPadMode) {
             content.parameterContainer.visibility = if (isZenMode) View.GONE else View.VISIBLE
             content.sequencerSection.visibility = View.VISIBLE
@@ -516,6 +517,7 @@ class MainActivity : AppCompatActivity() {
             content.btnOctaveUp.visibility = View.VISIBLE
             content.tvOctaveValue.visibility = View.VISIBLE
             content.toggleZenMode.visibility = View.VISIBLE
+            content.togglePadEditMain.visibility = View.GONE
         }
     }
 
@@ -1250,6 +1252,18 @@ class MainActivity : AppCompatActivity() {
                 return@setOnCheckedChangeListener
             }
             synthView.isConfigMode = isChecked
+            if (content.togglePadEditMain.isChecked != isChecked) content.togglePadEditMain.isChecked = isChecked
+            Toast.makeText(this, if (isChecked) getString(R.string.toast_pad_edit_on) else getString(R.string.toast_pad_edit_off), Toast.LENGTH_SHORT).show()
+        }
+
+        content.togglePadEditMain!!.setOnCheckedChangeListener { _, isChecked ->
+            if (isHelpMode) {
+                showHelp(getString(R.string.help_pad_config_toggle))
+                content.togglePadEditMain!!.isChecked = false
+                return@setOnCheckedChangeListener
+            }
+            synthView.isConfigMode = isChecked
+            if (content.togglePadEdit.isChecked != isChecked) content.togglePadEdit.isChecked = isChecked
             Toast.makeText(this, if (isChecked) getString(R.string.toast_pad_edit_on) else getString(R.string.toast_pad_edit_off), Toast.LENGTH_SHORT).show()
         }
     }
@@ -1316,6 +1330,14 @@ class MainActivity : AppCompatActivity() {
         }
         layout.addView(linkInput)
 
+        val factoryBtn = android.widget.Button(this).apply {
+            text = "Select Factory Sound"
+            setOnClickListener {
+                showFactorySamplePicker(padIndex)
+            }
+        }
+        layout.addView(factoryBtn)
+
         val colorLabel = android.widget.TextView(this).apply {
             text = getString(R.string.label_pad_color)
             setPadding(0, 20, 0, 8)
@@ -1367,10 +1389,47 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             .setNeutralButton(getString(R.string.btn_sound_source)) { _, _ ->
-                val options = arrayOf(getString(R.string.label_source_osc), getString(R.string.label_source_sample))
-                AlertDialog.Builder(this).setTitle(getString(R.string.dialog_select_source_title)).setItems(options) { _, _ -> }.show()
+                val options = arrayOf(
+                    getString(R.string.label_source_osc),
+                    getString(R.string.label_source_sample)
+                )
+                AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.dialog_select_source_title))
+                    .setItems(options) { _, which ->
+                        when (which) {
+                            0 -> {
+                                synthManager.loadFactorySample(padIndex, -1) // Clear sample
+                                padMappings.remove(padIndex)
+                                padSamplePaths.remove(padIndex)
+                                Toast.makeText(this, "Pad $padIndex reset to Oscillator", Toast.LENGTH_SHORT).show()
+                                updateMappingList(binding.appBarMain.contentMain)
+                            }
+                            1 -> {
+                                Toast.makeText(this, "Use Browser to load samples or Record a new one", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }.show()
             }
             .show()
+    }
+
+    private fun showFactorySamplePicker(padIndex: Int) {
+        val samples = arrayOf(
+            getString(R.string.sample_kick_808),
+            getString(R.string.sample_snare_909),
+            getString(R.string.sample_hat_closed),
+            getString(R.string.sample_hat_open),
+            getString(R.string.sample_clap),
+            getString(R.string.sample_rim)
+        )
+        AlertDialog.Builder(this)
+            .setTitle("Select Factory Sample")
+            .setItems(samples) { _, which ->
+                synthManager.loadFactorySample(padIndex, which)
+                padMappings[padIndex] = samples[which]
+                updateMappingList(binding.appBarMain.contentMain)
+                Toast.makeText(this, "Pad $padIndex: ${samples[which]} loaded", Toast.LENGTH_SHORT).show()
+            }.show()
     }
 
     private fun setupSequencer(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {

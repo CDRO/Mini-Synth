@@ -24,18 +24,11 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 ---
 
 ## Milestone 44: UI Polish & Functional Repair [DONE]
-
-### [UI] [Stability]
-- **Constraint Fix**: Anchored keyboard toggle to stable container.
-- **Visibility**: Restored configuration and sequencer access in Pad mode.
-
-### [Logic] [Fix]
-- **WAV Export**: Aligned file extensions with native encoder output.
-- **Feedback**: Localized confirmation toasts for all major UI actions.
+## Milestone 45: UI Interaction & Pad Config Repair [DONE]
 
 ---
 
-## Milestone 45: Phase Distortion Refinement [TODO]
+## Milestone 46: Phase Distortion Refinement [TODO]
 
 ### [Logic] [Optimization]
 - **Math**: Optimize PD mapping with lookup tables or SIMD.

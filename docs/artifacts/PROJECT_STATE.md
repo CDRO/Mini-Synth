@@ -20,8 +20,9 @@
 
 ### [DONE] Milestone 1-43: Core, Spatial, Unison, Morphing & Localization.
 ### [DONE] Milestone 44: UI Polish & Functional Repair.
+### [DONE] Milestone 45: UI Interaction & Pad Config Repair.
 
-### [NEXT] Milestone 45: Phase Distortion Refinement
+### [NEXT] Milestone 46: Phase Distortion Refinement
 - **Objective**: Optimize PD math and add visual feedback for the warped phase line.
 
 ## Quality Assurance Status
