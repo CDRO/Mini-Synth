@@ -65,20 +65,24 @@ float Oscillator::getWaveformSample(Waveform type, float phase) {
     }
 }
 
+float Oscillator::applyPhaseDistortion(float phase) {
+    if (mPhaseDistortion <= 0.001f) return phase;
+
+    float distorted = phase - (mPhaseDistortion * fastSin(phase));
+
+    // Wrap back to [0, TWO_PI]
+    while (distorted < 0) distorted += TWO_PI_F;
+    while (distorted >= TWO_PI_F) distorted -= TWO_PI_F;
+
+    return distorted;
+}
+
 float Oscillator::nextSample() {
     float result = 0.0f;
     float phaseFloat = static_cast<float>(mPhase);
 
     // Apply Phase Distortion
-    float distortedPhase = phaseFloat;
-    if (mPhaseDistortion > 0.001f) {
-        // Warp phase: phase' = phase - PD * sin(phase)
-        distortedPhase = phaseFloat - (mPhaseDistortion * fastSin(phaseFloat));
-
-        // Wrap back to [0, TWO_PI]
-        while (distortedPhase < 0) distortedPhase += TWO_PI_F;
-        while (distortedPhase >= TWO_PI_F) distortedPhase -= TWO_PI_F;
-    }
+    float distortedPhase = applyPhaseDistortion(phaseFloat);
 
     if (mWaveform == Waveform::Wavetable && !mWavetable.empty()) {
         float normalizedPhase = distortedPhase / TWO_PI_F;
