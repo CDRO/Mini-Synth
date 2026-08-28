@@ -68,6 +68,12 @@
     <string name="help_keyboard_hidden">Uključi/isključi vidljivost klavijature: Sakrijte klavirske tastere kako biste maksimalno povećali radni prostor.</string>
     <string name="help_config_toggle">Prebacivanje konfiguracije: Skriva sve klizače parametara kako bi se maksimizirao prostor za izvođačke padove.</string>
     <string name="help_phase_distortion">Fazna distorzija: Iskrivljuje faznu liniju oscilatora kako bi stvorila bogate harmonike.</string>
+    <string name="help_bpm_down">Смањите БПМ за 5.</string>
+    <string name="help_bpm_down_fine">Смањите БПМ за 1.</string>
+    <string name="help_bpm_up_fine">Повећајте БПМ за 1.</string>
+    <string name="help_bpm_up">Повећајте БПМ за 5.</string>
+    <string name="help_visualizer">Визуелизатор: Приказује аудио спектар и таласне податке у реалном времену.</string>
+    <string name="help_auto_latency">Аутоматска латенција: Аутоматски прилагођава величину аудио бафера на основу перформанси система како би се спречили кликови и пуцкетања.</string>
 
     <string name="demo_initializing">Demo: Inicijalizacija zakrpe sintetizatora&#8230;</string>
     <string name="demo_stage_1">Faza 1: Dinamička sinteza. Istraživanje pilastih talasnih oblika i rezonantnih filtera.</string>
@@ -91,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Nasumično</string>
+    <string name="toast_pad_edit_on">Pad Edit Mode UKLJUČEN</string>
+    <string name="toast_pad_edit_off">Pad Edit Mode ISKLJUČEN</string>
+    <string name="toast_sequencer_playing">Sekvencer svira</string>
+    <string name="toast_sequencer_stopped">Sekvencer zaustavljen</string>
+    <string name="toast_sequencer_rec_on">Režim snimanja omogućen</string>
+    <string name="toast_step_rec_on">Step snimanje omogućeno</string>
 </resources>

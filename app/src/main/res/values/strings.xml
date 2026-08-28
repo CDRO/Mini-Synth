@@ -100,9 +100,21 @@
     <string name="help_sequencer_duration">Step Size: Adjust the time duration of each sequencer step.</string>
     <string name="help_sequencer_length">Loop Length: Set the total number of steps in the sequence (8 to 64).</string>
     <string name="help_keyboard_hidden">Toggle Keyboard Visibility: Hide the piano keys to maximize workspace space.</string>
+    <string name="toast_pad_edit_on">Pad Edit Mode ON</string>
+    <string name="toast_pad_edit_off">Pad Edit Mode OFF</string>
+    <string name="toast_sequencer_playing">Sequencer Playing</string>
+    <string name="toast_sequencer_stopped">Sequencer Stopped</string>
+    <string name="toast_sequencer_rec_on">Recording Mode Enabled</string>
+    <string name="toast_step_rec_on">Step Recording Enabled</string>
     <string name="help_config_toggle">Config Toggle: Hides all parameter sliders to maximize space for performance pads.</string>
     <string name="help_phase_distortion">Phase Distortion: Warps the oscillator phase line to create rich harmonics.</string>
     <string name="help_pads_fullscreen">Toggle Fullscreen Pads: Hides the header and parameter panel to focus on performance.</string>
+    <string name="help_bpm_down">Decrease BPM by 5.</string>
+    <string name="help_bpm_down_fine">Decrease BPM by 1.</string>
+    <string name="help_bpm_up_fine">Increase BPM by 1.</string>
+    <string name="help_bpm_up">Increase BPM by 5.</string>
+    <string name="help_visualizer">Visualizer: Displays real-time audio spectrum and waveform data.</string>
+    <string name="help_auto_latency">Auto Latency: Automatically adjusts the audio buffer size based on system performance to prevent clicks and pops.</string>
 
     <!-- Toasts and Dialogs -->
     <string name="toast_discovery_active">Discovery Mode Active. Click any control for info.</string>

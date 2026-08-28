@@ -68,6 +68,12 @@
     <string name="help_keyboard_hidden">Schakel Keyboard Zichtbaarheid in/uit: Verberg de pianotoetsen om de werkruimte te maximaliseren.</string>
     <string name="help_config_toggle">Configuratie-schakelaar: verbergt alle parameter-schuifregelaars om de ruimte voor performance-pads te maximaliseren.</string>
     <string name="help_phase_distortion">Fasedistorsie: Vervormt de faselijn van de oscillator om rijke harmonischen te creëren.</string>
+    <string name="help_bpm_down">BPM verlagen met 5.</string>
+    <string name="help_bpm_down_fine">BPM verlagen met 1.</string>
+    <string name="help_bpm_up_fine">BPM verhogen met 1.</string>
+    <string name="help_bpm_up">BPM verhogen met 5.</string>
+    <string name="help_visualizer">Visualizer: Toont real-time audiospectrum en golfvormgegevens.</string>
+    <string name="help_auto_latency">Auto Latency: Past automatisch de grootte van de audiobuffer aan op basis van de systeemprestaties om klikken en ploppen te voorkomen.</string>
 
     <string name="demo_initializing">Demo: Synthesizer patch initialiseren&#8230;</string>
     <string name="demo_stage_1">Fase 1: Dynamische Synthese. Ontdekken van Zaagtand golfvormen en Resonante Filters.</string>
@@ -91,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Willekeurig</string>
+    <string name="toast_pad_edit_on">Pad-bewerkingsmodus AAN</string>
+    <string name="toast_pad_edit_off">Pad-bewerkingsmodus UIT</string>
+    <string name="toast_sequencer_playing">Sequencer speelt af</string>
+    <string name="toast_sequencer_stopped">Sequencer gestopt</string>
+    <string name="toast_sequencer_rec_on">Opnamemodus ingeschakeld</string>
+    <string name="toast_step_rec_on">Stap-opname ingeschakeld</string>
 </resources>

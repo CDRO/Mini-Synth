@@ -68,6 +68,12 @@
     <string name="help_keyboard_hidden">切换键盘可见性：隐藏钢琴键以最大化工作空间。</string>
     <string name="help_config_toggle">配置切换：隐藏所有参数滑块，以最大限度地增加演奏垫的空间。</string>
     <string name="help_phase_distortion">相位失真：扭曲振荡器相位线以产生丰富的谐波。</string>
+    <string name="help_bpm_down">将 BPM 降低 5。</string>
+    <string name="help_bpm_down_fine">将 BPM 降低 1。</string>
+    <string name="help_bpm_up_fine">将 BPM 提高 1。</string>
+    <string name="help_bpm_up">将 BPM 提高 5。</string>
+    <string name="help_visualizer">可视化器：实时显示音频频谱和波形数据。</string>
+    <string name="help_auto_latency">自动延迟：根据系统性能自动调整音频缓冲区大小，以防止点击声和爆裂声。</string>
 
     <string name="demo_initializing">演示：正在初始化合成器音色&#8230;</string>
     <string name="demo_stage_1">第 1 阶段：动态合成。探索锯齿波和共振滤波器。</string>
@@ -91,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">随机</string>
+    <string name="toast_pad_edit_on">打击垫编辑模式开启</string>
+    <string name="toast_pad_edit_off">打击垫编辑模式关闭</string>
+    <string name="toast_sequencer_playing">序列器播放中</string>
+    <string name="toast_sequencer_stopped">序列器已停止</string>
+    <string name="toast_sequencer_rec_on">录制模式已启用</string>
+    <string name="toast_step_rec_on">分步录制已启用</string>
 </resources>

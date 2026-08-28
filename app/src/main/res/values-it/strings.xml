@@ -68,6 +68,12 @@
     <string name="help_keyboard_hidden">Attiva/Disattiva Visibilità Tastiera: Nasconde i tasti del pianoforte per massimizzare lo spazio di lavoro.</string>
     <string name="help_config_toggle">Attivazione/disattivazione configurazione: nasconde tutti i cursori dei parametri per massimizzare lo spazio per i pad per le performance.</string>
     <string name="help_phase_distortion">Distorsione di fase: Deforma la linea di fase dell\'oscillatore per creare ricche armoniche.</string>
+    <string name="help_bpm_down">Diminuisci BPM di 5.</string>
+    <string name="help_bpm_down_fine">Diminuisci BPM di 1.</string>
+    <string name="help_bpm_up_fine">Aumenta BPM di 1.</string>
+    <string name="help_bpm_up">Aumenta BPM di 5.</string>
+    <string name="help_visualizer">Visualizzatore: visualizza lo spettro audio e i dati della forma d\'onda in tempo reale.</string>
+    <string name="help_auto_latency">Latenza automatica: Regola automaticamente la dimensione del buffer audio in base alle prestazioni del sistema per evitare clic e scoppiettii.</string>
 
     <string name="demo_initializing">Demo: Inizializzazione della patch del sintetizzatore...</string>
     <string name="demo_stage_1">Fase 1: Sintesi dinamica. Esplorazione delle forme d\'onda a dente di sega e dei filtri risonanti.</string>
@@ -91,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Casuale</string>
+    <string name="toast_pad_edit_on">Modalità modifica pad ATTIVA</string>
+    <string name="toast_pad_edit_off">Modalità modifica pad DISATTIVA</string>
+    <string name="toast_sequencer_playing">Sequencer in riproduzione</string>
+    <string name="toast_sequencer_stopped">Sequencer fermato</string>
+    <string name="toast_sequencer_rec_on">Modalità registrazione abilitata</string>
+    <string name="toast_step_rec_on">Registrazione a passi abilitata</string>
 </resources>

@@ -68,6 +68,12 @@
     <string name="help_keyboard_hidden">Växla klaviaturens synlighet: Dölj pianotangenterna för att maximera arbetsytan.</string>
     <string name="help_config_toggle">Konfigurationsväxling: Döljer alla parameterreglage för att maximera utrymmet för prestandaplattor.</string>
     <string name="help_phase_distortion">Fasdistorsion: Vrider oscillatorns faslinje för att skapa rika övertoner.</string>
+    <string name="help_bpm_down">Minska BPM med 5.</string>
+    <string name="help_bpm_down_fine">Minska BPM med 1.</string>
+    <string name="help_bpm_up_fine">Öka BPM med 1.</string>
+    <string name="help_bpm_up">Öka BPM med 5.</string>
+    <string name="help_visualizer">Visualizer: Visar ljudspektrum och vågformsdata i realtid.</string>
+    <string name="help_auto_latency">Auto Latency: Justerar automatiskt ljudbuffertstorleken baserat på systemets prestanda för att förhindra klick och pop.</string>
 
     <string name="demo_initializing">Demo: Initierar syntpatch&#8230;</string>
     <string name="demo_stage_1">Etapp 1: Dynamisk syntes. Utforskar sågtandsvågformer och resonansfilter.</string>
@@ -91,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Slumpmässig</string>
+    <string name="toast_pad_edit_on">Pad-redigeringsläge PÅ</string>
+    <string name="toast_pad_edit_off">Pad-redigeringsläge AV</string>
+    <string name="toast_sequencer_playing">Sequencer spelar</string>
+    <string name="toast_sequencer_stopped">Sequencer stoppad</string>
+    <string name="toast_sequencer_rec_on">Inspelningsläge aktiverat</string>
+    <string name="toast_step_rec_on">Stegvis inspelning aktiverad</string>
 </resources>

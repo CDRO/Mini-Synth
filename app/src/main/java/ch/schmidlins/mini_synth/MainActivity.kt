@@ -114,6 +114,9 @@ class MainActivity : AppCompatActivity() {
         val content = binding.appBarMain.contentMain
         val synthView = content.keyboardPadView!!
         content.topHeader.visualizerView.setSynthManager(synthManager)
+        content.topHeader.visualizerView.setOnClickListener {
+            if (isHelpMode) showHelp(getString(R.string.help_visualizer))
+        }
         
         // Listener
         synthView.listener = object : KeyboardPadView.OnNoteEventListener {
@@ -270,7 +273,7 @@ class MainActivity : AppCompatActivity() {
             content.btnMockRec!!.alpha = if (isMockRec) 1.0f else 0.5f
             if (isMockRec) {
                 val dir = getExternalFilesDir(null) ?: filesDir
-                val file = java.io.File(dir, "recording_${System.currentTimeMillis()}.mp3")
+                val file = java.io.File(dir, "recording_${System.currentTimeMillis()}.wav")
                 synthManager.startRecording(file.absolutePath)
             } else {
                 synthManager.stopRecording()
@@ -401,6 +404,11 @@ class MainActivity : AppCompatActivity() {
         setupPatternManagement(content)
         
         content.topHeader.toggleAutoLatency.setOnCheckedChangeListener { _, isChecked ->
+            if (isHelpMode) {
+                showHelp(getString(R.string.help_auto_latency))
+                content.topHeader.toggleAutoLatency.isChecked = !isChecked // Revert UI
+                return@setOnCheckedChangeListener
+            }
             synthManager.setAutoLatencyEnabled(isChecked)
         }
         
@@ -442,7 +450,7 @@ class MainActivity : AppCompatActivity() {
 
         content.keyboardPadView.isEnabled = !isHelpMode
 
-        val keyboardId = R.id.keyboard_pad_view
+        val keyboardId = R.id.keyboard_pad_scroll_view
         val toggleKbId = R.id.toggle_keyboard
         val headerId = R.id.top_header
         val workspaceId = R.id.workspace_layout
@@ -456,8 +464,9 @@ class MainActivity : AppCompatActivity() {
         set.setVisibility(fullToggleId, if (isPadMode) View.VISIBLE else View.GONE)
         
         if (!kbVisible) {
+            set.clear(toggleKbId, ConstraintSet.TOP)
             set.clear(toggleKbId, ConstraintSet.BOTTOM)
-            set.connect(toggleKbId, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+            set.connect(toggleKbId, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 16)
         } else {
             set.clear(toggleKbId, ConstraintSet.BOTTOM)
             set.connect(toggleKbId, ConstraintSet.BOTTOM, keyboardId, ConstraintSet.TOP)
@@ -490,14 +499,14 @@ class MainActivity : AppCompatActivity() {
 
         // Nested views visibility (managed directly as they are not top-level children of the root ConstraintLayout)
         if (isPadMode && !isFullscreenPads) {
-            content.parameterContainer.visibility = View.GONE
-            content.sequencerSection.visibility = View.GONE
-            content.padCustomizationSection.visibility = View.GONE
+            content.parameterContainer.visibility = if (isZenMode) View.GONE else View.VISIBLE
+            content.sequencerSection.visibility = View.VISIBLE
+            content.padCustomizationSection.visibility = View.VISIBLE
             content.btnPolyToggle.visibility = View.GONE
             content.btnOctaveDown.visibility = View.GONE
             content.btnOctaveUp.visibility = View.GONE
             content.tvOctaveValue.visibility = View.GONE
-            content.toggleZenMode.visibility = View.GONE
+            content.toggleZenMode.visibility = View.VISIBLE
         } else if (!isPadMode) {
             content.parameterContainer.visibility = if (isZenMode) View.GONE else View.VISIBLE
             content.sequencerSection.visibility = View.VISIBLE
@@ -1241,6 +1250,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnCheckedChangeListener
             }
             synthView.isConfigMode = isChecked
+            Toast.makeText(this, if (isChecked) getString(R.string.toast_pad_edit_on) else getString(R.string.toast_pad_edit_off), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -1369,12 +1379,16 @@ class MainActivity : AppCompatActivity() {
             val playing = !synthManager.isSequencerPlaying()
             synthManager.setSequencerPlaying(playing)
             content.btnSequencerPlay!!.text = if (playing) "■" else "▶"
+            Toast.makeText(this, if (playing) getString(R.string.toast_sequencer_playing) else getString(R.string.toast_sequencer_stopped), Toast.LENGTH_SHORT).show()
         }
         content.toggleSequencerRec!!.setOnCheckedChangeListener { _, isChecked ->
             if (isHelpMode) { showHelp(getString(R.string.help_sequencer_rec)); return@setOnCheckedChangeListener }
             isSequencerRecordMode = isChecked
             synthManager.setSequencerRecording(isChecked)
-            if (isChecked) content.toggleStepRec.isChecked = false
+            if (isChecked) {
+                content.toggleStepRec.isChecked = false
+                Toast.makeText(this, getString(R.string.toast_sequencer_rec_on), Toast.LENGTH_SHORT).show()
+            }
         }
 
         content.togglePadSampling!!.setOnCheckedChangeListener { _, isChecked ->
@@ -1388,7 +1402,10 @@ class MainActivity : AppCompatActivity() {
                 return@setOnCheckedChangeListener 
             }
             isStepRecordMode = isChecked
-            if (isChecked) content.toggleSequencerRec.isChecked = false
+            if (isChecked) {
+                content.toggleSequencerRec.isChecked = false
+                Toast.makeText(this, getString(R.string.toast_step_rec_on), Toast.LENGTH_SHORT).show()
+            }
             content.btnStepRest!!.visibility = if (isChecked) View.VISIBLE else View.GONE
             content.btnStepBack!!.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
@@ -1641,10 +1658,22 @@ class MainActivity : AppCompatActivity() {
             synthManager.setMetronomeEnabled(isMetronomeEnabled)
             content.topHeader.btnMetronomeToggle.text = if (isMetronomeEnabled) getString(R.string.generic_on) else getString(R.string.generic_off)
         }
-        content.topHeader.btnBpmDown.setOnClickListener { if (bpm >= 45) { bpm -= 5; updateBpm() } }
-        content.topHeader.btnBpmDownFine.setOnClickListener { if (bpm >= 41) { bpm -= 1; updateBpm() } }
-        content.topHeader.btnBpmUpFine.setOnClickListener { if (bpm <= 239) { bpm += 1; updateBpm() } }
-        content.topHeader.btnBpmUp.setOnClickListener { if (bpm <= 235) { bpm += 5; updateBpm() } }
+        content.topHeader.btnBpmDown.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_bpm_down)); return@setOnClickListener }
+            if (bpm >= 45) { bpm -= 5; updateBpm() } 
+        }
+        content.topHeader.btnBpmDownFine.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_bpm_down_fine)); return@setOnClickListener }
+            if (bpm >= 41) { bpm -= 1; updateBpm() } 
+        }
+        content.topHeader.btnBpmUpFine.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_bpm_up_fine)); return@setOnClickListener }
+            if (bpm <= 239) { bpm += 1; updateBpm() } 
+        }
+        content.topHeader.btnBpmUp.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_bpm_up)); return@setOnClickListener }
+            if (bpm <= 235) { bpm += 5; updateBpm() } 
+        }
         updateBpm()
     }
 

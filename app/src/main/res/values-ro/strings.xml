@@ -68,6 +68,12 @@
     <string name="help_keyboard_hidden">Comutați Vizibilitatea Tastaturii: Ascundeți tastele pianului pentru a maximiza spațiul de lucru.</string>
     <string name="help_config_toggle">Comutare configurare: Ascunde toate glisoarele de parametri pentru a maximiza spațiul pentru pad-urile de performanță.</string>
     <string name="help_phase_distortion">Distorsiune de fază: Deformează linia de fază a oscilatorului pentru a crea armonici bogate.</string>
+    <string name="help_bpm_down">Scade BPM cu 5.</string>
+    <string name="help_bpm_down_fine">Scade BPM cu 1.</string>
+    <string name="help_bpm_up_fine">Crește BPM cu 1.</string>
+    <string name="help_bpm_up">Crește BPM cu 5.</string>
+    <string name="help_visualizer">Vizualizator: Afișează spectrul audio și datele formei de undă în timp real.</string>
+    <string name="help_auto_latency">Latență automată: ajustează automat dimensiunea tamponului audio pe baza performanței sistemului pentru a preveni clicurile și pocniturile.</string>
 
     <string name="demo_initializing">Demo: Se inițializează patch-ul de sintetizator&#8230;</string>
     <string name="demo_stage_1">Etapa 1: Sinteză dinamică. Explorarea formelor de undă Dinte de fierăstrău și a filtrelor rezonante.</string>
@@ -91,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Aleatoriu</string>
+    <string name="toast_pad_edit_on">Mod Editare Pad PORNIT</string>
+    <string name="toast_pad_edit_off">Mod Editare Pad OPRIT</string>
+    <string name="toast_sequencer_playing">Secvențiator redare</string>
+    <string name="toast_sequencer_stopped">Secvențiator oprit</string>
+    <string name="toast_sequencer_rec_on">Mod înregistrare activat</string>
+    <string name="toast_step_rec_on">Înregistrare prin pași activată</string>
 </resources>

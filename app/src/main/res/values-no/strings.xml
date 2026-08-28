@@ -68,6 +68,12 @@
     <string name="help_keyboard_hidden">Veksle tastaturvisning: Skjul pianotastene for å maksimere arbeidsområdet.</string>
     <string name="help_config_toggle">Konfigurasjonsbytte: Skjuler alle parameterglidere for å maksimere plassen for ytelsesputer.</string>
     <string name="help_phase_distortion">Fasedistorsjon: Vrir oscillatorens faselinje for å skabe rike harmoniske overtoner.</string>
+    <string name="help_bpm_down">Reduser BPM med 5.</string>
+    <string name="help_bpm_down_fine">Reduser BPM med 1.</string>
+    <string name="help_bpm_up_fine">Øk BPM med 1.</string>
+    <string name="help_bpm_up">Øk BPM med 5.</string>
+    <string name="help_visualizer">Visualizer: Viser lydspektrum og bølgeformdata i sanntid.</string>
+    <string name="help_auto_latency">Auto Latency: Justerer automatisk lydbufferstørrelsen baserert på systemytelse for å forhindre klikk og pop.</string>
 
     <string name="demo_initializing">Demo: Initierer syntpatch&#8230;</string>
     <string name="demo_stage_1">Etappe 1: Dynamisk syntese. Utforsker sagtannbølgeformer og resonansfiltre.</string>
@@ -91,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Tilfeldig</string>
+    <string name="toast_pad_edit_on">Pad Edit Mode PÅ</string>
+    <string name="toast_pad_edit_off">Pad Edit Mode AV</string>
+    <string name="toast_sequencer_playing">Sequencer spiller</string>
+    <string name="toast_sequencer_stopped">Sequencer stoppet</string>
+    <string name="toast_sequencer_rec_on">Opptaksmodus aktivert</string>
+    <string name="toast_step_rec_on">Stegvis opptak aktivert</string>
 </resources>

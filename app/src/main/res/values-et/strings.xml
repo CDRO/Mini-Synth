@@ -68,6 +68,12 @@
     <string name="help_keyboard_hidden">Lülita klaviatuuri nähtavust: Peida klaveriklahvid tööpinnas ruumi maksimeerimiseks.</string>
     <string name="help_config_toggle">Konfiguratsiooni lüliti: Peidab kõik parameetrite liugurid, et maksimeerida ruumi esituspatjade jaoks.</string>
     <string name="help_phase_distortion">Faasimoonutus: Moonutab ostsillaatori faasijoont, et luua rikkalikke harmoonikuid.</string>
+    <string name="help_bpm_down">Vähenda BPM-i 5 võrra.</string>
+    <string name="help_bpm_down_fine">Vähenda BPM-i 1 võrra.</string>
+    <string name="help_bpm_up_fine">Suurenda BPM-i 1 võrra.</string>
+    <string name="help_bpm_up">Suurenda BPM-i 5 võrra.</string>
+    <string name="help_visualizer">Visualiseerija: kuvab reaalajas helispektrit ja lainekuju andmeid.</string>
+    <string name="help_auto_latency">Automaatne latentsus: reguleerib automaatselt helipuhvri suurust vastavalt süsteemi jõudlusele, et vältida klõpse ja pokse.</string>
 
     <string name="demo_initializing">Demo: Süntesaatori patchi lähtestamine&#8230;</string>
     <string name="demo_stage_1">1. etapp: Dünaamiline süntees. Saehammas-lainekujude ja resonantsfiltrite uurimine.</string>
@@ -91,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Juhuslik</string>
+    <string name="toast_pad_edit_on">Padi redigeerimisrežiim SEES</string>
+    <string name="toast_pad_edit_off">Padi redigeerimisrežiim VÄLJAS</string>
+    <string name="toast_sequencer_playing">Sekvener mängib</string>
+    <string name="toast_sequencer_stopped">Sekvener peatatud</string>
+    <string name="toast_sequencer_rec_on">Salvestusrežiim lubatud</string>
+    <string name="toast_step_rec_on">Samm-salvestus lubatud</string>
 </resources>

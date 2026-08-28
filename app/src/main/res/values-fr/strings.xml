@@ -68,6 +68,12 @@
     <string name="help_keyboard_hidden">Basculer la visibilité du clavier : Masquez les touches du piano pour maximiser l\'espace de travail.</string>
     <string name="help_config_toggle">Bascule de configuration : masque tous les curseurs de paramètres pour maximiser l\'espace pour les pads de performance.</string>
     <string name="help_phase_distortion">Distorsion de phase : Déforme la ligne de phase de l\'oscillateur pour créer des harmoniques riches.</string>
+    <string name="help_bpm_down">Diminuer le BPM de 5.</string>
+    <string name="help_bpm_down_fine">Diminuer le BPM de 1.</string>
+    <string name="help_bpm_up_fine">Augmenter le BPM de 1.</string>
+    <string name="help_bpm_up">Augmenter le BPM de 5.</string>
+    <string name="help_visualizer">Visualiseur : affiche le spectre audio et les données de forme d\'onde en temps réel.</string>
+    <string name="help_auto_latency">Latence automatique : Ajuste automatiquement la taille du tampon audio en fonction des performances du système pour éviter les clics et les craquements.</string>
 
     <string name="demo_initializing">Démo : Initialisation du patch du synthé...</string>
     <string name="demo_stage_1">Étape 1 : Synthèse dynamique. Exploration des ondes en dent de scie et des filtres résonants.</string>
@@ -91,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Aléatoire</string>
+    <string name="toast_pad_edit_on">Mode édition de pad ACTIVÉ</string>
+    <string name="toast_pad_edit_off">Mode édition de pad DÉSACTIVÉ</string>
+    <string name="toast_sequencer_playing">Séquenceur en lecture</string>
+    <string name="toast_sequencer_stopped">Séquenceur arrêté</string>
+    <string name="toast_sequencer_rec_on">Mode d\'enregistrement activé</string>
+    <string name="toast_step_rec_on">Enregistrement par étapes activé</string>
 </resources>

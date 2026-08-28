@@ -68,6 +68,12 @@
     <string name="help_keyboard_hidden">Billentyűzet láthatóságának váltása: A zongorabillentyűk elrejtése a munkaterület maximalizálása érdekében.</string>
     <string name="help_config_toggle">Konfiguráció váltó: Elrejti az összes paramétercsúszkát, hogy maximalizálja a helyet a teljesítmény padok számára.</string>
     <string name="help_phase_distortion">Fázistorzítás: Elvetemíti az oszcillátor fázisvonalát gazdag harmonikusok létrehozásához.</string>
+    <string name="help_bpm_down">BPM csökkentése 5-tel.</string>
+    <string name="help_bpm_down_fine">BPM csökkentése 1-gyel.</string>
+    <string name="help_bpm_up_fine">BPM növelése 1-gyel.</string>
+    <string name="help_bpm_up">BPM növelése 5-tel.</string>
+    <string name="help_visualizer">Visualizer: Valós idejű audiospektrumot és hullámforma-adatokat jelenít meg.</string>
+    <string name="help_auto_latency">Automatikus késleltetés: Automatikusan beállítja az audio puffer méretét a rendszer teljesítménye alapján a kattanások és pattogások elkerülése érdekében.</string>
 
     <string name="demo_initializing">Demó: Szintetizátor patch inicializálása&#8230;</string>
     <string name="demo_stage_1">1. szakasz: Dinamikus szintézis. Fűrészfog hullámformák és rezonáns szűrők felfedezése.</string>
@@ -91,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Véletlen</string>
+    <string name="toast_pad_edit_on">Pad szerkesztési mód BE</string>
+    <string name="toast_pad_edit_off">Pad szerkesztési mód KI</string>
+    <string name="toast_sequencer_playing">Szekvencer lejátszás</string>
+    <string name="toast_sequencer_stopped">Szekvencer leállítva</string>
+    <string name="toast_sequencer_rec_on">Felvételi mód engedélyezve</string>
+    <string name="toast_step_rec_on">Lépésenkénti felvétel engedélyezve</string>
 </resources>

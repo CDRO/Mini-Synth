@@ -68,6 +68,12 @@
     <string name="help_keyboard_hidden">Prepnúť viditeľnosť klávesnice: Skryje klávesy klavíra pre maximalizáciu pracovného priestoru.</string>
     <string name="help_config_toggle">Prepínač konfigurácie: Skryje všetky posuvníky parametrov, aby sa maximalizoval priestor pre výkonné pady.</string>
     <string name="help_phase_distortion">Fázové skreslenie: Deformuje fázovú linku oscilátora pre vytvorenie bohatých harmoník.</string>
+    <string name="help_bpm_down">Znížiť BPM o 5.</string>
+    <string name="help_bpm_down_fine">Znížiť BPM o 1.</string>
+    <string name="help_bpm_up_fine">Zvýšiť BPM o 1.</string>
+    <string name="help_bpm_up">Zvýšiť BPM o 5.</string>
+    <string name="help_visualizer">Vizualizér: Zobrazuje zvukové spektrum a údaje o priebehu v reálnom čase.</string>
+    <string name="help_auto_latency">Automatická latencia: Automaticky upravuje veľkosť zvukovej vyrovnávacej pamäte na základe výkonu systému, aby sa zabránilo praskaniu a lupaniu.</string>
 
     <string name="demo_initializing">Demo: Inicializácia syntetizačného patchu&#8230;</string>
     <string name="demo_stage_1">Fáza 1: Dynamická syntéza. Skúmanie pílových vĺn a resonantných filtrov.</string>
@@ -91,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Náhodné</string>
+    <string name="toast_pad_edit_on">Režim úpravy padov ZAP</string>
+    <string name="toast_pad_edit_off">Režim úpravy padov VYP</string>
+    <string name="toast_sequencer_playing">Sekvencer hrá</string>
+    <string name="toast_sequencer_stopped">Sekvencer zastavený</string>
+    <string name="toast_sequencer_rec_on">Režim nahrávania povolený</string>
+    <string name="toast_step_rec_on">Krokové nahrávanie povolené</string>
 </resources>

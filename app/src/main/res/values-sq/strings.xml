@@ -68,6 +68,12 @@
     <string name="help_keyboard_hidden">Ndërroni Vizibilitetin e Tastierës: Fshihni tastet e pianos për të maksimizuar hapësirën e punës.</string>
     <string name="help_config_toggle">Ndërrimi i konfigurimit: Fsheh të gjithë rrëshqitësit e parametrave për të maksimizuar hapësirën për pad-et e performancës.</string>
     <string name="help_phase_distortion">Distorsioni i fazës: Deformon linjën e fazës së oshilatorit për të krijuar harmonikë të pasur.</string>
+    <string name="help_bpm_down">Ulni BPM me 5.</string>
+    <string name="help_bpm_down_fine">Ulni BPM me 1.</string>
+    <string name="help_bpm_up_fine">Rritni BPM me 1.</string>
+    <string name="help_bpm_up">Rritni BPM me 5.</string>
+    <string name="help_visualizer">Visualizer: Shfaq spektrin audio dhe të dhënat e formës së valës në kohë reale.</string>
+    <string name="help_auto_latency">Latenca automatike: Rregullon automatikisht madhësinë e tamponit të audios bazuar në performancën e sistemit për të parandaluar klikimet dhe zhurmat.</string>
 
     <string name="demo_initializing">Demo: Po inicializohet patch-i i sintetizatorit&#8230;</string>
     <string name="demo_stage_1">Faza 1: Sinteza Dinamike. Duke eksploruar format e valës Sawtooth dhe Filtrat Rezonantë.</string>
@@ -91,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Rastësishëm</string>
+    <string name="toast_pad_edit_on">Mënyra e redaktimit të pad-it NDEZUR</string>
+    <string name="toast_pad_edit_off">Mënyra e redaktimit të pad-it FIKUR</string>
+    <string name="toast_sequencer_playing">Sekuencuesi po luan</string>
+    <string name="toast_sequencer_stopped">Sekuencuesi u ndalua</string>
+    <string name="toast_sequencer_rec_on">Mënyra e regjistrimit u aktivizua</string>
+    <string name="toast_step_rec_on">Regjistrimi me hapa u aktivizua</string>
 </resources>

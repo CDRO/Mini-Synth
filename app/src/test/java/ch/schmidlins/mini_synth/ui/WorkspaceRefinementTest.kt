@@ -30,7 +30,7 @@ class WorkspaceRefinementTest {
                 btnToggle.performClick()
                 ShadowLooper.idleMainLooper()
                 
-                assertEquals("Parameter container should be GONE", View.GONE, paramContainer.visibility)
+                assertEquals("Parameter container should be VISIBLE (Polish: allow config in Pad mode)", View.VISIBLE, paramContainer.visibility)
                 assertEquals("Fullscreen toggle should be VISIBLE", View.VISIBLE, fullToggle.visibility)
                 
                 // Toggle Fullscreen ON

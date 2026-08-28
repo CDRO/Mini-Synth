@@ -68,6 +68,12 @@
     <string name="help_keyboard_hidden">キーボード表示の切り替え：ピアノキーを非表示にしてワークスペースを最大化します。</string>
     <string name="help_config_toggle">設定切り替え：すべてのパラメータスライダーを非表示にし、パフォーマンスパッドのスペースを最大化します。</string>
     <string name="help_phase_distortion">フェーズ・ディストーション：オシレーターの位相ラインを歪ませて、豊かな倍音を作り出します。</string>
+    <string name="help_bpm_down">BPMを5下げます。</string>
+    <string name="help_bpm_down_fine">BPMを1下げます。</string>
+    <string name="help_bpm_up_fine">BPMを1上げます。</string>
+    <string name="help_bpm_up">BPMを5上げます。</string>
+    <string name="help_visualizer">ビジュアライザー：リアルタイムのオーディオスペクトルと波形データを表示します。</string>
+    <string name="help_auto_latency">自動レイテンシ：システムのパフォーマンスに基づいてオーディオバッファサイズを自動的に調整し、クリックやポップ音を防ぎます。</string>
 
     <string name="demo_initializing">デモ：シンセパッチを初期化中&#8230;</string>
     <string name="demo_stage_1">ステージ1：ダイナミックシンセシス。のこぎり波とレゾナントフィルターの探索。</string>
@@ -91,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">ランダム</string>
+    <string name="toast_pad_edit_on">パッド編集モード ON</string>
+    <string name="toast_pad_edit_off">パッド編集モード OFF</string>
+    <string name="toast_sequencer_playing">シーケンサー再生中</string>
+    <string name="toast_sequencer_stopped">シーケンサー停止</string>
+    <string name="toast_sequencer_rec_on">録音モード有効</string>
+    <string name="toast_step_rec_on">ステップ録音有効</string>
 </resources>

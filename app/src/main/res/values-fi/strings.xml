@@ -68,6 +68,12 @@
     <string name="help_keyboard_hidden">Vaihda koskettimiston näkyvyyttä: Piilota pianon koskettimet maksimoidaksesi työtilan.</string>
     <string name="help_config_toggle">Kokoonpanon vaihto: Piilottaa kaikki parametrisäätimet maksimoidakseen tilan suorituskykypadeille.</string>
     <string name="help_phase_distortion">Vaihevääristymä: Vääristää oskillaattorin vaiheviivaa luoden rikkaita harmonisia ylä-ääniä.</string>
+    <string name="help_bpm_down">Vähennä BPM:ää 5:llä.</string>
+    <string name="help_bpm_down_fine">Vähennä BPM:ää 1:llä.</string>
+    <string name="help_bpm_up_fine">Lisää BPM:ää 1:llä.</string>
+    <string name="help_bpm_up">Lisää BPM:ää 5:llä.</string>
+    <string name="help_visualizer">Visualisoija: Näyttää äänispektrin ja aaltomuototiedot reaaliajassa.</string>
+    <string name="help_auto_latency">Automaattinen viive: Säätää automaattisesti ääni-puskurin kokoa järjestelmän suorituskyvyn perusteella estääkseen napsahdukset ja poksahdukset.</string>
 
     <string name="demo_initializing">Demo: Alustetaan syntetisaattorin patchia&#8230;</string>
     <string name="demo_stage_1">Vaihe 1: Dynaaminen synteesi. Tutustutaan sahalaita-aaltomuotoihin ja resonanssisuodattimiin.</string>
@@ -91,4 +97,10 @@
 
     <string name="lfo_target_phase_dist">Phase Dist</string>
     <string name="lfo_wave_random">Satunnainen</string>
+    <string name="toast_pad_edit_on">Padin muokkaustila PÄÄLLÄ</string>
+    <string name="toast_pad_edit_off">Padin muokkaustila POIS</string>
+    <string name="toast_sequencer_playing">Sekvensseri toistaa</string>
+    <string name="toast_sequencer_stopped">Sekvensseri pysäytetty</string>
+    <string name="toast_sequencer_rec_on">Tallennustila käytössä</string>
+    <string name="toast_step_rec_on">Askel-tallennus käytössä</string>
 </resources>
