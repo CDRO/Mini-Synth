@@ -455,8 +455,9 @@ class MainActivity : AppCompatActivity() {
         set.setVisibility(fullToggleId, if (isPadMode) View.VISIBLE else View.GONE)
         
         if (!kbVisible) {
+            set.clear(toggleKbId, ConstraintSet.TOP)
             set.clear(toggleKbId, ConstraintSet.BOTTOM)
-            set.connect(toggleKbId, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+            set.connect(toggleKbId, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 16)
         } else {
             set.clear(toggleKbId, ConstraintSet.BOTTOM)
             set.connect(toggleKbId, ConstraintSet.BOTTOM, keyboardId, ConstraintSet.TOP)
@@ -489,14 +490,14 @@ class MainActivity : AppCompatActivity() {
 
         // Nested views visibility (managed directly as they are not top-level children of the root ConstraintLayout)
         if (isPadMode && !isFullscreenPads) {
-            content.parameterContainer.visibility = View.GONE
+            content.parameterContainer.visibility = if (isZenMode) View.GONE else View.VISIBLE
             content.sequencerSection.visibility = View.VISIBLE
             content.padCustomizationSection.visibility = View.VISIBLE
             content.btnPolyToggle.visibility = View.GONE
             content.btnOctaveDown.visibility = View.GONE
             content.btnOctaveUp.visibility = View.GONE
             content.tvOctaveValue.visibility = View.GONE
-            content.toggleZenMode.visibility = View.GONE
+            content.toggleZenMode.visibility = View.VISIBLE
         } else if (!isPadMode) {
             content.parameterContainer.visibility = if (isZenMode) View.GONE else View.VISIBLE
             content.sequencerSection.visibility = View.VISIBLE
