@@ -1,0 +1,23 @@
+# Tasks: Milestone 49 - Advanced Modulation Matrix
+
+- `[/]` Setup Infrastructure
+    - `[x]` Create GitHub Milestone & Issue (#176).
+    - `[x]` Create local branch `feature/m49-modulation-matrix`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline status.
+- `[ ]` LFO Sync Implementation
+    - `[ ]` Update `Lfo.h/cpp` with `mIsSynced` and `setBpm`.
+    - `[ ]` Update `VoiceManager` and `AudioEngine` to propagate global BPM to all LFOs.
+- `[ ]` Multi-Target Modulation Matrix
+    - `[ ]` Expand `EngineParams` and `Voice` to support multiple LFO weights.
+    - `[ ]` Implement multi-target application logic in `Voice::nextSample()`.
+- `[ ]` JNI & Data Bridge
+    - `[ ]` Update JNI bridge with `setLfoSync` and `setLfoMatrixAmount`.
+    - `[ ]` Sync `SynthManager.kt` and `TrackState`.
+- `[ ]` UI Development
+    - `[ ]` Add SYNC toggle and DIV spinner to `content_main.xml`.
+    - `[ ]` Implement the "Modulation Matrix" dialog in `MainActivity.kt`.
+- `[ ]` Finalize & Localization
+    - `[ ]` Add help documentation for new modulation features.
+    - `[ ]` Synchronize translations for 31 languages.
+    - `[ ]` Create git tag and finalize milestone.
