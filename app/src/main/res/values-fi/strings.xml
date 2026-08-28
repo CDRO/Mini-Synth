@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Kaiun sekoitus: Tasapaino kuivan signaalin ja tilakaiun välillä.</string>
     <string name="help_sequencer_duration">Askeleen koko: Säädä jokaisen sekvensserin askeleen kestoa.</string>
     <string name="help_sequencer_length">Silmukan pituus: Aseta sekvenssin askelten kokonaismäärä (8–64).</string>
-    <string name="help_pads_fullscreen">Vaihda kokoruudun padit: Piilottaa yläpalkin ja parametripaneelin keskittyen esiintymiseen.</string>
+    <string name="help_pads_fullscreen">Soittotila (koko näyttö): Piilottaa yläpalkin ja parametripaneelit keskittyäkseen yksinomaan suorituspadeihin.</string>
     <string name="help_keyboard_hidden">Vaihda koskettimiston näkyvyyttä: Piilota pianon koskettimet maksimoidaksesi työtilan.</string>
     <string name="help_config_toggle">Kokoonpanon vaihto: Piilottaa kaikki parametrisäätimet maksimoidakseen tilan suorituskykypadeille.</string>
     <string name="help_phase_distortion">Vaihevääristymä: Vääristää oskillaattorin vaiheviivaa luoden rikkaita harmonisia ylä-ääniä.</string>

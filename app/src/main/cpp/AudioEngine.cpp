@@ -40,6 +40,13 @@ void AudioEngine::start() {
     mReverb.setSampleRate(mStream->getSampleRate());
     updateMetronomeParams();
 
+    // Emulator Detection & Buffer Tuning
+#if defined(__i386__) || defined(__x86_64__)
+    int32_t burstSize = mStream->getFramesPerBurst();
+    mStream->setBufferSizeInFrames(burstSize * 4); // Larger safety buffer for emulators
+    __android_log_print(ANDROID_LOG_INFO, TAG, "Emulator detected. Setting safety buffer to %d", burstSize * 4);
+#endif
+
     result = mStream->requestStart();
     if (result != oboe::Result::OK) {
         __android_log_print(ANDROID_LOG_ERROR, TAG, "Error starting stream: %s", oboe::convertToText(result));
@@ -259,8 +266,9 @@ oboe::DataCallbackResult AudioEngine::onAudioReady(
         mDelay.process(left, right, left, right);
         mReverb.process(left, right, left, right);
 
-        left = std::max(-1.0f, std::min(left, 1.0f));
-        right = std::max(-1.0f, std::min(right, 1.0f));
+        // Rational Soft-Clipping Approximation: f(x) = x / (1 + |x|)
+        left = left / (1.0f + fabsf(left));
+        right = right / (1.0f + fabsf(right));
 
         float monoSum = (left + right) * 0.5f;
         mVizQueue.push(monoSum);

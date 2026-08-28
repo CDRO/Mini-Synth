@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Reverb mikss: Līdzsvars starp sauso signālu un apkārtējās vides atbalsošanos.</string>
     <string name="help_sequencer_duration">Soļa izmērs: Pielāgojiet katra sekvencera soļa laika ilgumu.</string>
     <string name="help_sequencer_length">Cilpas garums: Iestatiet kopējo soļu skaitu sekvencē (8 līdz 64).</string>
-    <string name="help_pads_fullscreen">Pārslēgt pilnekrāna padus: Paslēpj galveni un parametru paneli, lai koncentrētos uz izpildījumu.</string>
+    <string name="help_pads_fullscreen">Atskaņošanas režīms (pilnekrāna režīms): paslēpj galveni un parametru paneļus, lai koncentrētos tikai uz izpildījuma padiem.</string>
     <string name="help_keyboard_hidden">Pārslēgt tastatūras redzamību: Paslēpt klavieru taustiņus, lai maksimāli palielinātu darba vietu.</string>
     <string name="help_config_toggle">Konfigurācijas pārslēgšana: paslēpj visus parametru slīdņus, lai palielinātu vietu izpildījuma spilventiņiem.</string>
     <string name="help_phase_distortion">Fāzes distorsija: Izkropļo oscilatora fāzes līniju, lai radītu bagātīgas harmonikas.</string>

@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">混响混合：干信号与环境音之间的平衡。</string>
     <string name="help_sequencer_duration">步进大小：调整每个步进器步进的时间长度。</string>
     <string name="help_sequencer_length">循环长度：设置序列中的总步数（8 到 64）。</string>
-    <string name="help_pads_fullscreen">切换全屏打击垫：隐藏页眉和参数面板以专注于演奏。</string>
+    <string name="help_pads_fullscreen">演奏模式（全屏）：隐藏页眉和参数面板，以便专注于演奏垫。</string>
     <string name="help_keyboard_hidden">切换键盘可见性：隐藏钢琴键以最大化工作空间。</string>
     <string name="help_config_toggle">配置切换：隐藏所有参数滑块，以最大限度地增加演奏垫的空间。</string>
     <string name="help_phase_distortion">相位失真：扭曲振荡器相位线以产生丰富的谐波。</string>

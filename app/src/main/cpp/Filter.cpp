@@ -1,4 +1,5 @@
 #include "Filter.h"
+#include "Oscillator.h"
 #include <cmath>
 #include <algorithm>
 
@@ -14,19 +15,25 @@ Filter::Filter() {
 void Filter::setSampleRate(int32_t sampleRate) {
     if (sampleRate <= 0) return;
     mSampleRate = static_cast<float>(sampleRate);
-    updateCoefficients();
+    mParamsDirty = true;
 }
 
 void Filter::setCutoff(float frequency) {
     // SVF is stable roughly up to SR/6. Clamp to SR/7 for safety.
     float maxCutoff = mSampleRate / 7.0f;
-    mCutoff = std::max(20.0f, std::min(frequency, maxCutoff));
-    updateCoefficients();
+    float clamped = std::max(20.0f, std::min(frequency, maxCutoff));
+    if (std::abs(clamped - mCutoff) > 0.1f) {
+        mCutoff = clamped;
+        mParamsDirty = true;
+    }
 }
 
 void Filter::setResonance(float resonance) {
-    mResonance = std::max(0.0f, std::min(resonance, 0.99f));
-    updateCoefficients();
+    float clamped = std::max(0.0f, std::min(resonance, 0.99f));
+    if (std::abs(clamped - mResonance) > 0.001f) {
+        mResonance = clamped;
+        mParamsDirty = true;
+    }
 }
 
 void Filter::resetState() {
@@ -36,13 +43,17 @@ void Filter::resetState() {
 
 void Filter::updateCoefficients() {
     // Chamberlin SVF
-    f = 2.0f * sinf(static_cast<float>(M_PI) * mCutoff / mSampleRate);
+    // Use fastSin for performance, as this can be called per sample under modulation
+    f = 2.0f * Oscillator::fastSin(static_cast<float>(M_PI) * mCutoff / mSampleRate);
     // d = 1/Q. Map resonance [0, 1] to Q [0.5, 20]
     float q = 0.5f + (mResonance * 19.5f);
     d = 1.0f / q;
+    mParamsDirty = false;
 }
 
 float Filter::process(float input) {
+    if (mParamsDirty) updateCoefficients();
+
     // Basic SVF iteration
     low = low + f * band;
     float high = input - low - d * band;

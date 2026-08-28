@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Mixage de la réverbération : Équilibre entre le signal sec et l\'ambiance.</string>
     <string name="help_sequencer_duration">Taille du palier : Réglez la durée de chaque palier du séquenceur.</string>
     <string name="help_sequencer_length">Longueur de boucle : Définissez le nombre total de paliers dans la séquence (8 à 64).</string>
-    <string name="help_pads_fullscreen">Basculer les pads en plein écran : Masque l\'en-tête et le panneau des paramètres pour se concentrer sur la performance.</string>
+    <string name="help_pads_fullscreen">Mode lecture (plein écran) : Masque l\'en-tête et les panneaux de paramètres pour se concentrer exclusivement sur les pads de performance.</string>
     <string name="help_keyboard_hidden">Basculer la visibilité du clavier : Masquez les touches du piano pour maximiser l\'espace de travail.</string>
     <string name="help_config_toggle">Bascule de configuration : masque tous les curseurs de paramètres pour maximiser l\'espace pour les pads de performance.</string>
     <string name="help_phase_distortion">Distorsion de phase : Déforme la ligne de phase de l\'oscillateur pour créer des harmoniques riches.</string>

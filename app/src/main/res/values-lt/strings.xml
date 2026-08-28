@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Reverb mišinys: Balansas tarp sauso signalo ir aplinkos aidėjimo.</string>
     <string name="help_sequencer_duration">Žingsnio dydis: Sureguliuokite kiekvieno sekvenceriaus žingsnio laiko trukmę.</string>
     <string name="help_sequencer_length">Ciklo ilgis: Nustatykite bendrą žingsnių skaičių sekvencijoje (nuo 8 iki 64).</string>
-    <string name="help_pads_fullscreen">Perjungti visą ekraną užimančius padus: Paslepia antraštę ir parametrų skydelį, kad susikoncentruotumėte į atlikimą.</string>
+    <string name="help_pads_fullscreen">Grojimo režimas (visas ekranas): paslepia antraštę ir parametrų skydelius, kad galėtumėte susikoncentruoti tik į atlikimo padus.</string>
     <string name="help_keyboard_hidden">Perjungti klaviatūros matomumą: Paslėpkite pianino klavišus, kad padidintumėte darbo erdvę.</string>
     <string name="help_config_toggle">Konfigūracijos perjungimas: paslepia visus parametrų slankiklius, kad būtų padidinta erdvė atlikimo kilimėliams.</string>
     <string name="help_phase_distortion">Fazinė distorsija: Iškraipo osciliatoriaus fazės liniją, sukurdama sodrius harmonikus.</string>

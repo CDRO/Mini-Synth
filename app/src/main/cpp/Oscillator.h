@@ -39,7 +39,8 @@ private:
     void updatePhaseIncrement();
     float getWaveformSample(Waveform type, float phase);
     float applyPhaseDistortion(float phase);
-    float fastSin(float phase);
+
+    static float fastSin(float phase);
 
     static constexpr int SINE_LUT_SIZE = 1024;
     static float sSineLut[SINE_LUT_SIZE + 1];

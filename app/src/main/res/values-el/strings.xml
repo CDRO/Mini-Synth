@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Reverb Mix: Ισορροπία μεταξύ του ξηρού σήματος και του ambient wash.</string>
     <string name="help_sequencer_duration">Step Size: Ρύθμιση της χρονικής διάρκειας κάθε βήματος του sequencer.</string>
     <string name="help_sequencer_length">Loop Length: Ορίστε τον συνολικό αριθμό βημάτων στην ακολουθία (8 έως 64).</string>
-    <string name="help_pads_fullscreen">Εναλλαγή Fullscreen Pads: Αποκρύπτει την κεφαλίδα και τον πίνακα παραμέτρων για εστίαση στην απόδοση.</string>
+    <string name="help_pads_fullscreen">Λειτουργία Αναπαραγωγής (Πλήρης οθόνη): Αποκρύπτει την κεφαλίδα και τα πάνελ παραμέτρων για να εστιάσετε αποκλειστικά στα pads απόδοσης.</string>
     <string name="help_keyboard_hidden">Εναλλαγή ορατότητας πληκτρολογίου: Απόκρυψη των πλήκτρων πιάνου για μεγιστοποίηση του χώρου εργασίας.</string>
     <string name="help_config_toggle">Εναλλαγή διαμόρφωσης: Κρύβει όλα τα ρυθμιστικά παραμέτρων για να μεγιστοποιήσει τον χώρο για τα pads απόδοσης.</string>
     <string name="help_phase_distortion">Παραμόρφωση Φάσης: Παραμορφώνει τη γραμμή φάσης του ταλαντωτή για τη δημιουργία πλούσιων αρμονικών.</string>

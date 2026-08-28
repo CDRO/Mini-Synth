@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Zengés keverés: Egyensúly a száraz jel és a környezeti zengés között.</string>
     <string name="help_sequencer_duration">Lépésméret: Állítsa be az egyes szekvencer lépések időtartamát.</string>
     <string name="help_sequencer_length">Hurok hossza: Állítsa be a szekvencia lépéseinek teljes számát (8-tól 64-ig).</string>
-    <string name="help_pads_fullscreen">Teljes képernyős padok váltása: Elrejti a fejlécet és a paraméterpanelt a teljesítményre való összpontosításhoz.</string>
+    <string name="help_pads_fullscreen">Lejátszási mód (teljes képernyő): Elrejti a fejlécet és a paraméterpaneleket, hogy kizárólag az előadói padokra összpontosítson.</string>
     <string name="help_keyboard_hidden">Billentyűzet láthatóságának váltása: A zongorabillentyűk elrejtése a munkaterület maximalizálása érdekében.</string>
     <string name="help_config_toggle">Konfiguráció váltó: Elrejti az összes paramétercsúszkát, hogy maximalizálja a helyet a teljesítmény padok számára.</string>
     <string name="help_phase_distortion">Fázistorzítás: Elvetemíti az oszcillátor fázisvonalát gazdag harmonikusok létrehozásához.</string>

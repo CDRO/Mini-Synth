@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Reverb Mix: Razmerje med suhim signalom in ambientalnim wash-om.</string>
     <string name="help_sequencer_duration">Velikost koraka: Prilagodite časovno trajanje vsakega koraka sekvencerja.</string>
     <string name="help_sequencer_length">Dolžina zanke: Nastavite skupno število korakov v sekvenci (8 do 64).</string>
-    <string name="help_pads_fullscreen">Preklop ploščic na cel zaslon: Skrije glavo in ploščo s parametri za osredotočenost na izvajanje.</string>
+    <string name="help_pads_fullscreen">Način predvajanja (celozaslonski): Skrije glavo in plošče s parametri, da se osredotočite izključno na ploščice za izvajanje.</string>
     <string name="help_keyboard_hidden">Preklop vidnosti tipkovnice: Skrijte klavirske tipke za povečanje delovnega prostora.</string>
     <string name="help_config_toggle">Preklop konfiguracije: skrije vse drsnike parametrov, da poveča prostor za ploščice za zmogljivost.</string>
     <string name="help_phase_distortion">Fazna distorzija: Izkrivi fazno linijo oscilatorja za ustvarjanje bogatih harmonikov.</string>

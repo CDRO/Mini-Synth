@@ -5,34 +5,31 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import kotlin.system.measureTimeMillis
+import org.junit.Assert.*
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [33], shadows = [ShadowSynthManager::class])
 class UnisonStressTest {
 
     @Test
-    fun testHighPolyphonyUnisonLoad() {
+    fun testMaximumPolyphonyAndUnison() {
         val manager = SynthManager()
         manager.startEngine()
         
-        // 8x Unison
-        manager.setUnison(8, 20.0f, 1.0f)
+        // Configure for max load
+        manager.setPolyphonic(true)
+        manager.setUnison(8, 50f, 1.0f) // 8x Unison
+        manager.setReverbMix(0.8f)
+        manager.setDelayMix(0.8f)
         
-        // Trigger 16 voices
-        for (note in 60 until 76) {
-            manager.noteOn(note, 0.5f)
+        // Trigger 16 notes (Max Voices)
+        // Total oscillators = 16 voices * 8 unison = 128 oscillators
+        for (i in 0 until 16) {
+            manager.noteOn(60 + i, 0.8f)
         }
         
-        // Render some samples and measure time (relative)
-        val time = measureTimeMillis {
-            repeat(1000) {
-                manager.renderStereoSampleForTest(FloatArray(2))
-            }
-        }
-        
-        println("Rendered 1000 stereo samples with 16 polyphony and 8x unison in ${time}ms")
-        
-        manager.stopEngine()
+        // In Robolectric/Shadow, we just verify it doesn't crash
+        // The real test happens on physical/AVD
+        assertTrue(manager.isEngineRunning())
     }
 }

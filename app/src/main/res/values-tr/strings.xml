@@ -64,7 +64,7 @@
     <string name="help_reverb_mix">Reverb Karışımı: Kuru sinyal ile ortam yıkaması arasındaki denge.</string>
     <string name="help_sequencer_duration">Adım Boyutu: Her bir sequencer adımının süresini ayarlayın.</string>
     <string name="help_sequencer_length">Döngü Uzunluğu: Sekanstaki toplam adım sayısını ayarlayın (8 ila 64).</string>
-    <string name="help_pads_fullscreen">Tam Ekran Padleri Değiştir: Performansa odaklanmak için başlığı ve parametre panelini gizler.</string>
+    <string name="help_pads_fullscreen">Çalma Modu (Tam Ekran): Özel olarak performans padlerine odaklanmak için başlığı ve parametre panellerini gizler.</string>
     <string name="help_keyboard_hidden">Klavye Görünürlüğünü Değiştir: Çalışma alanını maksimize etmek için piyano tuşlarını gizleyin.</string>
     <string name="help_config_toggle">Yapılandırma Geçişi: Performans pedleri için alanı maksimize etmek amacıyla tüm parametre kaydırıcılarını gizler.</string>
     <string name="help_phase_distortion">Faz Bozulması: Zengin harmonikler oluşturmak için osilatör faz çizgisini büker.</string>
