@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Sekvencer ustavljen</string>
     <string name="toast_sequencer_rec_on">Način snemanja omogučen</string>
     <string name="toast_step_rec_on">Koračno snemanje omogočeno</string>
+    <string name="help_pd_visualizer">Vizualizator popačenja faze: Prikazuje, kako se faza popači, da nastanejo novi harmoniki.</string>
 </resources>

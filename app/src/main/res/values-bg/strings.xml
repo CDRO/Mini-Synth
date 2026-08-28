@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Секвенсерът е спрян</string>
     <string name="toast_sequencer_rec_on">Режимът на запис е активиран</string>
     <string name="toast_step_rec_on">Стъпковият запис е активиран</string>
+    <string name="help_pd_visualizer">Визуализатор на фазово изкривяване: Показва как фазата се деформира, за да създаде нови хармоници.</string>
 </resources>

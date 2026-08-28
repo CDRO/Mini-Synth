@@ -117,6 +117,9 @@ class MainActivity : AppCompatActivity() {
         content.topHeader.visualizerView.setOnClickListener {
             if (isHelpMode) showHelp(getString(R.string.help_visualizer))
         }
+        content.topHeader.pdVisualizerView.setOnClickListener {
+            if (isHelpMode) showHelp(getString(R.string.help_pd_visualizer))
+        }
         
         // Listener
         synthView.listener = object : KeyboardPadView.OnNoteEventListener {

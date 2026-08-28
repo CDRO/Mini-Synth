@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Секвенсор зупинено</string>
     <string name="toast_sequencer_rec_on">Режим запису увімкнено</string>
     <string name="toast_step_rec_on">Покроковий запис увімкнено</string>
+    <string name="help_pd_visualizer">Візуалізатор фазових спотворень: Показує, як фаза деформується для створення нових гармонік.</string>
 </resources>

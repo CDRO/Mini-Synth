@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Sequencer stoppet</string>
     <string name="toast_sequencer_rec_on">Optagetilstand aktiveret</string>
     <string name="toast_step_rec_on">Step-optagelse aktiveret</string>
+    <string name="help_pd_visualizer">Fasedistorsionsvisualisering: Viser hvordan fasen forvrænges for at skabe nye overtoner.</string>
 </resources>

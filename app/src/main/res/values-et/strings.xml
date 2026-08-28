@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Sekvener peatatud</string>
     <string name="toast_sequencer_rec_on">Salvestusrežiim lubatud</string>
     <string name="toast_step_rec_on">Samm-salvestus lubatud</string>
+    <string name="help_pd_visualizer">Faasimoonutuse visualiseerija: Näitab, kuidas faasi moonutatakse uute harmoonikute loomiseks.</string>
 </resources>

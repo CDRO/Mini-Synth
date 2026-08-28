@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Secvențiator oprit</string>
     <string name="toast_sequencer_rec_on">Mod înregistrare activat</string>
     <string name="toast_step_rec_on">Înregistrare prin pași activată</string>
+    <string name="help_pd_visualizer">Vizualizator de distorsiune a fazei: arată cum este deformată faza pentru a crea noi armonici.</string>
 </resources>

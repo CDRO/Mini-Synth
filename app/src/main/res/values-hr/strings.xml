@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Sekvencer zaustavljen</string>
     <string name="toast_sequencer_rec_on">Režim snimanja omogućen</string>
     <string name="toast_step_rec_on">Step snimanje omogućeno</string>
+    <string name="help_pd_visualizer">Vizualizator distorzije faze: Pokazuje kako se faza iskrivljuje radi stvaranja novih harmonika.</string>
 </resources>

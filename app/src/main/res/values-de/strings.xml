@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Sequenzer gestoppt</string>
     <string name="toast_sequencer_rec_on">Aufnahmemodus aktiviert</string>
     <string name="toast_step_rec_on">Schritt-Aufnahme aktiviert</string>
+    <string name="help_pd_visualizer">Phasenverzerrungs-Visualizer: Zeigt, wie die Phase verformt wird, um neue Obertöne zu erzeugen.</string>
 </resources>

@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">序列器已停止</string>
     <string name="toast_sequencer_rec_on">录制模式已启用</string>
     <string name="toast_step_rec_on">分步录制已启用</string>
+    <string name="help_pd_visualizer">相位失真可视化器：显示相位如何扭曲以产生新的谐波。</string>
 </resources>

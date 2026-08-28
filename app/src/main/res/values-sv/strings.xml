@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Sequencer stoppad</string>
     <string name="toast_sequencer_rec_on">Inspelningsläge aktiverat</string>
     <string name="toast_step_rec_on">Stegvis inspelning aktiverad</string>
+    <string name="help_pd_visualizer">Fasdistorsionsvisualiserare: Visar hur fasen förvrängs för att skapa nya overtoner.</string>
 </resources>

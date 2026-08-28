@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Szekvencer leállítva</string>
     <string name="toast_sequencer_rec_on">Felvételi mód engedélyezve</string>
     <string name="toast_step_rec_on">Lépésenkénti felvétel engedélyezve</string>
+    <string name="help_pd_visualizer">Fázistorzítás vizualizáló: Megmutatja, hogyan torzul a fázis új felhangok létrehozásához.</string>
 </resources>

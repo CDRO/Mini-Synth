@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Sekvenceris sustabdytas</string>
     <string name="toast_sequencer_rec_on">Įrašymo režimas įjungtas</string>
     <string name="toast_step_rec_on">Žingsninis įrašymas įjungtas</string>
+    <string name="help_pd_visualizer">Fazės iškraipymo vizualizatorius: rodo, kaip iškraipoma fazė, kad būtų sukurtos naujos harmonikos.</string>
 </resources>

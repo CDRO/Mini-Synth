@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">시퀀서 중지됨</string>
     <string name="toast_sequencer_rec_on">녹음 모드 활성화됨</string>
     <string name="toast_step_rec_on">스텝 녹음 활성화됨</string>
+    <string name="help_pd_visualizer">위상 왜곡 시각화 도구: 새로운 하모닉스를 생성하기 위해 위상이 어떻게 왜곡되는지 보여줍니다.</string>
 </resources>

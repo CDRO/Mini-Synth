@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Sekansör Durduruldu</string>
     <string name="toast_sequencer_rec_on">Kayıt Modu Etkin</string>
     <string name="toast_step_rec_on">Adım Kaydı Etkin</string>
+    <string name="help_pd_visualizer">Faz Bozulması Görselleştirici: Yeni armonikler oluşturmak için fazın nasıl büküldüğünü gösterir.</string>
 </resources>

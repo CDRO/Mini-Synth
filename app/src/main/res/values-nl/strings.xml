@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Sequencer gestopt</string>
     <string name="toast_sequencer_rec_on">Opnamemodus ingeschakeld</string>
     <string name="toast_step_rec_on">Stap-opname ingeschakeld</string>
+    <string name="help_pd_visualizer">Fasevervormingsvisualizer: Laat zien hoe de fase wordt vervormd om nieuwe harmonischen te creëren.</string>
 </resources>

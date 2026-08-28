@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Sekwencer zatrzymany</string>
     <string name="toast_sequencer_rec_on">Tryb nagrywania włączony</string>
     <string name="toast_step_rec_on">Nagrywanie krokowe włączone</string>
+    <string name="help_pd_visualizer">Wizualizator zniekształceń fazowych: Pokazuje, jak faza jest zniekształcana w celu stworzenia nowych harmonicznych.</string>
 </resources>

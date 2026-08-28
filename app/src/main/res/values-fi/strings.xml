@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Sekvensseri pysäytetty</string>
     <string name="toast_sequencer_rec_on">Tallennustila käytössä</string>
     <string name="toast_step_rec_on">Askel-tallennus käytössä</string>
+    <string name="help_pd_visualizer">Vaihevääristymän visualisoija: Näyttää, kuinka vaihe vääristyy uusien harmonisten ylä-äänien luomiseksi.</string>
 </resources>

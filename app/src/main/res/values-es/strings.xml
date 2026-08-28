@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Secuenciador detenido</string>
     <string name="toast_sequencer_rec_on">Modo de grabación habilitado</string>
     <string name="toast_step_rec_on">Grabación por pasos habilitada</string>
+    <string name="help_pd_visualizer">Visualizador de distorsión de fase: Muestra cómo se deforma la fase para crear nuevos armónicos.</string>
 </resources>

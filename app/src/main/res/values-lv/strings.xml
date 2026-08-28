@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Sekvencers apturēts</string>
     <string name="toast_sequencer_rec_on">Ierakstīšanas režīms iespējots</string>
     <string name="toast_step_rec_on">Soļu ierakstīšana iespējota</string>
+    <string name="help_pd_visualizer">Fāzes kropļojumu vizualizators: parāda, kā fāze tiek izkropļota, lai radītu jaunas harmonikas.</string>
 </resources>

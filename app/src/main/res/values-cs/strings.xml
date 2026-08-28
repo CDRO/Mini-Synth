@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Sekvencer zastaven</string>
     <string name="toast_sequencer_rec_on">Režim nahrávání povolen</string>
     <string name="toast_step_rec_on">Krokové nahrávání povoleno</string>
+    <string name="help_pd_visualizer">Vizualizér fázového zkreslení: Ukazuje, jak se fáze deformuje, aby se vytvořily nové harmonické složky.</string>
 </resources>

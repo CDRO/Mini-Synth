@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Sekuencuesi u ndalua</string>
     <string name="toast_sequencer_rec_on">Mënyra e regjistrimit u aktivizua</string>
     <string name="toast_step_rec_on">Regjistrimi me hapa u aktivizua</string>
+    <string name="help_pd_visualizer">Vizualizuesi i distorsionit të fazës: Tregon se si faza deformohet për të krijuar harmonikë të rinj.</string>
 </resources>

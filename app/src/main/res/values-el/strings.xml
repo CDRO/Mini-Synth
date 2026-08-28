@@ -103,4 +103,5 @@
     <string name="toast_sequencer_stopped">Διακοπή Sequencer</string>
     <string name="toast_sequencer_rec_on">Λειτουργία εγγραφής ενεργοποιημένη</string>
     <string name="toast_step_rec_on">Βηματική εγγραφή ενεργοποιημένη</string>
+    <string name="help_pd_visualizer">Οπτικοποιητής Παραμόρφωσης Φάσης: Δείχνει πώς η φάση παραμορφώνεται για τη δημιουργία νέων αρμονικών.</string>
 </resources>
