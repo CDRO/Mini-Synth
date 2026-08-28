@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Tallennustila käytössä</string>
     <string name="toast_step_rec_on">Askel-tallennus käytössä</string>
     <string name="help_pd_visualizer">Vaihevääristymän visualisoija: Näyttää, kuinka vaihe vääristyy uusien harmonisten ylä-äänien luomiseksi.</string>
+    <string name="demo_morphing_intro">Vaihe 1: Harmoninen evoluutio. Tutustu jatkuvaan aaltomuodon morffaukseen.</string>
+    <string name="demo_morphing_sweep">Morffaus sinistä neliöön. Huomaa kehittyvä harmoninen sisältö.</string>
+    <string name="demo_pd_intro">Vaihevääristymä: Vaiheen vääristäminen klassista digitaalista soundia varten.</string>
+    <string name="demo_pd_sweep">PD-intensiteetin pyyhkäisy. Katso vaihevisualisoijaa yläpalkissa!</string>
+    <string name="demo_wavetable_intro">Mukautetut aaltotaulukot: Geometrisia muotoja monimutkaisemmat sointivärit.</string>
+    <string name="demo_random_lfo">Satunnainen LFO (Sample &amp; Hold): Generatiivinen modulaatio kokeelliseen äänisuunnitteluun.</string>
 </resources>

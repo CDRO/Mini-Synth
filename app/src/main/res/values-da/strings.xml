@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Optagetilstand aktiveret</string>
     <string name="toast_step_rec_on">Step-optagelse aktiveret</string>
     <string name="help_pd_visualizer">Fasedistorsionsvisualisering: Viser hvordan fasen forvrænges for at skabe nye overtoner.</string>
+    <string name="demo_morphing_intro">Trin 1: Harmonisk evolution. Oplev kontinuerlig bølgeform-morphing.</string>
+    <string name="demo_morphing_sweep">Morphing fra sinus til firkant. Bemærk det udviklende harmoniske indhold.</string>
+    <string name="demo_pd_intro">Fasedistorsion: Warp af fasen for klassisk digital grit.</string>
+    <string name="demo_pd_sweep">Fejning af PD-intensitet. Se fasevisualiseringen i headeren!</string>
+    <string name="demo_wavetable_intro">Brugerdefinerede bølgetabeller: Mere end geometriske former med komplekse klangfarver.</string>
+    <string name="demo_random_lfo">Tilfældig LFO (Sample &amp; Hold): Generativ modulation til eksperimentelt lyddesign.</string>
 </resources>

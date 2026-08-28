@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Felvételi mód engedélyezve</string>
     <string name="toast_step_rec_on">Lépésenkénti felvétel engedélyezve</string>
     <string name="help_pd_visualizer">Fázistorzítás vizualizáló: Megmutatja, hogyan torzul a fázis új felhangok létrehozásához.</string>
+    <string name="demo_morphing_intro">1. szakasz: Harmonikus evolúció. Fedezze fel a folyamatos hullámforma-morfingot.</string>
+    <string name="demo_morphing_sweep">Morfing szinuszról négyszögre. Figyelje meg a fejlődő harmonikus tartalmat.</string>
+    <string name="demo_pd_intro">Fázistorzítás: A fázis eltorzítása a klasszikus digitális hangzásért.</string>
+    <string name="demo_pd_sweep">PD intenzitás söprése. Nézze meg a fázisvizualizálót a fejlécben!</string>
+    <string name="demo_wavetable_intro">Egyedi hullámtáblák: A geometriai formákon túl, összetett hangszínekkel.</string>
+    <string name="demo_random_lfo">Véletlenszerű LFO (Sample &amp; Hold): Generatív moduláció kísérleti hangtervezéshez.</string>
 </resources>

@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Režim nahrávania povolený</string>
     <string name="toast_step_rec_on">Krokové nahrávanie povolené</string>
     <string name="help_pd_visualizer">Vizualizátor fázového skreslenia: Ukazuje, ako sa fáze deformuje, aby sa vytvorili nové harmonické zložky.</string>
+    <string name="demo_morphing_intro">Fáza 1: Harmonická evolúcia. Objavte plynulé prelínanie vlnových foriem.</string>
+    <string name="demo_morphing_sweep">Prelínanie od sínusu k štvorcu. Všimnite si vyvíjajúci sa harmonický obsah.</string>
+    <string name="demo_pd_intro">Fázové skreslenie: Ohýbanie fázy pre klasický digitálny charakter.</string>
+    <string name="demo_pd_sweep">Zmena intenzity PD. Pozrite sa na vizualizér fázy v záhlaví!</string>
+    <string name="demo_wavetable_intro">Vlastné vlnové tabuľky: Za hranice geometrických tvarov s komplexnými farbami zvuku.</string>
+    <string name="demo_random_lfo">Náhodné LFO (Sample &amp; Hold): Generatívna modulácia pre experimentálny zvukový dizajn.</string>
 </resources>

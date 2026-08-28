@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Ierakstīšanas režīms iespējots</string>
     <string name="toast_step_rec_on">Soļu ierakstīšana iespējota</string>
     <string name="help_pd_visualizer">Fāzes kropļojumu vizualizators: parāda, kā fāze tiek izkropļota, lai radītu jaunas harmonikas.</string>
+    <string name="demo_morphing_intro">1. posms: Harmoniskā evolūcija. Atklājiet nepārtrauktu viļņu formas morfēšanu.</string>
+    <string name="demo_morphing_sweep">Morfēšana no sinusa uz kvadrātu. Ievērojiet mainīgo harmonisko saturu.</string>
+    <string name="demo_pd_intro">Fāzes kropļojums: Fāzes deformēšana klasiskam digitālam skanējumam.</string>
+    <string name="demo_pd_sweep">PD intensitātes maiņa. Apskatiet fāzes vizualizatoru galvenē!</string>
+    <string name="demo_wavetable_intro">Pielāgotas viļņu tabulas: Ārpus ģeometriskām formām ar sarežģītiem tembriem.</string>
+    <string name="demo_random_lfo">Nejaušs LFO (Sample &amp; Hold): Ģeneratīva modulācija eksperimentālam skaņas dizainam.</string>
 </resources>

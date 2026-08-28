@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Inspelningsläge aktiverat</string>
     <string name="toast_step_rec_on">Stegvis inspelning aktiverad</string>
     <string name="help_pd_visualizer">Fasdistorsionsvisualiserare: Visar hur fasen förvrängs för att skapa nya overtoner.</string>
+    <string name="demo_morphing_intro">Steg 1: Harmonisk evolution. Upptäck kontinuerlig vågforms-morphing.</string>
+    <string name="demo_morphing_sweep">Morphing från sinus till fyrkant. Observera det framväxande harmoniska innehållet.</string>
+    <string name="demo_pd_intro">Fasdistorsion: Förvrängning av fasen för klassiskt digitalt grus.</string>
+    <string name="demo_pd_sweep">Svepning av PD-intensitet. Titta på fasvisualiseraren i rubriken!</string>
+    <string name="demo_wavetable_intro">Anpassade vågtabeller: Bortom geometriska former med komplexa klangfärger.</string>
+    <string name="demo_random_lfo">Slumpmässig LFO (Sample &amp; Hold): Generativ modulering för experimentell ljuddesign.</string>
 </resources>

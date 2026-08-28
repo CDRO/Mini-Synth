@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">녹음 모드 활성화됨</string>
     <string name="toast_step_rec_on">스텝 녹음 활성화됨</string>
     <string name="help_pd_visualizer">위상 왜곡 시각화 도구: 새로운 하모닉스를 생성하기 위해 위상이 어떻게 왜곡되는지 보여줍니다.</string>
+    <string name="demo_morphing_intro">1단계: 고조파 진화. 연속적인 파형 모핑을 경험해 보세요.</string>
+    <string name="demo_morphing_sweep">사인파에서 사각파로 모핑. 진화하는 고조파 콘텐츠를 확인해 보세요.</string>
+    <string name="demo_pd_intro">위상 왜곡: 클래식 디지털 그리트를 위한 위상 뒤틀기.</string>
+    <string name="demo_pd_sweep">PD 강도 스위핑. 헤더의 위상 시각화 장치를 확인하세요!</string>
+    <string name="demo_wavetable_intro">맞춤형 웨이브테이블: 복잡한 음색을 지닌 기하학적 모양 그 이상.</string>
+    <string name="demo_random_lfo">무작위 LFO (Sample &amp; Hold): 실험적인 사운드 디자인을 위한 생성적 변조.</string>
 </resources>

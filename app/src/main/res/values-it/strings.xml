@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Modalità registrazione abilitata</string>
     <string name="toast_step_rec_on">Registrazione a passi abilitata</string>
     <string name="help_pd_visualizer">Visualizzatore distorsione di fase: mostra come la phase viene deformata per creare nuove armoniche.</string>
+    <string name="demo_morphing_intro">Fase 1: Evoluzione armonica. Scopri il morphing continuo della forma d\'onda.</string>
+    <string name="demo_morphing_sweep">Morphing da seno a quadro. Nota l\'evoluzione del contenuto armonico.</string>
+    <string name="demo_pd_intro">Distorsione di fase: Deformazione della fase per un classico carattere digitale.</string>
+    <string name="demo_pd_sweep">Scansione dell\'intensità PD. Guarda il visualizzatore di fase nell\'intestazione!</string>
+    <string name="demo_wavetable_intro">Wavetable personalizzate: Oltre le forme geometriche con timbri complessi.</string>
+    <string name="demo_random_lfo">LFO casuale (Sample &amp; Hold): Modulazione generativa per il sound design sperimentale.</string>
 </resources>

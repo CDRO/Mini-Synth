@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Įrašymo režimas įjungtas</string>
     <string name="toast_step_rec_on">Žingsninis įrašymas įjungtas</string>
     <string name="help_pd_visualizer">Fazės iškraipymo vizualizatorius: rodo, kaip iškraipoma fazė, kad būtų sukurtos naujos harmonikos.</string>
+    <string name="demo_morphing_intro">1 etapas: Harmoninė evoliucija. Atraskite nenutrūkstamą bangos formos morfingą.</string>
+    <string name="demo_morphing_sweep">Morfingas nuo sinuso iki kvadrato. Pastebėkite besikeičiantį harmoninį turinį.</string>
+    <string name="demo_pd_intro">Fazės iškraipymas: Fazės iškraipymas klasikiniam skaitmeniniam garsui.</string>
+    <string name="demo_pd_sweep">PD intensyvumo keitimas. Pažiūrėkite į fazės vizualizatorių antraštėje!</string>
+    <string name="demo_wavetable_intro">Pasirinktinės bangų lentelės: Daugiau nei geometrinės formos su sudėtingais tembrais.</string>
+    <string name="demo_random_lfo">Atsitiktinis LFO (Sample &amp; Hold): Generatyvinė moduliacija eksperimentiniam garso dizainui.</string>
 </resources>

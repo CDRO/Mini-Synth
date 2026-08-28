@@ -104,4 +104,10 @@
     <string name="toast_sequencer_rec_on">Mënyra e regjistrimit u aktivizua</string>
     <string name="toast_step_rec_on">Regjistrimi me hapa u aktivizua</string>
     <string name="help_pd_visualizer">Vizualizuesi i distorsionit të fazës: Tregon se si faza deformohet për të krijuar harmonikë të rinj.</string>
+    <string name="demo_morphing_intro">Faza 1: Evolucioni harmonik. Zbuloni morfingun e vazhdueshëm të formës së valës.</string>
+    <string name="demo_morphing_sweep">Morfing nga sinusi në katror. Vini re përmbajtjen harmonike në zhvillim.</string>
+    <string name="demo_pd_intro">Distorzioni i fazës: Deformimi i fazës për një tingull digjital klasik.</string>
+    <string name="demo_pd_sweep">Ndryshimi i intensitetit të PD. Shikoni vizualizuesin e fazës në kokë!</string>
+    <string name="demo_wavetable_intro">Tabela valësh të personalizuara: Përtej formave gjeometrike me timbre komplekse.</string>
+    <string name="demo_random_lfo">LFO i rastësishëm (Sample &amp; Hold): Modulim gjenerativ për dizajnim eksperimental të tingullit.</string>
 </resources>
