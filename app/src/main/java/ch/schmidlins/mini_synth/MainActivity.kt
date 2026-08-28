@@ -458,6 +458,7 @@ class MainActivity : AppCompatActivity() {
 
         val kbVisible = !(isKeyboardHidden || isHelpMode)
         set.setVisibility(keyboardId, if (kbVisible) View.VISIBLE else View.GONE)
+        content.keyboardPadView.visibility = if (kbVisible) View.VISIBLE else View.GONE
         
         set.setVisibility(toggleKbId, if (isHelpMode) View.GONE else View.VISIBLE)
         set.setVisibility(fullToggleId, if (isPadMode) View.VISIBLE else View.GONE)
