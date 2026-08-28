@@ -1241,6 +1241,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnCheckedChangeListener
             }
             synthView.isConfigMode = isChecked
+            Toast.makeText(this, if (isChecked) "Pad Edit Mode ON" else "Pad Edit Mode OFF", Toast.LENGTH_SHORT).show()
         }
     }
 
