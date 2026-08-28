@@ -1,22 +1,22 @@
 # Tasks: Milestone 46 - Phase Distortion Refinement
 
-- [ ] Setup Infrastructure
-    - [ ] Create GitHub Milestone & Issue.
-    - [ ] Create local branch `feature/m46-pd-refinement`.
-    - [ ] Create Pull Request.
-    - [ ] Build baseline.
-- [ ] Review & Repair Loop (1-10)
-    - [ ] 1/10: Optimize native Phase Distortion math (Fast Sine / LUT).
-    - [ ] 2/10: Refactor `Oscillator` for cleaner PD integration.
-    - [ ] 3/10: Create `PhaseDistortionView` custom view.
-    - [ ] 4/10: Integrate `PhaseDistortionView` into `layout_header.xml`.
-    - [ ] 5/10: Update `MainActivity.kt` to bind PD slider to the new view.
-    - [ ] 6/10: Standardize visualization colors across all header components.
-    - [ ] 7/10: Optimize rendering efficiency of the PD curve.
-    - [ ] 8/10: Add Discovery Help documentation for the new visualizer.
-    - [ ] 9/10: Verify audio fidelity vs performance tradeoffs.
-    - [ ] 10/10: Final polish and documentation walkthrough.
-- [ ] Finalize
-    - [ ] Run full test suite.
-    - [ ] Squash and Merge.
-    - [ ] Cleanup local and remote branches.
+- `[/]` Setup Infrastructure
+    - `[x]` Create GitHub Milestone & Issue (#170).
+    - `[x]` Create local branch `feature/m46-pd-refinement-v2`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline status.
+- `[ ]` Review & Repair Loop (1-10)
+    - `[ ]` 1/10: Optimize native Phase Distortion math (Fast Sine / LUT).
+    - `[ ]` 2/10: Refactor `Oscillator` for cleaner PD integration.
+    - `[ ]` 3/10: Create `PhaseDistortionView` custom view.
+    - `[ ]` 4/10: Integrate `PhaseDistortionView` into `layout_header.xml`.
+    - `[ ]` 5/10: Update `MainActivity.kt` to bind PD slider to the new view.
+    - `[ ]` 6/10: Standardize visualization colors across all header components.
+    - `[ ]` 7/10: Optimize rendering efficiency of the PD curve.
+    - `[ ]` 8/10: Add Discovery Help documentation for the new visualizer.
+    - `[ ]` 9/10: Verify audio fidelity vs performance tradeoffs.
+    - `[ ]` 10/10: Final polish and documentation walkthrough.
+- `[ ]` Finalize
+    - `[ ]` Run full test suite.
+    - `[ ]` Squash and Merge.
+    - `[ ]` Cleanup local and remote branches.

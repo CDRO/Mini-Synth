@@ -38,6 +38,12 @@ private:
 
     void updatePhaseIncrement();
     float getWaveformSample(Waveform type, float phase);
+    float fastSin(float phase);
+
+    static constexpr int SINE_LUT_SIZE = 1024;
+    static float sSineLut[SINE_LUT_SIZE + 1];
+    static bool sSineLutInitialized;
+    static void initSineLut();
 };
 
 #endif //MINI_SYNTH_OSCILLATOR_H
