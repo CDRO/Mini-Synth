@@ -1,0 +1,21 @@
+# Tasks: UI Polish & Functional Fixes
+
+- `[/]` Setup Infrastructure
+    - `[x]` Create GitHub Milestone & Issue (#167).
+    - `[x]` Create local branch `fix/m44-ui-polish`.
+    - `[ ]` Create Pull Request.
+    - `[ ]` Build baseline status.
+- `[ ]` Review & Repair Loop (1-10)
+    - `[ ]` 1/10: Fix `toggle_keyboard` anchor and jumpiness in `MainActivity.kt`.
+    - `[ ]` 2/10: Restore Sequencer and Pad Customization visibility in Pad mode.
+    - `[ ]` 3/10: Correct recording file extension from `.mp3` to `.wav`.
+    - `[ ]` 4/10: Audit `updateWorkspaceVisibility` for logical errors.
+    - `[ ]` 5/10: Verify `btn_sequencer_play` and `toggle_sequencer_rec` functionality.
+    - `[ ]` 6/10: Ensure "EDIT" mode toggle for pads is easily accessible.
+    - `[ ]` 7/10: Verify all UI elements have help documentation.
+    - `[ ]` 8/10: Standardize help dialog messages.
+    - `[ ]` 9/10: Run full test suite.
+    - `[ ]` 10/10: Final polish and CI/CD verification.
+- `[ ]` Finalize
+    - `[ ]` Squash and Merge.
+    - `[ ]` Cleanup local and remote branches.
