@@ -1369,12 +1369,16 @@ class MainActivity : AppCompatActivity() {
             val playing = !synthManager.isSequencerPlaying()
             synthManager.setSequencerPlaying(playing)
             content.btnSequencerPlay!!.text = if (playing) "■" else "▶"
+            Toast.makeText(this, if (playing) "Sequencer Playing" else "Sequencer Stopped", Toast.LENGTH_SHORT).show()
         }
         content.toggleSequencerRec!!.setOnCheckedChangeListener { _, isChecked ->
             if (isHelpMode) { showHelp(getString(R.string.help_sequencer_rec)); return@setOnCheckedChangeListener }
             isSequencerRecordMode = isChecked
             synthManager.setSequencerRecording(isChecked)
-            if (isChecked) content.toggleStepRec.isChecked = false
+            if (isChecked) {
+                content.toggleStepRec.isChecked = false
+                Toast.makeText(this, "Recording Mode Enabled", Toast.LENGTH_SHORT).show()
+            }
         }
 
         content.togglePadSampling!!.setOnCheckedChangeListener { _, isChecked ->
@@ -1388,7 +1392,10 @@ class MainActivity : AppCompatActivity() {
                 return@setOnCheckedChangeListener 
             }
             isStepRecordMode = isChecked
-            if (isChecked) content.toggleSequencerRec.isChecked = false
+            if (isChecked) {
+                content.toggleSequencerRec.isChecked = false
+                Toast.makeText(this, "Step Recording Enabled", Toast.LENGTH_SHORT).show()
+            }
             content.btnStepRest!!.visibility = if (isChecked) View.VISIBLE else View.GONE
             content.btnStepBack!!.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
