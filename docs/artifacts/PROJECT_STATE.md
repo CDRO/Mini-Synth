@@ -25,6 +25,9 @@
 ### [NEXT] Milestone 46: Phase Distortion Refinement
 - **Objective**: Optimize PD math and add visual feedback for the warped phase line.
 
+### [NEXT] Milestone 47: Virtual Device Audio & Performance
+- **Objective**: Ensure consistent, glitch-free audio in emulators via diagnostic analysis and performance tuning.
+
 ## Quality Assurance Status
 - **Unit Tests**: 28 local JVM tests passing.
 - **CI/CD**: Fully automated **Signed Release** pipeline.

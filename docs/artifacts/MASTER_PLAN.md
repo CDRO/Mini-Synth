@@ -33,3 +33,11 @@ High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Stric
 ### [Logic] [Optimization]
 - **Math**: Optimize PD mapping with lookup tables or SIMD.
 - **Visuals**: Add a "Warped Phase" visualization to the top header.
+
+---
+
+## Milestone 47: Virtual Device Audio & Performance [TODO]
+
+### [Quality] [Performance]
+- **Analysis**: Diagnose audio output dropouts and latency in Android Virtual Devices (AVD).
+- **Optimization**: Implement a low-overhead audio path and buffer tuning to ensure glitch-free playback in emulated environments.
