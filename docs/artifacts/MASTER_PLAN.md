@@ -1,47 +1,36 @@
 # Mini-Synth Master Implementation Plan
 
-High-performance Android synthesizer. C++ (Oboe) for audio, Kotlin for UI. Strict adherence to Caveman Rules for technical specs.
-
-> [!CAUTION]
-> **STRICT PR REQUIREMENT**: Direct merging to `main` is FORBIDDEN. Every feature MUST follow the 10-cycle review loop defined in [CONTRIBUTING.md](CONTRIBUTING.md).
+High-performance Android multi-track workstation. C++ (Oboe) for audio, Kotlin for UI.
 
 ## Core Architectural Requirements
 
 ### Audio & Performance
-- **Performance**: C++ (Oboe/AAudio) for low-latency generation.
-- **Polyphony**: 16 voices with `tanh` soft-clipping and Unison.
-- **Stereo**: True interleaved path with spatial routing.
+- **Performance**: C++ (Oboe/AAudio) with static Sine LUT and soft-clipping.
+- **Architecture**: 4 independent synth tracks sharing 16 polyphonic voices.
+- **Stereo**: True interleaved path with per-track panning.
 
 ### Logic & Features
-- **Oscillators**: Morphing and Wavetables with Phase Distortion.
-- **Sequencer**: 64-step grid with real-time capture and export.
-- **Sound Board**: Customizable pad grid with sampling.
+- **Oscillators**: Morphing, Wavetables, and Phase Distortion.
+- **Sequencer**: 4x64-step grid with real-time multi-track capture.
+- **Sound Board**: Customizable pad grid with sampling (Track 0).
 
 ---
 
-## Milestone 1-43: Completed core series through Phase Distortion. [DONE]
+## Milestone 1-47: Core series through AVD Stability. [DONE]
 
 ---
 
-## Milestone 44: UI Polish & Functional Repair [DONE]
-## Milestone 45: UI Interaction & Pad Config Repair [DONE]
+## Milestone 48: Multi-Track Workstation & Demo Update [DONE]
+
+### [Engine] [Workstation]
+- **Tracks**: Implemented 4-track management in C++ and JNI.
+- **Sequencer**: Expanded to support independent patterns per track.
+- **Demo**: Modernized walkthrough showcasing Morphing, PD, and Wavetables.
 
 ---
 
-## Milestone 46: Phase Distortion Refinement [DONE]
+## Milestone 49: Advanced Modulation Matrix [TODO]
 
-### [Logic] [Optimization]
-- **Performance**: Sine LUT optimization for phase warping.
-- **Visuals**: Live Phase Distortion transfer function visualizer.
-
----
-
-## Milestone 47: Virtual Device Audio & Performance [DONE]
-
-### [Quality] [Performance]
-- **Stability**: AVD-specific buffer tuning and soft-clipping optimization.
-- **UI Repair**: Fixed Playmode/BPM and Bank/Hide button overlaps.
-
----
-
-## Future Features & Roadmap
+### [Logic] [Modulation]
+- **LFO Sync**: Synchronize LFO rates to global BPM (1/4, 1/8, etc.).
+- **Matrix**: Allow routing LFOs to multiple targets simultaneously.
