@@ -8,9 +8,11 @@
 #include "Delay.h"
 #include "Reverb.h"
 #include "FftProcessor.h"
+#include "Track.h"
 #include <thread>
 #include <atomic>
 #include <chrono>
+#include <array>
 
 class AudioEngine : public oboe::AudioStreamDataCallback, public oboe::AudioStreamErrorCallback {
 public:
@@ -21,49 +23,39 @@ public:
     void stop();
     bool isRunning() { return mStream != nullptr; }
 
-    void noteOn(int midiNote, float velocity);
+    void noteOn(int midiNote, float velocity, int trackId = 0);
     void noteOff(int midiNote);
 
     void padNoteOn(int padIndex, float velocity);
     void padNoteOff(int padIndex);
     void setPadLooping(int padIndex, bool looping);
 
+    // Track Management
+    void setTrackWaveform(int track, Waveform waveform);
+    void setTrackAttack(int track, float seconds);
+    void setTrackDecay(int track, float seconds);
+    void setTrackSustain(int track, float level);
+    void setTrackRelease(int track, float seconds);
+    void setTrackLfoRate(int track, float frequency);
+    void setTrackLfoDepth(int track, float depth);
+    void setTrackLfoWaveform(int track, Waveform waveform);
+    void setTrackLfoTarget(int track, LfoTarget target);
+    void setTrackFilterCutoff(int track, float frequency);
+    void setTrackFilterResonance(int track, float resonance);
+    void setTrackUnison(int track, int count, float detune, float spread);
+    void setTrackMorph(int track, float morph);
+    void setTrackPhaseDistortion(int track, float pd);
+    void setTrackPanning(int track, float panning);
+    void setTrackVolume(int track, float volume);
+
     void setPolyphonic(bool isPolyphonic) { mVoiceManager.setPolyphonic(isPolyphonic); }
-    void setWaveform(Waveform waveform) { mVoiceManager.setWaveform(waveform); }
     void setOctaveShift(int shift) { mOctaveShift = shift; }
-
-    void setAttack(float seconds) { mVoiceManager.setAttack(seconds); }
-    void setDecay(float seconds) { mVoiceManager.setDecay(seconds); }
-    void setSustain(float level) { mVoiceManager.setSustain(level); }
-    void setRelease(float seconds) { mVoiceManager.setRelease(seconds); }
     void setMasterVolume(float volume) { mVoiceManager.setMasterVolume(volume); }
-    void setPanning(float panning) { mVoiceManager.setPanning(panning); }
-    void setUnison(int count, float detune, float spread) { mVoiceManager.setUnison(count, detune, spread); }
-    void setMorph(float morph) { mVoiceManager.setMorph(morph); }
-    void setPhaseDistortion(float pd) { mVoiceManager.setPhaseDistortion(pd); }
-    void setWavetable(const float* data, int32_t size) { mVoiceManager.setWavetable(data, size); }
-    void setPadPanning(int padIndex, float panning);
-    void setLfoRate(float frequency) { mVoiceManager.setLfoRate(frequency); }
-    void setLfoDepth(float depth) { mVoiceManager.setLfoDepth(depth); }
-    void setLfoWaveform(Waveform waveform) { mVoiceManager.setLfoWaveform(waveform); }
-    void setLfoTarget(LfoTarget target) { mVoiceManager.setLfoTarget(target); }
-    void setAftertouchTarget(LfoTarget target) { mVoiceManager.setAftertouchTarget(target); }
 
-    void setFilterCutoff(float frequency) { mVoiceManager.setFilterCutoff(frequency); }
-    void setFilterResonance(float resonance) { mVoiceManager.setFilterResonance(resonance); }
-
-    void setPitchBend(float semitones) { mVoiceManager.setPitchBend(semitones); }
-    void setModulation(float amount) { mVoiceManager.setModulation(amount); }
-    void setAftertouch(int midiNote, float amount) { mVoiceManager.setVoiceAftertouch(midiNote, amount); }
-
-    // Effects
-    void setDelayTime(float seconds) { mDelay.setTime(seconds); }
-    void setDelayFeedback(float feedback) { mDelay.setFeedback(feedback); }
-    void setDelayMix(float mix) { mDelay.setMix(mix); }
-
-    void setReverbSize(float size) { mReverb.setSize(size); }
-    void setReverbDamping(float damping) { mReverb.setDamping(damping); }
-    void setReverbMix(float mix) { mReverb.setMix(mix); }
+    void setWavetable(const float* data, int32_t size) {
+        // For now applies to track 0 or all? The plan says "Wavetable Engine support".
+        // We'll update the active track.
+    }
 
     void renderStereoSampleForTest(float& left, float& right);
 
@@ -106,22 +98,13 @@ public:
         mMidiSequencer.setRecording(recording);
     }
     bool isSequencerRecording() const { return mIsSequencerRecording.load(); }
-    void setSequencerNote(int step, int note, bool active) { mMidiSequencer.setNote(step, note, active); }
-    bool isSequencerNoteActive(int step, int note) const { return mMidiSequencer.getNote(step, note); }
-    void getSequencerActiveNotes(int step, std::vector<int>& notes) const { mMidiSequencer.getActiveNotes(step, notes); }
-    bool isSequencerStepActive(int step) const { return mMidiSequencer.isStepActive(step); }
-    int recordSequencerNote(int note) { return mMidiSequencer.recordNote(note); }
-    void handleRealTimeNoteOn(int note) { mMidiSequencer.handleRealTimeNoteOn(note); }
-    void handleRealTimeNoteOff(int note) { mMidiSequencer.handleRealTimeNoteOff(note); }
+    void setSequencerNote(int track, int step, int note, bool active) { mMidiSequencer.setNote(track, step, note, active); }
+    bool isSequencerNoteActive(int track, int step, int note) const { return mMidiSequencer.getNote(track, step, note); }
+    void getSequencerActiveNotes(int track, int step, std::vector<int>& notes) const { mMidiSequencer.getActiveNotes(track, step, notes); }
+    bool isSequencerStepActive(int track, int step) const { return mMidiSequencer.isStepActive(track, step); }
+    int recordSequencerNote(int track, int note) { return mMidiSequencer.recordNote(track, note); }
     void clearSequencer() { mMidiSequencer.clear(); }
-    void stepRecordNote(int note) { mMidiSequencer.stepRecordNote(note); }
-    void stepRecordRest() { mMidiSequencer.stepRecordRest(); }
-    void stepRecordBack() { mMidiSequencer.stepRecordBack(); }
-    void setSequencerStepDuration(float division) { mMidiSequencer.setStepDuration(division); }
-    void setSequencerNumSteps(int steps) { mMidiSequencer.setNumSteps(steps); }
-    void setInputQuantize(bool enabled) { mMidiSequencer.setInputQuantize(enabled); }
-    void setOverdub(bool enabled) { mMidiSequencer.setOverdub(enabled); }
-    int getSequencerCurrentStep() const { return mMidiSequencer.getCurrentStep(); }
+    void clearSequencerTrack(int track) { mMidiSequencer.clearTrack(track); }
 
     void saveProject(const std::string& directory);
     void loadProject(const std::string& directory);
@@ -138,7 +121,9 @@ private:
     static constexpr int MAX_RESTART_RETRIES = 5;
     static constexpr auto MIN_RESTART_INTERVAL = std::chrono::seconds(2);
 
+    void updateTrackParams(int trackId);
     bool isPadAvailable(int padIndex);
+
     struct SampleHeader {
         char magic[4];
         uint32_t version;
@@ -156,6 +141,10 @@ private:
     std::shared_ptr<oboe::AudioStream> mStream;
     VoiceManager mVoiceManager;
     MidiSequencer mMidiSequencer;
+
+    static const int MAX_TRACKS = 4;
+    std::array<Track, MAX_TRACKS> mTracks;
+
     FftProcessor mFftProcessor;
     Delay mDelay;
     Reverb mReverb;

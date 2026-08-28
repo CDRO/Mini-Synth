@@ -1,19 +1,9 @@
 #ifndef MINI_SYNTH_OSCILLATOR_H
 #define MINI_SYNTH_OSCILLATOR_H
 
-#include <cmath>
 #include <stdint.h>
 #include <vector>
-
-enum class Waveform {
-    Sine,
-    Square,
-    Saw,
-    Triangle,
-    Morph,
-    Wavetable,
-    Random
-};
+#include "AudioCommon.h"
 
 class Oscillator {
 public:

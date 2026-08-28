@@ -274,6 +274,68 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/track_selector"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="@dimen/spacing_medium"
+                        android:gravity="center_vertical"
+                        android:background="@color/matte_grey">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="TRACK:"
+                            android:textColor="@color/dim_grey"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.button.MaterialButtonToggleGroup
+                            android:id="@+id/toggle_track_selection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            app:singleSelection="true"
+                            app:checkedButton="@id/btn_track_0">
+
+                            <Button
+                                android:id="@+id/btn_track_0"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="44dp"
+                                android:layout_height="36dp"
+                                android:text="T1"
+                                android:padding="0dp"
+                                android:textSize="10sp" />
+                            <Button
+                                android:id="@+id/btn_track_1"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="44dp"
+                                android:layout_height="36dp"
+                                android:text="T2"
+                                android:padding="0dp"
+                                android:textSize="10sp" />
+                            <Button
+                                android:id="@+id/btn_track_2"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="44dp"
+                                android:layout_height="36dp"
+                                android:text="T3"
+                                android:padding="0dp"
+                                android:textSize="10sp" />
+                            <Button
+                                android:id="@+id/btn_track_3"
+                                style="?attr/materialButtonOutlinedStyle"
+                                android:layout_width="44dp"
+                                android:layout_height="36dp"
+                                android:text="T4"
+                                android:padding="0dp"
+                                android:textSize="10sp" />
+
+                        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/parameter_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
