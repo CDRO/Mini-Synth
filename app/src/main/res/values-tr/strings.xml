@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">LFO Derinliği: Modülasyon etkisinin yoğunluğu.</string>
     <string name="help_lfo_waveform">LFO Dalga Formu: Modülasyon osilatörünün şeklini seçin.</string>
     <string name="help_lfo_target">LFO Hedefi: LFO tarafından modüle edilen parametre.</string>
+    <string name="help_lfo_sync">LFO Senkronizasyonu: Etkinleştirildiğinde, LFO frekansı küresel BPM\'ye göre otomatik olarak hesaplanır.</string>
+    <string name="help_lfo_div">LFO Bölümü: Senkronize edilmiş LFO için zamanlama bölümünü seçin (örneğin, vuruş başına bir döngü için 1/4).</string>
+    <string name="help_lfo_matrix">Modülasyon Matrisi: LFO\'yu bağımsız derinliklere sahip birden fazla hedefe (Perde, Ses Düzeyi, Filtre, PD) atayın.</string>
     <string name="help_at_target">Aftertouch Hedefi: Tuş basıncıyla modüle edilen parametre.</string>
     <string name="help_attack">Attack (Atak): Tetiklendikten sonra sesin en yüksek seviyeye ulaşması için geçen süre.</string>
     <string name="help_decay">Decay (Sönümleme): En yüksek seviyeden sürdürme seviyesüne düşmesi için geçen süre.</string>

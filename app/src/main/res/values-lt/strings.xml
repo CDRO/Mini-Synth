@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">LFO gylis: Moduliacijos efekto intensyvumas.</string>
     <string name="help_lfo_waveform">LFO bangos forma: Pasirinkite moduliacijos osciliatoriaus formą.</string>
     <string name="help_lfo_target">LFO tikslas: Parametras, kurį moduliuoja LFO.</string>
+    <string name="help_lfo_sync">LFO sinchronizavimas: kai įjungta, LFO dažnis automatiškai apskaičiuojamas pagal visuotinį BPM.</string>
+    <string name="help_lfo_div">LFO padalijimas: pasirinkite sinchronizuoto LFO laiko padalijimą (pvz., 1/4 vienam ciklui per taktą).</string>
+    <string name="help_lfo_matrix">Moduliacijos matrica: priskirkite LFO keliems tikslams (aukščiui, garsumui, filtrui, PD) su nepriklausomais gyliais.</string>
     <string name="help_at_target">„Aftertouch“ tikslas: Parametras, kurį moduliuoja klavišų spaudimas.</string>
     <string name="help_attack">Attack: Laikas, per kurį garsas pasiekia didžiausią garsumą po paleidimo.</string>
     <string name="help_decay">Decay: Laikas, per kurį garsas nukrenta nuo didžiausio iki uztikrinimo (sustain) lygio.</string>

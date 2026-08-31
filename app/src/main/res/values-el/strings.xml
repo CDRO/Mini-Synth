@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">LFO Depth: Ένταση του εφέ διαμόρφωσης.</string>
     <string name="help_lfo_waveform">LFO Waveform: Επιλογή του σχήματος του ταλαντωτή διαμόρφωσης.</string>
     <string name="help_lfo_target">LFO Target: Η παράμετρος που διαμορφώνεται από το LFO.</string>
+    <string name="help_lfo_sync">Συγχρονισμός LFO: Όταν είναι ενεργοποιημένο, η συχνότητα του LFO υπολογίζεται αυτόματα με βάση το παγκόσμιο BPM.</string>
+    <string name="help_lfo_div">Διαίρεση LFO: Επιλέξτε τη χρονική διαίρεση για το συγχρονισμένο LFO (π.χ. 1/4 για έναν κύκλο ανά χτύπο).</string>
+    <string name="help_lfo_matrix">Μήτρα διαμόρφωσης: Εκχωρήστε το LFO σε πολλαπλούς στόχους (τόνος, ένταση, φίλτρο, PD) με ανεξάρτητα βάθη.</string>
     <string name="help_at_target">Aftertouch Target: Η παράμετρος που διαμορφώνεται από την πίεση των πλήκτρων.</string>
     <string name="help_attack">Attack: Ο χρόνος που χρειάζεται για να φτάσει ο ήχος στη μέγιστη ένταση μετά την ενεργοποίηση.</string>
     <string name="help_decay">Decay: Ο χρόνος που χρειάζεται για να πέσει από την κορυφή στο επίπεδο sustain.</string>

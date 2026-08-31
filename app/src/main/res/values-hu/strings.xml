@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">LFO mélység: A modulációs hatás intenzitása.</string>
     <string name="help_lfo_waveform">LFO hullámforma: Válassza ki a modulációs oszcillátor alakját.</string>
     <string name="help_lfo_target">LFO cél: Az LFO által modulált paraméter.</string>
+    <string name="help_lfo_sync">LFO szinkronizálás: Ha engedélyezve van, az LFO frekvenciája automatikusan a globális BPM alapján kerül kiszámításra.</string>
+    <string name="help_lfo_div">LFO osztás: Válassza ki a szinkronizált LFO időosztását (pl. 1/4 egy ciklushoz ütésenként).</string>
+    <string name="help_lfo_matrix">Modulációs mátrix: Rendelje hozzá az LFO-t több célhoz (hangmagasság, hangerő, szűrő, PD) független mélységekkel.</string>
     <string name="help_at_target">Aftertouch cél: A billentyűnyomás által modulált paraméter.</string>
     <string name="help_attack">Attack: A hang csúcshangerő eléréséhez szükséges idő az indítás után.</string>
     <string name="help_decay">Decay: A csúcsról a kitartási szintre való visszaeséshez szükséges idő.</string>

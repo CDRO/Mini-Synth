@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">LFOデプス：モジュレーション効果の強度。</string>
     <string name="help_lfo_waveform">LFO波形：モジュレーションオシレーターの形状を選択します。</string>
     <string name="help_lfo_target">LFOターゲット：LFOによってモジュレートされるパラメーター。</string>
+    <string name="help_lfo_sync">LFO同期：有効にすると、グローバルBPMに基づいてLFO周波数が自動的に計算されます。</string>
+    <string name="help_lfo_div">LFO分割：同期されたLFOのタイミング分割を選択します（例：1拍あたり1サイクルの場合は1/4）。</string>
+    <string name="help_lfo_matrix">モジュレーション・マトリックス：独立した深さで、LFOを複数のターゲット（ピッチ、ボリューム、フィルター、PD）に割り当てます。</string>
     <string name="help_at_target">アフタータッチターゲット：キーの圧力によってモジュレートされるパラメーター。</string>
     <string name="help_attack">アタック：トリガー後に音がピーク音量に達するまでの時間。</string>
     <string name="help_decay">ディケイ：ピークからサステインレベルまで下がる時間。</string>

@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">Глибина LFO: інтенсивність ефекту модуляції.</string>
     <string name="help_lfo_waveform">Форма хвилі LFO: виберіть форму осцилятора модуляції.</string>
     <string name="help_lfo_target">Ціль LFO: параметр, який модулюється LFO.</string>
+    <string name="help_lfo_sync">Синхронізація LFO: якщо ввімкнено, частота LFO розраховується автоматично на основі глобального BPM.</string>
+    <string name="help_lfo_div">Поділ LFO: виберіть часовий поділ для синхронізованого LFO (наприклад, 1/4 для одного циклу на удар).</string>
+    <string name="help_lfo_matrix">Матриця модуляції: призначте LFO кільком цілям (висота, гучність, фільтр, PD) із незалежними глибинами.</string>
     <string name="help_at_target">Ціль Aftertouch: параметр, що модулюється тиском клавіш.</string>
     <string name="help_attack">Attack: час, за який звук досягає пікової гучності після спрацювання.</string>
     <string name="help_decay">Decay: час, необхідний для падіння від піку до рівня сустейну.</string>

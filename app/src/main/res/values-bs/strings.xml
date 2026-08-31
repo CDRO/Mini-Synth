@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">Dubina LFO-a: Intenzitet efekta modulacije.</string>
     <string name="help_lfo_waveform">Talasni oblik LFO-a: Odaberite oblik modulacijskog oscilatora.</string>
     <string name="help_lfo_target">Cilj LFO-a: Parametar koji modulira LFO.</string>
+    <string name="help_lfo_sync">LFO sinhronizacija: Kada je omogućeno, LFO frekvencija se automatski izračunava na osnovu globalnog BPM-a.</string>
+    <string name="help_lfo_div">LFO podjela: Odaberite vremensku podjelu za sinhronizovani LFO (npr. 1/4 za jedan ciklus po otkucaju). </string>
+    <string name="help_lfo_matrix">Modulaciona matrica: Dodijelite LFO višestrukim ciljevima (visina, jačina, filter, PD) sa nezavisnim dubinama.</string>
     <string name="help_at_target">Cilj Aftertouch-a: Parametar koji modulira pritisak na taster.</string>
     <string name="help_attack">Attack: Vrijeme potrebno da zvuk dostigne vrhunac jačine nakon okidanja.</string>
     <string name="help_decay">Decay: Vrijeme potrebno za pad sa vrha na nivo sustain-a.</string>

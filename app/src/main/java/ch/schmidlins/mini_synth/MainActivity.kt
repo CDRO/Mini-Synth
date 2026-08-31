@@ -365,11 +365,19 @@ class MainActivity : AppCompatActivity() {
         val divOptions = arrayOf("1/1", "1/2", "1/4", "1/8", "1/16"); val divValues = floatArrayOf(4.0f, 2.0f, 1.0f, 0.5f, 0.25f)
         content.spinnerLfoDiv.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, divOptions)
         content.toggleLfoSync.setOnCheckedChangeListener { _, isChecked ->
+            if (isHelpMode) {
+                showHelp(getString(R.string.help_lfo_sync))
+                content.toggleLfoSync.isChecked = !isChecked
+                return@setOnCheckedChangeListener
+            }
             val t = tracks[activeTrackIndex]; t.lfoSync = isChecked; content.spinnerLfoDiv.visibility = if (isChecked) View.VISIBLE else View.GONE
             content.seekLfoRate.isEnabled = !isChecked; synthManager.setTrackLfoSync(activeTrackIndex, isChecked, divValues[content.spinnerLfoDiv.selectedItemPosition])
         }
         content.spinnerLfoDiv.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) { val t = tracks[activeTrackIndex]; t.lfoSyncDivisionIndex = pos; if (t.lfoSync) synthManager.setTrackLfoSync(activeTrackIndex, true, divValues[pos]) }
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
+                if (isHelpMode) { showHelp(getString(R.string.help_lfo_div)); return }
+                val t = tracks[activeTrackIndex]; t.lfoSyncDivisionIndex = pos; if (t.lfoSync) synthManager.setTrackLfoSync(activeTrackIndex, true, divValues[pos])
+            }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
@@ -384,6 +392,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupLfoMatrix(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         content.btnLfoMatrix.setOnClickListener {
+            if (isHelpMode) { showHelp(getString(R.string.help_lfo_matrix)); return@setOnClickListener }
             val t = tracks[activeTrackIndex]; val targets = arrayOf("Pitch", "Volume", "Filter", "Phase Dist")
             val layout = android.widget.LinearLayout(this).apply { orientation = android.widget.LinearLayout.VERTICAL; setPadding(48, 40, 48, 40) }
             for (i in 0 until 4) {

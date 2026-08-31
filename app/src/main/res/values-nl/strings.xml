@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">LFO Diepte: Intensiteit van het modulatie-effect.</string>
     <string name="help_lfo_waveform">LFO Golfvorm: Selecteer de vorm van de modulatie oscillator.</string>
     <string name="help_lfo_target">LFO Doel: De parameter die door de LFO wordt gemoduleerd.</string>
+    <string name="help_lfo_sync">LFO Sync: Indien ingeschakeld, wordt de LFO-frequentie automatisch berekend op basis van de globale BPM.</string>
+    <string name="help_lfo_div">LFO Division: Kies de tijdsverdeling voor de gesynchroniseerde LFO (bijv. 1/4 voor één cyclus per tel).</string>
+    <string name="help_lfo_matrix">Modulatiematrix: Wijs de LFO toe aan meerdere doelen (Pitch, Volume, Filter, PD) met onafhankelijke dieptes.</string>
     <string name="help_at_target">Aftertouch Doel: De parameter gemoduleerd door toetsdruk.</string>
     <string name="help_attack">Attack: Tijd die het geluid nodig heeft om het piekniveau te bereiken na activering.</string>
     <string name="help_decay">Decay: Tijd die nodig is om van de piek naar het sustain-niveau te zakken.</string>

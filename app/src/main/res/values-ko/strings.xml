@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">LFO 깊이: 변조 효과의 강도.</string>
     <string name="help_lfo_waveform">LFO 파형: 변조 오실레이터의 모양을 선택합니다.</string>
     <string name="help_lfo_target">LFO 타겟: LFO에 의해 변조되는 파라미터.</string>
+    <string name="help_lfo_sync">LFO 동기화: 활성화하면 글로벌 BPM을 기반으로 LFO 주파수가 자동으로 계산됩니다.</string>
+    <string name="help_lfo_div">LFO 분할: 동기화된 LFO의 타이밍 분할을 선택합니다(예: 비트당 1사이클의 경우 1/4).</string>
+    <string name="help_lfo_matrix">변조 매트릭스: LFO를 여러 대상(피치, 볼륨, 필터, PD)에 독립적인 깊이로 할당합니다.</string>
     <string name="help_at_target">애프터터치 타겟: 키 압력에 의해 변조되는 파라미터.</string>
     <string name="help_attack">어택: 트리거 후 소리가 최대 볼륨에 도달하는 데 걸리는 시간.</string>
     <string name="help_decay">디케이: 최대치에서 서스테인 레벨로 떨어지는 데 걸리는 시간.</string>

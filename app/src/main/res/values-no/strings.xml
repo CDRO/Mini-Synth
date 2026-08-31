@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">LFO-dybde: Intensiteten på modulasjonseffekten.</string>
     <string name="help_lfo_waveform">LFO-bølgeform: Velg formen på modulasjonsoscillatoren.</string>
     <string name="help_lfo_target">LFO-mål: Parameteren som moduleres av LFO-en.</string>
+    <string name="help_lfo_sync">LFO-synkronisering: Når aktivert, beregnes LFO-frekvensen automatisk basert på den globale BPM-en.</string>
+    <string name="help_lfo_div">LFO-divisjon: Velg tidsinndelingen for den synkroniserte LFO-en (f.eks. 1/4 for én syklus per slag).</string>
+    <string name="help_lfo_matrix">Modulasjonsmatrise: Tilordne LFO-en til flere mål (pitch, volum, filter, PD) med uavhengige dybder.</string>
     <string name="help_at_target">Aftertouch-mål: Parameteren som moduleres av tastetrykk.</string>
     <string name="help_attack">Attack: Tiden det tar før lyden når maksimalt volum etter trigging.</string>
     <string name="help_decay">Decay: Tiden det tar å falle fra toppen til sustain-nivået.</string>

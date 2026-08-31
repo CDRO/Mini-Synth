@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">LFO dziļums: Modulācijas efekta intensitāte.</string>
     <string name="help_lfo_waveform">LFO viļņu forma: Izvēlieties modulācijas oscilatora formu.</string>
     <string name="help_lfo_target">LFO mērķis: Parametrs, ko modulē LFO.</string>
+    <string name="help_lfo_sync">LFO sinhronizācija: ja ir iespējota, LFO frekvence tiek automātiski aprēķināta, pamatojoties uz globālo BPM.</string>
+    <string name="help_lfo_div">LFO dalīšana: izvēlieties sinhronizētā LFO laika dalījumu (piemēram, 1/4 vienam ciklam vienā taktī).</string>
+    <string name="help_lfo_matrix">Modulācijas matrica: piešķiriet LFO vairākiem mērķiem (augstumam, skaļumam, filtram, PD) ar neatkarīgiem dziļumiem.</string>
     <string name="help_at_target">Aftertouch mērķis: Parametrs, ko modulē taustiņu spiediens.</string>
     <string name="help_attack">Attack: Laiks, kas nepieciešams, lai skaņa sasniegtu maksimālo skaļumu pēc trigera.</string>
     <string name="help_decay">Decay: Laiks, kas nepieciešams, lai skaļums kristos no maksimālā līdz uzturēšanas (sustain) līmenim.</string>
