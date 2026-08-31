@@ -611,6 +611,17 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_normalizePad(JNIEnv *env, jobj
     if (engine) engine->normalizePad(pad_index);
 }
 
+extern "C" JNIEXPORT jfloatArray JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_getPadSample(JNIEnv *env, jobject thiz, jint pad_index) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (!engine) return nullptr;
+    const std::vector<float>* buffer = engine->getPadBuffer(pad_index);
+    if (!buffer || buffer->empty()) return nullptr;
+    jfloatArray result = env->NewFloatArray(buffer->size());
+    env->SetFloatArrayRegion(result, 0, buffer->size(), buffer->data());
+    return result;
+}
+
 extern "C" JNIEXPORT jint JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_renderStereoSampleForTest(JNIEnv *env, jobject thiz, jfloatArray buffer) {
     std::lock_guard<std::mutex> lock(engineMutex);

@@ -127,6 +127,7 @@ public:
     void loadPadSample(int padIndex, const char* path);
     void normalizePad(int padIndex);
     void setPadPlaybackParams(int padIndex, uint32_t start, uint32_t end, bool reverse);
+    const std::vector<float>* getPadBuffer(int padIndex) const;
 
     // Sequencer
     void setSequencerPlaying(bool playing) { mMidiSequencer.setPlaying(playing, mVoiceManager); }

@@ -66,6 +66,9 @@ class SynthManager {
     /** Automatically adjust gain for a pad to reach 0dB peak. */
     external fun normalizePad(padIndex: Int)
 
+    /** Retrieve a copy of a pad's PCM data. */
+    external fun getPadSample(padIndex: Int): FloatArray?
+
     /** Toggle between polyphonic (16-voice) and monophonic modes. */
     external fun setPolyphonic(isPolyphonic: Boolean)
     

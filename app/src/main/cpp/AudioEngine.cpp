@@ -240,6 +240,11 @@ void AudioEngine::setPadPlaybackParams(int padIndex, uint32_t start, uint32_t en
     mPadMetadata[padIndex].end = end;
     mPadMetadata[padIndex].reverse = reverse;
 }
+
+const std::vector<float>* AudioEngine::getPadBuffer(int padIndex) const {
+    if (padIndex < 0 || padIndex >= MAX_PADS) return nullptr;
+    return &mPadBuffers[padIndex];
+}
 bool AudioEngine::isPadAvailable(int idx) { return idx >= 0 && idx < MAX_PADS; }
 void AudioEngine::renderStereoSampleForTest(float& l, float& r) { mVoiceManager.nextSample(l, r); }
 void AudioEngine::onErrorAfterClose(oboe::AudioStream *s, oboe::Result e) {}
