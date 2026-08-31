@@ -19,9 +19,9 @@
 
 ### [DONE] Milestone 1-47: Core Series through AVD Performance.
 ### [DONE] Milestone 48: Multi-Track Workstation & Demo Update.
+### [DONE] Milestone 49: Advanced Modulation Matrix.
 
-### [NEXT] Milestone 49: Advanced Modulation Matrix
-- **Objective**: Implement LFO Sync to BPM and customizable modulation routings.
+### [NEXT] Milestone 50: Advanced Arpeggiator & Chord Mode
 
 ## Quality Assurance Status
 - **Unit Tests**: 30/30 passed.

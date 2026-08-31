@@ -29,8 +29,16 @@ High-performance Android multi-track workstation. C++ (Oboe) for audio, Kotlin f
 
 ---
 
-## Milestone 49: Advanced Modulation Matrix [TODO]
+## Milestone 49: Advanced Modulation Matrix [DONE]
 
 ### [Logic] [Modulation]
-- **LFO Sync**: Synchronize LFO rates to global BPM (1/4, 1/8, etc.).
-- **Matrix**: Allow routing LFOs to multiple targets simultaneously.
+- **Sync**: BPM-synced LFOs with musical divisions.
+- **Matrix**: Multi-target routing (Pitch, Volume, Filter, PD).
+
+---
+
+## Milestone 50: Advanced Arpeggiator & Chord Mode [TODO]
+
+### [Logic] [Performance]
+- **Arpeggiator**: Pattern-based arpeggios (Up, Down, Random, etc.).
+- **Chords**: One-finger chord triggers with inversion control.
