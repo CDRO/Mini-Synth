@@ -22,6 +22,8 @@ class ShadowSynthManager {
         var lastLfoSyncEnabled = false
         var lastLfoSyncDivision = 1.0f
         val lfoMatrixAmounts = FloatArray(4)
+        var stepRecordRestCalls = 0
+        var stepRecordHoldCalls = 0
 
         fun reset() {
             noteOnCalls.clear()
@@ -37,6 +39,8 @@ class ShadowSynthManager {
             lastMorph = 0f
             lastLfoSyncEnabled = false
             lastLfoSyncDivision = 1.0f
+            stepRecordRestCalls = 0
+            stepRecordHoldCalls = 0
             for (i in 0..3) lfoMatrixAmounts[i] = 0f
         }
     }
@@ -83,6 +87,13 @@ class ShadowSynthManager {
     }
     @Implementation fun processMidi(data: ByteArray, length: Int) {
         midiMessages.add(data.copyOf())
+    }
+
+    @Implementation fun stepRecordRest(track: Int) {
+        stepRecordRestCalls++
+    }
+    @Implementation fun stepRecordHold(track: Int) {
+        stepRecordHoldCalls++
     }
 
     // Stubs
@@ -144,7 +155,6 @@ class ShadowSynthManager {
     @Implementation fun clearSequencer() {}
     @Implementation fun clearSequencerTrack(track: Int) {}
     @Implementation fun stepRecordNote(track: Int, note: Int) {}
-    @Implementation fun stepRecordRest() {}
     @Implementation fun stepRecordBack() {}
     @Implementation fun setSequencerStepDuration(division: Float) {}
     @Implementation fun setInputQuantize(enabled: Boolean) {}

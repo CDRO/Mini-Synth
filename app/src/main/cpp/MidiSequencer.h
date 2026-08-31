@@ -38,7 +38,8 @@ public:
     int getNumSteps() const { return mNumSteps.load(); }
     int recordNote(int track, int note);
     void stepRecordNote(int track, int note);
-    void stepRecordRest();
+    void stepRecordRest(int track);
+    void stepRecordHold(int track);
     void stepRecordBack();
     void handleRealTimeNoteOn(int track, int note);
     void handleRealTimeNoteOff(int track, int note);
@@ -55,6 +56,7 @@ public:
 
 private:
     std::atomic<uint64_t> mGrid[MAX_TRACKS][MAX_STEPS][2];
+    std::atomic<bool> mTieGrid[MAX_TRACKS][MAX_STEPS];
     std::atomic<int> mNumSteps{16};
     std::atomic<int> mCurrentStep{0};
     std::atomic<int32_t> mSamplesProcessed{0};

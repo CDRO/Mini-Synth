@@ -7,6 +7,7 @@ MidiSequencer::MidiSequencer() {
     for (int t = 0; t < MAX_TRACKS; ++t) {
         mActiveNoteTracking[t][0].store(0);
         mActiveNoteTracking[t][1].store(0);
+        for (int s = 0; s < MAX_STEPS; ++s) mTieGrid[t][s].store(false);
     }
 }
 
@@ -56,6 +57,7 @@ void MidiSequencer::clearTrack(int track) {
     for (int i = 0; i < MAX_STEPS; ++i) {
         mGrid[track][i][0].store(0);
         mGrid[track][i][1].store(0);
+        mTieGrid[track][i].store(false);
     }
 }
 
@@ -86,14 +88,35 @@ void MidiSequencer::stepRecordNote(int track, int note) {
 
     mGrid[track][step][0].store(0);
     mGrid[track][step][1].store(0);
+    mTieGrid[track][step].store(false); // New note clears tie
     setNote(track, step, note, true);
 
     mCurrentStep.store((step + 1) % totalSteps);
 }
 
-void MidiSequencer::stepRecordRest() {
+void MidiSequencer::stepRecordRest(int track) {
+    if (track < 0 || track >= MAX_TRACKS) return;
     int step = mCurrentStep.load();
     int totalSteps = mNumSteps.load();
+
+    // A rest clears both notes and ties for the track at this step
+    mGrid[track][step][0].store(0);
+    mGrid[track][step][1].store(0);
+    mTieGrid[track][step].store(false);
+
+    mCurrentStep.store((step + 1) % totalSteps);
+}
+
+void MidiSequencer::stepRecordHold(int track) {
+    if (track < 0 || track >= MAX_TRACKS) return;
+    int step = mCurrentStep.load();
+    int totalSteps = mNumSteps.load();
+    int prevStep = (step - 1 + totalSteps) % totalSteps;
+
+    mTieGrid[track][step].store(true);
+    mGrid[track][step][0].store(mGrid[track][prevStep][0].load());
+    mGrid[track][step][1].store(mGrid[track][prevStep][1].load());
+
     mCurrentStep.store((step + 1) % totalSteps);
 }
 
@@ -187,6 +210,8 @@ void MidiSequencer::process(int32_t numFrames, int32_t samplesPerBeat, VoiceMana
 void MidiSequencer::triggerStep(int step, VoiceManager& voiceManager) {
     float vel = mVelocity.load();
     for (int t = 0; t < MAX_TRACKS; ++t) {
+        if (mTieGrid[t][step].load()) continue; // Skip trigger if this step is a tie from prev
+
         for (int word = 0; word < 2; ++word) {
             uint64_t val = mGrid[t][step][word].load();
             if (val == 0) continue;
@@ -200,7 +225,12 @@ void MidiSequencer::triggerStep(int step, VoiceManager& voiceManager) {
 }
 
 void MidiSequencer::releaseStep(int step, VoiceManager& voiceManager) {
+    int totalSteps = mNumSteps.load();
+    int nextStep = (step + 1) % totalSteps;
+
     for (int t = 0; t < MAX_TRACKS; ++t) {
+        if (mTieGrid[t][nextStep].load()) continue; // Skip release if next step is tied to this one
+
         for (int word = 0; word < 2; ++word) {
             uint64_t val = mGrid[t][step][word].load();
             if (val == 0) continue;
@@ -221,6 +251,7 @@ void MidiSequencer::stepRecordBack() {
     for (int t = 0; t < MAX_TRACKS; ++t) {
         mGrid[t][prevStep][0].store(0);
         mGrid[t][prevStep][1].store(0);
+        mTieGrid[t][prevStep].store(false);
     }
     mCurrentStep.store(prevStep);
 }

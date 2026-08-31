@@ -552,9 +552,15 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordNote(JNIEnv *env, jo
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordRest(JNIEnv *env, jobject thiz) {
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordRest(JNIEnv *env, jobject thiz, jint track) {
     std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) engine->stepRecordRest();
+    if (engine) engine->stepRecordRest(track);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordHold(JNIEnv *env, jobject thiz, jint track) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->stepRecordHold(track);
 }
 
 extern "C" JNIEXPORT void JNICALL

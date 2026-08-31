@@ -1155,17 +1155,41 @@
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
 
+                        <Space
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent" />
+
                         <Button
                             android:id="@+id/btn_step_rest"
                             style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="@dimen/button_height_standard"
+                            android:layout_width="72dp"
                             android:layout_height="@dimen/button_height_standard"
                             android:padding="0dp"
-                            android:text="@string/sequencer_rest_short"
+                            android:text="REST/SKIP"
                             android:visibility="gone"
                             android:textColor="@color/off_white"
+                            android:textSize="10sp"
+                            android:background="@drawable/selector_toggle_bg" />
+
+                        <Space
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent" />
+
+                        <Button
+                            android:id="@+id/btn_step_hold"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="60dp"
+                            android:layout_height="@dimen/button_height_standard"
+                            android:padding="0dp"
+                            android:text="HOLD"
+                            android:visibility="gone"
+                            android:textColor="@color/acid_green"
                             android:textSize="12sp"
                             android:background="@drawable/selector_toggle_bg" />
+
+                        <Space
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent" />
 
                         <Button
                             android:id="@+id/btn_step_back"

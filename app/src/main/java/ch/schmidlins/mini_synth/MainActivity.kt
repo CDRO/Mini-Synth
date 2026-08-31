@@ -527,7 +527,18 @@ class MainActivity : AppCompatActivity() {
         content.spinnerStepDuration!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener { override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) { synthManager.setSequencerStepDuration(floatArrayOf(0.25f, 0.5f, 1.0f, 2.0f, 4.0f)[position]) }; override fun onNothingSelected(parent: AdapterView<*>?) {} }
         stepButtonIds.forEachIndexed { i, id -> content.root.findViewById<android.widget.ToggleButton>(id)?.setOnCheckedChangeListener { _, isChecked -> val step = stepPageIndex * 16 + i; synthManager.setSequencerNote(activeTrackIndex, step, 60, isChecked) } }
         
-        content.btnStepRest.setOnClickListener { it.applyClickEffect(); synthManager.stepRecordRest(); updateStepPageUI(content) }
+        content.togglePadSampling?.setOnCheckedChangeListener { cb, isChecked -> isPadSamplingMode = isChecked; setBlinking(cb, isChecked) }
+        content.toggleStepRec?.setOnCheckedChangeListener { cb, isChecked ->
+            isStepRecordMode = isChecked
+            setBlinking(cb, isChecked)
+            val vis = if (isChecked) View.VISIBLE else View.GONE
+            content.btnStepRest.visibility = vis
+            content.btnStepHold.visibility = vis
+            content.btnStepBack.visibility = vis
+        }
+
+        content.btnStepRest.setOnClickListener { it.applyClickEffect(); synthManager.stepRecordRest(activeTrackIndex); updateStepPageUI(content) }
+        content.btnStepHold.setOnClickListener { it.applyClickEffect(); synthManager.stepRecordHold(activeTrackIndex); updateStepPageUI(content) }
         content.btnStepBack.setOnClickListener { it.applyClickEffect(); synthManager.stepRecordBack(); updateStepPageUI(content) }
         content.btnStepPagePrev.setOnClickListener { it.applyClickEffect(); if (stepPageIndex > 0) { stepPageIndex--; updateStepPageUI(content) } }
         content.btnStepPageNext.setOnClickListener { it.applyClickEffect(); if (stepPageIndex < 3) { stepPageIndex++; updateStepPageUI(content) } }

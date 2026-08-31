@@ -68,4 +68,24 @@ class WorkstationUiTest {
         
         assertEquals(125f, ShadowSynthManager.lastBpm, 0.1f)
     }
+
+    @Test
+    fun testStepRecordHoldAndRestInvokesEngine() {
+        val activity = Robolectric.buildActivity(MainActivity::class.java).setup().get()
+        val toggleStepRec = activity.findViewById<Button>(R.id.toggle_step_rec)
+        val btnHold = activity.findViewById<Button>(R.id.btn_step_hold)
+        val btnRest = activity.findViewById<Button>(R.id.btn_step_rest)
+        
+        // Enter Step Record mode
+        toggleStepRec.performClick()
+        ShadowLooper.idleMainLooper()
+        
+        btnRest.performClick()
+        ShadowLooper.idleMainLooper()
+        assertEquals(1, ShadowSynthManager.stepRecordRestCalls)
+        
+        btnHold.performClick()
+        ShadowLooper.idleMainLooper()
+        assertEquals(1, ShadowSynthManager.stepRecordHoldCalls)
+    }
 }

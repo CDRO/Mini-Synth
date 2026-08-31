@@ -137,7 +137,8 @@ public:
     void clearSequencer() { mMidiSequencer.clear(); }
     void clearSequencerTrack(int track) { mMidiSequencer.clearTrack(track); }
     void stepRecordNote(int track, int note) { mMidiSequencer.stepRecordNote(track, note); }
-    void stepRecordRest() { mMidiSequencer.stepRecordRest(); }
+    void stepRecordRest(int track) { mMidiSequencer.stepRecordRest(track); }
+    void stepRecordHold(int track) { mMidiSequencer.stepRecordHold(track); }
     void stepRecordBack() { mMidiSequencer.stepRecordBack(); }
     void setSequencerStepDuration(float division) { mMidiSequencer.setStepDuration(division); }
     void setSequencerNumSteps(int steps) { mMidiSequencer.setNumSteps(steps); }
