@@ -109,6 +109,12 @@ class SynthManager {
     external fun setTrackFilterCutoff(track: Int, frequency: Float)
     external fun setTrackFilterResonance(track: Int, resonance: Float)
     
+    external fun setTrackArpMode(track: Int, modeIndex: Int)
+    external fun setTrackArpDivision(track: Int, division: Float)
+    external fun setTrackArpOctaves(track: Int, octaves: Int)
+    external fun setTrackChordMode(track: Int, modeIndex: Int)
+    external fun setTrackChordInversion(track: Int, inversion: Int)
+
     /** Shift pitch of all active voices in semitones. */
     external fun setPitchBend(semitones: Float)
     

@@ -18,6 +18,25 @@ enum class LfoTarget {
     PhaseDistortion
 };
 
+enum class ArpMode {
+    Off,
+    Up,
+    Down,
+    UpDown,
+    Random
+};
+
+enum class ChordMode {
+    Off,
+    Major,
+    Minor,
+    Diminished,
+    Augmented,
+    Major7,
+    Minor7,
+    Dominant7
+};
+
 struct EngineParams {
     Waveform waveform;
     float attack, decay, sustain, release;
@@ -41,6 +60,13 @@ struct EngineParams {
     float unisonSpread;
     float morph;
     float phaseDistortion;
+
+    // Performance
+    ArpMode arpMode = ArpMode::Off;
+    float arpDivision = 0.25f;
+    int arpOctaves = 1;
+    ChordMode chordMode = ChordMode::Off;
+    int chordInversion = 0;
 };
 
 #endif //MINI_SYNTH_AUDIOCOMMON_H

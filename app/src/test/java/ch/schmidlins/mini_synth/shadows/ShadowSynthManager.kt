@@ -24,6 +24,11 @@ class ShadowSynthManager {
         val lfoMatrixAmounts = FloatArray(4)
         var stepRecordRestCalls = 0
         var stepRecordHoldCalls = 0
+        var lastArpMode = 0
+        var lastArpDivision = 0.25f
+        var lastArpOctaves = 1
+        var lastChordMode = 0
+        var lastChordInversion = 0
 
         fun reset() {
             noteOnCalls.clear()
@@ -41,6 +46,11 @@ class ShadowSynthManager {
             lastLfoSyncDivision = 1.0f
             stepRecordRestCalls = 0
             stepRecordHoldCalls = 0
+            lastArpMode = 0
+            lastArpDivision = 0.25f
+            lastArpOctaves = 1
+            lastChordMode = 0
+            lastChordInversion = 0
             for (i in 0..3) lfoMatrixAmounts[i] = 0f
         }
     }
@@ -94,6 +104,22 @@ class ShadowSynthManager {
     }
     @Implementation fun stepRecordHold(track: Int) {
         stepRecordHoldCalls++
+    }
+
+    @Implementation fun setTrackArpMode(track: Int, modeIndex: Int) {
+        lastArpMode = modeIndex
+    }
+    @Implementation fun setTrackArpDivision(track: Int, division: Float) {
+        lastArpDivision = division
+    }
+    @Implementation fun setTrackArpOctaves(track: Int, octaves: Int) {
+        lastArpOctaves = octaves
+    }
+    @Implementation fun setTrackChordMode(track: Int, modeIndex: Int) {
+        lastChordMode = modeIndex
+    }
+    @Implementation fun setTrackChordInversion(track: Int, inversion: Int) {
+        lastChordInversion = inversion
     }
 
     // Stubs

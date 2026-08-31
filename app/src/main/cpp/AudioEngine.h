@@ -9,6 +9,7 @@
 #include "Reverb.h"
 #include "FftProcessor.h"
 #include "Track.h"
+#include "Arpeggiator.h"
 #include <thread>
 #include <atomic>
 #include <chrono>
@@ -49,6 +50,12 @@ public:
     void setTrackPhaseDistortion(int track, float pd);
     void setTrackPanning(int track, float panning);
     void setTrackVolume(int track, float volume);
+
+    void setTrackArpMode(int track, ArpMode mode);
+    void setTrackArpDivision(int track, float division);
+    void setTrackArpOctaves(int track, int octaves);
+    void setTrackChordMode(int track, ChordMode mode);
+    void setTrackChordInversion(int track, int inversion);
 
     void setPolyphonic(bool isPolyphonic) { mVoiceManager.setPolyphonic(isPolyphonic); }
     void setOctaveShift(int shift) { mOctaveShift = shift; }
@@ -184,6 +191,7 @@ private:
 
     static const int MAX_TRACKS = 4;
     std::array<Track, MAX_TRACKS> mTracks;
+    std::array<Arpeggiator, MAX_TRACKS> mArpeggiators;
 
     FftProcessor mFftProcessor;
     Delay mDelay;
@@ -223,6 +231,7 @@ private:
     void recordingLoop(const std::string& path);
     void updateMetronomeParams();
     float getMetronomeSample();
+    std::vector<int> expandChord(int root, ChordMode mode, int inversion);
 };
 
 #endif //MINI_SYNTH_AUDIOENGINE_H

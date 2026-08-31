@@ -40,6 +40,11 @@ bool ProjectManager::saveProject(const std::string& directory,
         tj["engine"]["unisonSpread"] = params.unisonSpread;
         tj["engine"]["morph"] = params.morph;
         tj["engine"]["phaseDistortion"] = params.phaseDistortion;
+        tj["engine"]["arpMode"] = static_cast<int>(params.arpMode);
+        tj["engine"]["arpDivision"] = params.arpDivision;
+        tj["engine"]["arpOctaves"] = params.arpOctaves;
+        tj["engine"]["chordMode"] = static_cast<int>(params.chordMode);
+        tj["engine"]["chordInversion"] = params.chordInversion;
 
         // Sequencer grid for this track
         tj["sequencer"]["stepDivision"] = sequencer.getStepDivision();
@@ -119,6 +124,11 @@ bool ProjectManager::loadProject(const std::string& directory,
             params.unisonDetune = e.value("unisonDetune", 0.0f);
             params.morph = e.value("morph", 0.0f);
             params.phaseDistortion = e.value("phaseDistortion", 0.0f);
+            params.arpMode = static_cast<ArpMode>(e.value("arpMode", 0));
+            params.arpDivision = e.value("arpDivision", 0.25f);
+            params.arpOctaves = e.value("arpOctaves", 1);
+            params.chordMode = static_cast<ChordMode>(e.value("chordMode", 0));
+            params.chordInversion = e.value("chordInversion", 0);
 
             auto steps = tj["sequencer"]["steps"];
             for (int s = 0; s < 16; ++s) {

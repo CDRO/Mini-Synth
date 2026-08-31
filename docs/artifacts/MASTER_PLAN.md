@@ -37,8 +37,9 @@ High-performance Android multi-track workstation. C++ (Oboe) for audio, Kotlin f
 
 ---
 
-## Milestone 50: Advanced Arpeggiator & Chord Mode [TODO]
+## Milestone 50: Advanced Arpeggiator & Chord Mode [DONE]
 
 ### [Logic] [Performance]
-- **Arpeggiator**: Pattern-based arpeggios (Up, Down, Random, etc.).
-- **Chords**: One-finger chord triggers with inversion control.
+- **Arpeggiator**: Pattern-based arpeggios (Up, Down, UpDown, Random).
+- **Chords**: One-finger chord triggers (Major, Minor, 7ths, etc.) with inversion control.
+- **Sequencer**: Integration of HOLD (Tie) and REST (Skip) in step recording.

@@ -20,8 +20,9 @@
 ### [DONE] Milestone 1-47: Core Series through AVD Performance.
 ### [DONE] Milestone 48: Multi-Track Workstation & Demo Update.
 ### [DONE] Milestone 49: Advanced Modulation Matrix.
+### [DONE] Milestone 50: Advanced Arpeggiator & Chord Mode.
 
-### [NEXT] Milestone 50: Advanced Arpeggiator & Chord Mode
+### [NEXT] Milestone 51: ...
 
 ## Quality Assurance Status
 - **Unit Tests**: 30/30 passed.

@@ -87,16 +87,73 @@ void AudioEngine::setTrackPhaseDistortion(int track, float p) { if (track >= 0 &
 void AudioEngine::setTrackPanning(int track, float p) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.panning = p; updateTrackParams(track); } }
 void AudioEngine::setTrackVolume(int track, float v) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.masterVolume = v; updateTrackParams(track); } }
 
+void AudioEngine::setTrackArpMode(int track, ArpMode mode) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.arpMode = mode; mArpeggiators[track].setParams(mTracks[track].params); } }
+void AudioEngine::setTrackArpDivision(int track, float div) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.arpDivision = div; mArpeggiators[track].setParams(mTracks[track].params); } }
+void AudioEngine::setTrackArpOctaves(int track, int oct) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.arpOctaves = oct; mArpeggiators[track].setParams(mTracks[track].params); } }
+void AudioEngine::setTrackChordMode(int track, ChordMode mode) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.chordMode = mode; } }
+void AudioEngine::setTrackChordInversion(int track, int inv) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.chordInversion = inv; } }
+
+std::vector<int> AudioEngine::expandChord(int root, ChordMode mode, int inversion) {
+    std::vector<int> offsets;
+    switch (mode) {
+        case ChordMode::Major: offsets = {0, 4, 7}; break;
+        case ChordMode::Minor: offsets = {0, 3, 7}; break;
+        case ChordMode::Diminished: offsets = {0, 3, 6}; break;
+        case ChordMode::Augmented: offsets = {0, 4, 8}; break;
+        case ChordMode::Major7: offsets = {0, 4, 7, 11}; break;
+        case ChordMode::Minor7: offsets = {0, 3, 7, 10}; break;
+        case ChordMode::Dominant7: offsets = {0, 4, 7, 10}; break;
+        default: offsets = {0}; break;
+    }
+
+    std::vector<int> notes;
+    for (int off : offsets) {
+        int n = root + off;
+        if (n >= 0 && n <= 127) notes.push_back(n);
+    }
+
+    // Simple Inversion: shift notes up/down by octaves based on 'inversion' param
+    for (int i = 0; i < inversion && !notes.empty(); ++i) {
+        int n = notes[i % notes.size()];
+        notes[i % notes.size()] = n + 12;
+    }
+
+    return notes;
+}
+
 void AudioEngine::noteOn(int midiNote, float velocity, int trackId) {
+    if (trackId < 0 || trackId >= MAX_TRACKS) trackId = 0;
     int shifted = midiNote + (mOctaveShift * 12);
     shifted = std::max(0, std::min(shifted, 127));
-    mVoiceManager.noteOn(shifted, velocity, nullptr, 0.0f, trackId);
+
+    std::vector<int> notes = expandChord(shifted, mTracks[trackId].params.chordMode, mTracks[trackId].params.chordInversion);
+
+    for (int n : notes) {
+        if (mTracks[trackId].params.arpMode != ArpMode::Off) {
+            mArpeggiators[trackId].noteOn(n);
+        } else {
+            mVoiceManager.noteOn(n, velocity, nullptr, 0.0f, trackId);
+        }
+    }
 }
 
 void AudioEngine::noteOff(int midiNote) {
     int shifted = midiNote + (mOctaveShift * 12);
     shifted = std::max(0, std::min(shifted, 127));
-    mVoiceManager.noteOff(shifted);
+
+    // Note off should apply to all potential chord notes to be safe,
+    // or we track which notes were triggered.
+    // For simplicity, we expand chord again to find the notes.
+    for (int t = 0; t < MAX_TRACKS; ++t) {
+        std::vector<int> notes = expandChord(shifted, mTracks[t].params.chordMode, mTracks[t].params.chordInversion);
+        for (int n : notes) {
+            if (mTracks[t].params.arpMode != ArpMode::Off) {
+                mArpeggiators[t].noteOff(n);
+            } else {
+                mVoiceManager.noteOff(n);
+            }
+        }
+    }
 }
 
 void AudioEngine::padNoteOn(int padIndex, float velocity) {
@@ -116,7 +173,13 @@ void AudioEngine::setPadPanning(int padIndex, float panning) {
 oboe::DataCallbackResult AudioEngine::onAudioReady(oboe::AudioStream *audioStream, void *audioData, int32_t numFrames) {
     float *output = static_cast<float *>(audioData);
     int32_t channelCount = audioStream->getChannelCount();
+
     mMidiSequencer.process(numFrames, mSamplesPerBeat, mVoiceManager);
+
+    for (int t = 0; t < MAX_TRACKS; ++t) {
+        mArpeggiators[t].process(numFrames, mSamplesPerBeat, t, mVoiceManager);
+    }
+
     for (int i = 0; i < numFrames; ++i) {
         float left = 0.0f, right = 0.0f;
         mVoiceManager.nextSample(left, right);

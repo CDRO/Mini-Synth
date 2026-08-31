@@ -828,6 +828,119 @@
 
                     </LinearLayout>
 
+                    <!-- Performance Section -->
+                    <LinearLayout
+                        android:id="@+id/performance_section"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_medium"
+                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:background="@color/matte_grey">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="PERFORMANCE"
+                            android:textColor="@color/acid_green"
+                            android:textStyle="bold"
+                            android:textSize="12sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginTop="4dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ARP:"
+                                android:textColor="@color/off_white"
+                                android:textSize="12sp" />
+
+                            <Spinner
+                                android:id="@+id/spinner_arp_mode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <Space
+                                android:layout_width="16dp"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="DIV:"
+                                android:textColor="@color/off_white"
+                                android:textSize="12sp" />
+
+                            <Spinner
+                                android:id="@+id/spinner_arp_div"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <Space
+                                android:layout_width="16dp"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="OCT:"
+                                android:textColor="@color/off_white"
+                                android:textSize="12sp" />
+
+                            <SeekBar
+                                android:id="@+id/seek_arp_octaves"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:max="3"
+                                android:progress="0" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginTop="4dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="CHORD:"
+                                android:textColor="@color/off_white"
+                                android:textSize="12sp" />
+
+                            <Spinner
+                                android:id="@+id/spinner_chord_mode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <Space
+                                android:layout_width="16dp"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="INV:"
+                                android:textColor="@color/off_white"
+                                android:textSize="12sp" />
+
+                            <SeekBar
+                                android:id="@+id/seek_chord_inversion"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:max="3"
+                                android:progress="0" />
+                        </LinearLayout>
+                    </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/filter_bar"
                         android:layout_width="match_parent"

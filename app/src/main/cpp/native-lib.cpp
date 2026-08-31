@@ -569,6 +569,36 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordBack(JNIEnv *env, jo
     if (engine) engine->stepRecordBack();
 }
 
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setTrackArpMode(JNIEnv *env, jobject thiz, jint track, jint mode_index) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setTrackArpMode(track, static_cast<ArpMode>(mode_index));
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setTrackArpDivision(JNIEnv *env, jobject thiz, jint track, jfloat division) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setTrackArpDivision(track, division);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setTrackArpOctaves(JNIEnv *env, jobject thiz, jint track, jint octaves) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setTrackArpOctaves(track, octaves);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setTrackChordMode(JNIEnv *env, jobject thiz, jint track, jint mode_index) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setTrackChordMode(track, static_cast<ChordMode>(mode_index));
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setTrackChordInversion(JNIEnv *env, jobject thiz, jint track, jint inversion) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setTrackChordInversion(track, inversion);
+}
+
 extern "C" JNIEXPORT jint JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_renderStereoSampleForTest(JNIEnv *env, jobject thiz, jfloatArray buffer) {
     std::lock_guard<std::mutex> lock(engineMutex);

@@ -88,4 +88,16 @@ class WorkstationUiTest {
         ShadowLooper.idleMainLooper()
         assertEquals(1, ShadowSynthManager.stepRecordHoldCalls)
     }
+
+    @Test
+    fun testArpModeSelection() {
+        val activity = Robolectric.buildActivity(MainActivity::class.java).setup().get()
+        val spinner = activity.findViewById<android.widget.Spinner>(R.id.spinner_arp_mode)
+        
+        spinner.setSelection(1) // UP
+        ShadowLooper.idleMainLooper()
+        
+        // Wait for potential async calls
+        assertEquals(1, ShadowSynthManager.lastArpMode)
+    }
 }

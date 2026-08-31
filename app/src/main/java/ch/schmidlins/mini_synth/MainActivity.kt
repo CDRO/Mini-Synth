@@ -48,7 +48,12 @@ data class TrackState(
     var unisonDetuneProgress: Int = 0,
     var lfoSync: Boolean = false,
     var lfoSyncDivisionIndex: Int = 2, // Default 1/4
-    val lfoMatrixAmounts: FloatArray = floatArrayOf(1.0f, 0.0f, 0.0f, 0.0f)
+    val lfoMatrixAmounts: FloatArray = floatArrayOf(1.0f, 0.0f, 0.0f, 0.0f),
+    var arpModeIndex: Int = 0,
+    var arpDivisionIndex: Int = 2, // 1/4
+    var arpOctaves: Int = 1,
+    var chordModeIndex: Int = 0,
+    var chordInversion: Int = 0
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -157,6 +162,7 @@ class MainActivity : AppCompatActivity() {
         setupPadCustomization(content)
         setupBankManagement(content)
         setupEffects(content)
+        setupPerformanceControls(content)
         setupWorkspaceRefinement(content)
         setupPatternManagement(content)
         setupProjectManagement(content)
@@ -295,6 +301,8 @@ class MainActivity : AppCompatActivity() {
         content.seekFilterCutoff.progress = t.filterCutoffProgress; content.seekFilterRes.progress = t.filterResProgress
         content.seekMorph.progress = t.morphProgress; content.seekPd.progress = t.pdProgress; content.seekPanning.progress = t.panningProgress
         content.spinnerUnison.setSelection(when(t.unisonCount) { 2 -> 1; 4 -> 2; 8 -> 3; else -> 0 }); content.seekDetune.progress = t.unisonDetuneProgress
+        content.spinnerArpMode.setSelection(t.arpModeIndex); content.spinnerArpDiv.setSelection(t.arpDivisionIndex); content.seekArpOctaves.progress = t.arpOctaves - 1
+        content.spinnerChordMode.setSelection(t.chordModeIndex); content.seekChordInversion.progress = t.chordInversion
         updateLabels(content); updateSequencerToggles(content); isPollingEnabled = true
         Toast.makeText(this, "Editing Track ${activeTrackIndex + 1}", Toast.LENGTH_SHORT).show()
     }
@@ -325,6 +333,58 @@ class MainActivity : AppCompatActivity() {
     private fun updateMappingList(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         content.mappingContainer.removeAllViews()
         padMappings.forEach { (idx, name) -> content.mappingContainer.addView(android.widget.TextView(this).apply { text = "P$idx: $name" }) }
+    }
+
+    private fun setupPerformanceControls(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        val arpModes = arrayOf("OFF", "UP", "DOWN", "UPDOWN", "RANDOM")
+        content.spinnerArpMode.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, arpModes)
+        content.spinnerArpMode.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
+                tracks[activeTrackIndex].arpModeIndex = pos
+                synthManager.setTrackArpMode(activeTrackIndex, pos)
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+        }
+
+        val arpDivs = arrayOf("1/1", "1/2", "1/4", "1/8", "1/16")
+        val arpDivValues = floatArrayOf(4.0f, 2.0f, 1.0f, 0.5f, 0.25f)
+        content.spinnerArpDiv.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, arpDivs)
+        content.spinnerArpDiv.setSelection(2) // 1/4
+        content.spinnerArpDiv.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
+                tracks[activeTrackIndex].arpDivisionIndex = pos
+                synthManager.setTrackArpDivision(activeTrackIndex, arpDivValues[pos])
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+        }
+
+        content.seekArpOctaves.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(sb: SeekBar?, p: Int, f: Boolean) {
+                tracks[activeTrackIndex].arpOctaves = p + 1
+                synthManager.setTrackArpOctaves(activeTrackIndex, p + 1)
+            }
+            override fun onStartTrackingTouch(p0: SeekBar?) {}
+            override fun onStopTrackingTouch(p0: SeekBar?) {}
+        })
+
+        val chordModes = arrayOf("OFF", "MAJOR", "MINOR", "DIM", "AUG", "MAJ7", "MIN7", "DOM7")
+        content.spinnerChordMode.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, chordModes)
+        content.spinnerChordMode.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
+                tracks[activeTrackIndex].chordModeIndex = pos
+                synthManager.setTrackChordMode(activeTrackIndex, pos)
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+        }
+
+        content.seekChordInversion.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(sb: SeekBar?, p: Int, f: Boolean) {
+                tracks[activeTrackIndex].chordInversion = p
+                synthManager.setTrackChordInversion(activeTrackIndex, p)
+            }
+            override fun onStartTrackingTouch(p0: SeekBar?) {}
+            override fun onStopTrackingTouch(p0: SeekBar?) {}
+        })
     }
 
     private fun setupWorkspaceRefinement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -751,12 +811,27 @@ class MainActivity : AppCompatActivity() {
                 synthManager.stopRecording()
 
                 // Stage 6: Projects
+                showDemoToast("Stage 6: Performance. Arpeggiator and Chord Mode.")
+                highlightView(content.performanceSection)
+                synthManager.setTrackWaveform(0, 2) // Saw
+                synthManager.setTrackArpMode(0, 1) // UP
+                synthManager.setTrackArpDivision(0, 0.125f) // 1/32 for speed
+                synthManager.setTrackChordMode(0, 1) // MAJOR
+                synthManager.noteOn(60, 0.8f, 0)
+                delay(3000)
+                synthManager.noteOff(60)
+                synthManager.setTrackArpMode(0, 0)
+                synthManager.setTrackChordMode(0, 0)
+
+                // Final Stage: Projects
                 showDemoToast("Final Stage: Saving your masterpiece to a Project.")
                 highlightView(content.btnProjects)
                 synthManager.saveProject(File(getExternalFilesDir(null), "DemoProject").absolutePath)
                 delay(2000)
 
                 synthManager.setSequencerPlaying(false)
+                bankIndex = 0
+                updateBank(content)
                 showDemoToast("Ultra Tour Complete! Now it's your turn.")
             } finally { isDemoPlaying = false; resetEngineState() }
         }
@@ -764,7 +839,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun showDemoToast(m: String) { runOnUiThread { demoToast?.cancel(); demoToast = Toast.makeText(this, m, Toast.LENGTH_SHORT); demoToast?.show() } }
 
-    private fun resetEngineState() { for (t in 0..3) { synthManager.setTrackWaveform(t, 0); synthManager.clearSequencerTrack(t) }; syncUIWithTrack(binding.appBarMain.contentMain) }
+    private fun resetEngineState() {
+        for (t in 0..3) {
+            synthManager.setTrackWaveform(t, 0)
+            synthManager.clearSequencerTrack(t)
+            synthManager.setTrackArpMode(t, 0)
+            synthManager.setTrackChordMode(t, 0)
+        }
+        syncUIWithTrack(binding.appBarMain.contentMain)
+    }
 
     override fun onStart() {
         super.onStart()
@@ -787,6 +870,11 @@ class MainActivity : AppCompatActivity() {
             synthManager.setTrackMorph(i, t.morphProgress / 100f)
             synthManager.setTrackPhaseDistortion(i, t.pdProgress / 100f)
             synthManager.setTrackPanning(i, (t.panningProgress - 50) / 50f)
+            synthManager.setTrackArpMode(i, t.arpModeIndex)
+            synthManager.setTrackArpDivision(i, floatArrayOf(4.0f, 2.0f, 1.0f, 0.5f, 0.25f)[t.arpDivisionIndex])
+            synthManager.setTrackArpOctaves(i, t.arpOctaves)
+            synthManager.setTrackChordMode(i, t.chordModeIndex)
+            synthManager.setTrackChordInversion(i, t.chordInversion)
         }
         syncUIWithTrack(binding.appBarMain.contentMain)
     }
