@@ -19,6 +19,7 @@ void Lfo::setSampleRate(int32_t sampleRate) {
 }
 
 void Lfo::setFrequency(float frequency) {
+    if (mIsSynced) return;
     // Clamp 0.1Hz to 20Hz
     float clamped = frequency;
     if (clamped < 0.1f) clamped = 0.1f;
@@ -27,7 +28,22 @@ void Lfo::setFrequency(float frequency) {
     updatePhaseIncrement();
 }
 
+void Lfo::setSync(bool enabled, float beatsPerCycle) {
+    mIsSynced = enabled;
+    mBeatsPerCycle = static_cast<double>(beatsPerCycle);
+    updatePhaseIncrement();
+}
+
+void Lfo::setBpm(float bpm) {
+    mBpm = static_cast<double>(bpm);
+    if (mIsSynced) updatePhaseIncrement();
+}
+
 void Lfo::updatePhaseIncrement() {
+    if (mIsSynced) {
+        // frequency = (BPM / 60) / beatsPerCycle
+        mFrequency = (mBpm / 60.0) / mBeatsPerCycle;
+    }
     mPhaseIncrement = (mFrequency * 2.0 * M_PI) / mSampleRate;
 }
 

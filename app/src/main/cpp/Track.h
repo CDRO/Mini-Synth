@@ -21,7 +21,10 @@ struct Track {
         params.lfoRate = 1.0f;
         params.lfoDepth = 0.0f;
         params.lfoWaveform = Waveform::Sine;
-        params.lfoTarget = LfoTarget::Pitch;
+        for (int i = 0; i < 4; ++i) params.lfoMatrix[i] = 0.0f;
+        params.lfoMatrix[0] = 1.0f; // Default Pitch modulation
+        params.lfoSync = false;
+        params.lfoSyncDivision = 1.0f;
         params.filterCutoff = 1000.0f;
         params.filterResonance = 0.5f;
         params.isPolyphonic = true;

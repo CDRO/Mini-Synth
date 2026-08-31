@@ -32,6 +32,7 @@ public:
 
     void setMasterVolume(float volume) { mMasterVolume = volume; }
     void setVoiceAftertouch(int midiNote, float amount);
+    void setBpm(float bpm);
 
     void nextSample(float& left, float& right);
 

@@ -68,44 +68,23 @@ void Voice::nextSample(float& left, float& right) {
         float modFilter = 0.0f;
         float modPD = 0.0f;
 
-        // Base modulation (Mod Wheel)
         float effectiveLfoDepth = mLfo.getDepth() + (mCurrentModulation * 0.5f);
 
         // Apply Aftertouch to specific target
-        float atVolume = 0.0f;
-        float atPitch = 0.0f;
-        float atFilter = 0.0f;
-        float atPD = 0.0f;
+        float atVolume = 0.0f, atPitch = 0.0f, atFilter = 0.0f, atPD = 0.0f;
 
         switch (mAftertouchTarget) {
-            case LfoTarget::Pitch:
-                atPitch = mCurrentAftertouch * 2.0f; // +/- 2 semitones
-                break;
-            case LfoTarget::Volume:
-                atVolume = mCurrentAftertouch * 0.5f; // +50% gain
-                break;
-            case LfoTarget::Filter:
-                atFilter = mCurrentAftertouch * 4.0f; // +4 octaves
-                break;
-            case LfoTarget::PhaseDistortion:
-                atPD = mCurrentAftertouch * 0.8f;
-                break;
+            case LfoTarget::Pitch: atPitch = mCurrentAftertouch * 2.0f; break;
+            case LfoTarget::Volume: atVolume = mCurrentAftertouch * 0.5f; break;
+            case LfoTarget::Filter: atFilter = mCurrentAftertouch * 4.0f; break;
+            case LfoTarget::PhaseDistortion: atPD = mCurrentAftertouch * 0.8f; break;
         }
 
-        switch (mLfoTarget) {
-            case LfoTarget::Pitch:
-                modPitch = lfoVal * effectiveLfoDepth;
-                break;
-            case LfoTarget::Volume:
-                modVolume = 1.0f + (lfoVal * effectiveLfoDepth);
-                break;
-            case LfoTarget::Filter:
-                modFilter = lfoVal * 5.0f * effectiveLfoDepth;
-                break;
-            case LfoTarget::PhaseDistortion:
-                modPD = lfoVal * effectiveLfoDepth;
-                break;
-        }
+        // Apply LFO to all targets using Matrix Weights
+        modPitch = lfoVal * effectiveLfoDepth * mLfoMatrix[0];
+        modVolume = 1.0f + (lfoVal * effectiveLfoDepth * mLfoMatrix[1]);
+        modFilter = lfoVal * 5.0f * effectiveLfoDepth * mLfoMatrix[2];
+        modPD = lfoVal * effectiveLfoDepth * mLfoMatrix[3];
 
         // Combine all modulations
         float totalPitchShift = mCurrentPitchBend + modPitch + atPitch;

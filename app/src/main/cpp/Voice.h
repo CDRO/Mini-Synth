@@ -39,8 +39,12 @@ public:
     void setLfoRate(float frequency) { mLfo.setFrequency(frequency); }
     void setLfoDepth(float depth) { mLfo.setDepth(depth); }
     void setLfoWaveform(Waveform waveform) { mLfo.setWaveform(waveform); }
-    void setLfoTarget(LfoTarget target) { mLfoTarget = target; }
+    void setLfoSync(bool enabled, float beatsPerCycle) { mLfo.setSync(enabled, beatsPerCycle); }
+    void setLfoMatrixAmount(int targetIndex, float amount) {
+        if (targetIndex >= 0 && targetIndex < 4) mLfoMatrix[targetIndex] = amount;
+    }
     void setAftertouchTarget(LfoTarget target) { mAftertouchTarget = target; }
+    void setBpm(float bpm) { mLfo.setBpm(bpm); }
 
     void setFilterCutoff(float frequency) { mBaseCutoff = frequency; mFilter.setCutoff(frequency); }
     void setFilterResonance(float resonance) { mFilter.setResonance(resonance); }
@@ -68,7 +72,7 @@ private:
     Envelope mEnvelope;
     Lfo mLfo;
     Filter mFilter;
-    LfoTarget mLfoTarget = LfoTarget::Pitch;
+    float mLfoMatrix[4];
     LfoTarget mAftertouchTarget = LfoTarget::Filter;
     float mBaseCutoff = 1000.0f;
     float mTargetPitchBend = 0.0f;

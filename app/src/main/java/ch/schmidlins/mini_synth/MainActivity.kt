@@ -45,8 +45,20 @@ data class TrackState(
     var panningProgress: Int = 50,
     var volumeProgress: Int = 80,
     var unisonCount: Int = 1,
-    var unisonDetuneProgress: Int = 0
-)
+    var unisonDetuneProgress: Int = 0,
+    var lfoSync: Boolean = false,
+    var lfoSyncDivisionIndex: Int = 2, // Default 1/4
+    val lfoMatrixAmounts: FloatArray = floatArrayOf(1.0f, 0.0f, 0.0f, 0.0f)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as TrackState
+        if (!lfoMatrixAmounts.contentEquals(other.lfoMatrixAmounts)) return false
+        return true
+    }
+    override fun hashCode(): Int = lfoMatrixAmounts.contentHashCode()
+}
 
 class MainActivity : AppCompatActivity() {
 

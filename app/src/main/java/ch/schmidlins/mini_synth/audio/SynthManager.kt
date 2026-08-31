@@ -102,6 +102,8 @@ class SynthManager {
     external fun setTrackLfoDepth(track: Int, depth: Float)
     external fun setTrackLfoWaveform(track: Int, waveformIndex: Int)
     external fun setTrackLfoTarget(track: Int, targetIndex: Int)
+    external fun setTrackLfoSync(track: Int, enabled: Boolean, beatsPerCycle: Float)
+    external fun setTrackLfoMatrixAmount(track: Int, targetIndex: Int, amount: Float)
     external fun setAftertouchTarget(targetIndex: Int)
 
     external fun setTrackFilterCutoff(track: Int, frequency: Float)
