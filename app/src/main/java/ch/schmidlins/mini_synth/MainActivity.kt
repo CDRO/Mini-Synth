@@ -148,6 +148,7 @@ class MainActivity : AppCompatActivity() {
         setupSliders(content)
         setupAdsr(content)
         setupLfo(content)
+        setupLfoMatrix(content)
         setupFilter(content)
         setupPresets(content)
         setupMetronome(content)
@@ -270,10 +271,12 @@ class MainActivity : AppCompatActivity() {
         content.toggleWaveform.check(btnId)
         content.seekAttack.progress = t.attackProgress; content.seekDecay.progress = t.decayProgress; content.seekSustain.progress = t.sustainProgress; content.seekRelease.progress = t.releaseProgress
         content.seekLfoRate.progress = t.lfoRateProgress; content.seekLfoDepth.progress = t.lfoDepthProgress
+        content.toggleLfoSync.isChecked = t.lfoSync; content.spinnerLfoDiv.setSelection(t.lfoSyncDivisionIndex); content.spinnerLfoDiv.visibility = if (t.lfoSync) View.VISIBLE else View.GONE; content.seekLfoRate.isEnabled = !t.lfoSync
         content.seekFilterCutoff.progress = t.filterCutoffProgress; content.seekFilterRes.progress = t.filterResProgress
         content.seekMorph.progress = t.morphProgress; content.seekPd.progress = t.pdProgress; content.seekPanning.progress = t.panningProgress
         content.spinnerUnison.setSelection(when(t.unisonCount) { 2 -> 1; 4 -> 2; 8 -> 3; else -> 0 }); content.seekDetune.progress = t.unisonDetuneProgress
         updateLabels(content); updateSequencerToggles(content); isPollingEnabled = true
+        Toast.makeText(this, "Editing Track ${activeTrackIndex + 1}", Toast.LENGTH_SHORT).show()
     }
 
     private fun showHelp(m: String) { AlertDialog.Builder(this).setTitle("Help").setMessage(m).setPositiveButton("OK", null).show() }
@@ -351,6 +354,46 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(sb: SeekBar?) {}
         }
         content.seekLfoRate!!.setOnSeekBarChangeListener(l); content.seekLfoDepth!!.setOnSeekBarChangeListener(l)
+        val waveAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf(getString(R.string.lfo_wave_sine), getString(R.string.lfo_wave_square), getString(R.string.lfo_wave_saw), getString(R.string.lfo_wave_triangle), getString(R.string.lfo_wave_random)))
+        waveAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        content.spinnerLfoWaveform!!.adapter = waveAdapter
+        content.spinnerLfoWaveform!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) { tracks[activeTrackIndex].lfoWaveformIndex = position; synthManager.setTrackLfoWaveform(activeTrackIndex, position) }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        val divOptions = arrayOf("1/1", "1/2", "1/4", "1/8", "1/16"); val divValues = floatArrayOf(4.0f, 2.0f, 1.0f, 0.5f, 0.25f)
+        content.spinnerLfoDiv.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, divOptions)
+        content.toggleLfoSync.setOnCheckedChangeListener { _, isChecked ->
+            val t = tracks[activeTrackIndex]; t.lfoSync = isChecked; content.spinnerLfoDiv.visibility = if (isChecked) View.VISIBLE else View.GONE
+            content.seekLfoRate.isEnabled = !isChecked; synthManager.setTrackLfoSync(activeTrackIndex, isChecked, divValues[content.spinnerLfoDiv.selectedItemPosition])
+        }
+        content.spinnerLfoDiv.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) { val t = tracks[activeTrackIndex]; t.lfoSyncDivisionIndex = pos; if (t.lfoSync) synthManager.setTrackLfoSync(activeTrackIndex, true, divValues[pos]) }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+        }
+
+        val targetOptions = listOf(getString(R.string.lfo_target_pitch), getString(R.string.lfo_target_volume), getString(R.string.lfo_target_filter), getString(R.string.lfo_target_phase_dist))
+        content.spinnerAftertouchTarget!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, targetOptions)
+        content.spinnerAftertouchTarget!!.setSelection(2)
+        content.spinnerAftertouchTarget!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) { synthManager.setAftertouchTarget(position) }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
+
+    private fun setupLfoMatrix(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.btnLfoMatrix.setOnClickListener {
+            val t = tracks[activeTrackIndex]; val targets = arrayOf("Pitch", "Volume", "Filter", "Phase Dist")
+            val layout = android.widget.LinearLayout(this).apply { orientation = android.widget.LinearLayout.VERTICAL; setPadding(48, 40, 48, 40) }
+            for (i in 0 until 4) {
+                val row = android.widget.LinearLayout(this).apply { orientation = android.widget.LinearLayout.HORIZONTAL; gravity = android.view.Gravity.CENTER_VERTICAL; setPadding(0, 16, 0, 16) }
+                row.addView(android.widget.TextView(this).apply { text = targets[i]; layoutParams = android.widget.LinearLayout.LayoutParams(200, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT) })
+                row.addView(android.widget.SeekBar(this).apply { max = 100; progress = (t.lfoMatrixAmounts[i] * 100).toInt(); layoutParams = android.widget.LinearLayout.LayoutParams(0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f); setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener { override fun onProgressChanged(sb: SeekBar?, p: Int, f: Boolean) { t.lfoMatrixAmounts[i] = p / 100f; synthManager.setTrackLfoMatrixAmount(activeTrackIndex, i, t.lfoMatrixAmounts[i]) }; override fun onStartTrackingTouch(sb: SeekBar?) {}; override fun onStopTrackingTouch(sb: SeekBar?) {} }) })
+                layout.addView(row)
+            }
+            AlertDialog.Builder(this).setTitle("LFO Modulation Matrix (Track ${activeTrackIndex + 1})").setView(layout).setPositiveButton("OK", null).show()
+        }
     }
 
     private fun setupFilter(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {

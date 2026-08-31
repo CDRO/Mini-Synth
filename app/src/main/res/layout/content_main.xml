@@ -754,7 +754,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="@dimen/spacing_medium">
+                        android:padding="@dimen/spacing_medium"
+                        android:gravity="center_vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -773,18 +774,40 @@
                             android:layout_width="16dp"
                             android:layout_height="match_parent" />
 
-                        <TextView
+                        <ToggleButton
+                            android:id="@+id/toggle_lfo_sync"
+                            style="?attr/materialButtonOutlinedStyle"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/label_lfo_target"
-                            android:textColor="@color/off_white"
-                            android:textSize="12sp"
+                            android:layout_height="36dp"
+                            android:textOff="SYNC OFF"
+                            android:textOn="SYNC ON"
+                            android:textColor="@color/electric_blue"
+                            android:textSize="10sp"
                             android:background="@drawable/selector_toggle_bg" />
 
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent" />
+
                         <Spinner
-                            android:id="@+id/spinner_lfo_target"
+                            android:id="@+id/spinner_lfo_div"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:visibility="gone" />
+
+                        <Space
+                            android:layout_width="16dp"
+                            android:layout_height="match_parent" />
+
+                        <Button
+                            android:id="@+id/btn_lfo_matrix"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="MATRIX"
+                            android:textColor="@color/acid_green"
+                            android:textSize="10sp"
+                            android:background="@drawable/selector_toggle_bg" />
 
                         <Space
                             android:layout_width="16dp"
