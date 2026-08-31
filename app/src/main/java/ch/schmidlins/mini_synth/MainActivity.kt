@@ -511,34 +511,23 @@ class MainActivity : AppCompatActivity() {
                 
                 // Track 1: Morphing Lead
                 synthManager.setTrackWaveform(0, 4) // Morph
-                synthManager.setTrackAttack(0, 0.1f)
-                synthManager.setTrackRelease(0, 0.4f)
+                synthManager.setTrackLfoSync(0, true, 2.0f) // 2 beats
                 
-                // Track 2: Aggressive PD Bass
-                synthManager.setTrackWaveform(1, 2) // Saw
-                synthManager.setTrackPhaseDistortion(1, 0.8f)
-                synthManager.setTrackFilterCutoff(1, 400f)
+                // Route LFO to Pitch (Index 0) and Filter (Index 2)
+                synthManager.setTrackLfoMatrixAmount(0, 0, 0.2f) // Vibrato
+                synthManager.setTrackLfoMatrixAmount(0, 2, 0.8f) // Filter wobble
                 
-                showDemoToast("Stage 1: Multi-Track Layering. T1: Lead, T2: Bass.")
+                showDemoToast("Stage 1: Modulation Matrix. Routing LFO to Pitch & Filter.")
                 
-                // Program a simple loop
-                synthManager.setSequencerNote(1, 0, 36, true) // Bass C1
-                synthManager.setSequencerNote(1, 8, 36, true)
-                
-                synthManager.setSequencerNote(0, 4, 60, true) // Lead C3
-                synthManager.setSequencerNote(0, 12, 64, true) // Lead E3
-                
-                synthManager.setSequencerPlaying(true)
-                
+                synthManager.noteOn(60, 0.8f, 0)
                 for (i in 0..20) {
                     if (!isDemoPlaying) break
                     val m = (i / 20f) * 3.0f
                     synthManager.setTrackMorph(0, m)
-                    if (i == 10) showDemoToast("Notice T1 morphing while T2 plays the bassline.")
+                    if (i == 10) showDemoToast("Notice T1 morphing with perfectly synced LFO modulation.")
                     delay(200)
                 }
-                
-                synthManager.setSequencerPlaying(false)
+                synthManager.noteOff(60)
                 showDemoToast(getString(R.string.demo_complete))
             } finally { isDemoPlaying = false; resetEngineState() }
         }
