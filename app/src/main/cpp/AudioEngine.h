@@ -125,6 +125,8 @@ public:
     void loadFactorySample(int padIndex, int sampleId);
     void savePadSample(int padIndex, const char* path);
     void loadPadSample(int padIndex, const char* path);
+    void normalizePad(int padIndex);
+    void setPadPlaybackParams(int padIndex, uint32_t start, uint32_t end, bool reverse);
 
     // Sequencer
     void setSequencerPlaying(bool playing) { mMidiSequencer.setPlaying(playing, mVoiceManager); }
@@ -200,6 +202,7 @@ private:
 
     static const int MAX_PADS = 256;
     std::vector<float> mPadBuffers[MAX_PADS];
+    SampleMetadata mPadMetadata[MAX_PADS];
     float mPadPanning[MAX_PADS];
     int mSamplingPadIndex = -1;
     int32_t mAutoSampleRemaining = 0;

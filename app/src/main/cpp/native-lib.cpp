@@ -325,10 +325,50 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_isBeatStarted(JNIEnv *env, job
     return JNI_FALSE;
 }
 
+extern "C" JNIEXPORT jint JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_getXRunCount(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) return engine->getXRunCount();
+    return 0;
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_getBufferSize(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) return engine->getBufferSize();
+    return 0;
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_getFramesPerBurst(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) return engine->getFramesPerBurst();
+    return 0;
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_checkAndApplyBufferSize(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->checkAndApplyBufferSize();
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setAutoLatencyEnabled(JNIEnv *env, jobject thiz, jboolean enabled) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setAutoLatencyEnabled(enabled == JNI_TRUE);
+}
+
 extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setSequencerPlaying(JNIEnv *env, jobject thiz, jboolean playing) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setSequencerPlaying(playing == JNI_TRUE);
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_isSequencerPlaying(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) return engine->isSequencerPlaying() ? JNI_TRUE : JNI_FALSE;
+    return JNI_FALSE;
 }
 
 extern "C" JNIEXPORT void JNICALL
@@ -341,13 +381,6 @@ extern "C" JNIEXPORT jboolean JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_isSequencerRecording(JNIEnv *env, jobject thiz) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) return engine->isSequencerRecording() ? JNI_TRUE : JNI_FALSE;
-    return JNI_FALSE;
-}
-
-extern "C" JNIEXPORT jboolean JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_isSequencerPlaying(JNIEnv *env, jobject thiz) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) return engine->isSequencerPlaying() ? JNI_TRUE : JNI_FALSE;
     return JNI_FALSE;
 }
 
@@ -382,35 +415,17 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_isSequencerStepActive(JNIEnv *
     return JNI_FALSE;
 }
 
-extern "C" JNIEXPORT void JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_clearSequencer(JNIEnv *env, jobject thiz) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) engine->clearSequencer();
-}
-
-extern "C" JNIEXPORT void JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_clearSequencerTrack(JNIEnv *env, jobject thiz, jint track) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) engine->clearSequencerTrack(track);
-}
-
-extern "C" JNIEXPORT void JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_setInputQuantize(JNIEnv *env, jobject thiz, jboolean enabled) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) engine->setInputQuantize(enabled == JNI_TRUE);
-}
-
-extern "C" JNIEXPORT void JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_setOverdub(JNIEnv *env, jobject thiz, jboolean enabled) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) engine->setOverdub(enabled == JNI_TRUE);
-}
-
 extern "C" JNIEXPORT jint JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_recordSequencerNote(JNIEnv *env, jobject thiz, jint track, jint note) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) return engine->recordSequencerNote(track, note);
     return 0;
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setSequencerNumSteps(JNIEnv *env, jobject thiz, jint steps) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setSequencerNumSteps(steps);
 }
 
 extern "C" JNIEXPORT void JNICALL
@@ -426,15 +441,57 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_handleRealTimeNoteOff(JNIEnv *
 }
 
 extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_clearSequencer(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->clearSequencer();
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_clearSequencerTrack(JNIEnv *env, jobject thiz, jint track) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->clearSequencerTrack(track);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordNote(JNIEnv *env, jobject thiz, jint track, jint note) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->stepRecordNote(track, note);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordRest(JNIEnv *env, jobject thiz, jint track) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->stepRecordRest(track);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordHold(JNIEnv *env, jobject thiz, jint track) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->stepRecordHold(track);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordBack(JNIEnv *env, jobject thiz) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->stepRecordBack();
+}
+
+extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setSequencerStepDuration(JNIEnv *env, jobject thiz, jfloat division) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setSequencerStepDuration(division);
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_setSequencerNumSteps(JNIEnv *env, jobject thiz, jint steps) {
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setInputQuantize(JNIEnv *env, jobject thiz, jboolean enabled) {
     std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) engine->setSequencerNumSteps(steps);
+    if (engine) engine->setInputQuantize(enabled == JNI_TRUE);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setOverdub(JNIEnv *env, jobject thiz, jboolean enabled) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setOverdub(enabled == JNI_TRUE);
 }
 
 extern "C" JNIEXPORT jint JNICALL
@@ -512,63 +569,6 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_startAutomatedSampling(JNIEnv 
     if (engine) engine->startAutomatedSampling(pad_index, duration);
 }
 
-extern "C" JNIEXPORT jint JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_getXRunCount(JNIEnv *env, jobject thiz) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) return engine->getXRunCount();
-    return 0;
-}
-
-extern "C" JNIEXPORT jint JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_getBufferSize(JNIEnv *env, jobject thiz) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) return engine->getBufferSize();
-    return 0;
-}
-
-extern "C" JNIEXPORT jint JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_getFramesPerBurst(JNIEnv *env, jobject thiz) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) return engine->getFramesPerBurst();
-    return 0;
-}
-
-extern "C" JNIEXPORT void JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_checkAndApplyBufferSize(JNIEnv *env, jobject thiz) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) engine->checkAndApplyBufferSize();
-}
-
-extern "C" JNIEXPORT void JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_setAutoLatencyEnabled(JNIEnv *env, jobject thiz, jboolean enabled) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) engine->setAutoLatencyEnabled(enabled == JNI_TRUE);
-}
-
-extern "C" JNIEXPORT void JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordNote(JNIEnv *env, jobject thiz, jint track, jint note) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) engine->stepRecordNote(track, note);
-}
-
-extern "C" JNIEXPORT void JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordRest(JNIEnv *env, jobject thiz, jint track) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) engine->stepRecordRest(track);
-}
-
-extern "C" JNIEXPORT void JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordHold(JNIEnv *env, jobject thiz, jint track) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) engine->stepRecordHold(track);
-}
-
-extern "C" JNIEXPORT void JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_stepRecordBack(JNIEnv *env, jobject thiz) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) engine->stepRecordBack();
-}
-
 extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setTrackArpMode(JNIEnv *env, jobject thiz, jint track, jint mode_index) {
     std::lock_guard<std::mutex> lock(engineMutex);
@@ -597,6 +597,18 @@ extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setTrackChordInversion(JNIEnv *env, jobject thiz, jint track, jint inversion) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setTrackChordInversion(track, inversion);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setPadPlaybackParams(JNIEnv *env, jobject thiz, jint pad_index, jint start, jint end, jboolean reverse) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setPadPlaybackParams(pad_index, start, end, reverse);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_normalizePad(JNIEnv *env, jobject thiz, jint pad_index) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->normalizePad(pad_index);
 }
 
 extern "C" JNIEXPORT jint JNICALL

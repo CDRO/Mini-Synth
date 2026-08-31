@@ -24,7 +24,7 @@ public:
         for (int i = 0; i < MAX_UNISON; ++i) mOscillators[i].setWaveform(waveform);
     }
 
-    void trigger(int note, float velocity, const std::vector<float>* sampleBuffer = nullptr);
+    void trigger(int note, float velocity, const std::vector<float>* sampleBuffer = nullptr, const SampleMetadata* metadata = nullptr);
     void release();
 
     void setSampleMode(bool enabled) { mIsSampleMode = enabled; }

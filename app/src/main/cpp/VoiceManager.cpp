@@ -35,7 +35,7 @@ void VoiceManager::updateTrackParams(int trackId, const EngineParams& params) {
     }
 }
 
-void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer, float initialPan, int trackId) {
+void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer, float initialPan, int trackId, const SampleMetadata* metadata) {
     if (trackId < 0 || trackId >= MAX_TRACKS) trackId = 0;
 
     int index = findFreeVoice();
@@ -61,7 +61,7 @@ void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>
         mVoices[index].setPhaseDistortion(p.phaseDistortion);
         mVoices[index].setPanning(initialPan != 0.0f ? initialPan : p.panning);
 
-        mVoices[index].trigger(midiNote, velocity, sampleBuffer);
+        mVoices[index].trigger(midiNote, velocity, sampleBuffer, metadata);
     }
 }
 

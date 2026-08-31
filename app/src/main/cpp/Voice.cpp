@@ -10,11 +10,19 @@ static double midiToFreq(int midiNote) {
     return 440.0 * pow(2.0, (midiNote - 69) / 12.0);
 }
 
-void Voice::trigger(int note, float velocity, const std::vector<float>* sampleBuffer) {
+void Voice::trigger(int note, float velocity, const std::vector<float>* sampleBuffer, const SampleMetadata* metadata) {
     mNote = note;
     mVelocity = velocity;
     if (sampleBuffer) {
         mIsSampleMode = true;
+        if (metadata) {
+            mSamplePlayer.setBounds(metadata->start, metadata->end);
+            mSamplePlayer.setReversed(metadata->reverse);
+            mVelocity *= metadata->gain;
+        } else {
+            mSamplePlayer.setBounds(0, 0);
+            mSamplePlayer.setReversed(false);
+        }
         mSamplePlayer.trigger(*sampleBuffer);
     } else {
         mIsSampleMode = false;

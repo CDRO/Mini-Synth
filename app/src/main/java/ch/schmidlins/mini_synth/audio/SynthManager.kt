@@ -60,6 +60,12 @@ class SynthManager {
     /** Load a binary PCM file into a pad's buffer. */
     external fun loadPadSample(padIndex: Int, path: String)
 
+    /** Set playback boundaries and direction for a pad. */
+    external fun setPadPlaybackParams(padIndex: Int, start: Int, end: Int, reverse: Boolean)
+    
+    /** Automatically adjust gain for a pad to reach 0dB peak. */
+    external fun normalizePad(padIndex: Int)
+
     /** Toggle between polyphonic (16-voice) and monophonic modes. */
     external fun setPolyphonic(isPolyphonic: Boolean)
     
