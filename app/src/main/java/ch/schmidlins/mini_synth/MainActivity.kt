@@ -159,6 +159,7 @@ class MainActivity : AppCompatActivity() {
         setupEffects(content)
         setupWorkspaceRefinement(content)
         setupPatternManagement(content)
+        setupProjectManagement(content)
         setupTrackSelection(content)
         
         content.topHeader.toggleAutoLatency.setOnCheckedChangeListener { _, isChecked ->
@@ -217,6 +218,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupUtilityButtons(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         content.btnPolyToggle!!.setOnClickListener { isPoly = !isPoly; synthManager.setPolyphonic(isPoly); content.btnPolyToggle!!.text = if (isPoly) getString(R.string.btn_poly_on) else getString(R.string.btn_poly_off) }
         content.btnMockRec!!.setOnClickListener { isMockRec = !isMockRec; if (isMockRec) synthManager.startRecording(File(getExternalFilesDir(null), "rec.wav").absolutePath) else synthManager.stopRecording() }
+        content.btnMockPlay!!.setOnClickListener { isMockPlay = !isMockPlay; synthManager.setSequencerPlaying(isMockPlay) }
     }
 
     private fun setupWaveformControls(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -538,7 +540,38 @@ class MainActivity : AppCompatActivity() {
             view.alpha = originalAlpha
         }
     }
-    private fun setupEffects(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {}
+    private fun setupProjectManagement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.btnProjects.setOnClickListener {
+            ProjectBrowserFragment(synthManager) {
+                syncUIWithTrack(content)
+            }.show(supportFragmentManager, "ProjectBrowser")
+        }
+    }
+
+    private fun setupEffects(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        val l = object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(sb: SeekBar?, p: Int, f: Boolean) {
+                val v = p / 100f
+                when (sb) {
+                    content.seekDelayTime -> synthManager.setDelayTime(v)
+                    content.seekDelayFeedback -> synthManager.setDelayFeedback(v)
+                    content.seekDelayMix -> synthManager.setDelayMix(v)
+                    content.seekReverbSize -> synthManager.setReverbSize(v)
+                    content.seekReverbDamping -> synthManager.setReverbDamping(v)
+                    content.seekReverbMix -> synthManager.setReverbMix(v)
+                }
+            }
+            override fun onStartTrackingTouch(sb: SeekBar?) {}
+            override fun onStopTrackingTouch(sb: SeekBar?) {}
+        }
+        content.seekDelayTime.setOnSeekBarChangeListener(l)
+        content.seekDelayFeedback.setOnSeekBarChangeListener(l)
+        content.seekDelayMix.setOnSeekBarChangeListener(l)
+        content.seekReverbSize.setOnSeekBarChangeListener(l)
+        content.seekReverbDamping.setOnSeekBarChangeListener(l)
+        content.seekReverbMix.setOnSeekBarChangeListener(l)
+    }
+
     private fun setupPatternManagement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {}
     private fun refreshUiFromEngine() {}
     private fun updateOctave() {}
