@@ -395,6 +395,13 @@ class MainActivity : AppCompatActivity() {
             if (isHelpMode) { showHelp(getString(R.string.help_lfo_matrix)); return@setOnClickListener }
             val t = tracks[activeTrackIndex]; val targets = arrayOf("Pitch", "Volume", "Filter", "Phase Dist")
             val layout = android.widget.LinearLayout(this).apply { orientation = android.widget.LinearLayout.VERTICAL; setPadding(48, 40, 48, 40) }
+            
+            val lfoPreview = ch.schmidlins.mini_synth.ui.MiniLfoView(this).apply {
+                layoutParams = android.widget.LinearLayout.LayoutParams(android.widget.LinearLayout.LayoutParams.MATCH_PARENT, 120)
+                setWaveform(t.lfoWaveformIndex)
+            }
+            layout.addView(lfoPreview)
+
             for (i in 0 until 4) {
                 val row = android.widget.LinearLayout(this).apply { orientation = android.widget.LinearLayout.HORIZONTAL; gravity = android.view.Gravity.CENTER_VERTICAL; setPadding(0, 16, 0, 16) }
                 val label = android.widget.TextView(this).apply { text = targets[i]; layoutParams = android.widget.LinearLayout.LayoutParams(160, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT) }
