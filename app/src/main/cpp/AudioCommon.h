@@ -24,7 +24,12 @@ struct EngineParams {
     float masterVolume;
     float lfoRate, lfoDepth;
     Waveform lfoWaveform;
-    LfoTarget lfoTarget;
+
+    // Matrix Weights [Pitch, Vol, Filter, PD]
+    float lfoMatrix[4];
+    bool lfoSync;
+    float lfoSyncDivision; // Beats per cycle
+
     float filterCutoff, filterResonance;
     bool isPolyphonic;
     float pitchBend;

@@ -51,7 +51,9 @@ void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>
         mVoices[index].setLfoRate(p.lfoRate);
         mVoices[index].setLfoDepth(p.lfoDepth);
         mVoices[index].setLfoWaveform(p.lfoWaveform);
-        mVoices[index].setLfoTarget(p.lfoTarget);
+        mVoices[index].setLfoSync(p.lfoSync, p.lfoSyncDivision);
+        for (int i = 0; i < 4; ++i) mVoices[index].setLfoMatrixAmount(i, p.lfoMatrix[i]);
+
         mVoices[index].setFilterCutoff(p.filterCutoff);
         mVoices[index].setFilterResonance(p.filterResonance);
         mVoices[index].setUnison(p.unisonCount, p.unisonDetune, p.unisonSpread);
@@ -81,6 +83,12 @@ void VoiceManager::setVoiceAftertouch(int midiNote, float amount) {
     int index = findVoiceByNote(midiNote);
     if (index != -1) {
         mVoices[index].setAftertouch(amount);
+    }
+}
+
+void VoiceManager::setBpm(float bpm) {
+    for (int i = 0; i < MAX_VOICES; ++i) {
+        mVoices[i].setBpm(bpm);
     }
 }
 

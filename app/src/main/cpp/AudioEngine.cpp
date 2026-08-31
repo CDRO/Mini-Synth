@@ -76,7 +76,20 @@ void AudioEngine::setTrackRelease(int track, float s) { if (track >= 0 && track 
 void AudioEngine::setTrackLfoRate(int track, float f) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.lfoRate = f; updateTrackParams(track); } }
 void AudioEngine::setTrackLfoDepth(int track, float d) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.lfoDepth = d; updateTrackParams(track); } }
 void AudioEngine::setTrackLfoWaveform(int track, Waveform w) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.lfoWaveform = w; updateTrackParams(track); } }
-void AudioEngine::setTrackLfoTarget(int track, LfoTarget t) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.lfoTarget = t; updateTrackParams(track); } }
+void AudioEngine::setTrackLfoTarget(int track, LfoTarget t) { if (track >= 0 && track < MAX_TRACKS) { /* Deprecated by Matrix */ } }
+void AudioEngine::setTrackLfoSync(int track, bool enabled, float beatsPerCycle) {
+    if (track >= 0 && track < MAX_TRACKS) {
+        mTracks[track].params.lfoSync = enabled;
+        mTracks[track].params.lfoSyncDivision = beatsPerCycle;
+        updateTrackParams(track);
+    }
+}
+void AudioEngine::setTrackLfoMatrixAmount(int track, int targetIndex, float amount) {
+    if (track >= 0 && track < MAX_TRACKS && targetIndex >= 0 && targetIndex < 4) {
+        mTracks[track].params.lfoMatrix[targetIndex] = amount;
+        updateTrackParams(track);
+    }
+}
 void AudioEngine::setTrackFilterCutoff(int track, float f) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.filterCutoff = f; updateTrackParams(track); } }
 void AudioEngine::setTrackFilterResonance(int track, float r) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.filterResonance = r; updateTrackParams(track); } }
 void AudioEngine::setTrackUnison(int track, int c, float d, float s) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.unisonCount = c; mTracks[track].params.unisonDetune = d; mTracks[track].params.unisonSpread = s; updateTrackParams(track); } }
@@ -154,6 +167,10 @@ void AudioEngine::onErrorAfterClose(oboe::AudioStream *s, oboe::Result e) {}
 void AudioEngine::saveProject(const std::string& directory) { std::vector<std::vector<float>> pads(MAX_PADS); std::vector<float> pans(MAX_PADS); for (int i = 0; i < MAX_PADS; ++i) { pads[i] = mPadBuffers[i]; pans[i] = mPadPanning[i]; } ProjectManager::saveProject(directory, mTracks, mMidiSequencer, pads, pans, mBpm); }
 void AudioEngine::loadProject(const std::string& directory) { std::vector<std::vector<float>> pads; std::vector<float> pans; float b; if (ProjectManager::loadProject(directory, mTracks, mMidiSequencer, pads, pans, b)) { mBpm = b; updateMetronomeParams(); for (int t = 0; t < MAX_TRACKS; ++t) updateTrackParams(t); for (int i = 0; i < MAX_PADS && i < pads.size(); ++i) { mPadBuffers[i] = pads[i]; mPadPanning[i] = pans[i]; } } }
 
-void AudioEngine::updateMetronomeParams() { float sr = mStream ? (float)mStream->getSampleRate() : 48000.0f; mSamplesPerBeat = (int32_t)(sr * 60.0f / mBpm); }
+void AudioEngine::updateMetronomeParams() {
+    float sr = mStream ? (float)mStream->getSampleRate() : 48000.0f;
+    mSamplesPerBeat = (int32_t)(sr * 60.0f / mBpm);
+    mVoiceManager.setBpm(mBpm);
+}
 bool AudioEngine::isBeatStarted() { return mBeatFlag.exchange(false); }
 float AudioEngine::getMetronomeSample() { float s = 0.0f; if (mSampleCounter == 0) mBeatFlag.store(true); if (mSampleCounter < 500) { float freq = (mBeatCounter == 0 ? 880.0f : 440.0f); float sr = mStream ? (float)mStream->getSampleRate() : 48000.0f; float phase = 2.0f * PI_F * freq * (float)mSampleCounter / sr; s = sinf(phase) * 0.5f * (1.0f - (float)mSampleCounter / 500.0f); } mSampleCounter++; if (mSampleCounter >= mSamplesPerBeat) { mSampleCounter = 0; mBeatCounter = (mBeatCounter + 1) % 4; } return s; }

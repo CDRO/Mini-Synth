@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">Thellësia e LFO: Intensiteti i efektit të modulimit.</string>
     <string name="help_lfo_waveform">Forma e Valës LFO: Zgjidhni formën e oshilatorit të modulimit.</string>
     <string name="help_lfo_target">Objektivi i LFO: Parametri që modulohet nga LFO.</string>
+    <string name="help_lfo_sync">Sinkronizimi i LFO: Kur aktivizohet, frekuenca e LFO llogaritet automatikisht bazuar në BPM-në globale.</string>
+    <string name="help_lfo_div">Divizioni i LFO: Zgjidhni divizionin e kohës për LFO-në e sinkronizuar (p.sh., 1/4 për një cikël për rrahje).</string>
+    <string name="help_lfo_matrix">Matrica e Modulimit: Caktoni LFO-në në objektiva të shumëfishtë (Pitch, Volume, Filter, PD) me thellësi të pavarura.</string>
     <string name="help_at_target">Objektivi Aftertouch: Parametri i moduluar nga presioni i tasteve.</string>
     <string name="help_attack">Attack: Koha që duhet që tingulli të arrijë volumin maksimal pas shpërthimit.</string>
     <string name="help_decay">Decay: Koha që duhet për të rënë nga piku në nivelin e sustain.</string>

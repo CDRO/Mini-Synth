@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">LFO-Tiefe: Intensität des Modulationseffekts.</string>
     <string name="help_lfo_waveform">LFO-Wellenform: Wählen Sie die Form des Modulationsoszillators.</string>
     <string name="help_lfo_target">LFO-Ziel: Der vom LFO modulierte Parameter.</string>
+    <string name="help_lfo_sync">LFO-Sync: Wenn aktiviert, wird die LFO-Frequenz automatisch basierend auf dem globalen BPM berechnet.</string>
+    <string name="help_lfo_div">LFO-Division: Wählen Sie die Zeitunterteilung für den synchronisierten LFO (z. B. 1/4 für einen Zyklus pro Schlag).</string>
+    <string name="help_lfo_matrix">Modulationsmatrix: Weisen Sie den LFO mehreren Zielen zu (Tonhöhe, Lautstärke, Filter, PD) mit unabhängigen Tiefen.</string>
     <string name="help_at_target">Aftertouch-Ziel: Der durch Tastendruck modulierte Parameter.</string>
     <string name="help_attack">Attack: Zeit, die der Sound benötigt, um nach dem Auslösen die Spitzenlautstärke zu erreichen.</string>
     <string name="help_decay">Decay: Zeit, die benötigt wird, um von der Spitze auf den Sustain-Pegel abzufallen.</string>

@@ -51,7 +51,6 @@ void Voice::nextSample(float& left, float& right) {
         return;
     }
 
-    // Simple Parameter Smoothing (approx 5-10ms ramp)
     mCurrentPitchBend = mCurrentPitchBend * 0.995f + mTargetPitchBend * 0.005f;
     mCurrentModulation = mCurrentModulation * 0.995f + mTargetModulation * 0.005f;
     mCurrentAftertouch = mCurrentAftertouch * 0.99f + mTargetAftertouch * 0.01f;
@@ -62,75 +61,41 @@ void Voice::nextSample(float& left, float& right) {
         mSamplePlayer.setPlaybackRate(rate);
         monoSample = mSamplePlayer.nextSample() * mVelocity;
     } else {
-        float lfoVal = mLfo.nextValue();
-        float modPitch = 0.0f;
-        float modVolume = 1.0f;
-        float modFilter = 0.0f;
-        float modPD = 0.0f;
-
-        // Base modulation (Mod Wheel)
         float effectiveLfoDepth = mLfo.getDepth() + (mCurrentModulation * 0.5f);
+        float lfoVal = mLfo.nextValue();
+        float lfoMod = lfoVal * effectiveLfoDepth;
 
-        // Apply Aftertouch to specific target
-        float atVolume = 0.0f;
-        float atPitch = 0.0f;
-        float atFilter = 0.0f;
-        float atPD = 0.0f;
-
+        float atVolume = 0.0f, atPitch = 0.0f, atFilter = 0.0f, atPD = 0.0f;
         switch (mAftertouchTarget) {
-            case LfoTarget::Pitch:
-                atPitch = mCurrentAftertouch * 2.0f; // +/- 2 semitones
-                break;
-            case LfoTarget::Volume:
-                atVolume = mCurrentAftertouch * 0.5f; // +50% gain
-                break;
-            case LfoTarget::Filter:
-                atFilter = mCurrentAftertouch * 4.0f; // +4 octaves
-                break;
-            case LfoTarget::PhaseDistortion:
-                atPD = mCurrentAftertouch * 0.8f;
-                break;
+            case LfoTarget::Pitch: atPitch = mCurrentAftertouch * 2.0f; break;
+            case LfoTarget::Volume: atVolume = mCurrentAftertouch * 0.5f; break;
+            case LfoTarget::Filter: atFilter = mCurrentAftertouch * 4.0f; break;
+            case LfoTarget::PhaseDistortion: atPD = mCurrentAftertouch * 0.8f; break;
         }
 
-        switch (mLfoTarget) {
-            case LfoTarget::Pitch:
-                modPitch = lfoVal * effectiveLfoDepth;
-                break;
-            case LfoTarget::Volume:
-                modVolume = 1.0f + (lfoVal * effectiveLfoDepth);
-                break;
-            case LfoTarget::Filter:
-                modFilter = lfoVal * 5.0f * effectiveLfoDepth;
-                break;
-            case LfoTarget::PhaseDistortion:
-                modPD = lfoVal * effectiveLfoDepth;
-                break;
-        }
+        float modPitch = lfoMod * mLfoMatrix[0];
+        float modVolume = 1.0f + (lfoMod * mLfoMatrix[1]);
+        float modFilter = lfoMod * 5.0f * mLfoMatrix[2];
+        float modPD = lfoMod * mLfoMatrix[3];
 
-        // Combine all modulations
         float totalPitchShift = mCurrentPitchBend + modPitch + atPitch;
         float filterShift = modFilter + (mCurrentModulation * 2.0f) + atFilter;
         mFilter.setCutoff(mBaseCutoff * powf(2.0f, filterShift));
 
         float effectivePD = std::max(0.0f, std::min(mBasePhaseDistortion + modPD + atPD, 0.99f));
-
         float env = mEnvelope.nextLevel();
         float baseFreq = midiToFreq(mNote);
 
-        // Sum unison oscillators
         float combinedL = 0.0f;
         float combinedR = 0.0f;
         int count = std::max(1, std::min(mUnisonCount, MAX_UNISON));
 
         for (int i = 0; i < count; ++i) {
-            float detune = 0.0f;
-            float panOffset = 0.0f;
-
+            float detune = 0.0f, panOffset = 0.0f;
             if (count > 1) {
-                // Calculate detune and pan offset for this unison voice
-                float ratio = static_cast<float>(i) / (count - 1); // 0.0 to 1.0
-                detune = (ratio * 2.0f - 1.0f) * mUnisonDetune; // -Detune to +Detune cents
-                panOffset = (ratio * 2.0f - 1.0f) * mUnisonSpread; // -Spread to +Spread
+                float ratio = static_cast<float>(i) / (count - 1);
+                detune = (ratio * 2.0f - 1.0f) * mUnisonDetune;
+                panOffset = (ratio * 2.0f - 1.0f) * mUnisonSpread;
             }
 
             double freq = baseFreq * pow(2.0, (totalPitchShift + (detune / 100.0)) / 12.0);
@@ -139,23 +104,16 @@ void Voice::nextSample(float& left, float& right) {
             mOscillators[i].setPhaseDistortion(effectivePD);
 
             float s = mOscillators[i].nextSample();
-
-            // Individual Panning for this unison voice (Spread)
-            // Combine with master panning
-            float voicePan = std::max(-1.0f, std::min(mPanning + panOffset, 1.0f));
-            float angle = (voicePan + 1.0f) * (PI_F / 4.0f);
-
+            float angle = (std::max(-1.0f, std::min(mPanning + panOffset, 1.0f)) + 1.0f) * (PI_F / 4.0f);
             combinedL += s * cosf(angle);
             combinedR += s * sinf(angle);
         }
 
-        // Normalize sum to prevent volume explosion
         left = mFilter.process(combinedL * mVelocity * env * (modVolume + atVolume) * mUnisonNorm);
         right = mFilter.process(combinedR * mVelocity * env * (modVolume + atVolume) * mUnisonNorm);
         return;
     }
 
-    // Equal Power Panning for individual Voice
     float angle = (mPanning + 1.0f) * (PI_F / 4.0f);
     left = monoSample * cosf(angle);
     right = monoSample * sinf(angle);

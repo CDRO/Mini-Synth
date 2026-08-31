@@ -40,6 +40,8 @@ public:
     void setTrackLfoDepth(int track, float depth);
     void setTrackLfoWaveform(int track, Waveform waveform);
     void setTrackLfoTarget(int track, LfoTarget target);
+    void setTrackLfoSync(int track, bool enabled, float beatsPerCycle);
+    void setTrackLfoMatrixAmount(int track, int targetIndex, float amount);
     void setTrackFilterCutoff(int track, float frequency);
     void setTrackFilterResonance(int track, float resonance);
     void setTrackUnison(int track, int count, float detune, float spread);

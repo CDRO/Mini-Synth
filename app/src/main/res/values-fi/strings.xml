@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">LFO-syvyys: Modulaatioefektin voimakkuus.</string>
     <string name="help_lfo_waveform">LFO-aaltomuoto: Valitse modulaatio-oskillaattorin muoto.</string>
     <string name="help_lfo_target">LFO-kohde: Parametri, jota LFO moduloi.</string>
+    <string name="help_lfo_sync">LFO-synkronointi: Kun käytössä, LFO-taajuus lasketaan automaattisesti globaalin BPM:n perusteella.</string>
+    <string name="help_lfo_div">LFO-jako: Valitse synkronoidun LFO:n ajoitusjako (esim. 1/4 yhdelle jaksolle per isku).</string>
+    <string name="help_lfo_matrix">Modulaatiomatriisi: Määritä LFO useisiin kohteisiin (vire, voimakkuus, suodatin, PD) itsenäisillä syvyyksillä.</string>
     <string name="help_at_target">Aftertouch-kohde: Parametri, jota kosketusvoimakkuus moduloi.</string>
     <string name="help_attack">Attack: Aika, joka kuluu äänen saavuttamiseen maksimivoimakkuuden liipaisun jälkeen.</string>
     <string name="help_decay">Decay: Aika, joka kuluu huipusta ylläpitotasolle laskemiseen.</string>

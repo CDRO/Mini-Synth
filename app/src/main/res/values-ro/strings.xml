@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">Adâncimea LFO: Intensitatea efectului de modulație.</string>
     <string name="help_lfo_waveform">Forma de undă LFO: Selectați forma oscilatorului de modulație.</string>
     <string name="help_lfo_target">Ținta LFO: Parametrul modulat de LFO.</string>
+    <string name="help_lfo_sync">Sincronizare LFO: Când este activată, frecvența LFO este calculată automat pe baza BPM-ului global.</string>
+    <string name="help_lfo_div">Diviziune LFO: Alegeți diviziunea de timp pentru LFO sincronizat (de ex., 1/4 pentru un ciclu pe bătaie).</string>
+    <string name="help_lfo_matrix">Matrice de modulație: Atribuiți LFO-ul mai multor ținte (ton, volum, filtru, PD) cu profunzimi independente.</string>
     <string name="help_at_target">Ținta Aftertouch: Parametrul modulat de presiunea tastelor.</string>
     <string name="help_attack">Atac: Timpul necesar pentru ca sunetul să atingă volumul maxim după declanșare.</string>
     <string name="help_decay">Decădere: Timpul necesar pentru a scădea de la vârf la nivelul de sustain.</string>

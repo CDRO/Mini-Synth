@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">LFO дълбочина: Интензивност на модулационния ефект.</string>
     <string name="help_lfo_waveform">LFO вълнова форма: Изберете формата на модулационния осцилатор.</string>
     <string name="help_lfo_target">LFO цел: Параметърът, който се модулира от LFO.</string>
+    <string name="help_lfo_sync">LFO синхронизация: Когато е включена, честотата на LFO се изчислява автоматично въз основа на глобалния BPM.</string>
+    <string name="help_lfo_div">LFO деление: Изберете времевото деление за синхронизирания LFO (напр. 1/4 за един цикъл на бийт).</string>
+    <string name="help_lfo_matrix">Модулационна матрица: Присвоете LFO на множество цели (височина, сила на звука, филтър, PD) с независими нива.</string>
     <string name="help_at_target">Aftertouch цел: Параметърът, модулиран от натиска на клавишите.</string>
     <string name="help_attack">Attack: Времето, необходимо на звука да достигне пикова сила след задействане.</string>
     <string name="help_decay">Decay: Времето, необходимо за спадане от пика до нивото на сустейн.</string>

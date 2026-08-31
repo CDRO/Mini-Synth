@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">Hloubka LFO: Intenzita modulačního efektu.</string>
     <string name="help_lfo_waveform">Tvar vlny LFO: Vyberte tvar modulačního oscilátoru.</string>
     <string name="help_lfo_target">Cíl LFO: Parametr modulovaný LFO.</string>
+    <string name="help_lfo_sync">LFO synchronizace: Pokud je povoleno, frekvence LFO se automaticky vypočítá na základě globálního BPM.</string>
+    <string name="help_lfo_div">LFO dělení: Vyberte časové dělení pro synchronizované LFO (např. 1/4 pro jeden cyklus na dobu).</string>
+    <string name="help_lfo_matrix">Modulační matice: Přiřaďte LFO k více cílům (výška, hlasitost, filtr, PD) s nezávislými hloubkami.</string>
     <string name="help_at_target">Cíl Aftertouch: Parametr modulovaný tlakem kláves.</string>
     <string name="help_attack">Attack: Čas, za který zvuk po spuštění dosáhne maximální hlasitosti.</string>
     <string name="help_decay">Decay: Čas potřebný k poklesu z maxima na úroveň sustain. </string>

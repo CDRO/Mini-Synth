@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">Głębokość LFO: Intensywność efektu modulacji.</string>
     <string name="help_lfo_waveform">Kształt fali LFO: Wybierz kształt oscylatora modulacyjnego.</string>
     <string name="help_lfo_target">Cel LFO: Parametr modulowany przez LFO.</string>
+    <string name="help_lfo_sync">Synchronizacja LFO: po włączeniu częstotliwość LFO jest obliczana automatycznie na podstawie globalnego BPM.</string>
+    <string name="help_lfo_div">Podział LFO: wybierz podział czasu dla zsynchronizowanego LFO (np. 1/4 dla jednego cyklu na uderzenie).</string>
+    <string name="help_lfo_matrix">Macierz modulacji: przypisz LFO do wielu celów (wysokość, głośność, filtr, PD) z niezależnymi głębokościami.</string>
     <string name="help_at_target">Cel Aftertouch: Parametr modulowany przez nacisk klawiszy.</string>
     <string name="help_attack">Attack: Czas potrzebny na osiągnięcie przez dźwięk szczytowej głośności po wyzwoleniu.</string>
     <string name="help_decay">Decay: Czas potrzebny na spadek ze szczytu do poziomu wybrzmiewania (sustain).</string>

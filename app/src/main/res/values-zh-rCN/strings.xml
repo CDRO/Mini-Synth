@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">LFO 深度：调制效果的强度。</string>
     <string name="help_lfo_waveform">LFO 波形：选择调制振荡器的形状。</string>
     <string name="help_lfo_target">LFO 目标：受 LFO 调制的参数。</string>
+    <string name="help_lfo_sync">LFO 同步：启用时，LFO 频率将根据全局 BPM 自动计算。</string>
+    <string name="help_lfo_div">LFO 分频：选择同步 LFO 的时间分频（例如，每拍一个周期为 1/4）。</string>
+    <string name="help_lfo_matrix">调制矩阵：将 LFO 分配给多个目标（音高、音量、滤波器、PD），并具有独立的深度。</string>
     <string name="help_at_target">触后目标：受按键压力调制的参数。</string>
     <string name="help_attack">起音：触发后声音达到峰值音量所需的时间。</string>
     <string name="help_decay">衰减：从峰值下降到维持电平所需的时间。</string>

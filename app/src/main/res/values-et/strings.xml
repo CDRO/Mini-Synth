@@ -44,6 +44,9 @@
     <string name="help_lfo_depth">LFO sügavus: Modulatsiooniefekti intensiivsus.</string>
     <string name="help_lfo_waveform">LFO lainekuju: Vali modulatsiooniostsillaatori kuju.</string>
     <string name="help_lfo_target">LFO sihtmärk: Parameeter, mida LFO moduleerib.</string>
+    <string name="help_lfo_sync">LFO sünroonimine: Kui see on lubatud, arvutatakse LFO sagedus automaatselt globaalse BPM-i põhjal.</string>
+    <string name="help_lfo_div">LFO jaotus: Valige sünroonitud LFO aja jaotus (nt 1/4 ühe tsükli kohta löögi kohta).</string>
+    <string name="help_lfo_matrix">Modulatsioonimaatriks: Määrake LFO mitmele sihtmärgile (heli kõrgus, helitugevus, filter, PD) sõltumatute sügavustega.</string>
     <string name="help_at_target">Aftertouch sihtmärk: Parameeter, mida moduleerib klahvivajutuse surve.</string>
     <string name="help_attack">Attack: Aeg, mis kulub helil tipphelitugevuse saavutamiseks pärast päästmist.</string>
     <string name="help_decay">Decay: Aeg, mis kulub tipust sustain-tasemele langemiseks.</string>

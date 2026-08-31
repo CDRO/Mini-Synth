@@ -215,6 +215,18 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setTrackLfoTarget(JNIEnv *env,
 }
 
 extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setTrackLfoSync(JNIEnv *env, jobject thiz, jint track, jboolean enabled, jfloat beats_per_cycle) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setTrackLfoSync(track, enabled == JNI_TRUE, beats_per_cycle);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_setTrackLfoMatrixAmount(JNIEnv *env, jobject thiz, jint track, jint target_index, jfloat amount) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) engine->setTrackLfoMatrixAmount(track, target_index, amount);
+}
+
+extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_setAftertouchTarget(JNIEnv *env, jobject thiz, jint target_index) {
     std::lock_guard<std::mutex> lock(engineMutex);
     if (engine) engine->setAftertouchTarget(static_cast<LfoTarget>(target_index));
