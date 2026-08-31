@@ -54,10 +54,12 @@ if (NOT ANDROID_PLATFORM)
         tests/FilterTest.cpp
         tests/EnvelopeTest.cpp
         tests/LfoTest.cpp
+        tests/SamplePlayerTest.cpp
         Oscillator.cpp
         Filter.cpp
         Envelope.cpp
         Lfo.cpp
+        SamplePlayer.cpp
     )
     target_include_directories(synth_tests PRIVATE . tests)
     target_link_libraries(synth_tests GTest::gtest_main)
