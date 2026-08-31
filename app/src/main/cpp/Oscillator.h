@@ -16,6 +16,8 @@ public:
     void resetPhase() { mPhase = 0.0; }
     float nextSample();
 
+    static float fastSin(float phase);
+
 private:
     Waveform mWaveform = Waveform::Sine;
     double mFrequency = 440.0;
@@ -29,8 +31,6 @@ private:
     void updatePhaseIncrement();
     float getWaveformSample(Waveform type, float phase);
     float applyPhaseDistortion(float phase);
-
-    static float fastSin(float phase);
 
     static constexpr int SINE_LUT_SIZE = 1024;
     static float sSineLut[SINE_LUT_SIZE + 1];

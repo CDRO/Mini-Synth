@@ -34,4 +34,25 @@ class AdvancedModulationTest {
         val shadow = Shadow.extract<ShadowSynthManager>(manager)
         assertEquals(0.85f, shadow.lfoMatrixAmounts[2], 0.001f)
     }
+
+    @Test
+    fun testModulationStressStability() {
+        val manager = SynthManager()
+        manager.startEngine()
+        
+        manager.setPolyphonic(true)
+        for (t in 0..3) {
+            manager.setTrackUnison(t, 8, 50f, 1.0f)
+            manager.setTrackLfoSync(t, true, 0.25f)
+            for (target in 0..3) {
+                manager.setTrackLfoMatrixAmount(t, target, 1.0f)
+            }
+        }
+        
+        for (i in 0..15) {
+            manager.noteOn(60 + i, 0.8f, i % 4)
+        }
+        
+        assertTrue(manager.isEngineRunning())
+    }
 }

@@ -29,6 +29,7 @@ struct EngineParams {
     float lfoMatrix[4];
     bool lfoSync;
     float lfoSyncDivision; // Beats per cycle
+    LfoTarget aftertouchTarget;
 
     float filterCutoff, filterResonance;
     bool isPolyphonic;

@@ -76,20 +76,9 @@ void AudioEngine::setTrackRelease(int track, float s) { if (track >= 0 && track 
 void AudioEngine::setTrackLfoRate(int track, float f) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.lfoRate = f; updateTrackParams(track); } }
 void AudioEngine::setTrackLfoDepth(int track, float d) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.lfoDepth = d; updateTrackParams(track); } }
 void AudioEngine::setTrackLfoWaveform(int track, Waveform w) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.lfoWaveform = w; updateTrackParams(track); } }
-void AudioEngine::setTrackLfoTarget(int track, LfoTarget t) { if (track >= 0 && track < MAX_TRACKS) { /* Deprecated by Matrix */ } }
-void AudioEngine::setTrackLfoSync(int track, bool enabled, float beatsPerCycle) {
-    if (track >= 0 && track < MAX_TRACKS) {
-        mTracks[track].params.lfoSync = enabled;
-        mTracks[track].params.lfoSyncDivision = beatsPerCycle;
-        updateTrackParams(track);
-    }
-}
-void AudioEngine::setTrackLfoMatrixAmount(int track, int targetIndex, float amount) {
-    if (track >= 0 && track < MAX_TRACKS && targetIndex >= 0 && targetIndex < 4) {
-        mTracks[track].params.lfoMatrix[targetIndex] = amount;
-        updateTrackParams(track);
-    }
-}
+void AudioEngine::setTrackLfoTarget(int track, LfoTarget t) { if (track >= 0 && track < MAX_TRACKS) { /* Matrix used instead */ } }
+void AudioEngine::setTrackLfoSync(int track, bool enabled, float beatsPerCycle) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.lfoSync = enabled; mTracks[track].params.lfoSyncDivision = beatsPerCycle; updateTrackParams(track); } }
+void AudioEngine::setTrackLfoMatrixAmount(int track, int targetIndex, float amount) { if (track >= 0 && track < MAX_TRACKS && targetIndex >= 0 && targetIndex < 4) { mTracks[track].params.lfoMatrix[targetIndex] = amount; updateTrackParams(track); } }
 void AudioEngine::setTrackFilterCutoff(int track, float f) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.filterCutoff = f; updateTrackParams(track); } }
 void AudioEngine::setTrackFilterResonance(int track, float r) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.filterResonance = r; updateTrackParams(track); } }
 void AudioEngine::setTrackUnison(int track, int c, float d, float s) { if (track >= 0 && track < MAX_TRACKS) { mTracks[track].params.unisonCount = c; mTracks[track].params.unisonDetune = d; mTracks[track].params.unisonSpread = s; updateTrackParams(track); } }
@@ -119,6 +108,10 @@ void AudioEngine::padNoteOn(int padIndex, float velocity) {
 
 void AudioEngine::padNoteOff(int padIndex) { if (padIndex >= 0 && padIndex < MAX_PADS) mVoiceManager.noteOff(60 + padIndex); }
 void AudioEngine::setPadLooping(int padIndex, bool looping) { if (padIndex >= 0 && padIndex < MAX_PADS) mVoiceManager.setPadLooping(60 + padIndex, looping); }
+
+void AudioEngine::setPadPanning(int padIndex, float panning) {
+    if (padIndex >= 0 && padIndex < MAX_PADS) mPadPanning[padIndex] = panning;
+}
 
 oboe::DataCallbackResult AudioEngine::onAudioReady(oboe::AudioStream *audioStream, void *audioData, int32_t numFrames) {
     float *output = static_cast<float *>(audioData);
@@ -157,9 +150,9 @@ void AudioEngine::processExternalMidi(const uint8_t* data, int32_t len) { if (le
 void AudioEngine::startPadSampling(int idx) { mSamplingPadIndex = idx; }
 void AudioEngine::stopPadSampling() { mSamplingPadIndex = -1; }
 void AudioEngine::startAutomatedSampling(int idx, float dur) { mAutoSampleRemaining = static_cast<int32_t>(dur * 48000); startPadSampling(idx); }
-void AudioEngine::loadFactorySample(int idx, int sId) {}
-void AudioEngine::savePadSample(int idx, const char* path) {}
-void AudioEngine::loadPadSample(int idx, const char* path) {}
+void AudioEngine::loadFactorySample(int padIndex, int sampleId) {}
+void AudioEngine::savePadSample(int padIndex, const char* path) { if (padIndex >= 0 && padIndex < MAX_PADS && !mPadBuffers[padIndex].empty()) { std::ofstream file(path, std::ios::binary); if (file.is_open()) { file.write(reinterpret_cast<const char*>(mPadBuffers[padIndex].data()), mPadBuffers[padIndex].size() * sizeof(float)); } } }
+void AudioEngine::loadPadSample(int padIndex, const char* path) { if (padIndex >= 0 && padIndex < MAX_PADS) { std::ifstream file(path, std::ios::binary | std::ios::ate); if (file.is_open()) { std::streamsize size = file.tellg(); file.seekg(0, std::ios::beg); mPadBuffers[padIndex].resize(size / sizeof(float)); file.read(reinterpret_cast<char*>(mPadBuffers[padIndex].data()), size); } } }
 bool AudioEngine::isPadAvailable(int idx) { return idx >= 0 && idx < MAX_PADS; }
 void AudioEngine::renderStereoSampleForTest(float& l, float& r) { mVoiceManager.nextSample(l, r); }
 void AudioEngine::onErrorAfterClose(oboe::AudioStream *s, oboe::Result e) {}

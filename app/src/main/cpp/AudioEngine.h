@@ -53,11 +53,38 @@ public:
     void setPolyphonic(bool isPolyphonic) { mVoiceManager.setPolyphonic(isPolyphonic); }
     void setOctaveShift(int shift) { mOctaveShift = shift; }
     void setMasterVolume(float volume) { mVoiceManager.setMasterVolume(volume); }
+    void setWavetable(const float* data, int32_t size) {}
 
-    void setWavetable(const float* data, int32_t size) {
-        // For now applies to track 0 or all? The plan says "Wavetable Engine support".
-        // We'll update the active track.
+    void setAftertouchTarget(LfoTarget target) {
+        mTracks[0].params.aftertouchTarget = target;
+        updateTrackParams(0);
     }
+    void setPitchBend(float semitones) {
+        for (int t = 0; t < MAX_TRACKS; ++t) {
+            mTracks[t].params.pitchBend = semitones;
+            updateTrackParams(t);
+        }
+    }
+    void setModulation(float amount) {
+        for (int t = 0; t < MAX_TRACKS; ++t) {
+            mTracks[t].params.modulation = amount;
+            updateTrackParams(t);
+        }
+    }
+    void setAftertouch(int midiNote, float amount) {
+        mVoiceManager.setVoiceAftertouch(midiNote, amount);
+    }
+
+    void setPadPanning(int padIndex, float panning);
+
+    // Effects
+    void setDelayTime(float seconds) { mDelay.setTime(seconds); }
+    void setDelayFeedback(float feedback) { mDelay.setFeedback(feedback); }
+    void setDelayMix(float mix) { mDelay.setMix(mix); }
+
+    void setReverbSize(float size) { mReverb.setSize(size); }
+    void setReverbDamping(float damping) { mReverb.setDamping(damping); }
+    void setReverbMix(float mix) { mReverb.setMix(mix); }
 
     void renderStereoSampleForTest(float& left, float& right);
 
@@ -105,8 +132,18 @@ public:
     void getSequencerActiveNotes(int track, int step, std::vector<int>& notes) const { mMidiSequencer.getActiveNotes(track, step, notes); }
     bool isSequencerStepActive(int track, int step) const { return mMidiSequencer.isStepActive(track, step); }
     int recordSequencerNote(int track, int note) { return mMidiSequencer.recordNote(track, note); }
+    void handleRealTimeNoteOn(int track, int note) { mMidiSequencer.handleRealTimeNoteOn(track, note); }
+    void handleRealTimeNoteOff(int track, int note) { mMidiSequencer.handleRealTimeNoteOff(track, note); }
     void clearSequencer() { mMidiSequencer.clear(); }
     void clearSequencerTrack(int track) { mMidiSequencer.clearTrack(track); }
+    void stepRecordNote(int track, int note) { mMidiSequencer.stepRecordNote(track, note); }
+    void stepRecordRest() { mMidiSequencer.stepRecordRest(); }
+    void stepRecordBack() { mMidiSequencer.stepRecordBack(); }
+    void setSequencerStepDuration(float division) { mMidiSequencer.setStepDuration(division); }
+    void setSequencerNumSteps(int steps) { mMidiSequencer.setNumSteps(steps); }
+    void setInputQuantize(bool enabled) { mMidiSequencer.setInputQuantize(enabled); }
+    void setOverdub(bool enabled) { mMidiSequencer.setOverdub(enabled); }
+    int getSequencerCurrentStep() const { return mMidiSequencer.getCurrentStep(); }
 
     void saveProject(const std::string& directory);
     void loadProject(const std::string& directory);
