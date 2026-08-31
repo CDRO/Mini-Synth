@@ -5,6 +5,8 @@ package ch.schmidlins.mini_synth.audio
  * Handles all real-time audio parameters, MIDI processing, and project management.
  */
 class SynthManager {
+    data class PadMetadata(val start: Int, val end: Int, val reverse: Boolean, val gain: Float)
+
     companion object {
         init {
             try {
@@ -59,6 +61,21 @@ class SynthManager {
     
     /** Load a binary PCM file into a pad's buffer. */
     external fun loadPadSample(padIndex: Int, path: String)
+
+    /** Set playback boundaries and direction for a pad. */
+    external fun setPadPlaybackParams(padIndex: Int, start: Int, end: Int, reverse: Boolean)
+    
+    /** Snap a sample index to the nearest zero crossing. */
+    external fun snapToZeroCrossing(padIndex: Int, sampleIndex: Int): Int
+
+    /** Automatically adjust gain for a pad to reach 0dB peak. */
+    external fun normalizePad(padIndex: Int)
+
+    /** Retrieve a copy of a pad's PCM data. */
+    external fun getPadSample(padIndex: Int): FloatArray?
+
+    /** Retrieve playback boundaries and direction for a pad. */
+    external fun getPadMetadata(padIndex: Int): PadMetadata?
 
     /** Toggle between polyphonic (16-voice) and monophonic modes. */
     external fun setPolyphonic(isPolyphonic: Boolean)

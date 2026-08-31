@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">Kuantizasyon Devre Dışı</string>
     <string name="toast_overdub_on">Overdub Etkin</string>
     <string name="toast_overdub_off">Overdub Devre Dışı</string>
+    <string name="title_sample_editor">Örnek Düzenleyici</string>
+    <string name="btn_reverse_off">TERS KAPALI</string>
+    <string name="btn_reverse_on">TERS AÇIK</string>
+    <string name="btn_normalize">NORMALİZE ET</string>
+    <string name="btn_apply">Uygula</string>
 </resources>

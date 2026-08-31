@@ -75,6 +75,11 @@
     <string name="toast_quantize_off">Quantize Disabled</string>
     <string name="toast_overdub_on">Overdub Enabled</string>
     <string name="toast_overdub_off">Overdub Disabled</string>
+    <string name="title_sample_editor">Sample Editor</string>
+    <string name="btn_reverse_off">REV OFF</string>
+    <string name="btn_reverse_on">REV ON</string>
+    <string name="btn_normalize">NORMALIZE</string>
+    <string name="btn_apply">Apply</string>
     <string name="help_step_back">Go back to the previous step and clear it.</string>
     <string name="help_sequencer_clear">Clear all notes from the sequencer grid.</string>
     <string name="help_sequencer_export">Export sequence: Renders the current pattern to a high-quality WAV file for sharing.</string>

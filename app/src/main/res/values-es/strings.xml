@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">Cuantización desactivada</string>
     <string name="toast_overdub_on">Overdub activado</string>
     <string name="toast_overdub_off">Overdub desactivado</string>
+    <string name="title_sample_editor">Editor de muestras</string>
+    <string name="btn_reverse_off">REV DESACT.</string>
+    <string name="btn_reverse_on">REV ACT.</string>
+    <string name="btn_normalize">NORMALIZAR</string>
+    <string name="btn_apply">Aplicar</string>
 </resources>

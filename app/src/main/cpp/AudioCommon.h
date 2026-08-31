@@ -69,4 +69,11 @@ struct EngineParams {
     int chordInversion = 0;
 };
 
+struct SampleMetadata {
+    uint32_t start = 0;
+    uint32_t end = 0;
+    bool reverse = false;
+    float gain = 1.0f;
+};
+
 #endif //MINI_SYNTH_AUDIOCOMMON_H

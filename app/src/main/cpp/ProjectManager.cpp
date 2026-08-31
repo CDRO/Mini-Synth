@@ -12,9 +12,10 @@ bool ProjectManager::saveProject(const std::string& directory,
                                  const MidiSequencer& sequencer,
                                  const std::vector<std::vector<float>>& padBuffers,
                                  const std::vector<float>& padPannings,
+                                 const std::vector<SampleMetadata>& padMetadata,
                                  float bpm) {
     json j;
-    j["version"] = 2; // Incremented for multi-track
+    j["version"] = 3; // Incremented for sample metadata
     j["bpm"] = bpm;
 
     for (int t = 0; t < 4; ++t) {
@@ -58,7 +59,7 @@ bool ProjectManager::saveProject(const std::string& directory,
         j["tracks"].push_back(tj);
     }
 
-    // Pads (Shared across tracks for now)
+    // Pads
     for (size_t i = 0; i < padBuffers.size(); ++i) {
         if (!padBuffers[i].empty()) {
             std::string padPath = directory + "/pad_" + std::to_string(i) + ".raw";
@@ -71,6 +72,12 @@ bool ProjectManager::saveProject(const std::string& directory,
         }
         if (i < padPannings.size()) {
             j["pads"][std::to_string(i)]["panning"] = padPannings[i];
+        }
+        if (i < padMetadata.size()) {
+            j["pads"][std::to_string(i)]["start"] = padMetadata[i].start;
+            j["pads"][std::to_string(i)]["end"] = padMetadata[i].end;
+            j["pads"][std::to_string(i)]["reverse"] = padMetadata[i].reverse;
+            j["pads"][std::to_string(i)]["gain"] = padMetadata[i].gain;
         }
     }
 
@@ -86,6 +93,7 @@ bool ProjectManager::loadProject(const std::string& directory,
                                  MidiSequencer& outSequencer,
                                  std::vector<std::vector<float>>& outPadBuffers,
                                  std::vector<float>& outPadPannings,
+                                 std::vector<SampleMetadata>& outPadMetadata,
                                  float& outBpm) {
     std::string configPath = directory + "/project.json";
     std::ifstream configFile(configPath);
@@ -144,11 +152,16 @@ bool ProjectManager::loadProject(const std::string& directory,
     // Pads
     outPadBuffers.assign(256, std::vector<float>());
     outPadPannings.assign(256, 0.0f);
+    outPadMetadata.assign(256, SampleMetadata());
     if (j.contains("pads")) {
         for (auto it = j["pads"].begin(); it != j["pads"].end(); ++it) {
             int padIndex = std::stoi(it.key());
             auto padData = it.value();
             if (padData.contains("panning")) outPadPannings[padIndex] = padData["panning"];
+            if (padData.contains("start")) outPadMetadata[padIndex].start = padData["start"];
+            if (padData.contains("end")) outPadMetadata[padIndex].end = padData["end"];
+            if (padData.contains("reverse")) outPadMetadata[padIndex].reverse = padData["reverse"];
+            if (padData.contains("gain")) outPadMetadata[padIndex].gain = padData["gain"];
             if (padData.contains("file")) {
                 std::string padPath = directory + "/" + padData["file"].get<std::string>();
                 std::ifstream padFile(padPath, std::ios::binary | std::ios::ate);

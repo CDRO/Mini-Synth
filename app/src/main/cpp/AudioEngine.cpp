@@ -159,8 +159,8 @@ void AudioEngine::noteOff(int midiNote) {
 void AudioEngine::padNoteOn(int padIndex, float velocity) {
     if (padIndex < 0 || padIndex >= MAX_PADS) return;
     float panning = mPadPanning[padIndex];
-    if (mPadBuffers[padIndex].empty()) mVoiceManager.noteOn(60 + padIndex, velocity, nullptr, panning, 0);
-    else mVoiceManager.noteOn(60 + padIndex, velocity, &mPadBuffers[padIndex], panning, 0);
+    if (mPadBuffers[padIndex].empty()) mVoiceManager.noteOn(60 + padIndex, velocity, nullptr, panning, 0, &mPadMetadata[padIndex]);
+    else mVoiceManager.noteOn(60 + padIndex, velocity, &mPadBuffers[padIndex], panning, 0, &mPadMetadata[padIndex]);
 }
 
 void AudioEngine::padNoteOff(int padIndex) { if (padIndex >= 0 && padIndex < MAX_PADS) mVoiceManager.noteOff(60 + padIndex); }
@@ -223,13 +223,71 @@ void AudioEngine::stopPadSampling() { mSamplingPadIndex = -1; }
 void AudioEngine::startAutomatedSampling(int idx, float dur) { mAutoSampleRemaining = static_cast<int32_t>(dur * 48000); startPadSampling(idx); }
 void AudioEngine::loadFactorySample(int padIndex, int sampleId) {}
 void AudioEngine::savePadSample(int padIndex, const char* path) { if (padIndex >= 0 && padIndex < MAX_PADS && !mPadBuffers[padIndex].empty()) { std::ofstream file(path, std::ios::binary); if (file.is_open()) { file.write(reinterpret_cast<const char*>(mPadBuffers[padIndex].data()), mPadBuffers[padIndex].size() * sizeof(float)); } } }
-void AudioEngine::loadPadSample(int padIndex, const char* path) { if (padIndex >= 0 && padIndex < MAX_PADS) { std::ifstream file(path, std::ios::binary | std::ios::ate); if (file.is_open()) { std::streamsize size = file.tellg(); file.seekg(0, std::ios::beg); mPadBuffers[padIndex].resize(size / sizeof(float)); file.read(reinterpret_cast<char*>(mPadBuffers[padIndex].data()), size); } } }
+void AudioEngine::loadPadSample(int padIndex, const char* path) { if (padIndex >= 0 && padIndex < MAX_PADS) { std::ifstream file(path, std::ios::binary | std::ios::ate); if (file.is_open()) { std::streamsize size = file.tellg(); file.seekg(0, std::ios::beg); mPadBuffers[padIndex].resize(size / sizeof(float)); file.read(reinterpret_cast<char*>(mPadBuffers[padIndex].data()), size); mPadMetadata[padIndex].start = 0; mPadMetadata[padIndex].end = static_cast<uint32_t>(mPadBuffers[padIndex].size()); } } }
+
+void AudioEngine::normalizePad(int padIndex) {
+    if (padIndex < 0 || padIndex >= MAX_PADS || mPadBuffers[padIndex].empty()) return;
+    float maxVal = 0.0f;
+    for (float s : mPadBuffers[padIndex]) maxVal = std::max(maxVal, std::abs(s));
+    if (maxVal > 0.0f) {
+        mPadMetadata[padIndex].gain = 1.0f / maxVal;
+    }
+}
+
+void AudioEngine::setPadPlaybackParams(int padIndex, uint32_t start, uint32_t end, bool reverse) {
+    if (padIndex < 0 || padIndex >= MAX_PADS) return;
+    mPadMetadata[padIndex].start = start;
+    mPadMetadata[padIndex].end = end;
+    mPadMetadata[padIndex].reverse = reverse;
+}
+
+const SampleMetadata& AudioEngine::getPadMetadata(int padIndex) const {
+    static SampleMetadata empty;
+    if (padIndex < 0 || padIndex >= MAX_PADS) return empty;
+    return mPadMetadata[padIndex];
+}
+
+uint32_t AudioEngine::snapToZeroCrossing(int padIndex, uint32_t sampleIndex) {
+    if (padIndex < 0 || padIndex >= MAX_PADS || mPadBuffers[padIndex].empty()) return sampleIndex;
+    return SamplePlayer::findZeroCrossing(mPadBuffers[padIndex], sampleIndex);
+}
+
+const std::vector<float>* AudioEngine::getPadBuffer(int padIndex) const {
+    if (padIndex < 0 || padIndex >= MAX_PADS) return nullptr;
+    return &mPadBuffers[padIndex];
+}
 bool AudioEngine::isPadAvailable(int idx) { return idx >= 0 && idx < MAX_PADS; }
 void AudioEngine::renderStereoSampleForTest(float& l, float& r) { mVoiceManager.nextSample(l, r); }
 void AudioEngine::onErrorAfterClose(oboe::AudioStream *s, oboe::Result e) {}
 
-void AudioEngine::saveProject(const std::string& directory) { std::vector<std::vector<float>> pads(MAX_PADS); std::vector<float> pans(MAX_PADS); for (int i = 0; i < MAX_PADS; ++i) { pads[i] = mPadBuffers[i]; pans[i] = mPadPanning[i]; } ProjectManager::saveProject(directory, mTracks, mMidiSequencer, pads, pans, mBpm); }
-void AudioEngine::loadProject(const std::string& directory) { std::vector<std::vector<float>> pads; std::vector<float> pans; float b; if (ProjectManager::loadProject(directory, mTracks, mMidiSequencer, pads, pans, b)) { mBpm = b; updateMetronomeParams(); for (int t = 0; t < MAX_TRACKS; ++t) updateTrackParams(t); for (int i = 0; i < MAX_PADS && i < pads.size(); ++i) { mPadBuffers[i] = pads[i]; mPadPanning[i] = pans[i]; } } }
+void AudioEngine::saveProject(const std::string& directory) {
+    std::vector<std::vector<float>> pads(MAX_PADS);
+    std::vector<float> pans(MAX_PADS);
+    std::vector<SampleMetadata> meta(MAX_PADS);
+    for (int i = 0; i < MAX_PADS; ++i) {
+        pads[i] = mPadBuffers[i];
+        pans[i] = mPadPanning[i];
+        meta[i] = mPadMetadata[i];
+    }
+    ProjectManager::saveProject(directory, mTracks, mMidiSequencer, pads, pans, meta, mBpm);
+}
+
+void AudioEngine::loadProject(const std::string& directory) {
+    std::vector<std::vector<float>> pads;
+    std::vector<float> pans;
+    std::vector<SampleMetadata> meta;
+    float b;
+    if (ProjectManager::loadProject(directory, mTracks, mMidiSequencer, pads, pans, meta, b)) {
+        mBpm = b;
+        updateMetronomeParams();
+        for (int t = 0; t < MAX_TRACKS; ++t) updateTrackParams(t);
+        for (int i = 0; i < MAX_PADS && i < pads.size(); ++i) {
+            mPadBuffers[i] = pads[i];
+            mPadPanning[i] = pans[i];
+            if (i < meta.size()) mPadMetadata[i] = meta[i];
+        }
+    }
+}
 
 void AudioEngine::updateMetronomeParams() {
     float sr = mStream ? (float)mStream->getSampleRate() : 48000.0f;

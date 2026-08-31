@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">Kvantisering inaktiverad</string>
     <string name="toast_overdub_on">Overdub aktiverad</string>
     <string name="toast_overdub_off">Overdub inaktiverad</string>
+    <string name="title_sample_editor">Sample-redigerare</string>
+    <string name="btn_reverse_off">REV AV</string>
+    <string name="btn_reverse_on">REV PÅ</string>
+    <string name="btn_normalize">NORMALISERA</string>
+    <string name="btn_apply">Använd</string>
 </resources>

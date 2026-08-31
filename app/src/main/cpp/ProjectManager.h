@@ -14,6 +14,7 @@ public:
                            const MidiSequencer& sequencer,
                            const std::vector<std::vector<float>>& padBuffers,
                            const std::vector<float>& padPannings,
+                           const std::vector<SampleMetadata>& padMetadata,
                            float bpm);
 
     static bool loadProject(const std::string& directory,
@@ -21,6 +22,7 @@ public:
                            MidiSequencer& outSequencer,
                            std::vector<std::vector<float>>& outPadBuffers,
                            std::vector<float>& outPadPannings,
+                           std::vector<SampleMetadata>& outPadMetadata,
                            float& outBpm);
 };
 

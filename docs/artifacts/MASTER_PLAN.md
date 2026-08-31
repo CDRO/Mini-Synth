@@ -43,3 +43,12 @@ High-performance Android multi-track workstation. C++ (Oboe) for audio, Kotlin f
 - **Arpeggiator**: Pattern-based arpeggios (Up, Down, UpDown, Random).
 - **Chords**: One-finger chord triggers (Major, Minor, 7ths, etc.) with inversion control.
 - **Sequencer**: Integration of HOLD (Tie) and REST (Skip) in step recording.
+
+---
+
+## Milestone 51: Advanced Sampler & Pad Editing [TODO]
+
+### [Engine] [Sampler]
+- **Playback**: Reverse playback toggle per pad.
+- **Trimming**: Sample start/end points with zero-crossing detection.
+- **Normalization**: Automatic gain adjustment for recorded samples.

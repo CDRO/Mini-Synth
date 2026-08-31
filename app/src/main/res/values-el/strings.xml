@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">Ο Κβαντισμός Απενεργοποιήθηκε</string>
     <string name="toast_overdub_on">Το Overdub Ενεργοποιήθηκε</string>
     <string name="toast_overdub_off">Το Overdub Απενεργοποιήθηκε</string>
+    <string name="title_sample_editor">Επεξεργαστής δειγμάτων</string>
+    <string name="btn_reverse_off">REV ΑΝΕΝΕΡΓΟ</string>
+    <string name="btn_reverse_on">REV ΕΝΕΡΓΟ</string>
+    <string name="btn_normalize">ΚΑΝΟΝΙΚΟΠΟΙΗΣΗ</string>
+    <string name="btn_apply">Εφαρμογή</string>
 </resources>

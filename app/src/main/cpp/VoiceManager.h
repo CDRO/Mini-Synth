@@ -23,7 +23,7 @@ public:
     void setPolyphonic(bool isPolyphonic);
 
     // noteOn now takes a trackId to apply track-specific parameters
-    void noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer = nullptr, float initialPan = 0.0f, int trackId = 0);
+    void noteOn(int midiNote, float velocity, const std::vector<float>* sampleBuffer = nullptr, float initialPan = 0.0f, int trackId = 0, const SampleMetadata* metadata = nullptr);
     void noteOff(int midiNote);
     void setPadLooping(int midiNote, bool looping);
 

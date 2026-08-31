@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">Kvantizēšana atspējota</string>
     <string name="toast_overdub_on">Overdub iespējots</string>
     <string name="toast_overdub_off">Overdub atspējots</string>
+    <string name="title_sample_editor">Paraugu redaktors</string>
+    <string name="btn_reverse_off">REV IZSL.</string>
+    <string name="btn_reverse_on">REV IESL.</string>
+    <string name="btn_normalize">NORMALIZĒT</string>
+    <string name="btn_apply">Lietot</string>
 </resources>

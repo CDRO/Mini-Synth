@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">Kvantizacija onemogućena</string>
     <string name="toast_overdub_on">Overdub omogućen</string>
     <string name="toast_overdub_off">Overdub onemogućen</string>
+    <string name="title_sample_editor">Urednik uzoraka</string>
+    <string name="btn_reverse_off">REV ISKLJ.</string>
+    <string name="btn_reverse_on">REV UKLJ.</string>
+    <string name="btn_normalize">NORMALIZIRAJ</string>
+    <string name="btn_apply">Primijeni</string>
 </resources>

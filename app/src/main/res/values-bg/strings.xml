@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">Квантуването е деактивирано</string>
     <string name="toast_overdub_on">Overdub е активиран</string>
     <string name="toast_overdub_off">Overdub е деактивиран</string>
+    <string name="title_sample_editor">Редактор на семпли</string>
+    <string name="btn_reverse_off">ОБР. ИЗКЛ.</string>
+    <string name="btn_reverse_on">ОБР. ВКЛ.</string>
+    <string name="btn_normalize">НОРМАЛИЗИРАНЕ</string>
+    <string name="btn_apply">Приложи</string>
 </resources>

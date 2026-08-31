@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">Kvantizace zakázána</string>
     <string name="toast_overdub_on">Overdub povolen</string>
     <string name="toast_overdub_off">Overdub zakázán</string>
+    <string name="title_sample_editor">Editor vzorků</string>
+    <string name="btn_reverse_off">REV VYP.</string>
+    <string name="btn_reverse_on">REV ZAP.</string>
+    <string name="btn_normalize">NORMALIZOVAT</string>
+    <string name="btn_apply">Použít</string>
 </resources>

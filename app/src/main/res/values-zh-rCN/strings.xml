@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">量化已禁用</string>
     <string name="toast_overdub_on">叠录已启用</string>
     <string name="toast_overdub_off">叠录已禁用</string>
+    <string name="title_sample_editor">采样编辑器</string>
+    <string name="btn_reverse_off">反向关闭</string>
+    <string name="btn_reverse_on">反向开启</string>
+    <string name="btn_normalize">标准化</string>
+    <string name="btn_apply">应用</string>
 </resources>
