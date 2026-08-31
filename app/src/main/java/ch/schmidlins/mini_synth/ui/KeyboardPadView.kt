@@ -455,6 +455,12 @@ class KeyboardPadView @JvmOverloads constructor(
     }
     fun getPadOffset() = padOffset
 
+    fun setPadBaseNote(note: Int) {
+        baseNote = note
+        calculateLayouts(width, height)
+        invalidate()
+    }
+
     fun clearHeldNotes() {
         heldMidiNotes.forEach { midi ->
             listener?.onNoteOff(midi)

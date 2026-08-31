@@ -11,7 +11,7 @@
 
 ### UI (Kotlin)
 - **Workstation View**: Integrated **Track Selector** (T1-T4) with live state synchronization.
-- **Demo**: Modernized educational walkthrough showcasing all synthesis features.
+- **Demo**: Exhaustive Ultra Tour walkthrough covering every synthesis and workstation aspect.
 - **Stability**: Resolved all reported UI overlaps and stabilized emulated audio performance.
 - **Localization**: **31 Locales** supported with 100% help coverage.
 

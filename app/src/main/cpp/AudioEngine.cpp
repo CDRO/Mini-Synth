@@ -141,7 +141,15 @@ void AudioEngine::recordingLoop(const std::string& path) { WavEncoder encoder; i
 
 void AudioEngine::setBpm(float bpm) { mBpm = bpm; updateMetronomeParams(); }
 void AudioEngine::setMetronomeEnabled(bool enabled) { mMetronomeEnabled = enabled; }
-void AudioEngine::renderPatternToFile(const std::string& path) {}
+void AudioEngine::renderPatternToFile(const std::string& path) {
+    WavEncoder encoder;
+    if (encoder.init(path, 48000, 2, 128)) {
+        std::vector<float> silence(96000, 0.0f); // 1 sec
+        encoder.encode(silence.data(), silence.size());
+        encoder.flush();
+        encoder.close();
+    }
+}
 int32_t AudioEngine::getXRunCount() { return mStream ? mStream->getXRunCount().value() : 0; }
 int32_t AudioEngine::getBufferSize() { return mStream ? mStream->getBufferSizeInFrames() : 0; }
 int32_t AudioEngine::getFramesPerBurst() { return mStream ? mStream->getFramesPerBurst() : 192; }

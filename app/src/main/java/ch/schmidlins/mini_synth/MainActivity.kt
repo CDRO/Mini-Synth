@@ -340,7 +340,7 @@ class MainActivity : AppCompatActivity() {
             override fun onStartTrackingTouch(sb: SeekBar?) {}
             override fun onStopTrackingTouch(sb: SeekBar?) {}
         }
-        content.seekAttack!!.setOnSeekBarChangeListener(l); content.seekDecay!!.setOnSeekBarChangeListener(l); content.seekSustain!!.setOnSeekBarChangeListener(l); content.seekRelease!!.setOnSeekBarChangeListener(l)
+        content.seekAttack?.setOnSeekBarChangeListener(l); content.seekDecay?.setOnSeekBarChangeListener(l); content.seekSustain?.setOnSeekBarChangeListener(l); content.seekRelease?.setOnSeekBarChangeListener(l)
     }
 
     private fun setupLfo(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -501,51 +501,126 @@ class MainActivity : AppCompatActivity() {
         content.seekDetune.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener { override fun onProgressChanged(sb: SeekBar?, p: Int, f: Boolean) { val t = tracks[activeTrackIndex]; t.unisonDetuneProgress = p; content.tvDetuneVal.text = p.toString(); synthManager.setTrackUnison(activeTrackIndex, t.unisonCount, p.toFloat(), 1.0f) }; override fun onStartTrackingTouch(sb: SeekBar?) {}; override fun onStopTrackingTouch(sb: SeekBar?) {} })
     }
 
-    private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {}
-    private fun setupBankManagement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {}
+    private fun triggerExportSequence() {
+        val path = File(getExternalFilesDir(null), "pattern_export.wav").absolutePath
+        synthManager.renderPatternToFile(path)
+        Toast.makeText(this, "Exported to pattern_export.wav", Toast.LENGTH_LONG).show()
+    }
+
+    private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.togglePadEdit.setOnCheckedChangeListener { _, isChecked ->
+            content.keyboardPadView.isConfigMode = isChecked
+        }
+    }
+    private fun setupBankManagement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.btnBankDown.setOnClickListener { if (bankIndex > 0) { bankIndex--; updateBank(content) } }
+        content.btnBankUp.setOnClickListener { if (bankIndex < 7) { bankIndex++; updateBank(content) } }
+        updateBank(content)
+    }
+
+    private fun updateBank(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        content.tvBankValue.text = (bankIndex + 1).toString()
+        // Pads start at note 60 (C3). Bank 1: 60-75, Bank 2: 76-91, etc.
+        val baseNote = 60 + (bankIndex * 16)
+        content.keyboardPadView.setPadBaseNote(baseNote)
+    }
+
+    private fun highlightView(view: View?) {
+        if (view == null) return
+        val originalAlpha = view.alpha
+        lifecycleScope.launch {
+            repeat(3) {
+                view.alpha = 0.3f
+                delay(150)
+                view.alpha = 1.0f
+                delay(150)
+            }
+            view.alpha = originalAlpha
+        }
+    }
     private fun setupEffects(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {}
     private fun setupPatternManagement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {}
     private fun refreshUiFromEngine() {}
-    private fun triggerExportSequence() {}
     private fun updateOctave() {}
 
     private fun runIntegratedDemo() {
         demoJob = lifecycleScope.launch {
             try {
                 isDemoPlaying = true
-                showDemoToast(getString(R.string.demo_initializing))
-                
-                // Track 1: Morphing Lead
-                synthManager.setTrackWaveform(0, 4) // Morph
-                synthManager.setTrackAttack(0, 0.1f)
-                synthManager.setTrackRelease(0, 0.4f)
-                
-                // Track 2: Aggressive PD Bass
-                synthManager.setTrackWaveform(1, 2) // Saw
-                synthManager.setTrackPhaseDistortion(1, 0.8f)
-                synthManager.setTrackFilterCutoff(1, 400f)
-                
-                showDemoToast("Stage 1: Multi-Track Layering. T1: Lead, T2: Bass.")
-                
-                // Program a simple loop
-                synthManager.setSequencerNote(1, 0, 36, true) // Bass C1
-                synthManager.setSequencerNote(1, 8, 36, true)
-                
-                synthManager.setSequencerNote(0, 4, 60, true) // Lead C3
-                synthManager.setSequencerNote(0, 12, 64, true) // Lead E3
-                
-                synthManager.setSequencerPlaying(true)
-                
-                for (i in 0..20) {
-                    if (!isDemoPlaying) break
-                    val m = (i / 20f) * 3.0f
-                    synthManager.setTrackMorph(0, m)
-                    if (i == 10) showDemoToast("Notice T1 morphing while T2 plays the bassline.")
+                val content = binding.appBarMain.contentMain
+                showDemoToast("Welcome to Mini-Synth Ultra Tour!")
+                delay(2000)
+
+                // Stage 1: Synthesis Engines
+                showDemoToast("Stage 1: The Engines. T1 Morphing Sine to Square.")
+                highlightView(content.toggleWaveform)
+                synthManager.setTrackWaveform(0, 0)
+                synthManager.noteOn(60, 0.8f, 0)
+                for (i in 0..10) {
+                    synthManager.setTrackMorph(0, i / 10f * 3f)
                     delay(200)
                 }
+                synthManager.noteOff(60)
+
+                // Stage 2: Sound Sculpting
+                showDemoToast("Stage 2: Sculpting. Performing a Resonant Filter Sweep.")
+                highlightView(content.seekFilterCutoff)
+                synthManager.setTrackWaveform(0, 2) // Saw
+                synthManager.setTrackFilterResonance(0, 0.8f)
+                synthManager.noteOn(48, 0.9f, 0)
+                for (i in 0..20) {
+                    val cutoff = (20.0 * Math.pow(1000.0, i / 20.0)).toFloat()
+                    synthManager.setTrackFilterCutoff(0, cutoff)
+                    delay(100)
+                }
+                synthManager.noteOff(48)
+
+                // Stage 3: Advanced Modulation
+                showDemoToast("Stage 3: Modulation. Lock LFO to BPM.")
+                highlightView(content.toggleLfoSync)
+                synthManager.setTrackLfoSync(0, true, 1.0f) // 1 beat
+                synthManager.setTrackLfoMatrixAmount(0, 2, 0.9f) // Filter wobble
+                synthManager.noteOn(60, 0.8f, 0)
+                delay(2000)
+                synthManager.noteOff(60)
+
+                // Stage 4: Workstation & Banks
+                showDemoToast("Stage 4: Workstation. Switching Banks and Mapping Pads.")
+                highlightView(content.btnBankUp)
+                bankIndex = 1
+                updateBank(content)
+                delay(1000)
+                showDemoToast("Mapping Track 1 sound to Pad 1...")
+                synthManager.startAutomatedSampling(16, 2.0f)
+                synthManager.noteOn(72, 0.8f, 0)
+                delay(2200)
+                synthManager.noteOff(72)
+                showDemoToast("Pad 17 (Bank 2) now contains your lead sound!")
+                delay(1500)
+
+                // Stage 5: Recording
+                showDemoToast("Stage 5: Recording. Record MIDI to Sequencer or Audio to WAV.")
+                highlightView(content.toggleSequencerRec)
+                synthManager.setSequencerRecording(true)
+                synthManager.setSequencerNote(1, 0, 36, true)
+                synthManager.setSequencerNote(1, 4, 36, true)
+                synthManager.setSequencerPlaying(true)
+                delay(2000)
                 
+                showDemoToast("Capturing high-quality audio recording...")
+                highlightView(content.btnMockRec)
+                synthManager.startRecording(File(getExternalFilesDir(null), "demo_out.wav").absolutePath)
+                delay(2000)
+                synthManager.stopRecording()
+
+                // Stage 6: Projects
+                showDemoToast("Final Stage: Saving your masterpiece to a Project.")
+                highlightView(content.btnProjects)
+                synthManager.saveProject(File(getExternalFilesDir(null), "DemoProject").absolutePath)
+                delay(2000)
+
                 synthManager.setSequencerPlaying(false)
-                showDemoToast(getString(R.string.demo_complete))
+                showDemoToast("Ultra Tour Complete! Now it's your turn.")
             } finally { isDemoPlaying = false; resetEngineState() }
         }
     }
