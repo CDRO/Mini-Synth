@@ -63,6 +63,9 @@ class SynthManager {
     /** Set playback boundaries and direction for a pad. */
     external fun setPadPlaybackParams(padIndex: Int, start: Int, end: Int, reverse: Boolean)
     
+    /** Snap a sample index to the nearest zero crossing. */
+    external fun snapToZeroCrossing(padIndex: Int, sampleIndex: Int): Int
+
     /** Automatically adjust gain for a pad to reach 0dB peak. */
     external fun normalizePad(padIndex: Int)
 

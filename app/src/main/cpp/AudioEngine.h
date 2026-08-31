@@ -126,8 +126,9 @@ public:
     void savePadSample(int padIndex, const char* path);
     void loadPadSample(int padIndex, const char* path);
     void normalizePad(int padIndex);
-    void setPadPlaybackParams(int padIndex, uint32_t start, uint32_t end, bool reverse);
-    const std::vector<float>* getPadBuffer(int padIndex) const;
+    void setPadPlaybackParams(int pad_index, uint32_t start, uint32_t end, bool reverse);
+    uint32_t snapToZeroCrossing(int pad_index, uint32_t sampleIndex);
+    const std::vector<float>* getPadBuffer(int pad_index) const;
 
     // Sequencer
     void setSequencerPlaying(bool playing) { mMidiSequencer.setPlaying(playing, mVoiceManager); }

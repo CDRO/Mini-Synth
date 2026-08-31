@@ -241,6 +241,11 @@ void AudioEngine::setPadPlaybackParams(int padIndex, uint32_t start, uint32_t en
     mPadMetadata[padIndex].reverse = reverse;
 }
 
+uint32_t AudioEngine::snapToZeroCrossing(int padIndex, uint32_t sampleIndex) {
+    if (padIndex < 0 || padIndex >= MAX_PADS || mPadBuffers[padIndex].empty()) return sampleIndex;
+    return SamplePlayer::findZeroCrossing(mPadBuffers[padIndex], sampleIndex);
+}
+
 const std::vector<float>* AudioEngine::getPadBuffer(int padIndex) const {
     if (padIndex < 0 || padIndex >= MAX_PADS) return nullptr;
     return &mPadBuffers[padIndex];

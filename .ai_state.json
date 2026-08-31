@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "51_Advanced_Sampler",
     "current_step": "Review Loop",
-    "loop_iteration": 5,
-    "last_action_completed": "Review loop 5/10: Connected Waveform Editor to Pad UI and implemented metadata persistence.",
-    "next_immediate_action": "Review loop 6/10: Optimize WaveformView for large samples and add zoom/pan support."
+    "loop_iteration": 6,
+    "last_action_completed": "Review loop 6/10: Optimized WaveformView for performance using peak pre-calculation.",
+    "next_immediate_action": "Review loop 7/10: Update SamplePlayer to support zero-crossing detection for start/end points."
   }
 }

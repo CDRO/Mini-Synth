@@ -57,7 +57,14 @@ class WaveformEditorDialog(
         btnCancel.setOnClickListener { dismiss() }
 
         btnSave.setOnClickListener {
-            onSave(currentStart, currentEnd, toggleReverse.isChecked)
+            val samples = synthManager.getPadSample(padIndex)
+            if (samples != null) {
+                val startS = synthManager.snapToZeroCrossing(padIndex, (currentStart * samples.size).toInt())
+                val endS = synthManager.snapToZeroCrossing(padIndex, (currentEnd * samples.size).toInt())
+                onSave(startS.toFloat() / samples.size, endS.toFloat() / samples.size, toggleReverse.isChecked)
+            } else {
+                onSave(currentStart, currentEnd, toggleReverse.isChecked)
+            }
             dismiss()
         }
     }

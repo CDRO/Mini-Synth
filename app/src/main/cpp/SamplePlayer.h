@@ -19,6 +19,7 @@ public:
     void setLooping(bool looping) { mIsLooping = looping; }
     void setBounds(uint32_t start, uint32_t end) { mStartSample = start; mEndSample = end; }
     void setReversed(bool reversed) { mIsReversed = reversed; }
+    static uint32_t findZeroCrossing(const std::vector<float>& buffer, uint32_t index);
     float nextSample();
 
     bool isActive() const { return mIsPlaying; }

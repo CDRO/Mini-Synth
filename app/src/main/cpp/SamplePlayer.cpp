@@ -41,6 +41,39 @@ void SamplePlayer::stop() {
     mIsPlaying = false;
 }
 
+uint32_t SamplePlayer::findZeroCrossing(const std::vector<float>& buffer, uint32_t index) {
+    if (buffer.empty()) return 0;
+    uint32_t size = static_cast<uint32_t>(buffer.size());
+    if (index >= size) index = size - 1;
+
+    // Search forward/backward for a zero crossing (sign change)
+    // We'll search up to 512 samples in both directions
+    uint32_t bestIdx = index;
+    float minVal = std::abs(buffer[index]);
+
+    for (int offset = 1; offset < 512; ++offset) {
+        // Forward
+        if (index + offset < size) {
+            float val = std::abs(buffer[index + offset]);
+            if (val < minVal) {
+                minVal = val;
+                bestIdx = index + offset;
+            }
+            if (buffer[index + offset] * buffer[index + offset - 1] <= 0) return index + offset;
+        }
+        // Backward
+        if (index >= static_cast<uint32_t>(offset)) {
+            float val = std::abs(buffer[index - offset]);
+            if (val < minVal) {
+                minVal = val;
+                bestIdx = index - offset;
+            }
+            if (buffer[index - offset] * buffer[index - offset + 1] <= 0) return index - offset;
+        }
+    }
+    return bestIdx;
+}
+
 float SamplePlayer::nextSample() {
     if (!mIsPlaying || !mPlaybackBuffer || mPlaybackBuffer->empty()) return 0.0f;
 
