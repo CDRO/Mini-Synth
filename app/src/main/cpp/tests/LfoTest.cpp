@@ -58,3 +58,15 @@ TEST_F(LfoTest, WaveformSymmetry) {
     EXPECT_NEAR(lfo.nextValue(), 1.0f, 1e-5f);
     EXPECT_NEAR(lfo.nextValue(), -1.0f, 1e-5f);
 }
+
+TEST_F(LfoTest, SyncAccuracy) {
+    lfo.setBpm(120.0f);
+    lfo.setSync(true, 1.0f); // 1 beat per cycle
+    lfo.setDepth(1.0f);
+    lfo.setWaveform(Waveform::Sine);
+
+    // At 120 BPM, 1 beat = 0.5s = 24,000 samples.
+    EXPECT_NEAR(lfo.nextValue(), 0.0f, 1e-5f); // Phase 0
+    for (int i = 0; i < 23999; ++i) lfo.nextValue();
+    EXPECT_NEAR(lfo.nextValue(), 0.0f, 1e-4f); // Wrap around
+}
