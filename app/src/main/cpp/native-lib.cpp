@@ -605,13 +605,6 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_setPadPlaybackParams(JNIEnv *e
     if (engine) engine->setPadPlaybackParams(pad_index, start, end, reverse);
 }
 
-extern "C" JNIEXPORT jint JNICALL
-Java_ch_schmidlins_mini_1synth_audio_SynthManager_snapToZeroCrossing(JNIEnv *env, jobject thiz, jint pad_index, jint sample_index) {
-    std::lock_guard<std::mutex> lock(engineMutex);
-    if (engine) return engine->snapToZeroCrossing(pad_index, sample_index);
-    return sample_index;
-}
-
 extern "C" JNIEXPORT void JNICALL
 Java_ch_schmidlins_mini_1synth_audio_SynthManager_normalizePad(JNIEnv *env, jobject thiz, jint pad_index) {
     std::lock_guard<std::mutex> lock(engineMutex);
@@ -627,6 +620,25 @@ Java_ch_schmidlins_mini_1synth_audio_SynthManager_getPadSample(JNIEnv *env, jobj
     jfloatArray result = env->NewFloatArray(buffer->size());
     env->SetFloatArrayRegion(result, 0, buffer->size(), buffer->data());
     return result;
+}
+
+extern "C" JNIEXPORT jobject JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_getPadMetadata(JNIEnv *env, jobject thiz, jint pad_index) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (!engine) return nullptr;
+    const SampleMetadata* meta = &engine->getPadMetadata(pad_index);
+    if (!meta) return nullptr;
+
+    jclass cls = env->FindClass("ch/schmidlins/mini_synth/audio/SynthManager$PadMetadata");
+    jmethodID methodId = env->GetMethodID(cls, "<init>", "(IIZF)V");
+    return env->NewObject(cls, methodId, (jint)meta->start, (jint)meta->end, (jboolean)meta->reverse, (jfloat)meta->gain);
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_ch_schmidlins_mini_1synth_audio_SynthManager_snapToZeroCrossing(JNIEnv *env, jobject thiz, jint pad_index, jint sample_index) {
+    std::lock_guard<std::mutex> lock(engineMutex);
+    if (engine) return engine->snapToZeroCrossing(pad_index, sample_index);
+    return sample_index;
 }
 
 extern "C" JNIEXPORT jint JNICALL

@@ -127,6 +127,7 @@ public:
     void loadPadSample(int padIndex, const char* path);
     void normalizePad(int padIndex);
     void setPadPlaybackParams(int pad_index, uint32_t start, uint32_t end, bool reverse);
+    const SampleMetadata& getPadMetadata(int pad_index) const;
     uint32_t snapToZeroCrossing(int pad_index, uint32_t sampleIndex);
     const std::vector<float>* getPadBuffer(int pad_index) const;
 
