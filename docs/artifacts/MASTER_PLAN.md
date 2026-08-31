@@ -46,7 +46,7 @@ High-performance Android multi-track workstation. C++ (Oboe) for audio, Kotlin f
 
 ---
 
-## Milestone 51: Advanced Sampler & Pad Editing [TODO]
+## Milestone 51: Advanced Sampler & Pad Editing [DONE]
 
 ### [Engine] [Sampler]
 - **Playback**: Reverse playback toggle per pad.
