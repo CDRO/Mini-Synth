@@ -9,7 +9,10 @@
 
 class Voice {
 public:
-    Voice() : mActive(false), mNote(0), mIsSampleMode(false) {}
+    Voice() : mActive(false), mNote(0), mIsSampleMode(false) {
+        for (int i = 0; i < 4; ++i) mLfoMatrix[i] = 0.0f;
+        mLfoMatrix[0] = 1.0f; // Pitch default
+    }
 
     void setSampleRate(int32_t sampleRate) {
         for (int i = 0; i < MAX_UNISON; ++i) mOscillators[i].setSampleRate(sampleRate);
