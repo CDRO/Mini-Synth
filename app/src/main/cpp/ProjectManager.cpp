@@ -29,7 +29,9 @@ bool ProjectManager::saveProject(const std::string& directory,
         tj["engine"]["lfoRate"] = params.lfoRate;
         tj["engine"]["lfoDepth"] = params.lfoDepth;
         tj["engine"]["lfoWaveform"] = static_cast<int>(params.lfoWaveform);
-        tj["engine"]["lfoTarget"] = static_cast<int>(params.lfoTarget);
+        tj["engine"]["lfoMatrix"] = { params.lfoMatrix[0], params.lfoMatrix[1], params.lfoMatrix[2], params.lfoMatrix[3] };
+        tj["engine"]["lfoSync"] = params.lfoSync;
+        tj["engine"]["lfoSyncDivision"] = params.lfoSyncDivision;
         tj["engine"]["filterCutoff"] = params.filterCutoff;
         tj["engine"]["filterResonance"] = params.filterResonance;
         tj["engine"]["panning"] = params.panning;
@@ -102,7 +104,14 @@ bool ProjectManager::loadProject(const std::string& directory,
             params.lfoRate = e["lfoRate"];
             params.lfoDepth = e["lfoDepth"];
             params.lfoWaveform = static_cast<Waveform>(e["lfoWaveform"]);
-            params.lfoTarget = static_cast<LfoTarget>(e["lfoTarget"]);
+            if (e.contains("lfoMatrix")) {
+                for (int i = 0; i < 4; ++i) params.lfoMatrix[i] = e["lfoMatrix"][i];
+            } else {
+                for (int i = 0; i < 4; ++i) params.lfoMatrix[i] = 0.0f;
+                params.lfoMatrix[0] = 1.0f; // Default Pitch
+            }
+            params.lfoSync = e.value("lfoSync", false);
+            params.lfoSyncDivision = e.value("lfoSyncDivision", 1.0f);
             params.filterCutoff = e["filterCutoff"];
             params.filterResonance = e["filterResonance"];
             params.panning = e.value("panning", 0.0f);
