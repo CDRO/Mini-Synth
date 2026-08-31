@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">クオンタイズ無効</string>
     <string name="toast_overdub_on">オーバーダブ有効</string>
     <string name="toast_overdub_off">オーバーダブ無効</string>
+    <string name="title_sample_editor">サンプルエディタ</string>
+    <string name="btn_reverse_off">逆再生オフ</string>
+    <string name="btn_reverse_on">逆再生オン</string>
+    <string name="btn_normalize">ノーマライズ</string>
+    <string name="btn_apply">適用</string>
 </resources>

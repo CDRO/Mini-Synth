@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">퀀타이즈 비활성화됨</string>
     <string name="toast_overdub_on">오버더브 활성화됨</string>
     <string name="toast_overdub_off">오버더브 비활성화됨</string>
+    <string name="title_sample_editor">샘플 에디터</string>
+    <string name="btn_reverse_off">역재생 꺼짐</string>
+    <string name="btn_reverse_on">역재생 켜짐</string>
+    <string name="btn_normalize">노멀라이즈</string>
+    <string name="btn_apply">적용</string>
 </resources>

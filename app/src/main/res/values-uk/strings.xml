@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">Квантування вимкнено</string>
     <string name="toast_overdub_on">Overdub увімкнено</string>
     <string name="toast_overdub_off">Overdub вимкнено</string>
+    <string name="title_sample_editor">Редактор семплів</string>
+    <string name="btn_reverse_off">РЕВ ВИМК.</string>
+    <string name="btn_reverse_on">РЕВ УВІМК.</string>
+    <string name="btn_normalize">НОРМАЛІЗУВАТИ</string>
+    <string name="btn_apply">Застосувати</string>
 </resources>

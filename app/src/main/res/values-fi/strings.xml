@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">Kvantisointi pois käytöstä</string>
     <string name="toast_overdub_on">Overdub käytössä</string>
     <string name="toast_overdub_off">Overdub pois käytöstä</string>
+    <string name="title_sample_editor">Näyte-editori</string>
+    <string name="btn_reverse_off">REV POIS</string>
+    <string name="btn_reverse_on">REV PÄÄLLÄ</string>
+    <string name="btn_normalize">NORMALISOI</string>
+    <string name="btn_apply">Käytä</string>
 </resources>

@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">Cuantizare dezactivată</string>
     <string name="toast_overdub_on">Overdub activat</string>
     <string name="toast_overdub_off">Overdub dezactivat</string>
+    <string name="title_sample_editor">Editor de eșantioane</string>
+    <string name="btn_reverse_off">REV OPRIT</string>
+    <string name="btn_reverse_on">REV PORNIT</string>
+    <string name="btn_normalize">NORMALIZARE</string>
+    <string name="btn_apply">Aplică</string>
 </resources>

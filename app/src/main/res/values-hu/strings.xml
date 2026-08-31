@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">Kvantálás letiltva</string>
     <string name="toast_overdub_on">Overdub engedélyezve</string>
     <string name="toast_overdub_off">Overdub letiltva</string>
+    <string name="title_sample_editor">Mintaszerkesztő</string>
+    <string name="btn_reverse_off">REV KI</string>
+    <string name="btn_reverse_on">REV BE</string>
+    <string name="btn_normalize">NORMALIZÁLÁS</string>
+    <string name="btn_apply">Alkalmaz</string>
 </resources>

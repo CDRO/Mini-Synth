@@ -122,4 +122,9 @@
     <string name="toast_quantize_off">Kvantizavimas išjungtas</string>
     <string name="toast_overdub_on">„Overdub“ įjungtas</string>
     <string name="toast_overdub_off">„Overdub“ išjungtas</string>
+    <string name="title_sample_editor">Mėginių redaktorius</string>
+    <string name="btn_reverse_off">REV IŠJ.</string>
+    <string name="btn_reverse_on">REV ĮJ.</string>
+    <string name="btn_normalize">NORMALIZUOTI</string>
+    <string name="btn_apply">Taikyti</string>
 </resources>
