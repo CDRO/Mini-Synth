@@ -388,11 +388,25 @@ class MainActivity : AppCompatActivity() {
             val layout = android.widget.LinearLayout(this).apply { orientation = android.widget.LinearLayout.VERTICAL; setPadding(48, 40, 48, 40) }
             for (i in 0 until 4) {
                 val row = android.widget.LinearLayout(this).apply { orientation = android.widget.LinearLayout.HORIZONTAL; gravity = android.view.Gravity.CENTER_VERTICAL; setPadding(0, 16, 0, 16) }
-                row.addView(android.widget.TextView(this).apply { text = targets[i]; layoutParams = android.widget.LinearLayout.LayoutParams(200, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT) })
-                row.addView(android.widget.SeekBar(this).apply { max = 100; progress = (t.lfoMatrixAmounts[i] * 100).toInt(); layoutParams = android.widget.LinearLayout.LayoutParams(0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f); setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener { override fun onProgressChanged(sb: SeekBar?, p: Int, f: Boolean) { t.lfoMatrixAmounts[i] = p / 100f; synthManager.setTrackLfoMatrixAmount(activeTrackIndex, i, t.lfoMatrixAmounts[i]) }; override fun onStartTrackingTouch(sb: SeekBar?) {}; override fun onStopTrackingTouch(sb: SeekBar?) {} }) })
+                val label = android.widget.TextView(this).apply { text = targets[i]; layoutParams = android.widget.LinearLayout.LayoutParams(160, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT) }
+                val valText = android.widget.TextView(this).apply { text = String.format(Locale.US, "%.0f%%", t.lfoMatrixAmounts[i] * 100); layoutParams = android.widget.LinearLayout.LayoutParams(100, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT) }
+                val seek = android.widget.SeekBar(this).apply {
+                    max = 100; progress = (t.lfoMatrixAmounts[i] * 100).toInt()
+                    layoutParams = android.widget.LinearLayout.LayoutParams(0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f)
+                    setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                        override fun onProgressChanged(sb: SeekBar?, p: Int, f: Boolean) {
+                            t.lfoMatrixAmounts[i] = p / 100f
+                            valText.text = "$p%"
+                            synthManager.setTrackLfoMatrixAmount(activeTrackIndex, i, t.lfoMatrixAmounts[i])
+                        }
+                        override fun onStartTrackingTouch(sb: SeekBar?) {}
+                        override fun onStopTrackingTouch(sb: SeekBar?) {}
+                    })
+                }
+                row.addView(label); row.addView(seek); row.addView(valText)
                 layout.addView(row)
             }
-            AlertDialog.Builder(this).setTitle("LFO Modulation Matrix (Track ${activeTrackIndex + 1})").setView(layout).setPositiveButton("OK", null).show()
+            AlertDialog.Builder(this).setTitle("LFO Modulation Matrix (T${activeTrackIndex + 1})").setView(layout).setPositiveButton("OK", null).show()
         }
     }
 
@@ -518,7 +532,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun resetEngineState() { for (t in 0..3) { synthManager.setTrackWaveform(t, 0); synthManager.clearSequencerTrack(t) }; syncUIWithTrack(binding.appBarMain.contentMain) }
 
-    override fun onStart() { super.onStart(); synthManager.startEngine(); midiDeviceManager.start(); mainHandler.post(beatPoller) }
+    override fun onStart() {
+        super.onStart()
+        synthManager.startEngine()
+        midiDeviceManager.start()
+        mainHandler.post(beatPoller)
+        
+        tracks.forEachIndexed { i, t ->
+            synthManager.setTrackWaveform(i, t.waveformIndex)
+            synthManager.setTrackLfoSync(i, t.lfoSync, floatArrayOf(4.0f, 2.0f, 1.0f, 0.5f, 0.25f)[t.lfoSyncDivisionIndex])
+            for (target in 0 until 4) {
+                synthManager.setTrackLfoMatrixAmount(i, target, t.lfoMatrixAmounts[target])
+            }
+            synthManager.setTrackAttack(i, (Math.pow(2000.0, t.attackProgress / 100.0) / 1000.0).toFloat())
+            synthManager.setTrackDecay(i, (Math.pow(2000.0, t.decayProgress / 100.0) / 1000.0).toFloat())
+            synthManager.setTrackSustain(i, t.sustainProgress / 100f)
+            synthManager.setTrackRelease(i, (Math.pow(2000.0, t.releaseProgress / 100.0) / 1000.0).toFloat())
+            synthManager.setTrackFilterCutoff(i, (20.0 * Math.pow(1000.0, t.filterCutoffProgress / 100.0)).toFloat())
+            synthManager.setTrackFilterResonance(i, t.filterResProgress / 100f)
+            synthManager.setTrackMorph(i, t.morphProgress / 100f)
+            synthManager.setTrackPhaseDistortion(i, t.pdProgress / 100f)
+            synthManager.setTrackPanning(i, (t.panningProgress - 50) / 50f)
+        }
+        syncUIWithTrack(binding.appBarMain.contentMain)
+    }
     override fun onStop() { super.onStop(); mainHandler.removeCallbacks(beatPoller); midiDeviceManager.stop(); synthManager.stopEngine() }
 
     private fun showPadColorPicker(idx: Int) {}
