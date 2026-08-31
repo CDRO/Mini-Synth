@@ -249,8 +249,34 @@ bool AudioEngine::isPadAvailable(int idx) { return idx >= 0 && idx < MAX_PADS; }
 void AudioEngine::renderStereoSampleForTest(float& l, float& r) { mVoiceManager.nextSample(l, r); }
 void AudioEngine::onErrorAfterClose(oboe::AudioStream *s, oboe::Result e) {}
 
-void AudioEngine::saveProject(const std::string& directory) { std::vector<std::vector<float>> pads(MAX_PADS); std::vector<float> pans(MAX_PADS); for (int i = 0; i < MAX_PADS; ++i) { pads[i] = mPadBuffers[i]; pans[i] = mPadPanning[i]; } ProjectManager::saveProject(directory, mTracks, mMidiSequencer, pads, pans, mBpm); }
-void AudioEngine::loadProject(const std::string& directory) { std::vector<std::vector<float>> pads; std::vector<float> pans; float b; if (ProjectManager::loadProject(directory, mTracks, mMidiSequencer, pads, pans, b)) { mBpm = b; updateMetronomeParams(); for (int t = 0; t < MAX_TRACKS; ++t) updateTrackParams(t); for (int i = 0; i < MAX_PADS && i < pads.size(); ++i) { mPadBuffers[i] = pads[i]; mPadPanning[i] = pans[i]; } } }
+void AudioEngine::saveProject(const std::string& directory) {
+    std::vector<std::vector<float>> pads(MAX_PADS);
+    std::vector<float> pans(MAX_PADS);
+    std::vector<SampleMetadata> meta(MAX_PADS);
+    for (int i = 0; i < MAX_PADS; ++i) {
+        pads[i] = mPadBuffers[i];
+        pans[i] = mPadPanning[i];
+        meta[i] = mPadMetadata[i];
+    }
+    ProjectManager::saveProject(directory, mTracks, mMidiSequencer, pads, pans, meta, mBpm);
+}
+
+void AudioEngine::loadProject(const std::string& directory) {
+    std::vector<std::vector<float>> pads;
+    std::vector<float> pans;
+    std::vector<SampleMetadata> meta;
+    float b;
+    if (ProjectManager::loadProject(directory, mTracks, mMidiSequencer, pads, pans, meta, b)) {
+        mBpm = b;
+        updateMetronomeParams();
+        for (int t = 0; t < MAX_TRACKS; ++t) updateTrackParams(t);
+        for (int i = 0; i < MAX_PADS && i < pads.size(); ++i) {
+            mPadBuffers[i] = pads[i];
+            mPadPanning[i] = pans[i];
+            if (i < meta.size()) mPadMetadata[i] = meta[i];
+        }
+    }
+}
 
 void AudioEngine::updateMetronomeParams() {
     float sr = mStream ? (float)mStream->getSampleRate() : 48000.0f;

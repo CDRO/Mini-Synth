@@ -11,8 +11,8 @@
   "current_state": {
     "active_milestone_file": "51_Advanced_Sampler",
     "current_step": "Review Loop",
-    "loop_iteration": 3,
-    "last_action_completed": "Review loop 3/10: Implemented WaveformView custom view with draggable markers.",
-    "next_immediate_action": "Review loop 4/10: Implement WaveformEditorDialog with UI controls for reverse and normalize."
+    "loop_iteration": 4,
+    "last_action_completed": "Review loop 4/10: Implemented WaveformEditorDialog and JNI bridge for per-pad metadata.",
+    "next_immediate_action": "Review loop 5/10: Connect Waveform Editor to Pad long-press in MainActivity and implement metadata persistence."
   }
 }

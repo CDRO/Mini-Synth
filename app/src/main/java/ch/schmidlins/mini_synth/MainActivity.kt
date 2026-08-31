@@ -22,6 +22,7 @@ import ch.schmidlins.mini_synth.audio.SynthPreset
 import ch.schmidlins.mini_synth.databinding.ActivityMainBinding
 import ch.schmidlins.mini_synth.ui.KeyboardPadView
 import ch.schmidlins.mini_synth.ui.ProjectBrowserFragment
+import ch.schmidlins.mini_synth.ui.WaveformEditorDialog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -98,6 +99,9 @@ class MainActivity : AppCompatActivity() {
     private var mappingSampleId: Int? = null
     private val padSamplePaths = mutableMapOf<Int, String>()
     private val padPannings = mutableMapOf<Int, Float>()
+    private val padStartPoints = mutableMapOf<Int, Float>()
+    private val padEndPoints = mutableMapOf<Int, Float>()
+    private val padReversed = mutableMapOf<Int, Boolean>()
     private val lastAftertouch = mutableMapOf<Int, Float>()
     
     private var bpm = 120f
@@ -207,7 +211,27 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onGridTouchStart(midi: Int) {}
             override fun onGridTouchEnd() {}
-            override fun onPadLongPress(idx: Int) { if (mappingSampleId == null) showPadColorPicker(idx) }
+            override fun onPadLongPress(idx: Int) {
+                if (mappingSampleId != null) return
+                if (content.keyboardPadView.isConfigMode) {
+                    val initialStart = padStartPoints[idx] ?: 0.0f
+                    val initialEnd = padEndPoints[idx] ?: 1.0f
+                    val initialRev = padReversed[idx] ?: false
+                    WaveformEditorDialog(idx, synthManager, initialStart, initialEnd, initialRev) { start, end, rev ->
+                        padStartPoints[idx] = start
+                        padEndPoints[idx] = end
+                        padReversed[idx] = rev
+                        val samples = synthManager.getPadSample(idx)
+                        if (samples != null) {
+                            val startS = (start * samples.size).toInt()
+                            val endS = (end * samples.size).toInt()
+                            synthManager.setPadPlaybackParams(idx, startS, endS, rev)
+                        }
+                    }.show(supportFragmentManager, "WaveformEditor")
+                } else {
+                    showPadColorPicker(idx)
+                }
+            }
             override fun onGesture(pb: Float, mod: Float) { synthManager.setPitchBend(pb); synthManager.setModulation(mod) }
             override fun onAftertouch(m: Int, a: Float) { synthManager.setAftertouch(m, a) }
         }
