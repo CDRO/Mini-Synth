@@ -14,6 +14,7 @@ class WaveformView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private var samples: FloatArray? = null
+    private var peaks: FloatArray? = null
     private var startPercent = 0.0f
     private var endPercent = 1.0f
 
@@ -35,14 +36,33 @@ class WaveformView @JvmOverloads constructor(
         alpha = 150
     }
 
-    private val path = Path()
     private var activeMarker: Int = 0 // 0 none, 1 start, 2 end
 
     var onBoundsChanged: ((Float, Float) -> Unit)? = null
 
     fun setSamples(data: FloatArray) {
         samples = data
+        generatePeaks()
         invalidate()
+    }
+
+    private fun generatePeaks() {
+        val s = samples ?: return
+        if (s.isEmpty()) return
+
+        val numPeaks = 500
+        peaks = FloatArray(numPeaks)
+        val step = s.size / numPeaks
+        for (i in 0 until numPeaks) {
+            var maxVal = 0.0f
+            val startIdx = i * step
+            val endIdx = (i + 1) * step
+            for (j in startIdx until endIdx.coerceAtMost(s.size)) {
+                val absVal = abs(s[j])
+                if (absVal > maxVal) maxVal = absVal
+            }
+            peaks!![i] = maxVal
+        }
     }
 
     fun setBounds(start: Float, end: Float) {
@@ -58,24 +78,20 @@ class WaveformView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        val s = samples ?: return
-        if (s.isEmpty()) return
+        val pks = peaks ?: return
+        if (pks.isEmpty()) return
 
         val w = width.toFloat()
         val h = height.toFloat()
         val centerY = h / 2f
-        val step = (s.size / w).toInt().coerceAtLeast(1)
 
-        // Draw Waveform
-        path.reset()
-        path.moveTo(0f, centerY)
-        for (i in 0 until w.toInt()) {
-            val sampleIdx = (i * step).coerceAtMost(s.size - 1)
-            val sample = s[sampleIdx]
-            val y = centerY - (sample * centerY * 0.9f)
-            path.lineTo(i.toFloat(), y)
+        // Draw Waveform using peaks
+        for (i in pks.indices) {
+            val x = (i.toFloat() / pks.size) * w
+            val yTop = centerY - (pks[i] * centerY * 0.9f)
+            val yBottom = centerY + (pks[i] * centerY * 0.9f)
+            canvas.drawLine(x, yTop, x, yBottom, wavePaint)
         }
-        canvas.drawPath(path, wavePaint)
 
         // Draw Dimmed Areas
         canvas.drawRect(0f, 0f, startPercent * w, h, dimmedPaint)
