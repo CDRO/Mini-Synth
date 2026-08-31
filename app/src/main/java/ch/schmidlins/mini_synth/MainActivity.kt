@@ -207,18 +207,36 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupModeToggle(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         content.btnModeToggle.setOnClickListener {
+            it.applyClickEffect()
             if (isDemoPlaying) return@setOnClickListener
             isPadMode = !isPadMode
             content.btnModeToggle.text = if (isPadMode) getString(R.string.btn_mode_keys) else getString(R.string.btn_mode_pads)
+            content.btnModeToggle.setBackgroundColor(if (isPadMode) ContextCompat.getColor(this, R.color.electric_blue) else ContextCompat.getColor(this, R.color.matte_grey))
             content.keyboardPadView.setMode(if (isPadMode) KeyboardPadView.Mode.PAD_GRID else KeyboardPadView.Mode.KEYBOARD)
             updateWorkspaceVisibility(content)
         }
     }
 
     private fun setupUtilityButtons(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
-        content.btnPolyToggle!!.setOnClickListener { isPoly = !isPoly; synthManager.setPolyphonic(isPoly); content.btnPolyToggle!!.text = if (isPoly) getString(R.string.btn_poly_on) else getString(R.string.btn_poly_off) }
-        content.btnMockRec!!.setOnClickListener { isMockRec = !isMockRec; if (isMockRec) synthManager.startRecording(File(getExternalFilesDir(null), "rec.wav").absolutePath) else synthManager.stopRecording() }
-        content.btnMockPlay!!.setOnClickListener { isMockPlay = !isMockPlay; synthManager.setSequencerPlaying(isMockPlay) }
+        content.btnPolyToggle!!.setOnClickListener {
+            it.applyClickEffect()
+            isPoly = !isPoly
+            synthManager.setPolyphonic(isPoly)
+            content.btnPolyToggle!!.text = if (isPoly) getString(R.string.btn_poly_on) else getString(R.string.btn_poly_off)
+            content.btnPolyToggle!!.setBackgroundColor(if (isPoly) ContextCompat.getColor(this, R.color.acid_green) else ContextCompat.getColor(this, R.color.matte_grey))
+        }
+        content.btnMockRec!!.setOnClickListener {
+            it.applyClickEffect()
+            isMockRec = !isMockRec
+            setBlinking(it, isMockRec)
+            if (isMockRec) synthManager.startRecording(File(getExternalFilesDir(null), "rec.wav").absolutePath) else synthManager.stopRecording()
+        }
+        content.btnMockPlay!!.setOnClickListener {
+            it.applyClickEffect()
+            isMockPlay = !isMockPlay
+            synthManager.setSequencerPlaying(isMockPlay)
+            content.btnMockPlay!!.setBackgroundColor(if (isMockPlay) ContextCompat.getColor(this, R.color.electric_blue) else ContextCompat.getColor(this, R.color.matte_grey))
+        }
     }
 
     private fun setupWaveformControls(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -253,8 +271,8 @@ class MainActivity : AppCompatActivity() {
             override fun onStartTrackingTouch(sb: SeekBar?) {}
             override fun onStopTrackingTouch(sb: SeekBar?) {}
         })
-        content.btnOctaveDown!!.setOnClickListener { if (octaveShift > -4) { octaveShift--; updateOctave() } }
-        content.btnOctaveUp!!.setOnClickListener { if (octaveShift < 4) { octaveShift++; updateOctave() } }
+        content.btnOctaveDown!!.setOnClickListener { it.applyClickEffect(); if (octaveShift > -4) { octaveShift--; updateOctave(content) } }
+        content.btnOctaveUp!!.setOnClickListener { it.applyClickEffect(); if (octaveShift < 4) { octaveShift++; updateOctave(content) } }
     }
 
     private fun setupTrackSelection(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
@@ -310,8 +328,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupWorkspaceRefinement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
-        content.topHeader.btnHelpMode.setOnClickListener { isHelpMode = !isHelpMode; updateWorkspaceVisibility(content) }
-        content.topHeader.btnDemoMode.setOnClickListener { if (isDemoPlaying) { isDemoPlaying = false; demoJob?.cancel(); resetEngineState() } else runIntegratedDemo() }
+        content.topHeader.btnHelpMode.setOnClickListener {
+            it.applyClickEffect()
+            isHelpMode = !isHelpMode
+            content.topHeader.btnHelpMode.setBackgroundColor(if (isHelpMode) ContextCompat.getColor(this, R.color.acid_green) else ContextCompat.getColor(this, R.color.matte_grey))
+            updateWorkspaceVisibility(content)
+        }
+        content.topHeader.btnDemoMode.setOnClickListener {
+            it.applyClickEffect()
+            if (isDemoPlaying) { isDemoPlaying = false; demoJob?.cancel(); resetEngineState() } else runIntegratedDemo()
+        }
         content.toggleZenMode.setOnCheckedChangeListener { _, isChecked -> isZenMode = isChecked; content.parameterContainer.visibility = if (isChecked) View.GONE else View.VISIBLE }
         content.toggleBrowser.setOnCheckedChangeListener { _, isChecked -> content.sidebarBrowser.visibility = if (isChecked) View.VISIBLE else View.GONE }
         content.toggleConfig.setOnCheckedChangeListener { _, isChecked -> content.configWorkspace.visibility = if (isChecked) View.VISIBLE else View.GONE }
@@ -459,11 +485,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupMetronome(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
-        content.topHeader.btnMetronomeToggle.setOnClickListener { isMetronomeEnabled = !isMetronomeEnabled; synthManager.setMetronomeEnabled(isMetronomeEnabled); content.topHeader.btnMetronomeToggle.text = if (isMetronomeEnabled) "ON" else "OFF" }
-        content.topHeader.btnBpmDown.setOnClickListener { bpm -= 5; updateBpm() }
-        content.topHeader.btnBpmDownFine.setOnClickListener { bpm -= 1; updateBpm() }
-        content.topHeader.btnBpmUpFine.setOnClickListener { bpm += 1; updateBpm() }
-        content.topHeader.btnBpmUp.setOnClickListener { bpm += 5; updateBpm() }
+        content.topHeader.btnMetronomeToggle.setOnClickListener {
+            it.applyClickEffect()
+            isMetronomeEnabled = !isMetronomeEnabled
+            synthManager.setMetronomeEnabled(isMetronomeEnabled)
+            content.topHeader.btnMetronomeToggle.text = if (isMetronomeEnabled) "ON" else "OFF"
+            content.topHeader.btnMetronomeToggle.setBackgroundColor(if (isMetronomeEnabled) ContextCompat.getColor(this, R.color.acid_green) else ContextCompat.getColor(this, R.color.matte_grey))
+        }
+        content.topHeader.btnBpmDown.setOnClickListener { it.applyClickEffect(); bpm -= 5; updateBpm() }
+        content.topHeader.btnBpmDownFine.setOnClickListener { it.applyClickEffect(); bpm -= 1; updateBpm() }
+        content.topHeader.btnBpmUpFine.setOnClickListener { it.applyClickEffect(); bpm += 1; updateBpm() }
+        content.topHeader.btnBpmUp.setOnClickListener { it.applyClickEffect(); bpm += 5; updateBpm() }
         updateBpm()
     }
 
@@ -476,18 +508,38 @@ class MainActivity : AppCompatActivity() {
     private fun flashBeat() { val indicator = binding.appBarMain.contentMain.topHeader.beatIndicator; indicator.setBackgroundColor(ContextCompat.getColor(this, R.color.acid_green)); mainHandler.postDelayed({ indicator.setBackgroundColor(android.graphics.Color.DKGRAY) }, 100) }
 
     private fun setupSequencer(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
-        content.btnSequencerPlay!!.setOnClickListener { val playing = !synthManager.isSequencerPlaying(); synthManager.setSequencerPlaying(playing); content.btnSequencerPlay!!.text = if (playing) "■" else "▶" }
-        content.toggleSequencerRec!!.setOnCheckedChangeListener { _, isChecked -> isSequencerRecordMode = isChecked; synthManager.setSequencerRecording(isChecked) }
-        content.btnSequencerClear!!.setOnClickListener { synthManager.clearSequencerTrack(activeTrackIndex); updateSequencerToggles(content) }
-        content.btnSequencerExport!!.setOnClickListener { triggerExportSequence() }
+        content.btnSequencerPlay!!.setOnClickListener {
+            it.applyClickEffect()
+            val playing = !synthManager.isSequencerPlaying()
+            synthManager.setSequencerPlaying(playing)
+            content.btnSequencerPlay!!.text = if (playing) "■" else "▶"
+            content.btnSequencerPlay!!.setBackgroundColor(if (playing) ContextCompat.getColor(this, R.color.electric_blue) else ContextCompat.getColor(this, R.color.matte_grey))
+        }
+        content.toggleSequencerRec!!.setOnCheckedChangeListener { cb, isChecked ->
+            isSequencerRecordMode = isChecked
+            synthManager.setSequencerRecording(isChecked)
+            setBlinking(cb, isChecked)
+        }
+        content.btnSequencerOptions!!.setOnClickListener { it.applyClickEffect(); Toast.makeText(this, "Sequencer Options Coming Soon", Toast.LENGTH_SHORT).show() }
+        content.btnSequencerClear!!.setOnClickListener { it.applyClickEffect(); synthManager.clearSequencerTrack(activeTrackIndex); updateSequencerToggles(content) }
+        content.btnSequencerExport!!.setOnClickListener { it.applyClickEffect(); triggerExportSequence() }
         content.spinnerStepDuration!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, arrayOf("1/16", "1/8", "1/4", "1/2", "1/1"))
         content.spinnerStepDuration!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener { override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) { synthManager.setSequencerStepDuration(floatArrayOf(0.25f, 0.5f, 1.0f, 2.0f, 4.0f)[position]) }; override fun onNothingSelected(parent: AdapterView<*>?) {} }
         stepButtonIds.forEachIndexed { i, id -> content.root.findViewById<android.widget.ToggleButton>(id)?.setOnCheckedChangeListener { _, isChecked -> val step = stepPageIndex * 16 + i; synthManager.setSequencerNote(activeTrackIndex, step, 60, isChecked) } }
+        
+        content.btnStepRest.setOnClickListener { it.applyClickEffect(); synthManager.stepRecordRest(); updateStepPageUI(content) }
+        content.btnStepBack.setOnClickListener { it.applyClickEffect(); synthManager.stepRecordBack(); updateStepPageUI(content) }
+        content.btnStepPagePrev.setOnClickListener { it.applyClickEffect(); if (stepPageIndex > 0) { stepPageIndex--; updateStepPageUI(content) } }
+        content.btnStepPageNext.setOnClickListener { it.applyClickEffect(); if (stepPageIndex < 3) { stepPageIndex++; updateStepPageUI(content) } }
+
         sequencerPoller = object : Runnable { private var lastStep = -1; override fun run() { val currentStep = synthManager.getSequencerCurrentStep(); if (currentStep != lastStep) { updateSequencerUI(content, currentStep, lastStep); lastStep = currentStep }; if (isPollingEnabled) mainHandler.postDelayed(this, 16) } }
         mainHandler.post(sequencerPoller!!)
     }
 
-    private fun updateStepPageUI(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) { updateSequencerToggles(content) }
+    private fun updateStepPageUI(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) { 
+        content.tvStepPageValue.text = "${stepPageIndex + 1} / 4"
+        updateSequencerToggles(content) 
+    }
     private fun updateSequencerUI(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding, current: Int, last: Int) {
         if (last != -1 && last / 16 == stepPageIndex) content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[last % 16])?.setBackgroundColor(android.graphics.Color.TRANSPARENT)
         if (current / 16 == stepPageIndex) content.root.findViewById<android.widget.ToggleButton>(stepButtonIds[current % 16])?.setBackgroundColor(ContextCompat.getColor(this, R.color.acid_green))
@@ -512,7 +564,12 @@ class MainActivity : AppCompatActivity() {
     private fun setupPadCustomization(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         content.togglePadEdit.setOnCheckedChangeListener { _, isChecked ->
             content.keyboardPadView.isConfigMode = isChecked
+            content.togglePadEdit.setBackgroundColor(if (isChecked) ContextCompat.getColor(this, R.color.vibrant_red) else ContextCompat.getColor(this, R.color.matte_grey))
         }
+        content.btnColsDown.setOnClickListener { it.applyClickEffect(); if (content.keyboardPadView.gridColumns > 1) { content.keyboardPadView.setGridDimensions(content.keyboardPadView.gridColumns - 1, content.keyboardPadView.gridRows); content.tvColsValue.text = content.keyboardPadView.gridColumns.toString() } }
+        content.btnColsUp.setOnClickListener { it.applyClickEffect(); if (content.keyboardPadView.gridColumns < 8) { content.keyboardPadView.setGridDimensions(content.keyboardPadView.gridColumns + 1, content.keyboardPadView.gridRows); content.tvColsValue.text = content.keyboardPadView.gridColumns.toString() } }
+        content.btnRowsDown.setOnClickListener { it.applyClickEffect(); if (content.keyboardPadView.gridRows > 1) { content.keyboardPadView.setGridDimensions(content.keyboardPadView.gridColumns, content.keyboardPadView.gridRows - 1); content.tvRowsValue.text = content.keyboardPadView.gridRows.toString() } }
+        content.btnRowsUp.setOnClickListener { it.applyClickEffect(); if (content.keyboardPadView.gridRows < 8) { content.keyboardPadView.setGridDimensions(content.keyboardPadView.gridColumns, content.keyboardPadView.gridRows + 1); content.tvRowsValue.text = content.keyboardPadView.gridRows.toString() } }
     }
     private fun setupBankManagement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         content.btnBankDown.setOnClickListener { if (bankIndex > 0) { bankIndex--; updateBank(content) } }
@@ -540,8 +597,41 @@ class MainActivity : AppCompatActivity() {
             view.alpha = originalAlpha
         }
     }
+
+    private fun View.applyClickEffect() {
+        this.animate()
+            .scaleX(0.9f)
+            .scaleY(0.9f)
+            .setDuration(80)
+            .withEndAction {
+                this.animate()
+                    .scaleX(1.0f)
+                    .scaleY(1.0f)
+                    .setDuration(80)
+                    .start()
+            }
+            .start()
+    }
+
+    private val blinkingViews = mutableMapOf<View, kotlinx.coroutines.Job>()
+    private fun setBlinking(view: View, enabled: Boolean) {
+        blinkingViews[view]?.cancel()
+        if (enabled) {
+            blinkingViews[view] = lifecycleScope.launch {
+                while (true) {
+                    view.alpha = 0.2f
+                    delay(400)
+                    view.alpha = 1.0f
+                    delay(400)
+                }
+            }
+        } else {
+            view.alpha = 1.0f
+        }
+    }
     private fun setupProjectManagement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         content.btnProjects.setOnClickListener {
+            android.util.Log.d("MiniSynth", "Project button clicked")
             ProjectBrowserFragment(synthManager) {
                 syncUIWithTrack(content)
             }.show(supportFragmentManager, "ProjectBrowser")
@@ -574,7 +664,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupPatternManagement(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {}
     private fun refreshUiFromEngine() {}
-    private fun updateOctave() {}
+    private fun updateOctave(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
+        synthManager.setOctaveShift(octaveShift)
+        content.tvOctaveValue.text = octaveShift.toString()
+    }
 
     private fun runIntegratedDemo() {
         demoJob = lifecycleScope.launch {
