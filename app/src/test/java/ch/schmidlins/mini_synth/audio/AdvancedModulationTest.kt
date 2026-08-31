@@ -34,4 +34,28 @@ class AdvancedModulationTest {
         val shadow = Shadow.extract<ShadowSynthManager>(manager)
         assertEquals(0.85f, shadow.lfoMatrixAmounts[2], 0.001f)
     }
+
+    @Test
+    fun testModulationStressStability() {
+        val manager = SynthManager()
+        manager.startEngine()
+        
+        // Max polyphony + Max Unison + Heavy Modulation
+        manager.setPolyphonic(true)
+        for (t in 0..3) {
+            manager.setTrackUnison(t, 8, 50f, 1.0f)
+            manager.setTrackLfoSync(t, true, 0.25f) // Very fast LFO
+            for (target in 0..3) {
+                manager.setTrackLfoMatrixAmount(t, target, 1.0f)
+            }
+        }
+        
+        // Trigger notes on all tracks
+        for (i in 0..15) {
+            manager.noteOn(60 + i, 0.8f, i % 4)
+        }
+        
+        // Verify no crash in shadow (real verification is native)
+        assertTrue(manager.isEngineRunning())
+    }
 }

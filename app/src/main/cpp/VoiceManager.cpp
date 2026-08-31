@@ -53,6 +53,7 @@ void VoiceManager::noteOn(int midiNote, float velocity, const std::vector<float>
         mVoices[index].setLfoWaveform(p.lfoWaveform);
         mVoices[index].setLfoSync(p.lfoSync, p.lfoSyncDivision);
         for (int i = 0; i < 4; ++i) mVoices[index].setLfoMatrixAmount(i, p.lfoMatrix[i]);
+        mVoices[index].setAftertouchTarget(p.aftertouchTarget);
 
         mVoices[index].setFilterCutoff(p.filterCutoff);
         mVoices[index].setFilterResonance(p.filterResonance);

@@ -32,6 +32,7 @@ bool ProjectManager::saveProject(const std::string& directory,
         tj["engine"]["lfoMatrix"] = { params.lfoMatrix[0], params.lfoMatrix[1], params.lfoMatrix[2], params.lfoMatrix[3] };
         tj["engine"]["lfoSync"] = params.lfoSync;
         tj["engine"]["lfoSyncDivision"] = params.lfoSyncDivision;
+        tj["engine"]["aftertouchTarget"] = static_cast<int>(params.aftertouchTarget);
         tj["engine"]["filterCutoff"] = params.filterCutoff;
         tj["engine"]["filterResonance"] = params.filterResonance;
         tj["engine"]["panning"] = params.panning;
@@ -112,6 +113,7 @@ bool ProjectManager::loadProject(const std::string& directory,
             }
             params.lfoSync = e.value("lfoSync", false);
             params.lfoSyncDivision = e.value("lfoSyncDivision", 1.0f);
+            params.aftertouchTarget = static_cast<LfoTarget>(e.value("aftertouchTarget", 2)); // Default Filter
             params.filterCutoff = e["filterCutoff"];
             params.filterResonance = e["filterResonance"];
             params.panning = e.value("panning", 0.0f);

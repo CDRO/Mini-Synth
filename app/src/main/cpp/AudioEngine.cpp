@@ -157,9 +157,36 @@ void AudioEngine::processExternalMidi(const uint8_t* data, int32_t len) { if (le
 void AudioEngine::startPadSampling(int idx) { mSamplingPadIndex = idx; }
 void AudioEngine::stopPadSampling() { mSamplingPadIndex = -1; }
 void AudioEngine::startAutomatedSampling(int idx, float dur) { mAutoSampleRemaining = static_cast<int32_t>(dur * 48000); startPadSampling(idx); }
-void AudioEngine::loadFactorySample(int idx, int sId) {}
-void AudioEngine::savePadSample(int idx, const char* path) {}
-void AudioEngine::loadPadSample(int idx, const char* path) {}
+void AudioEngine::loadFactorySample(int padIndex, int sampleId) {
+    // Factory sample logic (Kick, Snare, etc)
+}
+
+void AudioEngine::savePadSample(int padIndex, const char* path) {
+    if (padIndex >= 0 && padIndex < MAX_PADS && !mPadBuffers[padIndex].empty()) {
+        std::ofstream file(path, std::ios::binary);
+        if (file.is_open()) {
+            file.write(reinterpret_cast<const char*>(mPadBuffers[padIndex].data()),
+                       mPadBuffers[padIndex].size() * sizeof(float));
+        }
+    }
+}
+
+void AudioEngine::loadPadSample(int padIndex, const char* path) {
+    if (padIndex >= 0 && padIndex < MAX_PADS) {
+        std::ifstream file(path, std::ios::binary | std::ios::ate);
+        if (file.is_open()) {
+            std::streamsize size = file.tellg();
+            file.seekg(0, std::ios::beg);
+            mPadBuffers[padIndex].resize(size / sizeof(float));
+            file.read(reinterpret_cast<char*>(mPadBuffers[padIndex].data()), size);
+        }
+    }
+}
+void AudioEngine::setPadPanning(int padIndex, float panning) {
+    if (padIndex >= 0 && padIndex < MAX_PADS) {
+        mPadPanning[padIndex] = panning;
+    }
+}
 bool AudioEngine::isPadAvailable(int idx) { return idx >= 0 && idx < MAX_PADS; }
 void AudioEngine::renderStereoSampleForTest(float& l, float& r) { mVoiceManager.nextSample(l, r); }
 void AudioEngine::onErrorAfterClose(oboe::AudioStream *s, oboe::Result e) {}
