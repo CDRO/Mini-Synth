@@ -459,11 +459,17 @@ class MainActivity : AppCompatActivity() {
     private fun setupMetronome(content: ch.schmidlins.mini_synth.databinding.ContentMainBinding) {
         content.topHeader.btnMetronomeToggle.setOnClickListener { isMetronomeEnabled = !isMetronomeEnabled; synthManager.setMetronomeEnabled(isMetronomeEnabled); content.topHeader.btnMetronomeToggle.text = if (isMetronomeEnabled) "ON" else "OFF" }
         content.topHeader.btnBpmDown.setOnClickListener { bpm -= 5; updateBpm() }
+        content.topHeader.btnBpmDownFine.setOnClickListener { bpm -= 1; updateBpm() }
+        content.topHeader.btnBpmUpFine.setOnClickListener { bpm += 1; updateBpm() }
         content.topHeader.btnBpmUp.setOnClickListener { bpm += 5; updateBpm() }
         updateBpm()
     }
 
-    private fun updateBpm() { synthManager.setBpm(bpm); binding.appBarMain.contentMain.topHeader.tvBpmValue.text = "BPM: ${bpm.toInt()}" }
+    private fun updateBpm() { 
+        bpm = bpm.coerceIn(40f, 300f)
+        synthManager.setBpm(bpm)
+        binding.appBarMain.contentMain.topHeader.tvBpmValue.text = bpm.toInt().toString()
+    }
     private fun updateLatencyStatus() { synthManager.checkAndApplyBufferSize(); val bufferSize = synthManager.getBufferSize(); val xRuns = synthManager.getXRunCount(); binding.appBarMain.contentMain.topHeader.tvLatencyStatus.text = "LATENCY: $bufferSize ($xRuns)" }
     private fun flashBeat() { val indicator = binding.appBarMain.contentMain.topHeader.beatIndicator; indicator.setBackgroundColor(ContextCompat.getColor(this, R.color.acid_green)); mainHandler.postDelayed({ indicator.setBackgroundColor(android.graphics.Color.DKGRAY) }, 100) }
 

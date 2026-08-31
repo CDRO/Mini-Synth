@@ -123,10 +123,12 @@
         app:layout_constraintHorizontal_weight="0.6" />
 
     <!-- Metronome Right 26% approx -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/metronome_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:padding="@dimen/spacing_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/pd_visualizer_view"
@@ -135,110 +137,76 @@
         <Button
             android:id="@+id/btn_metronome_toggle"
             style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
+            android:layout_width="48dp"
             android:layout_height="@dimen/button_height_standard"
             android:padding="0dp"
             android:text="@string/header_metronome"
             android:contentDescription="@string/desc_metronome_toggle"
             android:textColor="@color/acid_green"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/beat_indicator"
-            app:layout_constraintHorizontal_weight="1.5" />
+            android:textSize="10sp"
+            android:textStyle="bold" />
 
         <View
             android:id="@+id/beat_indicator"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="@dimen/spacing_small"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintTop_toTopOf="@id/btn_metronome_toggle"
-            app:layout_constraintBottom_toBottomOf="@id/btn_metronome_toggle"
-            app:layout_constraintStart_toEndOf="@id/btn_metronome_toggle"
-            app:layout_constraintEnd_toStartOf="@id/tv_bpm_value" />
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginHorizontal="2dp"
+            android:background="@android:color/darker_gray" />
 
-        <TextView
-            android:id="@+id/tv_bpm_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:text="BPM: 120"
-            android:textColor="@color/acid_green"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/btn_metronome_toggle"
-            app:layout_constraintBottom_toBottomOf="@id/btn_metronome_toggle"
-            app:layout_constraintStart_toEndOf="@id/beat_indicator"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- BPM Adjustment Row Pack -->
         <Button
             android:id="@+id/btn_bpm_down"
             style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
+            android:layout_width="32dp"
             android:layout_height="@dimen/button_height_standard"
             android:padding="0dp"
             android:text="-5"
             android:contentDescription="@string/desc_bpm_down"
             android:textColor="@color/acid_green"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/btn_metronome_toggle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_bpm_down_fine"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintHorizontal_chainStyle="spread" />
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/btn_bpm_down_fine"
             style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
+            android:layout_width="32dp"
             android:layout_height="@dimen/button_height_standard"
             android:padding="0dp"
             android:text="-1"
             android:contentDescription="@string/desc_bpm_down_fine"
             android:textColor="@color/acid_green"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
-            app:layout_constraintStart_toEndOf="@id/btn_bpm_down"
-            app:layout_constraintEnd_toStartOf="@id/btn_bpm_up_fine"
-            app:layout_constraintHorizontal_weight="1" />
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_bpm_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
+            android:text="120"
+            android:textColor="@color/acid_green"
+            android:textSize="11sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_bpm_up_fine"
             style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
+            android:layout_width="32dp"
             android:layout_height="@dimen/button_height_standard"
             android:padding="0dp"
             android:text="+1"
             android:contentDescription="@string/desc_bpm_up_fine"
             android:textColor="@color/acid_green"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
-            app:layout_constraintStart_toEndOf="@id/btn_bpm_down_fine"
-            app:layout_constraintEnd_toStartOf="@id/btn_bpm_up"
-            app:layout_constraintHorizontal_weight="1" />
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/btn_bpm_up"
             style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
+            android:layout_width="32dp"
             android:layout_height="@dimen/button_height_standard"
             android:padding="0dp"
             android:text="+5"
             android:contentDescription="@string/desc_bpm_up"
             android:textColor="@color/acid_green"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/btn_bpm_down"
-            app:layout_constraintStart_toEndOf="@id/btn_bpm_up_fine"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="1" />
+            android:textSize="10sp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
