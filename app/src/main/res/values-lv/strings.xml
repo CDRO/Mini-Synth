@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">PD intensitātes maiņa. Apskatiet fāzes vizualizatoru galvenē!</string>
     <string name="demo_wavetable_intro">Pielāgotas viļņu tabulas: Ārpus ģeometriskām formām ar sarežģītiem tembriem.</string>
     <string name="demo_random_lfo">Nejaušs LFO (Sample &amp; Hold): Ģeneratīva modulācija eksperimentālam skaņas dizainam.</string>
+    <string name="label_step_hold">TURĒT</string>
+    <string name="label_step_rest">PAUZE/IZLAIST</string>
+    <string name="menu_quantize">Kvantizēt ievadi</string>
+    <string name="menu_overdub">Overdub režīms</string>
+    <string name="menu_clear_all">Notīrīt visus celiņus</string>
+    <string name="toast_quantize_on">Kvantizēšana iespējota</string>
+    <string name="toast_quantize_off">Kvantizēšana atspējota</string>
+    <string name="toast_overdub_on">Overdub iespējots</string>
+    <string name="toast_overdub_off">Overdub atspējots</string>
 </resources>

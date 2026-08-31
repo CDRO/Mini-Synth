@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">PD intenzitás söprése. Nézze meg a fázisvizualizálót a fejlécben!</string>
     <string name="demo_wavetable_intro">Egyedi hullámtáblák: A geometriai formákon túl, összetett hangszínekkel.</string>
     <string name="demo_random_lfo">Véletlenszerű LFO (Sample &amp; Hold): Generatív moduláció kísérleti hangtervezéshez.</string>
+    <string name="label_step_hold">TARTÁS</string>
+    <string name="label_step_rest">SZÜNET/KIHAGYÁS</string>
+    <string name="menu_quantize">Bemenet kvantálása</string>
+    <string name="menu_overdub">Overdub mód</string>
+    <string name="menu_clear_all">Összes sáv törlése</string>
+    <string name="toast_quantize_on">Kvantálás engedélyezve</string>
+    <string name="toast_quantize_off">Kvantálás letiltva</string>
+    <string name="toast_overdub_on">Overdub engedélyezve</string>
+    <string name="toast_overdub_off">Overdub letiltva</string>
 </resources>

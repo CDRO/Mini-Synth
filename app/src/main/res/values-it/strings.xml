@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">Scansione dell\'intensità PD. Guarda il visualizzatore di fase nell\'intestazione!</string>
     <string name="demo_wavetable_intro">Wavetable personalizzate: Oltre le forme geometriche con timbri complessi.</string>
     <string name="demo_random_lfo">LFO casuale (Sample &amp; Hold): Modulazione generativa per il sound design sperimentale.</string>
+    <string name="label_step_hold">TIENI</string>
+    <string name="label_step_rest">PAUSA/SALTA</string>
+    <string name="menu_quantize">Quantizza input</string>
+    <string name="menu_overdub">Modalità Overdub</string>
+    <string name="menu_clear_all">Cancella tutte le tracce</string>
+    <string name="toast_quantize_on">Quantizzazione attivata</string>
+    <string name="toast_quantize_off">Quantizzazione disattivata</string>
+    <string name="toast_overdub_on">Overdub attivato</string>
+    <string name="toast_overdub_off">Overdub disattivato</string>
 </resources>

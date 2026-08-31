@@ -104,6 +104,8 @@ class MainActivity : AppCompatActivity() {
     private var bankIndex = 0
     private var stepPageIndex = 0
     private var numSteps = 16
+    private var isQuantizeEnabled = true
+    private var isOverdubEnabled = true
     private var statusPollCounter = 0
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
     
@@ -580,11 +582,46 @@ class MainActivity : AppCompatActivity() {
             synthManager.setSequencerRecording(isChecked)
             setBlinking(cb, isChecked)
         }
-        content.btnSequencerOptions!!.setOnClickListener { it.applyClickEffect(); Toast.makeText(this, "Sequencer Options Coming Soon", Toast.LENGTH_SHORT).show() }
+        content.btnSequencerOptions!!.setOnClickListener {
+            it.applyClickEffect()
+            val popup = android.widget.PopupMenu(this, it)
+            popup.menu.add(0, 1, 0, getString(R.string.menu_quantize)).apply { isCheckable = true; isChecked = isQuantizeEnabled }
+            popup.menu.add(0, 2, 0, getString(R.string.menu_overdub)).apply { isCheckable = true; isChecked = isOverdubEnabled }
+            popup.menu.add(0, 3, 0, getString(R.string.menu_clear_all))
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    1 -> {
+                        isQuantizeEnabled = !isQuantizeEnabled
+                        synthManager.setInputQuantize(isQuantizeEnabled)
+                        Toast.makeText(this, if (isQuantizeEnabled) getString(R.string.toast_quantize_on) else getString(R.string.toast_quantize_off), Toast.LENGTH_SHORT).show()
+                    }
+                    2 -> {
+                        isOverdubEnabled = !isOverdubEnabled
+                        synthManager.setOverdub(isOverdubEnabled)
+                        Toast.makeText(this, if (isOverdubEnabled) getString(R.string.toast_overdub_on) else getString(R.string.toast_overdub_off), Toast.LENGTH_SHORT).show()
+                    }
+                    3 -> {
+                        AlertDialog.Builder(this).setMessage("Clear all tracks?").setPositiveButton("Yes") { _, _ -> synthManager.clearSequencer(); updateSequencerToggles(content) }.setNegativeButton("No", null).show()
+                    }
+                }
+                true
+            }
+            popup.show()
+        }
         content.btnSequencerClear!!.setOnClickListener { it.applyClickEffect(); synthManager.clearSequencerTrack(activeTrackIndex); updateSequencerToggles(content) }
         content.btnSequencerExport!!.setOnClickListener { it.applyClickEffect(); triggerExportSequence() }
         content.spinnerStepDuration!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, arrayOf("1/16", "1/8", "1/4", "1/2", "1/1"))
         content.spinnerStepDuration!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener { override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) { synthManager.setSequencerStepDuration(floatArrayOf(0.25f, 0.5f, 1.0f, 2.0f, 4.0f)[position]) }; override fun onNothingSelected(parent: AdapterView<*>?) {} }
+        content.spinnerLoopLength!!.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, arrayOf("16 Steps", "32 Steps", "48 Steps", "64 Steps"))
+        content.spinnerLoopLength!!.setSelection(0)
+        content.spinnerLoopLength!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                numSteps = (position + 1) * 16
+                synthManager.setSequencerNumSteps(numSteps)
+                updateStepPageUI(content)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
         stepButtonIds.forEachIndexed { i, id -> content.root.findViewById<android.widget.ToggleButton>(id)?.setOnCheckedChangeListener { _, isChecked -> val step = stepPageIndex * 16 + i; synthManager.setSequencerNote(activeTrackIndex, step, 60, isChecked) } }
         
         content.togglePadSampling?.setOnCheckedChangeListener { cb, isChecked -> isPadSamplingMode = isChecked; setBlinking(cb, isChecked) }

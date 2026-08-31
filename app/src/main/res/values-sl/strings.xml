@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">Spreminjanje intenzivnosti PD. Oglejte si vizualizator faze v glavi!</string>
     <string name="demo_wavetable_intro">Valne tabele po meri: Onkraj geometrijskih oblik s kompleksnimi barvami zvoka.</string>
     <string name="demo_random_lfo">Naključni LFO (Sample &amp; Hold): Generativna modulacija za eksperimentalno oblikovanje zvoka.</string>
+    <string name="label_step_hold">DRŽI</string>
+    <string name="label_step_rest">PREMOR/PRESKOČI</string>
+    <string name="menu_quantize">Kvantiziraj vhod</string>
+    <string name="menu_overdub">Način Overdub</string>
+    <string name="menu_clear_all">Počisti vse sledi</string>
+    <string name="toast_quantize_on">Kvantizacija omogočena</string>
+    <string name="toast_quantize_off">Kvantizacija onemogočena</string>
+    <string name="toast_overdub_on">Overdub omogučen</string>
+    <string name="toast_overdub_off">Overdub onemogućen</string>
 </resources>

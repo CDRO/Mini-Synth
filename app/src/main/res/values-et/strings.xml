@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">PD intensiivsuse muutmine. Vaata faasi visualiseerijat päises!</string>
     <string name="demo_wavetable_intro">Kohandatud lainetabelid: Enamat kui geomeetrilised kujundid keerukate tämbritega.</string>
     <string name="demo_random_lfo">Juhuslik LFO (Sample &amp; Hold): Generatiivne modulatsioon eksperimentaalseks helidisainiks.</string>
+    <string name="label_step_hold">HOIA</string>
+    <string name="label_step_rest">PAUS/JÄTA VAHELE</string>
+    <string name="menu_quantize">Kvantiseeri sisend</string>
+    <string name="menu_overdub">Overdub režiim</string>
+    <string name="menu_clear_all">Kustuta kõik rajad</string>
+    <string name="toast_quantize_on">Kvantiseerimine lubatud</string>
+    <string name="toast_quantize_off">Kvantiseerimine keelatud</string>
+    <string name="toast_overdub_on">Overdub lubatud</string>
+    <string name="toast_overdub_off">Overdub keelatud</string>
 </resources>

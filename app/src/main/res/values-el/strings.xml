@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">Σάρωση έντασης PD. Κοιτάξτε τον Οπτικοποιητή Φάσης στην κεφαλίδα!</string>
     <string name="demo_wavetable_intro">Προσαρμοσμένα Wavetables: Πέρα από τα γεωμετρικά σχήματα με περίπλοκα ηχοχρώματα.</string>
     <string name="demo_random_lfo">Τυχαίο LFO (Sample &amp; Hold): Γενετική διαμόρφωση για πειραματικό σχεδιασμό ήχου.</string>
+    <string name="label_step_hold">ΚΡΑΤΗΣΗ</string>
+    <string name="label_step_rest">ΠΑΥΣΗ/ΠΑΡΑΛΕΙΨΗ</string>
+    <string name="menu_quantize">Κβαντισμός Εισόδου</string>
+    <string name="menu_overdub">Λειτουργία Overdub</string>
+    <string name="menu_clear_all">Εκκαθάριση Όλων των Κομματιών</string>
+    <string name="toast_quantize_on">Ο Κβαντισμός Ενεργοποιήθηκε</string>
+    <string name="toast_quantize_off">Ο Κβαντισμός Απενεργοποιήθηκε</string>
+    <string name="toast_overdub_on">Το Overdub Ενεργοποιήθηκε</string>
+    <string name="toast_overdub_off">Το Overdub Απενεργοποιήθηκε</string>
 </resources>

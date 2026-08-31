@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">扫频 PD 强度。请查看页眉中的相位可视化器！</string>
     <string name="demo_wavetable_intro">自定义波表：超越具有复杂音色的几何形状。</string>
     <string name="demo_random_lfo">随机 LFO (Sample &amp; Hold)：用于实验性声音设计的生成式调制。</string>
+    <string name="label_step_hold">保持</string>
+    <string name="label_step_rest">休止/跳过</string>
+    <string name="menu_quantize">输入量化</string>
+    <string name="menu_overdub">叠录模式</string>
+    <string name="menu_clear_all">清除所有轨道</string>
+    <string name="toast_quantize_on">量化已启用</string>
+    <string name="toast_quantize_off">量化已禁用</string>
+    <string name="toast_overdub_on">叠录已启用</string>
+    <string name="toast_overdub_off">叠录已禁用</string>
 </resources>

@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">Zmiana intensywności PD. Spójrz na wizualizator fazy w nagłówku!</string>
     <string name="demo_wavetable_intro">Własne tablice fal: Poza geometryczne kształty ze złożonymi barwami.</string>
     <string name="demo_random_lfo">Losowy LFO (Sample &amp; Hold): Generatywna modulacja do eksperymentalnego projektowania dźwięku.</string>
+    <string name="label_step_hold">PRZYTRZYMAJ</string>
+    <string name="label_step_rest">PAUZA/POMIŃ</string>
+    <string name="menu_quantize">Kwantyzuj wejście</string>
+    <string name="menu_overdub">Tryb Overdub</string>
+    <string name="menu_clear_all">Wyczyść wszystkie ścieżki</string>
+    <string name="toast_quantize_on">Kwantyzacja włączona</string>
+    <string name="toast_quantize_off">Kwantyzacja wyłączona</string>
+    <string name="toast_overdub_on">Overdub włączony</string>
+    <string name="toast_overdub_off">Overdub wyłączony</string>
 </resources>

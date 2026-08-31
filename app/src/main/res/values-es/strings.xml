@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">Barrido de intensidad de PD. ¡Mira el visualizador de fase en el encabezado!</string>
     <string name="demo_wavetable_intro">Wavetables personalizados: Más allá de las formas geométricas con timbres complejos.</string>
     <string name="demo_random_lfo">LFO aleatorio (Sample &amp; Hold): Modulación generativa para diseño de sonido experimental.</string>
+    <string name="label_step_hold">MANTENER</string>
+    <string name="label_step_rest">SILENCIO/SALTAR</string>
+    <string name="menu_quantize">Cuantizar entrada</string>
+    <string name="menu_overdub">Modo Overdub</string>
+    <string name="menu_clear_all">Borrar todas las pistas</string>
+    <string name="toast_quantize_on">Cuantización activada</string>
+    <string name="toast_quantize_off">Cuantización desactivada</string>
+    <string name="toast_overdub_on">Overdub activado</string>
+    <string name="toast_overdub_off">Overdub desactivado</string>
 </resources>

@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">PD yoğunluğunu tarama. Başlıktaki Faz Görselleştiriciye bakın!</string>
     <string name="demo_wavetable_intro">Özel Dalga Tabloları: Karmaşık tınılara sahip geometrik şekillerin ötesinde.</string>
     <string name="demo_random_lfo">Rastgele LFO (Sample &amp; Hold): Deneysel ses tasarımı için üretken modülasyon.</string>
+    <string name="label_step_hold">TUT</string>
+    <string name="label_step_rest">DURAK/ATLA</string>
+    <string name="menu_quantize">Girişi Kuantize Et</string>
+    <string name="menu_overdub">Overdub Modu</string>
+    <string name="menu_clear_all">Tüm İzleri Temizle</string>
+    <string name="toast_quantize_on">Kuantizasyon Etkin</string>
+    <string name="toast_quantize_off">Kuantizasyon Devre Dışı</string>
+    <string name="toast_overdub_on">Overdub Etkin</string>
+    <string name="toast_overdub_off">Overdub Devre Dışı</string>
 </resources>

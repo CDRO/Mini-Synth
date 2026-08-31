@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">Intensität der Phasenverzerrung sweepen. Schauen Sie auf den Phasen-Visualizer im Header!</string>
     <string name="demo_wavetable_intro">Eigene Wavetables: Jenseits geometrischer Formen mit komplexen Klangfarben.</string>
     <string name="demo_random_lfo">Zufalls-LFO (Sample &amp; Hold): Generative Modulation für experimentelles Sounddesign.</string>
+    <string name="label_step_hold">HALTEN</string>
+    <string name="label_step_rest">PAUSE/ÜBERSPRINGEN</string>
+    <string name="menu_quantize">Eingang quantisieren</string>
+    <string name="menu_overdub">Overdub-Modus</string>
+    <string name="menu_clear_all">Alle Spuren löschen</string>
+    <string name="toast_quantize_on">Quantisierung aktiviert</string>
+    <string name="toast_quantize_off">Quantisierung deaktiviert</string>
+    <string name="toast_overdub_on">Overdub aktiviert</string>
+    <string name="toast_overdub_off">Overdub deaktiviert</string>
 </resources>

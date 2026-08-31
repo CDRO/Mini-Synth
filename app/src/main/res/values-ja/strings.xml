@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">PD強度のスイープ。ヘッダーのフェーズ・ビジュアライザーを見てください！</string>
     <string name="demo_wavetable_intro">カスタム・ウェーブテーブル：複雑な音色を持つ幾何学的形状を超えて。</string>
     <string name="demo_random_lfo">ランダムLFO (Sample &amp; Hold)：実験的なサウンドデザインのための生成的なモジュレーション。</string>
+    <string name="label_step_hold">ホールド</string>
+    <string name="label_step_rest">休符/スキップ</string>
+    <string name="menu_quantize">入力をクオンタイズ</string>
+    <string name="menu_overdub">オーバーダブモード</string>
+    <string name="menu_clear_all">全トラックをクリア</string>
+    <string name="toast_quantize_on">クオンタイズ有効</string>
+    <string name="toast_quantize_off">クオンタイズ無効</string>
+    <string name="toast_overdub_on">オーバーダブ有効</string>
+    <string name="toast_overdub_off">オーバーダブ無効</string>
 </resources>

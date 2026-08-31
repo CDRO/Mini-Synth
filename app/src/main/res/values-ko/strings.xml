@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">PD 강도 스위핑. 헤더의 위상 시각화 장치를 확인하세요!</string>
     <string name="demo_wavetable_intro">맞춤형 웨이브테이블: 복잡한 음색을 지닌 기하학적 모양 그 이상.</string>
     <string name="demo_random_lfo">무작위 LFO (Sample &amp; Hold): 실험적인 사운드 디자인을 위한 생성적 변조.</string>
+    <string name="label_step_hold">홀드</string>
+    <string name="label_step_rest">쉼표/건너뛰기</string>
+    <string name="menu_quantize">입력 퀀타이즈</string>
+    <string name="menu_overdub">오버더브 모드</string>
+    <string name="menu_clear_all">모든 트랙 지우기</string>
+    <string name="toast_quantize_on">퀀타이즈 활성화됨</string>
+    <string name="toast_quantize_off">퀀타이즈 비활성화됨</string>
+    <string name="toast_overdub_on">오버더브 활성화됨</string>
+    <string name="toast_overdub_off">오버더브 비활성화됨</string>
 </resources>

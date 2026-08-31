@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">Svepning av PD-intensitet. Titta på fasvisualiseraren i rubriken!</string>
     <string name="demo_wavetable_intro">Anpassade vågtabeller: Bortom geometriska former med komplexa klangfärger.</string>
     <string name="demo_random_lfo">Slumpmässig LFO (Sample &amp; Hold): Generativ modulering för experimentell ljuddesign.</string>
+    <string name="label_step_hold">HÅLL</string>
+    <string name="label_step_rest">PAUS/HOPPA ÖVER</string>
+    <string name="menu_quantize">Kvantisera indata</string>
+    <string name="menu_overdub">Overdub-läge</string>
+    <string name="menu_clear_all">Rensa alla spår</string>
+    <string name="toast_quantize_on">Kvantisering aktiverad</string>
+    <string name="toast_quantize_off">Kvantisering inaktiverad</string>
+    <string name="toast_overdub_on">Overdub aktiverad</string>
+    <string name="toast_overdub_off">Overdub inaktiverad</string>
 </resources>

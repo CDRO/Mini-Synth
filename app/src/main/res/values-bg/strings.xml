@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">Промяна на интензивността на PD. Погледнете визуализатора на фазата в заглавието!</string>
     <string name="demo_wavetable_intro">Персонализирани вълнови таблици: Отвъд геометричните форми със сложни тембри.</string>
     <string name="demo_random_lfo">Произволен LFO (Sample &amp; Hold): Генеративна модулация за експериментален звуков дизайн.</string>
+    <string name="label_step_hold">ЗАДЪРЖАНЕ</string>
+    <string name="label_step_rest">ПАУЗА/ПРОПУСКАНЕ</string>
+    <string name="menu_quantize">Квантуване на входа</string>
+    <string name="menu_overdub">Режим Overdub</string>
+    <string name="menu_clear_all">Изчистване на всички тракове</string>
+    <string name="toast_quantize_on">Квантуването е активирано</string>
+    <string name="toast_quantize_off">Квантуването е деактивирано</string>
+    <string name="toast_overdub_on">Overdub е активиран</string>
+    <string name="toast_overdub_off">Overdub е деактивиран</string>
 </resources>

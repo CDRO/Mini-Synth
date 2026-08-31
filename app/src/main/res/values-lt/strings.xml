@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">PD intensyvumo keitimas. Pažiūrėkite į fazės vizualizatorių antraštėje!</string>
     <string name="demo_wavetable_intro">Pasirinktinės bangų lentelės: Daugiau nei geometrinės formos su sudėtingais tembrais.</string>
     <string name="demo_random_lfo">Atsitiktinis LFO (Sample &amp; Hold): Generatyvinė moduliacija eksperimentiniam garso dizainui.</string>
+    <string name="label_step_hold">LAIKYTI</string>
+    <string name="label_step_rest">PAUZĖ/PRALEISTI</string>
+    <string name="menu_quantize">Kvantizuoti įvestį</string>
+    <string name="menu_overdub">„Overdub“ režimas</string>
+    <string name="menu_clear_all">Išvalyti visus takelius</string>
+    <string name="toast_quantize_on">Kvantizavimas įjungtas</string>
+    <string name="toast_quantize_off">Kvantizavimas išjungtas</string>
+    <string name="toast_overdub_on">„Overdub“ įjungtas</string>
+    <string name="toast_overdub_off">„Overdub“ išjungtas</string>
 </resources>

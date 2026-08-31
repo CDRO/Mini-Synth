@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">Variația intensității PD. Uită-te la Vizualizatorul de Fază din antet!</string>
     <string name="demo_wavetable_intro">Tabele de unde personalizate: Dincolo de formele geometrice cu timbre complexe.</string>
     <string name="demo_random_lfo">LFO aleatoriu (Sample &amp; Hold): Modulație generativă pentru design sonor experimental.</string>
+    <string name="label_step_hold">MENȚINE</string>
+    <string name="label_step_rest">PAUZĂ/SARE</string>
+    <string name="menu_quantize">Cuantizare intrare</string>
+    <string name="menu_overdub">Mod Overdub</string>
+    <string name="menu_clear_all">Șterge toate pistele</string>
+    <string name="toast_quantize_on">Cuantizare activată</string>
+    <string name="toast_quantize_off">Cuantizare dezactivată</string>
+    <string name="toast_overdub_on">Overdub activat</string>
+    <string name="toast_overdub_off">Overdub dezactivat</string>
 </resources>

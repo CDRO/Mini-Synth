@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">Fejning af PD-intensitet. Se fasevisualiseringen i headeren!</string>
     <string name="demo_wavetable_intro">Brugerdefinerede bølgetabeller: Mere end geometriske former med komplekse klangfarver.</string>
     <string name="demo_random_lfo">Tilfældig LFO (Sample &amp; Hold): Generativ modulation til eksperimentelt lyddesign.</string>
+    <string name="label_step_hold">HOLD</string>
+    <string name="label_step_rest">PAUSE/SPRING OVER</string>
+    <string name="menu_quantize">Kvantiser input</string>
+    <string name="menu_overdub">Overdub-tilstand</string>
+    <string name="menu_clear_all">Ryd alle spor</string>
+    <string name="toast_quantize_on">Kvantisering aktiveret</string>
+    <string name="toast_quantize_off">Kvantisering deaktiveret</string>
+    <string name="toast_overdub_on">Overdub aktiveret</string>
+    <string name="toast_overdub_off">Overdub deaktiveret</string>
 </resources>

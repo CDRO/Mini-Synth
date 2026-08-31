@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">Promjena intenziteta PD. Pogledajte vizualizator faze u zaglavlju!</string>
     <string name="demo_wavetable_intro">Prilagođene valne tablice: Izvan geometrijskih oblika sa složenim bojama zvuka.</string>
     <string name="demo_random_lfo">Nasumični LFO (Sample &amp; Hold): Generativna modulacija za eksperimentalni dizajn zvuka.</string>
+    <string name="label_step_hold">DRŽI</string>
+    <string name="label_step_rest">PAUZA/PRESKOČI</string>
+    <string name="menu_quantize">Kvantiziraj ulaz</string>
+    <string name="menu_overdub">Overdub način</string>
+    <string name="menu_clear_all">Očisti sve kanale</string>
+    <string name="toast_quantize_on">Kvantizacija omogućena</string>
+    <string name="toast_quantize_off">Kvantizacija onemogućena</string>
+    <string name="toast_overdub_on">Overdub omogućen</string>
+    <string name="toast_overdub_off">Overdub onemogućen</string>
 </resources>

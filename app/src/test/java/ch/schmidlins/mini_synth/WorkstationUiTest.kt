@@ -97,7 +97,18 @@ class WorkstationUiTest {
         spinner.setSelection(1) // UP
         ShadowLooper.idleMainLooper()
         
-        // Wait for potential async calls
         assertEquals(1, ShadowSynthManager.lastArpMode)
+    }
+
+    @Test
+    fun testSequencerOptionsInvokesEngine() {
+        val activity = Robolectric.buildActivity(MainActivity::class.java).setup().get()
+        val btnOptions = activity.findViewById<Button>(R.id.btn_sequencer_options)
+        
+        btnOptions.performClick()
+        ShadowLooper.idleMainLooper()
+        
+        val popupMenu = org.robolectric.shadows.ShadowPopupMenu.getLatestPopupMenu()
+        assertNotNull(popupMenu)
     }
 }

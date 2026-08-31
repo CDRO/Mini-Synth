@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">PD-intensiteetin pyyhkäisy. Katso vaihevisualisoijaa yläpalkissa!</string>
     <string name="demo_wavetable_intro">Mukautetut aaltotaulukot: Geometrisia muotoja monimutkaisemmat sointivärit.</string>
     <string name="demo_random_lfo">Satunnainen LFO (Sample &amp; Hold): Generatiivinen modulaatio kokeelliseen äänisuunnitteluun.</string>
+    <string name="label_step_hold">PIDÄ</string>
+    <string name="label_step_rest">TAUKO/OHITA</string>
+    <string name="menu_quantize">Kvantisoi syöte</string>
+    <string name="menu_overdub">Overdub-tila</string>
+    <string name="menu_clear_all">Tyhjennä kaikki raidat</string>
+    <string name="toast_quantize_on">Kvantisointi käytössä</string>
+    <string name="toast_quantize_off">Kvantisointi pois käytöstä</string>
+    <string name="toast_overdub_on">Overdub käytössä</string>
+    <string name="toast_overdub_off">Overdub pois käytöstä</string>
 </resources>

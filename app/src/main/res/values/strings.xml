@@ -66,6 +66,15 @@
     <string name="help_pad_sampling">Enable Pad Sampling. Capture engine output directly onto a pad by touching it.</string>
     <string name="help_step_rec">Step Recording: Enter notes one-by-one. Each key press advances to the next step.</string>
     <string name="help_step_rest">Skip the current step without adding a note (Rest).</string>
+    <string name="label_step_hold">HOLD</string>
+    <string name="label_step_rest">REST/SKIP</string>
+    <string name="menu_quantize">Quantize Input</string>
+    <string name="menu_overdub">Overdub Mode</string>
+    <string name="menu_clear_all">Clear All Tracks</string>
+    <string name="toast_quantize_on">Quantize Enabled</string>
+    <string name="toast_quantize_off">Quantize Disabled</string>
+    <string name="toast_overdub_on">Overdub Enabled</string>
+    <string name="toast_overdub_off">Overdub Disabled</string>
     <string name="help_step_back">Go back to the previous step and clear it.</string>
     <string name="help_sequencer_clear">Clear all notes from the sequencer grid.</string>
     <string name="help_sequencer_export">Export sequence: Renders the current pattern to a high-quality WAV file for sharing.</string>

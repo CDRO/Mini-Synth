@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">Зміна інтенсивності PD. Подивіться на візуалізатор фази в заголовку!</string>
     <string name="demo_wavetable_intro">Спеціальні хвильові таблиці: Поза межами геометричних форм зі складними тембрами.</string>
     <string name="demo_random_lfo">Випадковий LFO (Sample &amp; Hold): Генеративна модуляція для експериментального звукового дизайну.</string>
+    <string name="label_step_hold">УТРИМУВАННЯ</string>
+    <string name="label_step_rest">ПАУЗА/ПРОПУСК</string>
+    <string name="menu_quantize">Квантувати вхід</string>
+    <string name="menu_overdub">Режим Overdub</string>
+    <string name="menu_clear_all">Очистити всі треки</string>
+    <string name="toast_quantize_on">Квантування увімкнено</string>
+    <string name="toast_quantize_off">Квантування вимкнено</string>
+    <string name="toast_overdub_on">Overdub увімкнено</string>
+    <string name="toast_overdub_off">Overdub вимкнено</string>
 </resources>

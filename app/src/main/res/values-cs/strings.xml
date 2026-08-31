@@ -113,4 +113,13 @@
     <string name="demo_pd_sweep">Změna intenzity PD. Podívejte se na vizualizér fáze v záhlaví!</string>
     <string name="demo_wavetable_intro">Vlastní vlnové tabulky: Za hranice geometrických tvarů s komplexními barvami zvuku.</string>
     <string name="demo_random_lfo">Náhodné LFO (Sample &amp; Hold): Generativní modulace pro experimentální zvukový design.</string>
+    <string name="label_step_hold">DRŽET</string>
+    <string name="label_step_rest">PAUZA/PŘESKOČIT</string>
+    <string name="menu_quantize">Kvantovat vstup</string>
+    <string name="menu_overdub">Režim Overdub</string>
+    <string name="menu_clear_all">Vymazat všechny stopy</string>
+    <string name="toast_quantize_on">Kvantizace povolena</string>
+    <string name="toast_quantize_off">Kvantizace zakázána</string>
+    <string name="toast_overdub_on">Overdub povolen</string>
+    <string name="toast_overdub_off">Overdub zakázán</string>
 </resources>
